@@ -13,7 +13,6 @@ last_match_loc = None
 # 图片匹配
 def match_template(target_path,template_path,threshold = 0.05,return_center = True
 					,print_debug = True,scope = None,except_locs = None):
-
 	if(print_debug):
 		print("ImageProcessor: start to match "+target_path+" by "+template_path)
 

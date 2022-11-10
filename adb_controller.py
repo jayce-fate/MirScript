@@ -6,6 +6,8 @@ import cv2
 import settings
 import image_processor
 
+last_click_loc = None
+
 def test():
 	# process = os.system("adb -s 127.0.0.1:62028 shell pm list packages")
 	process = os.system("adb -s 127.0.0.1:62028 shell input swipe 1200 340 1200 181 2000")
@@ -19,11 +21,10 @@ def swipe(from_loc,to_loc,use_time):
 	time.sleep(use_time/1000)
 	time.sleep(2)
 
+# 关闭app
 def stop_app():
 	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell am force-stop "+settings.package_name)
 	time.sleep(1)
-
-last_click_loc = None
 
 def click(location):
 
@@ -35,11 +36,12 @@ def click(location):
 
 	time.sleep(0.5)
 
+# 截屏
 def screenshot(path):
 	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" exec-out screencap -p > " + path)
 	time.sleep(0.5)
 
-#图片匹配
+# 图片匹配
 def wait_till_match_any(template_paths,thresholds,return_center,max_time,step_time,scope = None,except_locs = None):
 	print("AdbController: Start to wait till match screenshot by any "+str(template_paths)+" for up to "+str(max_time)+" seconds  ....")
 	time_start = time.time()
@@ -58,7 +60,7 @@ def wait_till_match_any(template_paths,thresholds,return_center,max_time,step_ti
 		time.sleep(step_time)
 	return None
 
-#图片匹配，点击
+# 图片匹配，点击
 def wait_to_match_and_click(template_paths,thresholds,return_center,max_time,step_time
 							,click_offset = None,scope = None,except_locs = None):
 	re = wait_till_match_any(template_paths,thresholds,return_center,max_time,step_time,scope = scope,except_locs = except_locs)
