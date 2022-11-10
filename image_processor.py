@@ -10,6 +10,7 @@ import settings
 
 last_match_loc = None
 
+# 图片匹配
 def match_template(target_path,template_path,threshold = 0.05,return_center = True
 					,print_debug = True,scope = None,except_locs = None):
 
@@ -42,7 +43,7 @@ def match_template(target_path,template_path,threshold = 0.05,return_center = Tr
 
 	if(print_debug):
 		print("ImageProcessor: best match value :"+str(min_val)+"   match location:"+str(min_loc[0])+" "+str(min_loc[1]))
-	
+
 	if(min_val > threshold):
 		if(print_debug):
 			print("ImageProcessor: match failed")
@@ -65,7 +66,7 @@ def match_template(target_path,template_path,threshold = 0.05,return_center = Tr
 def easyocr_read(target_path,print_debug = True,scope = None):
 
 	reader = easyocr.Reader(['ch_sim','en'], gpu = False)
-	target = cv2.imread(target_path) 
+	target = cv2.imread(target_path)
 
 	if(scope != None):
 		target = target[scope[0]:scope[1],scope[2]:scope[3]]

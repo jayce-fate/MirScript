@@ -17,5 +17,7 @@ def test_match_and_click():
 
 while(True):
 	# stop_app()
+
 	test_match_and_click()
+
 	exit(0)
