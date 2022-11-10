@@ -13,7 +13,7 @@ def stop_app():
 
 def test_match_and_click():
 	print("match_and_click....")
-	re = adb_controller.wait_to_match_and_click([r"template_images/clicktest2.png"],[0.15],True,300,1.123)
+	re = adb_controller.wait_to_match_and_click([r"template_images/clicktest3.png"],[0.15],True,300,1.123)
 
 while(True):
 	# stop_app()

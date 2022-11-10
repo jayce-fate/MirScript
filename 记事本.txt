@@ -1,0 +1,12 @@
+adb -s emulator-5554 exec-out screencap -p > /Users/jayce/Desktop/adb/1.png 
+
+python3 -m pip install numpy
+python3 -m pip install opencv-python
+python3 -m pip install opencv-contrib-python
+python3 -m pip install easyocr
+
+
+/Applications/android-sdk/build-tools/30.0.3/aapt dump badging /Users/jayce/Downloads/game6_2022-11-07_11-32.apk
+
+
+界面设置分辨率 1280 * 720
