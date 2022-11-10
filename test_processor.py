@@ -7,7 +7,15 @@ import random
 import image_processor
 import adb_controller
 
+def stop_app():
+	print("Stop App....")
+	adb_controller.stop_app()
+
+def test_match_and_click():
+	print("match_and_click....")
+	re = adb_controller.wait_to_match_and_click([r"template_images/clicktest2.png"],[0.15],True,300,1.123)
+
 while(True):
-	print("current_time = {}".format(time.time()))
-	re = adb_controller.wait_to_match_and_click([r"template_images/start1.png"],[0.15],True,300,1.123)
+	# stop_app()
+	test_match_and_click()
 	exit(0)
