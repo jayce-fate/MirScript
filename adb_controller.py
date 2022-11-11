@@ -26,14 +26,11 @@ def stop_app():
 	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell am force-stop "+settings.package_name)
 	time.sleep(1)
 
+# 点击操作
 def click(location):
-
 	print("AdbController: Tap "+str(location[0])+" "+str(location[1]))
-
 	last_click_loc = location
-
 	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell input tap "+str(location[0])+" "+str(location[1]))
-
 	time.sleep(0.5)
 
 # 截屏
@@ -41,7 +38,7 @@ def screenshot(path):
 	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" exec-out screencap -p > " + path)
 	time.sleep(0.5)
 
-# 图片匹配
+# 图片匹配,直到匹配成功或者超时
 def wait_till_match_any(template_paths,thresholds,return_center,max_time,step_time,scope = None,except_locs = None):
 	print("AdbController: Start to wait till match screenshot by any "+str(template_paths)+" for up to "+str(max_time)+" seconds  ....")
 	time_start = time.time()
@@ -60,7 +57,7 @@ def wait_till_match_any(template_paths,thresholds,return_center,max_time,step_ti
 		time.sleep(step_time)
 	return None
 
-# 图片匹配，点击
+# 图片匹配，匹配成功后执行点击
 def wait_to_match_and_click(template_paths,thresholds,return_center,max_time,step_time
 							,click_offset = None,scope = None,except_locs = None):
 	re = wait_till_match_any(template_paths,thresholds,return_center,max_time,step_time,scope = scope,except_locs = except_locs)
@@ -72,7 +69,7 @@ def wait_to_match_and_click(template_paths,thresholds,return_center,max_time,ste
 	click(re)
 	return "success"
 
-#match any
+#图片匹配，如果成功，则持续进行匹配，如果失败或者超时，则返回退出
 def wait_while_match(template_paths,thresholds,max_time,step_time,scope = None,except_locs = None):
 	print("Start to wait while match screenshot by "+str(template_paths)+" for up to "+str(max_time)+" seconds  ....")
 	time_start = time.time()

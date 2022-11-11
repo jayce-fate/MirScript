@@ -19,14 +19,20 @@ def match_template(target_path,template_path,threshold = 0.05,return_center = Tr
 	if(print_debug and except_locs != None):
 		print("ImageProcessor: except_locs: "+str(except_locs))
 
+	# 读取目标图片
 	target = cv2.imread(target_path)
+	# 读取模版图片
 	template = cv2.imread(template_path)
+	# 获得模版图片的宽高尺寸
 	theight, twidth = template.shape[:2]
 
 	if(scope != None):
 		target = target[scope[0]:scope[1],scope[2]:scope[3]]
-
+	# 执行模版匹配，采用的匹配方式cv2.TM_SQDIFF_NORMED
 	result = cv2.matchTemplate(target,template,cv2.TM_SQDIFF_NORMED)
+
+	# 归一化处理(不知道啥意思)
+	# cv2.normalize(result, result, 0, 1, cv2.NORM_MINMAX, -1)
 
 	len1, len2 = result.shape[:2]
 	if(except_locs != None):
@@ -38,7 +44,22 @@ def match_template(target_path,template_path,threshold = 0.05,return_center = Tr
 					if(j>=0 and j<len2 and k>=0 and k<len1):
 						result[k][j] = 1
 
+	# 寻找矩阵（一维数组当做向量，用Mat定义）中的最大值和最小值的匹配结果及其位置
+	# 对于cv2.TM_SQDIFF及cv2.TM_SQDIFF_NORMED方法，min_val越趋近于0匹配度越好，匹配位置取min_loc
+	# 对于其他方法max_val越趋近于1匹配度越好，匹配位置取max_loc
 	min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+
+
+	# 绘制矩形边框，将匹配区域标注出来
+	# min_loc：矩形定点
+	# (min_loc[0]+twidth, min_loc[1]+theight) 矩形的宽高
+	# (0,0,255)矩形边框的颜色，2矩形边框宽度
+
+	# strmin_val = str(min_val)
+	# cv2.rectangle(target, min_loc, (min_loc[0]+twidth, min_loc[1]+theight),(0,0,255),2)
+	# cv2.imshow("MatchResult-----MatchingValue="+strmin_val,target)
+	# cv2.waitKey()
+
 
 	if(print_debug):
 		print("ImageProcessor: best match value :"+str(min_val)+"   match location:"+str(min_loc[0])+" "+str(min_loc[1]))
