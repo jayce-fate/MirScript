@@ -29,15 +29,40 @@ def test_wait_while_match():
 	re = adb_controller.wait_while_match([r"template_images/clicktest3.png"],[0.01],600,3)
 	print("after test_wait_while_match....")
 
+def test_screenshot():
+	adb_controller.screenshot(r"temp_screenshot/last_screenshot.png")
+
+def test_screenUnChange():
+	adb_controller.screenshot(r"temp_screenshot/last_screenshot.png")
+	# do something
+	time.sleep(1)
+	adb_controller.screenshot(r"temp_screenshot/screenshot.png")
+	if(image_processor.match_template(r"temp_screenshot/last_screenshot.png",r"temp_screenshot/screenshot.png",0.01,False) == (0,0)):
+		print("screenUnChange....")
+
+def test_click():
+	adb_controller.click((100,200))
+
+def test_match_text():
+	# re2 = adb_controller.wait_till_match_any_text(settings.go_hire_stop_options,5,1,scope = (343,500,338,900))
+	go_hire_stop_options = ["请重新登陆","您的账号登录已过期,请重新登录"]
+	re2 = adb_controller.wait_till_match_any_text(go_hire_stop_options,5,1)
+	if(re2 != None):
+		print("Found text match: {}".format(str(go_hire_stop_options)))
+
 while(True):
 	# stop_app()
 
 	# test_match_and_click()
 
-	test_wait_till_match()
+	# test_wait_till_match()
 
 	# test_swip()
 
 	# test_wait_while_match()
+
+	# test_screenshot()
+
+	test_match_text()
 
 	exit(0)

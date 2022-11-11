@@ -26,22 +26,26 @@ def match_template(target_path,template_path,threshold = 0.05,return_center = Tr
 	# 获得模版图片的宽高尺寸
 	theight, twidth = template.shape[:2]
 
+	# 对应y0,y1 x0,x1
 	if(scope != None):
 		target = target[scope[0]:scope[1],scope[2]:scope[3]]
 	# 执行模版匹配，采用的匹配方式cv2.TM_SQDIFF_NORMED
 	result = cv2.matchTemplate(target,template,cv2.TM_SQDIFF_NORMED)
+	# print("result is: ", result)
 
-	# 归一化处理(不知道啥意思)
+	# 归一化处理
 	# cv2.normalize(result, result, 0, 1, cv2.NORM_MINMAX, -1)
 
-	len1, len2 = result.shape[:2]
+	# 去掉except_locs中的坐标（已经匹配上），为1就是匹配失败
+	# result中k是y轴，j是x轴
+	rheight, rwidth = result.shape[:2]
 	if(except_locs != None):
 		for except_loc in except_locs:
 			if(except_loc == None):
 				continue
 			for j in range(except_loc[0] - settings.except_dist,except_loc[0] + settings.except_dist):
 				for k in range(except_loc[1] - settings.except_dist,except_loc[1] + settings.except_dist):
-					if(j>=0 and j<len2 and k>=0 and k<len1):
+					if(j>=0 and j<rwidth and k>=0 and k<rheight):
 						result[k][j] = 1
 
 	# 寻找矩阵（一维数组当做向量，用Mat定义）中的最大值和最小值的匹配结果及其位置
@@ -82,9 +86,8 @@ def match_template(target_path,template_path,threshold = 0.05,return_center = Tr
 
 	return min_loc
 
-
+# 文字匹配
 def easyocr_read(target_path,print_debug = True,scope = None):
-
 	reader = easyocr.Reader(['ch_sim','en'], gpu = False)
 	target = cv2.imread(target_path)
 
