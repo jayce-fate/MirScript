@@ -84,7 +84,24 @@ def wait_while_match(template_paths,thresholds,max_time,step_time,scope = None,e
 			return "over wait"
 		time.sleep(step_time)
 
-#
+def read_text(max_time = 1,step_time = 1,scope = None):
+	print("AdbController: Start to read text for up to "+str(max_time)+" seconds  ....")
+	time_start = time.time()
+
+	while(True):
+		screenshot(settings.screenshot_path)
+		result = image_processor.easyocr_read(settings.screenshot_path,scope = scope)
+		print("result:", result)
+		for reline in result:
+			re_text = reline[1].replace(" ","")
+			return re_text
+		if(time.time() - time_start > max_time):
+			print("AdbController: Reach max_time but failed to read")
+			return None
+		time.sleep(step_time)
+
+
+#文字匹配
 def wait_till_match_any_text(aim_texts = [],max_time = 1,step_time = 1,scope = None):
 	print("AdbController: Start to wait till match screenshot by any text"+str(aim_texts)+" for up to "+str(max_time)+" seconds  ....")
 	time_start = time.time()

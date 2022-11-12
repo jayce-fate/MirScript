@@ -4,6 +4,7 @@ import re
 import cv2
 import random
 
+import settings
 import image_processor
 import adb_controller
 import game_controller
@@ -12,14 +13,14 @@ def stop_app():
 	print("Stop App....")
 	adb_controller.stop_app()
 
-def test_match_and_click():
-	print("match_and_click....")
-	re = adb_controller.wait_to_match_and_click([r"template_images/clicktest2.png"],[0.15],True,300,1.123)
-
 def test_wait_till_match():
 	print("test_wait_until_match....")
-	re = adb_controller.wait_till_match_any([r"template_images/clicktest3.png"],[0.05],True,60,3)
+	re = adb_controller.wait_till_match_any([r"template_images/screenshot.png"],[0.05],True,60,3)
 	print("after test_wait_until_match....")
+
+def test_match_and_click():
+	print("match_and_click....")
+	re = adb_controller.wait_to_match_and_click([r"template_images/screenshot.png"],[0.15],True,300,1.123)
 
 def test_swip():
 	print("test_swip....")
@@ -51,12 +52,15 @@ def test_match_text():
 	if(re2 != None):
 		print("Found text match: {}".format(str(go_hire_stop_options)))
 
+def test_read_text():
+	adb_controller.read_text(60, 1, scope = (40,80,1540,1660))
+
 while(True):
 	# stop_app()
 
-	# test_match_and_click()
-
 	# test_wait_till_match()
+
+	# test_match_and_click()
 
 	# test_swip()
 
@@ -65,6 +69,9 @@ while(True):
 	# test_screenshot()
 
 	# test_match_text()
-	game_controller.one_step_walk_up()
+
+	# game_controller.one_step_walk_up()
+
+	test_read_text()
 
 	exit(0)
