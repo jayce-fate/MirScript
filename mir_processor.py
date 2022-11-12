@@ -48,12 +48,14 @@ def test_click():
 def test_match_text():
 	# re2 = adb_controller.wait_till_match_any_text(settings.go_hire_stop_options,5,1,scope = (343,500,338,900))
 	go_hire_stop_options = ["请重新登陆","您的账号登录已过期,请重新登录"]
-	re2 = adb_controller.wait_till_match_any_text(go_hire_stop_options,5,1)
-	if(re2 != None):
+	re = adb_controller.wait_till_match_any_text(go_hire_stop_options,5,1)
+	if(re != None):
 		print("Found text match: {}".format(str(go_hire_stop_options)))
 
 def test_read_text():
-	adb_controller.read_text(60, 1, scope = (42,82,1550,1660))
+	re = adb_controller.read_text(60, 1, scope = (42,82,1550,1660))
+	if(re != None):
+		print("text Found: {}".format(str(re)))
 
 while(True):
 	# stop_app()

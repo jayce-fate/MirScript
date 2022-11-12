@@ -84,14 +84,13 @@ def wait_while_match(template_paths,thresholds,max_time,step_time,scope = None,e
 			return "over wait"
 		time.sleep(step_time)
 
-def read_text(max_time = 1,step_time = 1,scope = None):
+def read_text(max_time = 1,step_time = 1,scope = None,print_debug = False):
 	print("AdbController: Start to read text for up to "+str(max_time)+" seconds  ....")
 	time_start = time.time()
 
 	while(True):
 		screenshot(settings.screenshot_path)
-		result = image_processor.easyocr_read(settings.screenshot_path,scope = scope)
-		print("result:", result)
+		result = image_processor.easyocr_read(settings.screenshot_path,scope = scope,print_debug = print_debug)
 		for reline in result:
 			re_text = reline[1].replace(" ","")
 			return re_text
