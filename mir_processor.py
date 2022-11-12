@@ -6,6 +6,7 @@ import random
 
 import image_processor
 import adb_controller
+import game_controller
 
 def stop_app():
 	print("Stop App....")
@@ -63,6 +64,7 @@ while(True):
 
 	# test_screenshot()
 
-	test_match_text()
+	# test_match_text()
+	game_controller.one_step_walk_up()
 
 	exit(0)
