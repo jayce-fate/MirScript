@@ -88,9 +88,11 @@ def start_get_exp_at_zombie_cave():
 		# exit(0)
 		if check_exp_getting():
 			print("exp is rising")
-			game_controller.click_sure_btn()
 		else:
 			print("exp not rising")
+		#消除系统确定消息框
+		game_controller.click_sure_btn()
+
 
 
 start_get_exp_at_zombie_cave()
