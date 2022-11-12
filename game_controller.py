@@ -57,3 +57,10 @@ def read_exp_text():
 	if(re != None):
 		# print("exp text Found: {}".format(str(re)))
 		return re
+
+def click_sure_btn():
+	print("click_sure_btn....")
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_sure.png",0.05,True)
+	if(match_loc != None):
+		adb_controller.click(match_loc)

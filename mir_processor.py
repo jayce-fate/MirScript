@@ -13,6 +13,10 @@ def stop_app():
 	print("Stop App....")
 	adb_controller.stop_app()
 
+def test_match():
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_sure.png",0.05,True)
+
 def test_wait_till_match():
 	print("test_wait_until_match....")
 	re = adb_controller.wait_till_match_any([r"template_images/screenshot.png"],[0.05],True,60,3)
@@ -78,9 +82,15 @@ def check_exp_getting():
 		return False
 
 
-while(True):
-	if check_exp_getting():
-		print("exp is rising")
-	else:
-		print("exp not rising")
+def start_get_exp_at_zombie_cave():
+	while(True):
+		# test_match()
+		# exit(0)
+		if check_exp_getting():
+			print("exp is rising")
+			game_controller.click_sure_btn()
+		else:
+			print("exp not rising")
 
+
+start_get_exp_at_zombie_cave()
