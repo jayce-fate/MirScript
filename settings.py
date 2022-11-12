@@ -12,3 +12,5 @@ except_dist = 5
 screenshot_path = r"temp_screenshot/screenshot.png"
 
 last_screenshot_path = r"temp_screenshot/last_screenshot.png"
+
+zombie_cave_path = [(13,144),(17,140),(23,135),(29,129)]

@@ -19,7 +19,6 @@ def swipe(from_loc,to_loc,use_time):
 	process = os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell input swipe "
 		+str(from_loc[0])+" "+str(from_loc[1])+" "+str(to_loc[0])+" "+str(to_loc[1])+" "+str(use_time))
 	time.sleep(use_time/1000)
-	time.sleep(2)
 
 # 关闭app
 def stop_app():

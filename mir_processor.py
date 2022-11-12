@@ -3,6 +3,7 @@ import time
 import re
 import cv2
 import random
+import numpy
 
 import settings
 import image_processor
@@ -63,15 +64,17 @@ def check_monster_reachable():
 	adb_controller.screenshot(settings.screenshot_path)
 	if game_controller.close_target_panel():
 		print("monster reachable")
+		return True
 	else:
 		print("monster not reachable")
+		return False
 
 def check_exp_getting():
 	start_exp = game_controller.read_exp_text()
 	if(start_exp != None):
 		start_exp = start_exp[:-1]
 		print("start_exp: {}".format(str(start_exp)))
-	time.sleep(30)
+	time.sleep(10)
 	end_exp = game_controller.read_exp_text()
 	if(end_exp != None):
 		end_exp = end_exp[:-1]
@@ -81,17 +84,52 @@ def check_exp_getting():
 	else:
 		return False
 
+def zombie_cave_to_next_point():
+	print("zombie_cave_to_next_point")
+
+	coordinate_str = game_controller.read_coordinate_text()
+	coordinate_str = coordinate_str.replace("[","")
+	coordinate_str = coordinate_str.replace("]","")
+	coordinate = coordinate_str.split(",")
+	current_x = int(coordinate[0])
+	current_y = int(coordinate[1])
+	print("current coordinate: {},{}".format(str(current_x), str(current_y)))
+
+	path_len = len(settings.zombie_cave_path)
+	nearest_pos = settings.zombie_cave_path[0]
+	for index in range(0,path_len):
+		position = settings.zombie_cave_path[index]
+		print("position: {}".format(str(position)))
+		current_pow = pow((position[0] - current_x), 2) + pow((position[1] - current_y), 2)
+		print("current_pow: {}".format(str(current_pow)))
+		nearest_pow = pow((nearest_pos[0] - current_x), 2) + pow((nearest_pos[1] - current_y), 2)
+		print("nearest_pow: {}".format(str(nearest_pow)))
+		if current_pow < nearest_pow:
+			nearest_pos = position
+
+	nearest_index = settings.zombie_cave_path.index(nearest_pos)
+	print("nearest_index: {}".format(str(nearest_index)))
+
+	next_index = (nearest_index + 1) % path_len
+	next_pos = settings.zombie_cave_path[next_index]
+	print("next_pos: {}".format(str(next_pos)))
+
+	game_controller.walk_from_to((current_x, current_y), next_pos)
+
+	if not check_monster_reachable():
+		zombie_cave_to_next_point()
+
 
 def start_get_exp_at_zombie_cave():
 	while(True):
-		# test_match()
-		# exit(0)
 		if check_exp_getting():
 			print("exp is rising")
 		else:
 			print("exp not rising")
+			zombie_cave_to_next_point()
 		#消除系统确定消息框
 		game_controller.click_sure_btn()
+		#检查等级，等级>=29停止练级（先拜师，再去蜈蚣洞） 后续改为等级>=29&&未拜师
 
 
 

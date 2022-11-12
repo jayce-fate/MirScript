@@ -23,6 +23,22 @@ def one_step_walk_down():
 	print("one_step_walk_down....")
 	adb_controller.swipe((300,600),(300,650),1000)
 
+def one_step_walk_left_up():
+	print("one_step_walk_left_up....")
+	adb_controller.swipe((300,600),(250,550),1000)
+
+def one_step_walk_right_up():
+	print("one_step_walk_right_up....")
+	adb_controller.swipe((300,600),(350,550),1000)
+
+def one_step_walk_left_down():
+	print("one_step_walk_left_down....")
+	adb_controller.swipe((300,600),(250,650),1000)
+
+def one_step_walk_right_down():
+	print("one_step_walk_right_down....")
+	adb_controller.swipe((300,600),(350,650),1000)
+
 def close_target_panel():
 	print("close_target_panel....")
 	match_loc = image_processor.match_template(
@@ -70,3 +86,53 @@ def click_sure_btn():
 			adb_controller.click(match_loc)
 		else:
 			time.sleep(0.1)
+
+
+def walk_from_to(from_pos, to_pos):
+	move_x = to_pos[0] - from_pos[0]
+	move_y = to_pos[1] - from_pos[1]
+
+	abs_move_x = abs(move_x)
+	abs_move_y = abs(move_y)
+	if abs_move_x != 0 and abs_move_y != 0:
+		move_count = abs_move_x
+		if abs_move_y < abs_move_x:
+			move_count = abs_move_y
+	elif abs_move_x == 0:
+		move_count = abs_move_y
+	elif abs_move_y == 0:
+		move_count = abs_move_x
+
+	updated_from_pos = list(from_pos)
+	for index in range(0,move_count):
+		if move_x > 0 and move_y > 0:
+			updated_from_pos[0] = updated_from_pos[0] + 1
+			updated_from_pos[1] = updated_from_pos[1] + 1
+			one_step_walk_right_down()
+		elif move_x > 0 and move_y < 0:
+			updated_from_pos[0] = updated_from_pos[0] + 1
+			updated_from_pos[1] = updated_from_pos[1] - 1
+			one_step_walk_right_up()
+		elif move_x < 0 and move_y > 0:
+			updated_from_pos[0] = updated_from_pos[0] - 1
+			updated_from_pos[1] = updated_from_pos[1] + 1
+			one_step_walk_left_down()
+		elif move_x < 0 and move_y < 0:
+			updated_from_pos[0] = updated_from_pos[0] - 1
+			updated_from_pos[1] = updated_from_pos[1] - 1
+			one_step_walk_left_up()
+		elif move_x > 0 and move_y == 0:
+			updated_from_pos[0] = updated_from_pos[0] + 1
+			one_step_walk_right()
+		elif move_x < 0 and move_y == 0:
+			updated_from_pos[0] = updated_from_pos[0] - 1
+			one_step_walk_left()
+		elif move_x == 0 and move_y > 0:
+			updated_from_pos[1] = updated_from_pos[1] + 1
+			one_step_walk_down()
+		elif move_x == 0 and move_y < 0:
+			updated_from_pos[1] = updated_from_pos[1] - 1
+			one_step_walk_up()
+
+	if to_pos[0] - from_pos[0] != 0 or to_pos[1] - from_pos[1] != 0:
+		walk_from_to(tuple(updated_from_pos), to_pos)
