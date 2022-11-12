@@ -62,8 +62,18 @@ def check_monster_reachable():
 	else:
 		print("monster not reachable")
 
+def check_exp_getting():
+	start_exp = game_controller.read_exp_text()
+	if(start_exp != None):
+		start_exp = start_exp[:-1]
+		print("start_exp: {}".format(str(start_exp)))
+	time.sleep(10)
+	end_exp = game_controller.read_exp_text()
+	if(end_exp != None):
+		end_exp = end_exp[:-1]
+		print("end_exp: {}".format(str(end_exp)))
 
 while(True):
-	game_controller.read_lv_text()
+	check_exp_getting()
 
 	exit(0)
