@@ -55,5 +55,5 @@ def read_lv_text():
 def read_exp_text():
 	re = adb_controller.read_text(scope = (56,100,181,316))
 	if(re != None):
-		print("exp text Found: {}".format(str(re)))
+		# print("exp text Found: {}".format(str(re)))
 		return re

@@ -67,13 +67,20 @@ def check_exp_getting():
 	if(start_exp != None):
 		start_exp = start_exp[:-1]
 		print("start_exp: {}".format(str(start_exp)))
-	time.sleep(10)
+	time.sleep(30)
 	end_exp = game_controller.read_exp_text()
 	if(end_exp != None):
 		end_exp = end_exp[:-1]
 		print("end_exp: {}".format(str(end_exp)))
+	if start_exp != end_exp:
+		return True
+	else:
+		return False
+
 
 while(True):
-	check_exp_getting()
+	if check_exp_getting():
+		print("exp is rising")
+	else:
+		print("exp not rising")
 
-	exit(0)
