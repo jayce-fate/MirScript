@@ -92,6 +92,10 @@ def easyocr_read(target_path,print_debug = True,scope = None):
 	target = cv2.imread(target_path)
 
 	if(scope != None):
+		# debug绘制
+		# cv2.rectangle(target, (scope[2],scope[0]), (scope[3], scope[1]),(0,0,255),2)
+		# cv2.imshow("MatchResult-----MatchingValue=",target)
+		# cv2.waitKey()
 		target = target[scope[0]:scope[1],scope[2]:scope[3]]
 
 	result = reader.readtext(target)

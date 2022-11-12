@@ -53,7 +53,7 @@ def test_match_text():
 		print("Found text match: {}".format(str(go_hire_stop_options)))
 
 def test_read_text():
-	adb_controller.read_text(60, 1, scope = (40,80,1540,1660))
+	adb_controller.read_text(60, 1, scope = (42,82,1550,1660))
 
 while(True):
 	# stop_app()
