@@ -4,6 +4,8 @@ import re
 import cv2
 
 import adb_controller
+import image_processor
+import settings
 
 def one_step_walk_left():
 	print("one_step_walk_left....")
@@ -20,3 +22,32 @@ def one_step_walk_up():
 def one_step_walk_down():
 	print("one_step_walk_down....")
 	adb_controller.swipe((300,600),(300,650),1000)
+
+def close_target_panel():
+	print("close_target_panel....")
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_target_close.png",0.05,True)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+		return True
+	else:
+		return False
+
+def cast_fire_ball():
+	print("cast_fire_ball....")
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/skill_fire_ball.png",0.05,True)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
+def read_coordinate_text():
+	re = adb_controller.read_text(scope = (42,82,1550,1660))
+	if(re != None):
+		print("coordinate text Found: {}".format(str(re)))
+		return re
+
+def read_exp_text():
+	re = adb_controller.read_text(scope = (56,100,0,316))
+	if(re != None):
+		print("exp text Found: {}".format(str(re)))
+		return re

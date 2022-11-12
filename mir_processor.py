@@ -52,28 +52,18 @@ def test_match_text():
 	if(re != None):
 		print("Found text match: {}".format(str(go_hire_stop_options)))
 
-def test_read_text():
-	re = adb_controller.read_text(60, 1, scope = (42,82,1550,1660))
-	if(re != None):
-		print("text Found: {}".format(str(re)))
+def check_monster_reachable():
+	adb_controller.screenshot(settings.screenshot_path)
+	game_controller.close_target_panel()
+	game_controller.cast_fire_ball()
+	adb_controller.screenshot(settings.screenshot_path)
+	if game_controller.close_target_panel():
+		print("monster reachable")
+	else:
+		print("monster not reachable")
+
 
 while(True):
-	# stop_app()
-
-	# test_wait_till_match()
-
-	# test_match_and_click()
-
-	# test_swip()
-
-	# test_wait_while_match()
-
-	# test_screenshot()
-
-	# test_match_text()
-
-	# game_controller.one_step_walk_up()
-
-	test_read_text()
+	game_controller.read_exp_text()
 
 	exit(0)

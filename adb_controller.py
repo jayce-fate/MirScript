@@ -31,12 +31,12 @@ def click(location):
 	print("AdbController: Tap "+str(location[0])+" "+str(location[1]))
 	last_click_loc = location
 	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell input tap "+str(location[0])+" "+str(location[1]))
-	time.sleep(0.5)
+	time.sleep(0.1)
 
 # 截屏
 def screenshot(path):
 	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" exec-out screencap -p > " + path)
-	time.sleep(0.5)
+	time.sleep(0.1)
 
 # 图片匹配,直到匹配成功或者超时
 def wait_till_match_any(template_paths,thresholds,return_center,max_time,step_time,scope = None,except_locs = None):
