@@ -64,6 +64,6 @@ def check_monster_reachable():
 
 
 while(True):
-	game_controller.read_exp_text()
+	game_controller.read_lv_text()
 
 	exit(0)

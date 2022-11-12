@@ -46,8 +46,14 @@ def read_coordinate_text():
 		print("coordinate text Found: {}".format(str(re)))
 		return re
 
+def read_lv_text():
+	re = adb_controller.read_text(scope = (56,100,58,104))
+	if(re != None):
+		print("lv text Found: {}".format(str(re)))
+		return re
+
 def read_exp_text():
-	re = adb_controller.read_text(scope = (56,100,0,316))
+	re = adb_controller.read_text(scope = (56,100,181,316))
 	if(re != None):
 		print("exp text Found: {}".format(str(re)))
 		return re
