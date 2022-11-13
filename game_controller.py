@@ -119,7 +119,12 @@ def read_exp_text():
 		re_text = reline[1].replace(" ","")
 		if(re_text != None):
 			print("exp text Found: {}".format(str(re_text)))
-			return re_text
+			digit_array = re.findall(r'\d+\.?\d*', re_text)
+			if len(digit_array) != 0:
+				return digit_array[0]
+			else:
+				return None
+	return None
 
 def click_sure_btn():
 	print("click_sure_btn....")

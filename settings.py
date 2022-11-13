@@ -13,7 +13,8 @@ screenshot_path = r"temp_screenshot/screenshot.png"
 
 last_screenshot_path = r"temp_screenshot/last_screenshot.png"
 
-temp_path = []
+# 检查屏幕是否有怪间隔时间（距离上次移动）
+move_check_time = 60
 
 # 当前位置读取出错调整次数
 adjust_count = 0

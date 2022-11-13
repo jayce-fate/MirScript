@@ -23,11 +23,5 @@ python3 -m pip install easyocr
 红蓝频率5秒
 
 
-经验增加判断有时有误：
-Using CPU. Note: This module is much faster with a GPU.
-exp text Found: {EzmxIE
-start_exp: {EzmxI
-Using CPU. Note: This module is much faster with a GPU.
-exp text Found: {EzmxIE
-end_exp: {EzmxI
-经验没增加
+首次启动位置读取失败报错处理（自动移动后再检测）
+

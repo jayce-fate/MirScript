@@ -71,15 +71,15 @@ def check_monster_reachable():
 
 def check_exp_getting():
 	start_exp = game_controller.read_exp_text()
-	if(start_exp != None):
-		start_exp = start_exp[:-1]
-		print("start_exp: {}".format(str(start_exp)))
-	time.sleep(1)
+	print("start_exp: {}".format(str(start_exp)))
+
+	time.sleep(10)
+
 	end_exp = game_controller.read_exp_text()
-	if(end_exp != None):
-		end_exp = end_exp[:-1]
-		print("end_exp: {}".format(str(end_exp)))
-	if start_exp != end_exp:
+	print("end_exp: {}".format(str(end_exp)))
+
+	# 经验读取失败，默认经验仍在增加，偏向于不移动(等过check_exp_getting的时间无怪再移动)
+	if start_exp == None or end_exp == None or start_exp != end_exp:
 		return True
 	else:
 		return False
@@ -226,10 +226,16 @@ def start_get_exp_at_zombie_cave():
 	#前往距离最近的路径点
 	settings.current_path_index = get_nearest_pos_index(settings.zombie_cave_path)
 	move_to_index_of_path(settings.current_path_index, settings.zombie_cave_path)
+	last_move_time = time.time()
 
 	while(True):
 		if check_exp_getting():
 			print("经验有增加")
+			if time.time() - last_move_time > settings.move_check_time:
+				if not check_monster_reachable():
+					print("距离上次移动已达1分钟，检查当前屏幕无怪，去下一个点")
+					go_to_next_point(settings.centipede_cave_path)
+					last_move_time = time.time()
 		else:
 			print("经验没增加")
 			#消除系统确定消息框
@@ -243,23 +249,31 @@ def start_get_exp_at_zombie_cave():
 
 			#移动到下一个点
 			go_to_next_point(settings.zombie_cave_path)
+			last_move_time = time.time()
 
 
 def start_get_exp_at_centipede_cave():
 	#前往距离最近的路径点
 	settings.current_path_index = get_nearest_pos_index(settings.centipede_cave_path)
 	move_to_index_of_path(settings.current_path_index, settings.centipede_cave_path)
+	last_move_time = time.time()
 
 	while(True):
 		if check_exp_getting():
 			print("经验有增加")
+			if time.time() - last_move_time > settings.move_check_time:
+				if not check_monster_reachable():
+					print("距离上次移动已达1分钟，检查当前屏幕无怪，去下一个点")
+					go_to_next_point(settings.centipede_cave_path)
+					last_move_time = time.time()
 		else:
 			print("经验没增加")
-			#消除系统确定消息框
-			game_controller.click_sure_btn()
-
 			#移动到下一个点
 			go_to_next_point(settings.centipede_cave_path)
+			last_move_time = time.time()
+
+		#消除系统确定消息框
+		game_controller.click_sure_btn()
 
 
 
@@ -270,3 +284,4 @@ def start_get_exp_at_centipede_cave():
 start_get_exp_at_centipede_cave()
 
 # get_current_coordinate()
+
