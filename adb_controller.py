@@ -15,7 +15,7 @@ def test():
 	# process = os.system("adb -s 127.0.0.1:62028 shell input tap 30 30")
 
 def swipe(from_loc,to_loc,use_time):
-	print("AdbController:Swipe from "+str(from_loc)+" to "+str(to_loc)+" by "+str(use_time)+" millisecond")
+	# print("AdbController:Swipe from "+str(from_loc)+" to "+str(to_loc)+" by "+str(use_time)+" millisecond")
 	process = os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell input swipe "
 		+str(from_loc[0])+" "+str(from_loc[1])+" "+str(to_loc[0])+" "+str(to_loc[1])+" "+str(use_time))
 	time.sleep(use_time/1000)

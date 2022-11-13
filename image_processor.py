@@ -87,7 +87,7 @@ def match_template(target_path,template_path,threshold = 0.05,return_center = Tr
 	return min_loc
 
 # 文字匹配
-def easyocr_read(target_path,print_debug = True,scope = None):
+def easyocr_read(target_path,print_debug = False,scope = None):
 	reader = easyocr.Reader(['ch_sim','en'], gpu = False)
 	target = cv2.imread(target_path)
 

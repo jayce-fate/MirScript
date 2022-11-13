@@ -125,9 +125,9 @@ def zombie_cave_to_next_point():
 def start_get_exp_at_zombie_cave():
 	while(True):
 		if check_exp_getting():
-			print("exp is rising")
+			print("经验有增加")
 		else:
-			print("exp not rising")
+			print("经验没增加")
 			#消除系统确定消息框
 			game_controller.click_sure_btn()
 

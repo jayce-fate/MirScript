@@ -8,36 +8,68 @@ import image_processor
 import settings
 
 def one_step_walk_left():
-	print("one_step_walk_left....")
+	# print("one_step_walk_left....")
 	adb_controller.swipe((300,600),(250,600),1000)
 
 def one_step_walk_right():
-	print("one_step_walk_right....")
+	# print("one_step_walk_right....")
 	adb_controller.swipe((300,600),(350,600),1000)
 
 def one_step_walk_up():
-	print("one_step_walk_up....")
+	# print("one_step_walk_up....")
 	adb_controller.swipe((300,600),(300,550),1000)
 
 def one_step_walk_down():
-	print("one_step_walk_down....")
+	# print("one_step_walk_down....")
 	adb_controller.swipe((300,600),(300,650),1000)
 
 def one_step_walk_left_up():
-	print("one_step_walk_left_up....")
+	# print("one_step_walk_left_up....")
 	adb_controller.swipe((300,600),(250,550),1000)
 
 def one_step_walk_right_up():
-	print("one_step_walk_right_up....")
+	# print("one_step_walk_right_up....")
 	adb_controller.swipe((300,600),(350,550),1000)
 
 def one_step_walk_left_down():
-	print("one_step_walk_left_down....")
+	# print("one_step_walk_left_down....")
 	adb_controller.swipe((300,600),(250,650),1000)
 
 def one_step_walk_right_down():
-	print("one_step_walk_right_down....")
+	# print("one_step_walk_right_down....")
 	adb_controller.swipe((300,600),(350,650),1000)
+
+def one_step_run_left():
+	# print("one_step_walk_left....")
+	adb_controller.swipe((400,600),(100,600),200)
+
+def one_step_run_right():
+	# print("one_step_walk_right....")
+	adb_controller.swipe((400,600),(700,600),200)
+
+def one_step_run_up():
+	# print("one_step_walk_up....")
+	adb_controller.swipe((400,600),(400,300),200)
+
+def one_step_run_down():
+	# print("one_step_walk_down....")
+	adb_controller.swipe((400,600),(400,900),200)
+
+def one_step_run_left_up():
+	# print("one_step_walk_left_up....")
+	adb_controller.swipe((400,600),(100,300),200)
+
+def one_step_run_right_up():
+	# print("one_step_walk_right_up....")
+	adb_controller.swipe((400,600),(700,300),200)
+
+def one_step_run_left_down():
+	# print("one_step_walk_left_down....")
+	adb_controller.swipe((400,600),(100,900),200)
+
+def one_step_run_right_down():
+	# print("one_step_walk_right_down....")
+	adb_controller.swipe((400,600),(700,900),200)
 
 def close_target_panel():
 	print("close_target_panel....")
