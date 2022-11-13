@@ -84,21 +84,58 @@ def check_exp_getting():
 	else:
 		return False
 
-def zombie_cave_to_next_point():
-	print("zombie_cave_to_next_point")
-
+def get_current_coordinate():
 	coordinate_str = game_controller.read_coordinate_text()
 	coordinate_str = coordinate_str.replace("[","")
 	coordinate_str = coordinate_str.replace("]","")
 	coordinate = coordinate_str.split(",")
+
+	#可能解析成点号
 	if len(coordinate) != 2:
-		return
-	current_x = int(coordinate[0])
-	current_y = int(coordinate[1])
-	print("current coordinate: {},{}".format(str(current_x), str(current_y)))
+		coordinate = coordinate_str.split(".")
+
+	#还不对，扩大区域再测一次
+	if len(coordinate) != 2:
+		return get_current_coordinate1()
+	else:
+		current_x = int(coordinate[0])
+		current_y = int(coordinate[1])
+		print("current coordinate: {},{}".format(str(current_x), str(current_y)))
+		settings.current_x = current_x
+		settings.current_y = current_y
+		return current_x, current_y
+
+
+def get_current_coordinate1():
+	coordinate_str = game_controller.read_coordinate_text()
+	coordinate_str = coordinate_str.replace("[","")
+	coordinate_str = coordinate_str.replace("]","")
+	coordinate = coordinate_str.split(",")
+	#可能解析成点号
+	if len(coordinate) != 2:
+		coordinate = coordinate_str.split(".")
+
+	current_x = 0
+	current_y = 0
+
+	if len(coordinate) != 2:
+		return current_x,current_y
+	else:
+		current_x = int(coordinate[0])
+		current_y = int(coordinate[1])
+		print("current coordinate: {},{}".format(str(current_x), str(current_y)))
+		settings.current_x = current_x
+		settings.current_y = current_y
+		return current_x, current_y
+
+def zombie_cave_nearest_pos_index():
+	print("zombie_cave_nearest_position")
+
+	current_x, current_y = get_current_coordinate()
 
 	path_len = len(settings.zombie_cave_path)
 	nearest_pos = settings.zombie_cave_path[0]
+
 	for index in range(0,path_len):
 		position = settings.zombie_cave_path[index]
 		# print("position: {}".format(str(position)))
@@ -111,18 +148,38 @@ def zombie_cave_to_next_point():
 
 	nearest_index = settings.zombie_cave_path.index(nearest_pos)
 	print("nearest_index: {}".format(str(nearest_index)))
+	return nearest_index
 
-	next_index = (nearest_index + 1) % path_len
-	next_pos = settings.zombie_cave_path[next_index]
-	print("next_pos: {}".format(str(next_pos)))
+def zombie_cave_to_next_point():
+	print("zombie_cave_to_next_point path_index : {}".format(str(settings.current_path_index)))
 
-	game_controller.walk_from_to((current_x, current_y), next_pos)
+	path_len = len(settings.zombie_cave_path)
+	settings.current_path_index = (settings.current_path_index + 1) % path_len
+	move_to_index_of_path(settings.current_path_index, settings.zombie_cave_path)
 
 	if not check_monster_reachable():
 		zombie_cave_to_next_point()
 
+def move_to_index_of_path(path_index,path):
+	target_pos = path[path_index]
+	print("target_pos: {}".format(str(target_pos)))
+	current_x = settings.current_x
+	current_y = settings.current_y
+	while current_x != target_pos[0] or current_y != target_pos[1]:
+		game_controller.move_from_to((current_x, current_y), target_pos)
+		current_x, current_y = get_current_coordinate()
 
 def start_get_exp_at_zombie_cave():
+	# current_x, current_y = get_current_coordinate()
+	# print("current_x: {}".format(str(current_x)))
+	# print("current_y: {}".format(str(current_y)))
+	# game_controller.one_step_walk_up()
+	# exit(0)
+
+	#前往距离最近的路径点
+	settings.current_path_index = zombie_cave_nearest_pos_index()
+	move_to_index_of_path(settings.current_path_index, settings.zombie_cave_path)
+
 	while(True):
 		if check_exp_getting():
 			print("经验有增加")

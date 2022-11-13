@@ -9,35 +9,35 @@ import settings
 
 def one_step_walk_left():
 	print("one_step_walk_left....")
-	adb_controller.swipe((300,600),(250,600),1000)
+	adb_controller.swipe((300,600),(250,600),500)
 
 def one_step_walk_right():
 	print("one_step_walk_right....")
-	adb_controller.swipe((300,600),(350,600),1000)
+	adb_controller.swipe((300,600),(350,600),500)
 
 def one_step_walk_up():
 	print("one_step_walk_up....")
-	adb_controller.swipe((300,600),(300,550),1000)
+	adb_controller.swipe((300,600),(300,550),500)
 
 def one_step_walk_down():
 	print("one_step_walk_down....")
-	adb_controller.swipe((300,600),(300,650),1000)
+	adb_controller.swipe((300,600),(300,650),500)
 
 def one_step_walk_left_up():
 	print("one_step_walk_left_up....")
-	adb_controller.swipe((300,600),(250,550),1000)
+	adb_controller.swipe((300,600),(250,550),500)
 
 def one_step_walk_right_up():
 	print("one_step_walk_right_up....")
-	adb_controller.swipe((300,600),(350,550),1000)
+	adb_controller.swipe((300,600),(350,550),500)
 
 def one_step_walk_left_down():
 	print("one_step_walk_left_down....")
-	adb_controller.swipe((300,600),(250,650),1000)
+	adb_controller.swipe((300,600),(250,650),500)
 
 def one_step_walk_right_down():
 	print("one_step_walk_right_down....")
-	adb_controller.swipe((300,600),(350,650),1000)
+	adb_controller.swipe((300,600),(350,650),500)
 
 def one_step_run_left():
 	print("one_step_run_left....")
@@ -94,6 +94,12 @@ def read_coordinate_text():
 		print("coordinate text Found: {}".format(str(re)))
 		return re
 
+def read_coordinate_text1():
+	re = adb_controller.read_text(scope = (32,92,1540,1670))
+	if(re != None):
+		print("coordinate text Found: {}".format(str(re)))
+		return re
+
 def read_lv_text():
 	re = adb_controller.read_text_direct(scope = (56,100,58,104))
 	if(re != None):
@@ -128,7 +134,10 @@ def click_sure_btn():
 			time.sleep(0.001)
 
 
-def walk_from_to(from_pos, to_pos):
+def move_from_to(from_pos, to_pos):
+	print("move from pos: {}".format(str(from_pos)))
+	print("move to pos: {}".format(str(to_pos)))
+
 	move_x = to_pos[0] - from_pos[0]
 	move_y = to_pos[1] - from_pos[1]
 
@@ -208,6 +217,4 @@ def walk_from_to(from_pos, to_pos):
 		move_count = move_count - step
 
 	if to_pos[0] - updated_from_pos[0] != 0 or to_pos[1] - updated_from_pos[1] != 0:
-		print("rom_pos: {}".format(str(updated_from_pos)))
-		print("to_pos: {}".format(str(to_pos)))
-		walk_from_to(tuple(updated_from_pos), to_pos)
+		move_from_to(tuple(updated_from_pos), to_pos)

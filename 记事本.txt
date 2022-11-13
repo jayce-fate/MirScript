@@ -26,7 +26,6 @@ python3 -m pip install easyocr
 
 僵尸洞路径补全
 寻路遇到前方有障碍物会卡住
-卡在当前坐标不合法 [137
 
 
 
