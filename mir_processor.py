@@ -86,6 +86,8 @@ def check_exp_getting():
 
 def get_current_coordinate():
 	coordinate_str = game_controller.read_coordinate_text()
+	if coordinate_str == None:
+		return get_current_coordinate1()
 	coordinate_str = coordinate_str.replace("[","")
 	coordinate_str = coordinate_str.replace("]","")
 	coordinate = coordinate_str.split(",")
@@ -134,7 +136,7 @@ def zombie_cave_nearest_pos_index():
 	current_x, current_y = get_current_coordinate()
 
 	path_len = len(settings.zombie_cave_path)
-	nearest_pos = settings.zombie_cave_path[0]
+	nearest_pos = (-1, -1)
 
 	for index in range(0,path_len):
 		position = settings.zombie_cave_path[index]

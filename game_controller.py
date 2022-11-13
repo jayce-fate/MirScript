@@ -110,7 +110,7 @@ def already_has_master():
 	re = adb_controller.read_text_direct(scope = (450,482,742,918))
 	if(re != None):
 		print("master text Found: {}".format(str(re)))
-		if "徒弟" in re:
+		if "徒" in re or "的" in re or "弟" in re:
 			return True
 	return False
 
