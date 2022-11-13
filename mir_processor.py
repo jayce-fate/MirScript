@@ -103,87 +103,74 @@ def get_current_coordinate():
 
 
 def get_current_coordinate_after_adjust():
-	return settings.expect_current_x, settings.expect_current_y
-	# adjust_count = settings.adjust_count % 16
-	# if adjust_count == 0:
-	# 	game_controller.one_step_run_left()
-	# elif adjust_count == 1:
-	# 	game_controller.one_step_run_left()
-	# 	game_controller.one_step_run_left()
-	# elif adjust_count == 2:
-	# 	game_controller.one_step_run_left()
-	# 	game_controller.one_step_run_left()
-	# 	game_controller.one_step_run_left()
-	# elif adjust_count == 3:
-	# 	game_controller.one_step_run_right()
-	# elif adjust_count == 4:
-	# 	game_controller.one_step_run_right()
-	# 	game_controller.one_step_run_right()
-	# elif adjust_count == 5:
-	# 	game_controller.one_step_run_right()
-	# 	game_controller.one_step_run_right()
-	# 	game_controller.one_step_run_right()
-	# elif adjust_count == 6:
-	# 	game_controller.one_step_run_up()
-	# elif adjust_count == 7:
-	# 	game_controller.one_step_run_up()
-	# 	game_controller.one_step_run_up()
-	# elif adjust_count == 8:
-	# 	game_controller.one_step_run_up()
-	# 	game_controller.one_step_run_up()
-	# 	game_controller.one_step_run_up()
-	# elif adjust_count == 9:
-	# 	game_controller.one_step_run_down()
-	# elif adjust_count == 10:
-	# 	game_controller.one_step_run_down()
-	# 	game_controller.one_step_run_down()
-	# elif adjust_count == 11:
-	# 	game_controller.one_step_run_down()
-	# 	game_controller.one_step_run_down()
-	# 	game_controller.one_step_run_down()
-	# elif adjust_count == 12:
-	# 	game_controller.one_step_run_left_up()
-	# elif adjust_count == 13:
-	# 	game_controller.one_step_run_left_up()
-	# 	game_controller.one_step_run_left_up()
-	# elif adjust_count == 14:
-	# 	game_controller.one_step_run_left_up()
-	# 	game_controller.one_step_run_left_up()
-	# 	game_controller.one_step_run_left_up()
-	# elif adjust_count == 15:
-	# 	game_controller.one_step_run_right_up()
-	# elif adjust_count == 16:
-	# 	game_controller.one_step_run_right_up()
-	# 	game_controller.one_step_run_right_up()
-	# elif adjust_count == 17:
-	# 	game_controller.one_step_run_right_up()
-	# 	game_controller.one_step_run_right_up()
-	# 	game_controller.one_step_run_right_up()
-	# elif adjust_count == 18:
-	# 	game_controller.one_step_run_left_down()
-	# elif adjust_count == 19:
-	# 	game_controller.one_step_run_left_down()
-	# 	game_controller.one_step_run_left_down()
-	# elif adjust_count == 20:
-	# 	game_controller.one_step_run_left_down()
-	# 	game_controller.one_step_run_left_down()
-	# 	game_controller.one_step_run_left_down()
-	# elif adjust_count == 21:
-	# 	game_controller.one_step_run_right_down()
-	# elif adjust_count == 22:
-	# 	game_controller.one_step_run_right_down()
-	# 	game_controller.one_step_run_right_down()
-	# elif adjust_count == 23:
-	# 	game_controller.one_step_run_right_down()
-	# 	game_controller.one_step_run_right_down()
-	# 	game_controller.one_step_run_right_down()
-	#
-	# settings.adjust_count = adjust_count + 1
-	# return get_current_coordinate()
+	if settings.expect_current_x == 0 and settings.expect_current_y == 0:
+		adjust_count = settings.adjust_count % 16
+		if adjust_count == 0:
+			game_controller.one_step_walk_left()
+		elif adjust_count == 1:
+			game_controller.one_step_walk_left_up()
+		elif adjust_count == 2:
+			game_controller.one_step_walk_up()
+		elif adjust_count == 3:
+			game_controller.one_step_walk_right_up()
+		elif adjust_count == 4:
+			game_controller.one_step_walk_right()
+		elif adjust_count == 5:
+			game_controller.one_step_walk_right_down()
+		elif adjust_count == 6:
+			game_controller.one_step_walk_down()
+		elif adjust_count == 7:
+			game_controller.one_step_walk_left_down()
+		elif adjust_count == 8:
+			game_controller.one_step_walk_left()
+			game_controller.one_step_walk_left()
+		elif adjust_count == 9:
+			game_controller.one_step_walk_left_up()
+			game_controller.one_step_walk_left_up()
+		elif adjust_count == 10:
+			game_controller.one_step_walk_up()
+			game_controller.one_step_walk_up()
+		elif adjust_count == 11:
+			game_controller.one_step_walk_right_up()
+			game_controller.one_step_walk_right_up()
+		elif adjust_count == 12:
+			game_controller.one_step_walk_right()
+			game_controller.one_step_walk_right()
+		elif adjust_count == 13:
+			game_controller.one_step_walk_right_down()
+			game_controller.one_step_walk_right_down()
+		elif adjust_count == 14:
+			game_controller.one_step_walk_down()
+			game_controller.one_step_walk_down()
+		elif adjust_count == 15:
+			game_controller.one_step_walk_left_down()
+			game_controller.one_step_walk_left_down()
+		elif adjust_count == 16:
+			game_controller.one_step_run_left()
+		elif adjust_count == 17:
+			game_controller.one_step_run_left_up()
+		elif adjust_count == 18:
+			game_controller.one_step_run_up()
+		elif adjust_count == 19:
+			game_controller.one_step_run_right_up()
+		elif adjust_count == 20:
+			game_controller.one_step_run_right()
+		elif adjust_count == 21:
+			game_controller.one_step_run_right_down()
+		elif adjust_count == 22:
+			game_controller.one_step_run_down()
+		elif adjust_count == 23:
+			game_controller.one_step_run_left_down()
+
+		settings.adjust_count = adjust_count + 1
+		return get_current_coordinate()
+	else:
+		print("use expect current coordinate: {},{}".format(str(settings.expect_current_x), str(settings.expect_current_y)))
+		return settings.expect_current_x, settings.expect_current_y
 
 
 def get_nearest_pos_index(cave_path):
-	print("get_nearest_pos_index")
+	# print("get_nearest_pos_index")
 	current_x, current_y = get_current_coordinate()
 
 	path_len = len(cave_path)
