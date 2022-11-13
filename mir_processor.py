@@ -74,7 +74,7 @@ def check_exp_getting():
 	if(start_exp != None):
 		start_exp = start_exp[:-1]
 		print("start_exp: {}".format(str(start_exp)))
-	time.sleep(5)
+	time.sleep(2)
 	end_exp = game_controller.read_exp_text()
 	if(end_exp != None):
 		end_exp = end_exp[:-1]
@@ -100,7 +100,7 @@ def get_current_coordinate():
 	if len(coordinate) != 2:
 		return get_current_coordinate1()
 	else:
-		current_x = int(coordinate[0])
+		current_x = int(coordinate[0].replace(".",""))
 		current_y = int(coordinate[1])
 		print("current coordinate: {},{}".format(str(current_x), str(current_y)))
 		settings.current_x = current_x
