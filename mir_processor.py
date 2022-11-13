@@ -134,16 +134,15 @@ def get_current_coordinate1():
 			settings.current_y = current_y
 		return current_x, current_y
 
-def zombie_cave_nearest_pos_index():
-	print("zombie_cave_nearest_position")
-
+def get_nearest_pos_index(cave_path):
+	print("get_nearest_pos_index")
 	current_x, current_y = get_current_coordinate()
 
-	path_len = len(settings.zombie_cave_path)
+	path_len = len(cave_path)
 	nearest_pos = (-1, -1)
 
 	for index in range(0,path_len):
-		position = settings.zombie_cave_path[index]
+		position = cave_path[index]
 		# print("position: {}".format(str(position)))
 		current_pow = pow((position[0] - current_x), 2) + pow((position[1] - current_y), 2)
 		# print("current_pow: {}".format(str(current_pow)))
@@ -152,19 +151,19 @@ def zombie_cave_nearest_pos_index():
 		if current_pow < nearest_pow:
 			nearest_pos = position
 
-	nearest_index = settings.zombie_cave_path.index(nearest_pos)
+	nearest_index = cave_path.index(nearest_pos)
 	print("nearest_index: {}".format(str(nearest_index)))
 	return nearest_index
 
-def zombie_cave_to_next_point():
-	print("zombie_cave_to_next_point path_index : {}".format(str(settings.current_path_index)))
+def go_to_next_point(cave_path):
+	print("go_to_next_point path_index : {}".format(str(settings.current_path_index)))
 
-	path_len = len(settings.zombie_cave_path)
+	path_len = len(cave_path)
 	settings.current_path_index = (settings.current_path_index + 1) % path_len
-	move_to_index_of_path(settings.current_path_index, settings.zombie_cave_path)
+	move_to_index_of_path(settings.current_path_index, cave_path)
 
 	if not check_monster_reachable():
-		zombie_cave_to_next_point()
+		go_to_next_point(cave_path)
 
 def move_to_index_of_path(path_index,path):
 	target_pos = path[path_index]
@@ -176,14 +175,8 @@ def move_to_index_of_path(path_index,path):
 		current_x, current_y = get_current_coordinate()
 
 def start_get_exp_at_zombie_cave():
-	# current_x, current_y = get_current_coordinate()
-	# print("current_x: {}".format(str(current_x)))
-	# print("current_y: {}".format(str(current_y)))
-	# game_controller.one_step_walk_up()
-	# exit(0)
-
 	#前往距离最近的路径点
-	settings.current_path_index = zombie_cave_nearest_pos_index()
+	settings.current_path_index = get_nearest_pos_index(settings.zombie_cave_path)
 	move_to_index_of_path(settings.current_path_index, settings.zombie_cave_path)
 
 	while(True):
@@ -201,9 +194,29 @@ def start_get_exp_at_zombie_cave():
 				return
 
 			#移动到下一个点
-			zombie_cave_to_next_point()
+			go_to_next_point(settings.zombie_cave_path)
+
+
+def start_get_exp_at_centipede_cave():
+	#前往距离最近的路径点
+	settings.current_path_index = get_nearest_pos_index(settings.centipede_cave_path)
+	move_to_index_of_path(settings.current_path_index, settings.centipede_cave_path)
+
+	while(True):
+		if check_exp_getting():
+			print("经验有增加")
+		else:
+			print("经验没增加")
+			#消除系统确定消息框
+			game_controller.click_sure_btn()
+
+			#移动到下一个点
+			go_to_next_point(settings.centipede_cave_path)
 
 
 
+# 僵尸洞
+# start_get_exp_at_zombie_cave()
 
-start_get_exp_at_zombie_cave()
+# 蜈蚣洞
+start_get_exp_at_centipede_cave()
