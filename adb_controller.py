@@ -30,12 +30,12 @@ def click(location):
 	print("AdbController: Tap "+str(location[0])+" "+str(location[1]))
 	last_click_loc = location
 	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell input tap "+str(location[0])+" "+str(location[1]))
-	time.sleep(0.1)
+	time.sleep(0.001)
 
 # 截屏
 def screenshot(path):
 	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" exec-out screencap -p > " + path)
-	time.sleep(0.1)
+	time.sleep(0.001)
 
 # 图片匹配,直到匹配成功或者超时
 def wait_till_match_any(template_paths,thresholds,return_center,max_time,step_time,scope = None,except_locs = None):
@@ -83,6 +83,7 @@ def wait_while_match(template_paths,thresholds,max_time,step_time,scope = None,e
 			return "over wait"
 		time.sleep(step_time)
 
+# 读取文字
 def read_text(max_time = 1,step_time = 1,scope = None,print_debug = False):
 	print("AdbController: Start to read text for up to "+str(max_time)+" seconds  ....")
 	time_start = time.time()
@@ -98,6 +99,12 @@ def read_text(max_time = 1,step_time = 1,scope = None,print_debug = False):
 			return None
 		time.sleep(step_time)
 
+# 不截屏读取文字
+def read_text_direct(scope = None):
+	result = image_processor.easyocr_read(settings.screenshot_path,scope = scope)
+	for reline in result:
+		re_text = reline[1].replace(" ","")
+		return re_text
 
 #文字匹配
 def wait_till_match_any_text(aim_texts = [],max_time = 1,step_time = 1,scope = None):

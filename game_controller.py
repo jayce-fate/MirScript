@@ -63,10 +63,18 @@ def read_coordinate_text():
 		return re
 
 def read_lv_text():
-	re = adb_controller.read_text(scope = (56,100,58,104))
+	re = adb_controller.read_text_direct(scope = (56,100,58,104))
 	if(re != None):
 		print("lv text Found: {}".format(str(re)))
 		return re
+
+def already_has_master():
+	re = adb_controller.read_text_direct(scope = (450,482,742,918))
+	if(re != None):
+		print("master text Found: {}".format(str(re)))
+		if "徒弟" in re:
+			return True
+	return False
 
 def read_exp_text():
 	re = adb_controller.read_text(scope = (56,100,181,316))
@@ -85,7 +93,7 @@ def click_sure_btn():
 		if(match_loc != None):
 			adb_controller.click(match_loc)
 		else:
-			time.sleep(0.1)
+			time.sleep(0.001)
 
 
 def walk_from_to(from_pos, to_pos):
