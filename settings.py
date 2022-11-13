@@ -1,3 +1,6 @@
+# adb -s emulator-5554 exec-out screencap -p > /Users/jay/Desktop/adb/1.png
+# /Applications/android-sdk/build-tools/30.0.3/aapt dump badging /Users/jay/Downloads/game.apk
+
 # adb.exe 的路径，模拟器安装路径下的bin文件夹里面有
 adb_path = "/Applications/NemuPlayer.app/Contents/MacOS/adb"
 

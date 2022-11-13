@@ -227,7 +227,7 @@ def start_get_exp(cave_path):
 		else:
 			print("经验没增加")
 
-			if cave_path == zombie_cave_path:
+			if cave_path == settings.zombie_cave_path:
 				#检查等级，等级等于29且未拜师，停止练级
 				lv = game_controller.read_lv_text()
 				if (int(lv) == 29) and (not game_controller.already_has_master()):

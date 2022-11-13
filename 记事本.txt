@@ -1,14 +1,3 @@
-adb -s emulator-5554 exec-out screencap -p > /Users/jay/Desktop/adb/1.png 
-
-python3 -m pip install numpy
-python3 -m pip install opencv-python
-python3 -m pip install opencv-contrib-python
-python3 -m pip install easyocr
-
-
-/Applications/android-sdk/build-tools/30.0.3/aapt dump badging /Users/jay/Downloads/game.apk
-
-
 界面设置分辨率 1280 * 720
 游戏比例1.8倍，关闭缩放
 关闭目标选取按钮
@@ -21,6 +10,22 @@ python3 -m pip install easyocr
 12%随机
 5%回城
 红蓝频率5秒
+
+
+
+Mac:
+python3 -m pip install numpy
+python3 -m pip install opencv-python
+python3 -m pip install opencv-contrib-python
+python3 -m pip install easyocr
+
+Windows:
+参考：https://pangruitao.com/post/3725(看2.2 2.3 3.1 3.2)
+安装python：pre_1_install_python.bat
+安装库：pre_2_install_packages.bat
+
+
+
 
 
 
