@@ -85,20 +85,12 @@ def check_exp_getting():
 		return False
 
 def get_current_coordinate():
-	coordinate_str = game_controller.read_coordinate_text()
-	if coordinate_str == None:
-		return get_current_coordinate1()
-	coordinate_str = coordinate_str.replace("[","")
-	coordinate_str = coordinate_str.replace("]","")
-	coordinate = coordinate_str.split(",")
+	coordinate = game_controller.read_coordinate_text()
+	if coordinate == None:
+		 return get_current_coordinate()
 
-	#可能解析成点号
 	if len(coordinate) != 2:
-		coordinate = coordinate_str.split(".")
-
-	#还不对，扩大区域再测一次
-	if len(coordinate) != 2:
-		return get_current_coordinate1()
+		return get_current_coordinate_after_adjust()
 	else:
 		current_x = int(coordinate[0].replace(".",""))
 		current_y = int(coordinate[1])
@@ -110,29 +102,85 @@ def get_current_coordinate():
 		return current_x, current_y
 
 
-def get_current_coordinate1():
-	coordinate_str = game_controller.read_coordinate_text()
-	coordinate_str = coordinate_str.replace("[","")
-	coordinate_str = coordinate_str.replace("]","")
-	coordinate = coordinate_str.split(",")
-	#可能解析成点号
-	if len(coordinate) != 2:
-		coordinate = coordinate_str.split(".")
+def get_current_coordinate_after_adjust():
+	return settings.expect_current_x, settings.expect_current_y
+	# adjust_count = settings.adjust_count % 16
+	# if adjust_count == 0:
+	# 	game_controller.one_step_run_left()
+	# elif adjust_count == 1:
+	# 	game_controller.one_step_run_left()
+	# 	game_controller.one_step_run_left()
+	# elif adjust_count == 2:
+	# 	game_controller.one_step_run_left()
+	# 	game_controller.one_step_run_left()
+	# 	game_controller.one_step_run_left()
+	# elif adjust_count == 3:
+	# 	game_controller.one_step_run_right()
+	# elif adjust_count == 4:
+	# 	game_controller.one_step_run_right()
+	# 	game_controller.one_step_run_right()
+	# elif adjust_count == 5:
+	# 	game_controller.one_step_run_right()
+	# 	game_controller.one_step_run_right()
+	# 	game_controller.one_step_run_right()
+	# elif adjust_count == 6:
+	# 	game_controller.one_step_run_up()
+	# elif adjust_count == 7:
+	# 	game_controller.one_step_run_up()
+	# 	game_controller.one_step_run_up()
+	# elif adjust_count == 8:
+	# 	game_controller.one_step_run_up()
+	# 	game_controller.one_step_run_up()
+	# 	game_controller.one_step_run_up()
+	# elif adjust_count == 9:
+	# 	game_controller.one_step_run_down()
+	# elif adjust_count == 10:
+	# 	game_controller.one_step_run_down()
+	# 	game_controller.one_step_run_down()
+	# elif adjust_count == 11:
+	# 	game_controller.one_step_run_down()
+	# 	game_controller.one_step_run_down()
+	# 	game_controller.one_step_run_down()
+	# elif adjust_count == 12:
+	# 	game_controller.one_step_run_left_up()
+	# elif adjust_count == 13:
+	# 	game_controller.one_step_run_left_up()
+	# 	game_controller.one_step_run_left_up()
+	# elif adjust_count == 14:
+	# 	game_controller.one_step_run_left_up()
+	# 	game_controller.one_step_run_left_up()
+	# 	game_controller.one_step_run_left_up()
+	# elif adjust_count == 15:
+	# 	game_controller.one_step_run_right_up()
+	# elif adjust_count == 16:
+	# 	game_controller.one_step_run_right_up()
+	# 	game_controller.one_step_run_right_up()
+	# elif adjust_count == 17:
+	# 	game_controller.one_step_run_right_up()
+	# 	game_controller.one_step_run_right_up()
+	# 	game_controller.one_step_run_right_up()
+	# elif adjust_count == 18:
+	# 	game_controller.one_step_run_left_down()
+	# elif adjust_count == 19:
+	# 	game_controller.one_step_run_left_down()
+	# 	game_controller.one_step_run_left_down()
+	# elif adjust_count == 20:
+	# 	game_controller.one_step_run_left_down()
+	# 	game_controller.one_step_run_left_down()
+	# 	game_controller.one_step_run_left_down()
+	# elif adjust_count == 21:
+	# 	game_controller.one_step_run_right_down()
+	# elif adjust_count == 22:
+	# 	game_controller.one_step_run_right_down()
+	# 	game_controller.one_step_run_right_down()
+	# elif adjust_count == 23:
+	# 	game_controller.one_step_run_right_down()
+	# 	game_controller.one_step_run_right_down()
+	# 	game_controller.one_step_run_right_down()
+	#
+	# settings.adjust_count = adjust_count + 1
+	# return get_current_coordinate()
 
-	current_x = 0
-	current_y = 0
-
-	if len(coordinate) != 2:
-		return current_x,current_y
-	else:
-		current_x = int(coordinate[0])
-		current_y = int(coordinate[1])
-		print("current coordinate: {},{}".format(str(current_x), str(current_y)))
-		if current_x != 0:
-			settings.current_x = current_x
-		if current_y != 0:
-			settings.current_y = current_y
-		return current_x, current_y
 
 def get_nearest_pos_index(cave_path):
 	print("get_nearest_pos_index")
@@ -220,3 +268,5 @@ def start_get_exp_at_centipede_cave():
 
 # 蜈蚣洞
 start_get_exp_at_centipede_cave()
+
+# get_current_coordinate()

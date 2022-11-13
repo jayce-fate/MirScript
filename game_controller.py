@@ -89,16 +89,14 @@ def cast_fire_ball():
 		adb_controller.click(match_loc)
 
 def read_coordinate_text():
-	re = adb_controller.read_text(scope = (42,82,1550,1660))
-	if(re != None):
-		print("coordinate text Found: {}".format(str(re)))
-		return re
-
-def read_coordinate_text1():
-	re = adb_controller.read_text(scope = (32,92,1540,1670))
-	if(re != None):
-		print("coordinate text Found: {}".format(str(re)))
-		return re
+	adb_controller.screenshot(settings.screenshot_path)
+	result = image_processor.easyocr_read_en(settings.screenshot_path,scope = (42,82,1550,1660))
+	for reline in result:
+		re_text = reline[1].replace(" ","")
+		re_text = re.findall(r'\d+', re_text)
+		if(re_text != None):
+			print("coordinate text Found: {}".format(str(re_text)))
+			return re_text
 
 def read_lv_text():
 	re = adb_controller.read_text_direct(scope = (56,100,58,104))
@@ -115,10 +113,13 @@ def already_has_master():
 	return False
 
 def read_exp_text():
-	re = adb_controller.read_text(scope = (56,100,181,316))
-	if(re != None):
-		# print("exp text Found: {}".format(str(re)))
-		return re
+	adb_controller.screenshot(settings.screenshot_path)
+	result = image_processor.easyocr_read_en(settings.screenshot_path,scope = (56,100,181,316))
+	for reline in result:
+		re_text = reline[1].replace(" ","")
+		if(re_text != None):
+			print("exp text Found: {}".format(str(re_text)))
+			return re_text
 
 def click_sure_btn():
 	print("click_sure_btn....")
@@ -153,6 +154,10 @@ def move_from_to(from_pos, to_pos):
 		move_count = abs_move_y
 	elif abs_move_y == 0:
 		move_count = abs_move_x
+
+	if move_count > 20:
+		print("invalid move_count: {}, give up".format(str(move_count)))
+		return
 
 	updated_from_pos = list(from_pos)
 	print("begin while move_count: {}".format(str(move_count)))
@@ -218,3 +223,6 @@ def move_from_to(from_pos, to_pos):
 
 	if to_pos[0] - updated_from_pos[0] != 0 or to_pos[1] - updated_from_pos[1] != 0:
 		move_from_to(tuple(updated_from_pos), to_pos)
+	else:
+		settings.expect_current_x = to_pos[0]
+		settings.expect_current_y = to_pos[1]
