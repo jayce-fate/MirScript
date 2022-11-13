@@ -16,10 +16,18 @@ python3 -m pip install easyocr
 显示人名
 血球透明度0%
 关闭声音
-60%使用红
-30%大药
-20%随机
-10%回城
+50%使用红
+25%大药
+12%随机
+5%回城
 红蓝频率5秒
 
 
+经验增加判断有时有误：
+Using CPU. Note: This module is much faster with a GPU.
+exp text Found: {EzmxIE
+start_exp: {EzmxI
+Using CPU. Note: This module is much faster with a GPU.
+exp text Found: {EzmxIE
+end_exp: {EzmxI
+经验没增加
