@@ -160,7 +160,7 @@ def move_from_to(from_pos, to_pos):
 	elif abs_move_y == 0:
 		move_count = abs_move_x
 
-	if move_count > 20:
+	if move_count > 15:
 		print("invalid move_count: {}, give up".format(str(move_count)))
 		return
 

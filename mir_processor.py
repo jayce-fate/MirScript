@@ -222,10 +222,11 @@ def move_to_index_of_path(path_index,path):
 		game_controller.move_from_to((current_x, current_y), target_pos)
 		current_x, current_y = get_current_coordinate()
 
-def start_get_exp_at_zombie_cave():
+
+def start_get_exp(cave_path):
 	#前往距离最近的路径点
-	settings.current_path_index = get_nearest_pos_index(settings.zombie_cave_path)
-	move_to_index_of_path(settings.current_path_index, settings.zombie_cave_path)
+	settings.current_path_index = get_nearest_pos_index(cave_path)
+	move_to_index_of_path(settings.current_path_index, cave_path)
 	last_move_time = time.time()
 
 	while(True):
@@ -234,46 +235,34 @@ def start_get_exp_at_zombie_cave():
 			if time.time() - last_move_time > settings.move_check_time:
 				if not check_monster_reachable():
 					print("距离上次移动已达1分钟，检查当前屏幕无怪，去下一个点")
-					go_to_next_point(settings.centipede_cave_path)
+					go_to_next_point(cave_path)
 					last_move_time = time.time()
 		else:
 			print("经验没增加")
-			#消除系统确定消息框
-			game_controller.click_sure_btn()
 
-			#检查等级，等级等于29且未拜师，停止练级
-			lv = game_controller.read_lv_text()
-			if (int(lv) == 29) and (not game_controller.already_has_master()):
-				print("达到29级，请先去拜师，练级结束")
-				return
+			if cave_path == zombie_cave_path:
+				#检查等级，等级等于29且未拜师，停止练级
+				lv = game_controller.read_lv_text()
+				if (int(lv) == 29) and (not game_controller.already_has_master()):
+					print("达到29级，请先去拜师，练级结束")
+					return
 
 			#移动到下一个点
-			go_to_next_point(settings.zombie_cave_path)
-			last_move_time = time.time()
-
-
-def start_get_exp_at_centipede_cave():
-	#前往距离最近的路径点
-	settings.current_path_index = get_nearest_pos_index(settings.centipede_cave_path)
-	move_to_index_of_path(settings.current_path_index, settings.centipede_cave_path)
-	last_move_time = time.time()
-
-	while(True):
-		if check_exp_getting():
-			print("经验有增加")
-			if time.time() - last_move_time > settings.move_check_time:
-				if not check_monster_reachable():
-					print("距离上次移动已达1分钟，检查当前屏幕无怪，去下一个点")
-					go_to_next_point(settings.centipede_cave_path)
-					last_move_time = time.time()
-		else:
-			print("经验没增加")
-			#移动到下一个点
-			go_to_next_point(settings.centipede_cave_path)
+			go_to_next_point(cave_path)
 			last_move_time = time.time()
 
 		#消除系统确定消息框
 		game_controller.click_sure_btn()
+
+
+def start_get_exp_at_zombie_cave():
+	start_get_exp(settings.zombie_cave_path)
+
+
+def start_get_exp_at_centipede_cave():
+	start_get_exp(settings.centipede_cave_path)
+
+
 
 
 
