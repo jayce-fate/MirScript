@@ -207,6 +207,7 @@ def move_to_index_of_path(path_index,path):
 	current_y = settings.current_y
 	while current_x != target_pos[0] or current_y != target_pos[1]:
 		game_controller.move_from_to((current_x, current_y), target_pos)
+		time.sleep(0.1)
 		current_x, current_y = get_current_coordinate()
 
 
@@ -230,7 +231,7 @@ def start_get_exp(cave_path):
 			if cave_path == settings.zombie_cave_path:
 				#检查等级，等级等于29且未拜师，停止练级
 				lv = game_controller.read_lv_text()
-				if (int(lv) == 29) and (not game_controller.already_has_master()):
+				if (lv == 29) and (not game_controller.already_has_master()):
 					print("达到29级，请先去拜师，练级结束")
 					return
 
@@ -254,10 +255,10 @@ def start_get_exp_at_centipede_cave():
 
 
 # 僵尸洞
-# start_get_exp_at_zombie_cave()
+start_get_exp_at_zombie_cave()
 
 # 蜈蚣洞
-start_get_exp_at_centipede_cave()
+# start_get_exp_at_centipede_cave()
 
 # get_current_coordinate()
 

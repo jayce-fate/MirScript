@@ -94,15 +94,21 @@ def read_coordinate_text():
 	for reline in result:
 		re_text = reline[1].replace(" ","")
 		re_text = re.findall(r'\d+', re_text)
-		if(re_text != None):
+		if(len(re_text) != 0):
 			print("coordinate text Found: {}".format(str(re_text)))
-			return re_text
+		return re_text
+	return None
 
 def read_lv_text():
-	re = adb_controller.read_text_direct(scope = (56,100,58,104))
-	if(re != None):
-		print("lv text Found: {}".format(str(re)))
-		return re
+	result = image_processor.easyocr_read_en(settings.screenshot_path,scope = (56,100,58,104))
+	for reline in result:
+		re_text = reline[1].replace(" ","")
+		re_text = re.findall(r'\d+', re_text)
+		if(len(re_text) != 0):
+			print("lv text Found: {}".format(str(re_text[0])))
+			return re_text[0]
+		else:
+			return -1
 
 def already_has_master():
 	re = adb_controller.read_text_direct(scope = (450,482,742,918))
