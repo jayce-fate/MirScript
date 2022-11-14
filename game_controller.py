@@ -118,18 +118,17 @@ def already_has_master():
 			return True
 	return False
 
-def read_exp_text():
+def read_current_exp():
 	adb_controller.screenshot(settings.screenshot_path)
 	result = image_processor.easyocr_read_en(settings.screenshot_path,scope = (56,100,181,316))
 	for reline in result:
 		re_text = reline[1].replace(" ","")
 		if(re_text != None):
-			print("exp text Found: {}".format(str(re_text)))
+			# print("exp text Found: {}".format(str(re_text)))
 			digit_array = re.findall(r'\d+\.?\d*', re_text)
-			if len(digit_array) != 0:
-				return digit_array[0]
-			else:
-				return None
+			# print("digit_array: {}".format(str(digit_array)))
+			for index in range(0,len(digit_array)):
+				return float(digit_array[index])
 	return None
 
 def click_sure_btn():

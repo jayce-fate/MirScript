@@ -59,6 +59,7 @@ def test_match_text():
 
 def check_monster_reachable():
 	adb_controller.screenshot(settings.screenshot_path)
+	#关闭目标框，可能是别人或者宠物
 	game_controller.close_target_panel()
 	game_controller.cast_fire_ball()
 	adb_controller.screenshot(settings.screenshot_path)
@@ -70,16 +71,16 @@ def check_monster_reachable():
 		return False
 
 def check_exp_getting():
-	start_exp = game_controller.read_exp_text()
+	start_exp = game_controller.read_current_exp()
 	print("start_exp: {}".format(str(start_exp)))
 
 	time.sleep(10)
 
-	end_exp = game_controller.read_exp_text()
+	end_exp = game_controller.read_current_exp()
 	print("end_exp: {}".format(str(end_exp)))
 
 	# 经验读取失败，默认经验仍在增加，偏向于不移动(等过check_exp_getting的时间无怪再移动)
-	if start_exp == None or end_exp == None or start_exp != end_exp:
+	if start_exp == None or end_exp == None or end_exp - start_exp > 0:
 		return True
 	else:
 		return False
@@ -207,7 +208,7 @@ def move_to_index_of_path(path_index,path):
 	current_y = settings.current_y
 	while current_x != target_pos[0] or current_y != target_pos[1]:
 		game_controller.move_from_to((current_x, current_y), target_pos)
-		time.sleep(0.1)
+		time.sleep(1.0)
 		current_x, current_y = get_current_coordinate()
 
 
@@ -218,6 +219,9 @@ def start_get_exp(cave_path):
 	last_move_time = time.time()
 
 	while(True):
+		#消除系统确定消息框
+		game_controller.click_sure_btn()
+
 		if check_exp_getting():
 			print("经验有增加")
 			if time.time() - last_move_time > settings.move_check_time:
@@ -239,8 +243,7 @@ def start_get_exp(cave_path):
 			go_to_next_point(cave_path)
 			last_move_time = time.time()
 
-		#消除系统确定消息框
-		game_controller.click_sure_btn()
+
 
 
 def start_get_exp_at_zombie_cave():
@@ -260,5 +263,6 @@ start_get_exp_at_zombie_cave()
 # 蜈蚣洞
 # start_get_exp_at_centipede_cave()
 
-# get_current_coordinate()
+# start_exp = game_controller.read_current_exp()
+# print("start_exp: {}".format(str(start_exp)))
 
