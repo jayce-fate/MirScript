@@ -176,6 +176,12 @@ def start_get_exp(cave_path):
 	last_move_time = time.time()
 
 	while(True):
+		#检查等级，等级等于29且未拜师，停止练级
+		lv = game_controller.read_lv_text()
+		if (lv == 29) and (not game_controller.already_has_master()):
+			print("达到29级，请先去拜师，练级结束")
+			return
+
 		#消除系统确定消息框
 		game_controller.click_sure_btn()
 
@@ -187,19 +193,10 @@ def start_get_exp(cave_path):
 					go_to_next_point(cave_path)
 					last_move_time = time.time()
 		else:
-			print("经验没增加")
-
-			if cave_path == settings.zombie_cave_path:
-				#检查等级，等级等于29且未拜师，停止练级
-				lv = game_controller.read_lv_text()
-				if (lv == 29) and (not game_controller.already_has_master()):
-					print("达到29级，请先去拜师，练级结束")
-					return
-
+			print("经验没增加，去下一个点")
 			#移动到下一个点
 			go_to_next_point(cave_path)
 			last_move_time = time.time()
-
 
 
 
