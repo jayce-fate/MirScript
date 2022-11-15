@@ -71,6 +71,16 @@ def one_step_run_right_down():
 	print("one_step_run_right_down....")
 	adb_controller.swipe((400,600),(700,900),200)
 
+def get_monster_list():
+	print("获取怪物列表....")
+	lower_color = [0,0,118]
+	upper_color = [179,255,255]
+	result = image_processor.easyocr_read_cn(settings.screenshot_path,(24,870,948,1512),lower_color,upper_color)
+	for reline in result:
+		re_text = reline[1].replace(" ","")
+		print("monster name Found: {}".format(str(re_text)))
+	return result
+
 def close_target_panel():
 	print("close_target_panel....")
 	match_loc = image_processor.match_template(
@@ -85,6 +95,24 @@ def cast_fire_ball():
 	print("cast_fire_ball....")
 	match_loc = image_processor.match_template(
 		settings.screenshot_path,r"template_images/skill_fire_ball.png",0.05)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
+def open_target_list():
+	print("open_target_list....")
+	adb_controller.click((1185, 584))
+
+def open_monster_list():
+	print("open_monster_list....")
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_monster.png",0.6)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
+def close_target_list():
+	print("close_target_list....")
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_return.png",0.05)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 

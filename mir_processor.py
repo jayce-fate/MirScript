@@ -15,16 +15,20 @@ def stop_app():
 	adb_controller.stop_app()
 
 def check_monster_reachable():
+	game_controller.open_target_list()
+	time.sleep(0.1)
 	adb_controller.screenshot(settings.screenshot_path)
-	#关闭目标框，可能是别人或者宠物
-	game_controller.close_target_panel()
-	game_controller.cast_fire_ball()
+
+	game_controller.open_monster_list()
+	time.sleep(0.1)
 	adb_controller.screenshot(settings.screenshot_path)
-	if game_controller.close_target_panel():
-		print("monster reachable")
+
+	monster_list = game_controller.get_monster_list()
+
+	game_controller.close_target_list()
+	if len(monster_list) > 0:
 		return True
 	else:
-		print("monster not reachable")
 		return False
 
 def check_exp_getting():
@@ -210,12 +214,12 @@ def start_get_exp_at_centipede_cave():
 
 
 
+# image_processor.show_hsv_tool(settings.last_screenshot_path)
 
 # 僵尸洞
 # start_get_exp_at_zombie_cave()
 
-# 蜈蚣洞
-# start_get_exp_at_centipede_cave()
+# 蜈蚣洞-生死之间
+start_get_exp_at_centipede_cave()
 
-image_processor.show_hsv_tool(settings.screenshot_path)
 
