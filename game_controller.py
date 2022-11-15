@@ -74,7 +74,7 @@ def one_step_run_right_down():
 def close_target_panel():
 	print("close_target_panel....")
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_target_close.png",0.05,True)
+		settings.screenshot_path,r"template_images/btn_target_close.png",0.05)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 		return True
@@ -84,7 +84,7 @@ def close_target_panel():
 def cast_fire_ball():
 	print("cast_fire_ball....")
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/skill_fire_ball.png",0.05,True)
+		settings.screenshot_path,r"template_images/skill_fire_ball.png",0.05)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
@@ -110,8 +110,15 @@ def read_lv_text():
 		else:
 			return -1
 
+# 不截屏读取文字
+def read_text_direct(scope = None):
+	result = image_processor.easyocr_read_cn(settings.screenshot_path,scope = scope)
+	for reline in result:
+		re_text = reline[1].replace(" ","")
+		return re_text
+
 def already_has_master():
-	re = adb_controller.read_text_direct(scope = (450,482,742,918))
+	re = read_text_direct(scope = (450,482,742,918))
 	if(re != None):
 		print("master text Found: {}".format(str(re)))
 		if "徒" in re or "的" in re or "弟" in re:
@@ -138,7 +145,7 @@ def click_sure_btn():
 	for tab_index in range(0,3):
 		adb_controller.screenshot(settings.screenshot_path)
 		match_loc = image_processor.match_template(
-			settings.screenshot_path,r"template_images/btn_sure.png",0.05,True)
+			settings.screenshot_path,r"template_images/btn_sure.png",0.05)
 		if(match_loc != None):
 			adb_controller.click(match_loc)
 		else:
@@ -165,7 +172,7 @@ def move_from_to(from_pos, to_pos):
 	elif abs_move_y == 0:
 		move_count = abs_move_x
 
-	if move_count > 15:
+	if move_count > 20:
 		print("invalid move_count: {}, give up".format(str(move_count)))
 		return
 

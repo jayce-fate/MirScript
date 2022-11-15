@@ -7,17 +7,9 @@ from PIL import Image
 
 import settings
 
-
-last_match_loc = None
-
 # 图片匹配
-def match_template(target_path,template_path,threshold = 0.05,return_center = True
-					,print_debug = True,scope = None,except_locs = None):
-	if(print_debug):
-		print("ImageProcessor: start to match "+target_path+" by "+template_path)
-
-	if(print_debug and except_locs != None):
-		print("ImageProcessor: except_locs: "+str(except_locs))
+def match_template(target_path,template_path,threshold = 0.05,scope = None):
+	print("ImageProcessor: start to match "+target_path+" by "+template_path)
 
 	# 读取目标图片
 	target = cv2.imread(target_path)
@@ -29,24 +21,9 @@ def match_template(target_path,template_path,threshold = 0.05,return_center = Tr
 	# 对应y0,y1 x0,x1
 	if(scope != None):
 		target = target[scope[0]:scope[1],scope[2]:scope[3]]
+
 	# 执行模版匹配，采用的匹配方式cv2.TM_SQDIFF_NORMED
 	result = cv2.matchTemplate(target,template,cv2.TM_SQDIFF_NORMED)
-	# print("result is: ", result)
-
-	# 归一化处理
-	# cv2.normalize(result, result, 0, 1, cv2.NORM_MINMAX, -1)
-
-	# 去掉except_locs中的坐标（已经匹配上），为1就是匹配失败
-	# result中k是y轴，j是x轴
-	rheight, rwidth = result.shape[:2]
-	if(except_locs != None):
-		for except_loc in except_locs:
-			if(except_loc == None):
-				continue
-			for j in range(except_loc[0] - settings.except_dist,except_loc[0] + settings.except_dist):
-				for k in range(except_loc[1] - settings.except_dist,except_loc[1] + settings.except_dist):
-					if(j>=0 and j<rwidth and k>=0 and k<rheight):
-						result[k][j] = 1
 
 	# 寻找矩阵（一维数组当做向量，用Mat定义）中的最大值和最小值的匹配结果及其位置
 	# 对于cv2.TM_SQDIFF及cv2.TM_SQDIFF_NORMED方法，min_val越趋近于0匹配度越好，匹配位置取min_loc
@@ -64,31 +41,23 @@ def match_template(target_path,template_path,threshold = 0.05,return_center = Tr
 	# cv2.imshow("MatchResult-----MatchingValue="+strmin_val,target)
 	# cv2.waitKey()
 
-
-	if(print_debug):
-		print("ImageProcessor: best match value :"+str(min_val)+"   match location:"+str(min_loc[0])+" "+str(min_loc[1]))
+	print("ImageProcessor: best match value :"+str(min_val)+"   match location:"+str(min_loc[0])+" "+str(min_loc[1]))
 
 	if(min_val > threshold):
-		if(print_debug):
-			print("ImageProcessor: match failed")
+		print("ImageProcessor: match failed")
 		return None
 	else:
-		if(print_debug):
-			print("ImageProcessor: match succeeded")
-
-	last_match_loc = min_loc
-
-	if(return_center):
-		min_loc = (min_loc[0] + twidth/2,min_loc[1] + theight/2)
+		print("ImageProcessor: match succeeded")
 
 	if(scope != None):
 		min_loc = (min_loc[0] + scope[2],min_loc[1] + scope[0])
+	else:
+		min_loc = (min_loc[0] + twidth/2,min_loc[1] + theight/2)
 
 	return min_loc
 
-# 文字匹配
-def easyocr_read(target_path,print_debug = False,scope = None):
-	reader = easyocr.Reader(['ch_sim','en'], gpu = False)
+# 匹配文字
+def easyocr_read(reader,target_path,scope = None,lower_color = None,upper_color = None):
 	target = cv2.imread(target_path)
 
 	if(scope != None):
@@ -98,30 +67,31 @@ def easyocr_read(target_path,print_debug = False,scope = None):
 		# cv2.waitKey()
 		target = target[scope[0]:scope[1],scope[2]:scope[3]]
 
+	if lower_color and upper_color:
+		# 定义HSV中颜色的范围 https://www.cnblogs.com/ericling/p/15508044.html
+		hsv = cv2.cvtColor(target, cv2.COLOR_BGR2HSV )
+		lower_color = numpy.array(lower_color)
+		upper_color = numpy.array(upper_color)
+
+		# 设置HSV的阈值使得只取目标颜色
+		target = cv2.inRange(hsv,lower_color, upper_color)
+
 	result = reader.readtext(target)
 
-	if(print_debug):
-		for reline in result:
-			print(reline)
+	for reline in result:
+		print(reline)
 
 	return result
+
+
+# 中文文字匹配
+def easyocr_read_cn(target_path,scope = None):
+	reader = easyocr.Reader(['ch_sim','en'], gpu = False)
+	return easyocr_read(reader, target_path,scope)
+
 
 # 非中文匹配
-def easyocr_read_en(target_path,print_debug = False,scope = None):
+def easyocr_read_en(target_path,scope = None):
 	reader = easyocr.Reader(['en'], gpu = False)
-	target = cv2.imread(target_path)
+	return easyocr_read(reader, target_path,scope)
 
-	if(scope != None):
-		# debug绘制
-		# cv2.rectangle(target, (scope[2],scope[0]), (scope[3], scope[1]),(0,0,255),2)
-		# cv2.imshow("MatchResult-----MatchingValue=",target)
-		# cv2.waitKey()
-		target = target[scope[0]:scope[1],scope[2]:scope[3]]
-
-	result = reader.readtext(target)
-
-	if(print_debug):
-		for reline in result:
-			print(reline)
-
-	return result
