@@ -90,7 +90,10 @@ def cast_fire_ball():
 
 def read_coordinate_text():
 	adb_controller.screenshot(settings.screenshot_path)
-	result = image_processor.easyocr_read_en(settings.screenshot_path,scope = (42,82,1550,1660))
+	# 坐标颜色绿色参数
+	lower_color = [35,43,46]
+	upper_color = [75,255,255]
+	result = image_processor.easyocr_read_en(settings.screenshot_path,(42,82,1550,1660),lower_color,upper_color)
 	for reline in result:
 		re_text = reline[1].replace(" ","")
 		re_text = re.findall(r'\d+', re_text)
@@ -100,7 +103,10 @@ def read_coordinate_text():
 	return None
 
 def read_lv_text():
-	result = image_processor.easyocr_read_en(settings.screenshot_path,scope = (56,100,58,104))
+	# 等级颜色米色参数
+	lower_color = [0,0,212]
+	upper_color = [179,255,255]
+	result = image_processor.easyocr_read_en(settings.screenshot_path,(56,100,58,104),lower_color,upper_color)
 	for reline in result:
 		re_text = reline[1].replace(" ","")
 		re_text = re.findall(r'\d+', re_text)
@@ -127,7 +133,10 @@ def already_has_master():
 
 def read_current_exp():
 	adb_controller.screenshot(settings.screenshot_path)
-	result = image_processor.easyocr_read_en(settings.screenshot_path,scope = (56,100,181,316))
+	# 经验颜色米色参数
+	lower_color = [0,0,212]
+	upper_color = [179,255,255]
+	result = image_processor.easyocr_read_en(settings.screenshot_path,(56,100,181,316),lower_color,upper_color)
 	for reline in result:
 		re_text = reline[1].replace(" ","")
 		if(re_text != None):

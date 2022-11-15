@@ -3,6 +3,7 @@ import time
 import re
 import cv2
 import easyocr
+import numpy
 from PIL import Image
 
 import settings
@@ -57,7 +58,7 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None):
 	return min_loc
 
 # 匹配文字
-def easyocr_read(reader,target_path,scope = None,lower_color = None,upper_color = None):
+def easyocr_read(reader,target_path,scope = None,lower_color = [],upper_color = []):
 	target = cv2.imread(target_path)
 
 	if(scope != None):
@@ -67,7 +68,7 @@ def easyocr_read(reader,target_path,scope = None,lower_color = None,upper_color 
 		# cv2.waitKey()
 		target = target[scope[0]:scope[1],scope[2]:scope[3]]
 
-	if lower_color and upper_color:
+	if len(lower_color) != 0 and len(upper_color) != 0:
 		# 定义HSV中颜色的范围 https://www.cnblogs.com/ericling/p/15508044.html
 		hsv = cv2.cvtColor(target, cv2.COLOR_BGR2HSV )
 		lower_color = numpy.array(lower_color)
@@ -85,13 +86,13 @@ def easyocr_read(reader,target_path,scope = None,lower_color = None,upper_color 
 
 
 # 中文文字匹配
-def easyocr_read_cn(target_path,scope = None):
+def easyocr_read_cn(target_path,scope = None,lower_color = [],upper_color = []):
 	reader = easyocr.Reader(['ch_sim','en'], gpu = False)
-	return easyocr_read(reader, target_path,scope)
+	return easyocr_read(reader, target_path, scope, lower_color, upper_color)
 
 
 # 非中文匹配
-def easyocr_read_en(target_path,scope = None):
+def easyocr_read_en(target_path,scope = None,lower_color = [],upper_color = []):
 	reader = easyocr.Reader(['en'], gpu = False)
-	return easyocr_read(reader, target_path,scope)
+	return easyocr_read(reader, target_path, scope, lower_color, upper_color)
 
