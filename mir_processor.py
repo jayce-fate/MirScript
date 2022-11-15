@@ -215,8 +215,7 @@ def start_get_exp_at_centipede_cave():
 # start_get_exp_at_zombie_cave()
 
 # 蜈蚣洞
-start_get_exp_at_centipede_cave()
+# start_get_exp_at_centipede_cave()
 
-# start_exp = game_controller.read_current_exp()
-# print("start_exp: {}".format(str(start_exp)))
+image_processor.show_hsv_tool(settings.screenshot_path)
 
