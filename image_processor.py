@@ -59,13 +59,10 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None):
 
 # 匹配文字
 def easyocr_read(reader,target_path,scope = None,lower_color = [],upper_color = []):
+	print("easyocr_read: "+target_path)
 	target = cv2.imread(target_path)
 
 	if(scope != None):
-		# debug绘制
-		# cv2.rectangle(target, (scope[2],scope[0]), (scope[3], scope[1]),(0,0,255),2)
-		# cv2.imshow("MatchResult-----MatchingValue=",target)
-		# cv2.waitKey()
 		target = target[scope[0]:scope[1],scope[2]:scope[3]]
 
 	if len(lower_color) != 0 and len(upper_color) != 0:
@@ -75,7 +72,12 @@ def easyocr_read(reader,target_path,scope = None,lower_color = [],upper_color = 
 		upper_color = numpy.array(upper_color)
 
 		# 设置HSV的阈值使得只取目标颜色
-		target = cv2.inRange(hsv,lower_color, upper_color)
+		mask = cv2.inRange(hsv,lower_color, upper_color)
+		target = cv2.bitwise_and(target, target, mask=mask)
+
+	# Display result image
+	# cv2.imshow('image', target)
+	# cv2.waitKey()
 
 	result = reader.readtext(target)
 

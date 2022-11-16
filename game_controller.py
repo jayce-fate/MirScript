@@ -121,7 +121,7 @@ def read_coordinate_text():
 	# 坐标颜色绿色参数
 	lower_color = [35,43,46]
 	upper_color = [75,255,255]
-	result = image_processor.easyocr_read_en(settings.screenshot_path,(42,82,1550,1660),lower_color,upper_color)
+	result = image_processor.easyocr_read_en(settings.screenshot_path,(42,82,1540,1664),lower_color,upper_color)
 	for reline in result:
 		re_text = reline[1].replace(" ","")
 		re_text = re.findall(r'\d+', re_text)
@@ -144,18 +144,15 @@ def read_lv_text():
 		else:
 			return -1
 
-# 不截屏读取文字
-def read_text_direct(scope = None):
-	result = image_processor.easyocr_read_cn(settings.screenshot_path,scope = scope)
+def already_has_master():
+	print("检查是否已拜师....")
+	lower_color = [0,0,0]
+	upper_color = [0,0,255]
+	result = image_processor.easyocr_read_cn(settings.screenshot_path,(450,482,722,938),lower_color,upper_color)
 	for reline in result:
 		re_text = reline[1].replace(" ","")
-		return re_text
-
-def already_has_master():
-	re = read_text_direct(scope = (450,482,742,918))
-	if(re != None):
-		print("master text Found: {}".format(str(re)))
-		if "徒" in re or "的" in re or "弟" in re:
+		print("我的名字: {}".format(str(re_text)))
+		if "徒" in re_text or "的" in re_text or "弟" in re_text:
 			return True
 	return False
 

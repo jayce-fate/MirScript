@@ -10,9 +10,6 @@ import image_processor
 import adb_controller
 import game_controller
 
-def stop_app():
-	print("Stop App....")
-	adb_controller.stop_app()
 
 def check_monster_reachable():
 	game_controller.open_target_list()
@@ -174,6 +171,7 @@ def move_to_index_of_path(path_index,path):
 
 
 def start_get_exp(cave_path):
+	print("start_get_exp")
 	#前往距离最近的路径点
 	settings.current_path_index = get_nearest_pos_index(cave_path)
 	move_to_index_of_path(settings.current_path_index, cave_path)
@@ -214,12 +212,32 @@ def start_get_exp_at_centipede_cave():
 
 
 
-# image_processor.show_hsv_tool(settings.last_screenshot_path)
-
 # 僵尸洞
 # start_get_exp_at_zombie_cave()
 
 # 蜈蚣洞-生死之间
-start_get_exp_at_centipede_cave()
+# start_get_exp_at_centipede_cave()
 
+
+# ******************************************
+# test
+# ******************************************
+
+# image_processor.show_hsv_tool(settings.last_screenshot_path, (450,482,742,918))
+
+# adb_controller.screenshot(settings.screenshot_path)
+# if game_controller.already_has_master():
+# 	print("已拜师")
+# else:
+# 	print("未拜师")
+
+# game_controller.read_coordinate_text()
+
+# exp = game_controller.read_current_exp()
+# print("exp: {}".format(str(exp)))
+
+# lv = game_controller.read_lv_text()
+# print("lv: {}".format(str(lv)))
+
+# game_controller.get_monster_list()
 
