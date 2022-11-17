@@ -12,17 +12,7 @@ import game_controller
 
 
 def check_monster_reachable():
-	game_controller.open_target_list()
-	time.sleep(0.1)
-	adb_controller.screenshot(settings.screenshot_path)
-
-	game_controller.open_monster_list()
-	time.sleep(0.1)
-	adb_controller.screenshot(settings.screenshot_path)
-
 	monster_list = game_controller.get_monster_list()
-
-	game_controller.close_target_list()
 	if len(monster_list) > 0:
 		return True
 	else:
@@ -216,7 +206,7 @@ def start_get_exp_at_centipede_cave():
 # start_get_exp_at_zombie_cave()
 
 # 蜈蚣洞-生死之间
-# start_get_exp_at_centipede_cave()
+start_get_exp_at_centipede_cave()
 
 
 # ******************************************

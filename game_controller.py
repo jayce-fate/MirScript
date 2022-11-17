@@ -73,13 +73,30 @@ def one_step_run_right_down():
 
 def get_monster_list():
 	print("获取怪物列表....")
+	#打开目标列表
+	open_target_list()
+	time.sleep(0.1)
+
+	#切换到怪物列表
+	adb_controller.screenshot(settings.screenshot_path)
+	open_monster_list()
+	time.sleep(0.1)
+
+	#识别怪物名称
+	adb_controller.screenshot(settings.screenshot_path)
 	lower_color = [0,0,118]
 	upper_color = [179,255,255]
-	result = image_processor.easyocr_read_cn(settings.screenshot_path,(24,870,948,1512),lower_color,upper_color)
-	for reline in result:
+	monster_list = image_processor.easyocr_read_cn(settings.screenshot_path,(24,870,948,1512),lower_color,upper_color)
+	for reline in monster_list:
 		re_text = reline[1].replace(" ","")
-		print("monster name Found: {}".format(str(re_text)))
-	return result
+		print("怪物名: {}".format(str(re_text)))
+
+	if len(monster_list) == 0:
+		print("怪物列表为空")
+	#关闭目标列表
+	game_controller.close_target_list()
+	return monster_list
+
 
 def close_target_panel():
 	print("close_target_panel....")

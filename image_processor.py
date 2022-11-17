@@ -59,7 +59,7 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None):
 
 # 匹配文字
 def easyocr_read(reader,target_path,scope = None,lower_color = [],upper_color = []):
-	print("easyocr_read: "+target_path)
+	# print("easyocr_read: "+target_path)
 	target = cv2.imread(target_path)
 
 	if(scope != None):
