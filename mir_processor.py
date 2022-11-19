@@ -161,7 +161,7 @@ def move_to_index_of_path(path_index,path):
 
 
 def start_get_exp(cave_path):
-	print("start_get_exp")
+	print("开始练级")
 	#前往距离最近的路径点
 	settings.current_path_index = get_nearest_pos_index(cave_path)
 	move_to_index_of_path(settings.current_path_index, cave_path)

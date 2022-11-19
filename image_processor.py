@@ -81,8 +81,8 @@ def easyocr_read(reader,target_path,scope = None,lower_color = [],upper_color = 
 
 	result = reader.readtext(target)
 
-	for reline in result:
-		print(reline)
+	# for reline in result:
+	# 	print(reline)
 
 	return result
 

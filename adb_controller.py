@@ -27,7 +27,7 @@ def stop_app():
 
 # 点击操作
 def click(location):
-	print("AdbController: Tap "+str(location[0])+" "+str(location[1]))
+	# print("AdbController: Tap "+str(location[0])+" "+str(location[1]))
 	last_click_loc = location
 	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell input tap "+str(location[0])+" "+str(location[1]))
 	time.sleep(0.001)

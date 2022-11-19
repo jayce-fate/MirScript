@@ -8,67 +8,67 @@ import image_processor
 import settings
 
 def one_step_walk_left():
-	print("one_step_walk_left....")
+	print("往左走一步....")
 	adb_controller.swipe((300,600),(250,600),500)
 
 def one_step_walk_right():
-	print("one_step_walk_right....")
+	print("往右走一步....")
 	adb_controller.swipe((300,600),(350,600),500)
 
 def one_step_walk_up():
-	print("one_step_walk_up....")
+	print("往上走一步....")
 	adb_controller.swipe((300,600),(300,550),500)
 
 def one_step_walk_down():
-	print("one_step_walk_down....")
+	print("往下走一步....")
 	adb_controller.swipe((300,600),(300,650),500)
 
 def one_step_walk_left_up():
-	print("one_step_walk_left_up....")
+	print("往左上走一步....")
 	adb_controller.swipe((300,600),(250,550),500)
 
 def one_step_walk_right_up():
-	print("one_step_walk_right_up....")
+	print("往右上走一步....")
 	adb_controller.swipe((300,600),(350,550),500)
 
 def one_step_walk_left_down():
-	print("one_step_walk_left_down....")
+	print("往左下走一步....")
 	adb_controller.swipe((300,600),(250,650),500)
 
 def one_step_walk_right_down():
-	print("one_step_walk_right_down....")
+	print("往右下走一步....")
 	adb_controller.swipe((300,600),(350,650),500)
 
 def one_step_run_left():
-	print("one_step_run_left....")
+	print("往左跑两步....")
 	adb_controller.swipe((400,600),(100,600),200)
 
 def one_step_run_right():
-	print("one_step_run_right....")
+	print("往右跑两步....")
 	adb_controller.swipe((400,600),(700,600),200)
 
 def one_step_run_up():
-	print("one_step_run_up....")
+	print("往上跑两步....")
 	adb_controller.swipe((400,600),(400,300),200)
 
 def one_step_run_down():
-	print("one_step_run_down....")
+	print("往下跑两步....")
 	adb_controller.swipe((400,600),(400,900),200)
 
 def one_step_run_left_up():
-	print("one_step_run_left_up....")
+	print("往左上跑两步....")
 	adb_controller.swipe((400,600),(100,300),200)
 
 def one_step_run_right_up():
-	print("one_step_run_right_up....")
+	print("往右上跑两步....")
 	adb_controller.swipe((400,600),(700,300),200)
 
 def one_step_run_left_down():
-	print("one_step_run_left_down....")
+	print("往左下跑两步....")
 	adb_controller.swipe((400,600),(100,900),200)
 
 def one_step_run_right_down():
-	print("one_step_run_right_down....")
+	print("往右下跑两步....")
 	adb_controller.swipe((400,600),(700,900),200)
 
 def get_monster_list():
@@ -94,12 +94,13 @@ def get_monster_list():
 	if len(monster_list) == 0:
 		print("怪物列表为空")
 	#关闭目标列表
-	game_controller.close_target_list()
+	close_target_list()
 	return monster_list
 
 
+# 关闭怪物信息面板（等级、名称、血量）
 def close_target_panel():
-	print("close_target_panel....")
+	print("关闭怪物信息....")
 	match_loc = image_processor.match_template(
 		settings.screenshot_path,r"template_images/btn_target_close.png",0.05)
 	if(match_loc != None):
@@ -116,18 +117,18 @@ def cast_fire_ball():
 		adb_controller.click(match_loc)
 
 def open_target_list():
-	print("open_target_list....")
+	# print("open_target_list....")
 	adb_controller.click((1185, 584))
 
 def open_monster_list():
-	print("open_monster_list....")
+	# print("open_monster_list....")
 	match_loc = image_processor.match_template(
 		settings.screenshot_path,r"template_images/btn_monster.png",0.6)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
 def close_target_list():
-	print("close_target_list....")
+	# print("close_target_list....")
 	match_loc = image_processor.match_template(
 		settings.screenshot_path,r"template_images/btn_return.png",0.05)
 	if(match_loc != None):
@@ -192,8 +193,8 @@ def read_current_exp():
 def click_sure_btn():
 	print("click_sure_btn....")
 
-	# 公告可能会连续出三次
-	for tab_index in range(0,3):
+	# 自动公告点击确定
+	for tab_index in range(0,1):
 		adb_controller.screenshot(settings.screenshot_path)
 		match_loc = image_processor.match_template(
 			settings.screenshot_path,r"template_images/btn_sure.png",0.05)
