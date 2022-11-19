@@ -1,35 +1,21 @@
-# adb -s emulator-5554 exec-out screencap -p > /Users/jay/Desktop/adb/1.png
-# /Applications/android-sdk/build-tools/30.0.3/aapt dump badging /Users/jay/Downloads/game.apk
-
 # adb.exe 的路径，模拟器安装路径下的bin文件夹里面有
 adb_path = "/Applications/NemuPlayer.app/Contents/MacOS/adb"
 
 # 模拟器的地址
 device_address = "emulator-5554"
 
-# 包名
+# 包名, 获取方式:/Applications/android-sdk/build-tools/30.0.3/aapt dump badging path_of_apk
 package_name = "com.abc.def"
 
-except_dist = 5
-
+# 截屏保存路径
 screenshot_path = r"temp_screenshot/screenshot.png"
-
-last_screenshot_path = r"temp_screenshot/last_screenshot.png"
 
 # 检查屏幕是否有怪间隔时间（距离上次移动）
 move_check_time = 60
 
-# 当前位置读取出错调整次数
-adjust_count = 0
 
-current_x = 0
-current_y = 0
-
-expect_current_x = 0
-expect_current_y = 0
-
-current_path_index = 0
-
+########### 练级路径 ###########
+# 僵尸洞二层路径
 zombie_cave_path = [(14,144),(20,138),(26,132),(33,132),(36,139),(42,145),(47,150),(51,154),(56,159),(61,164)
                     ,(67,164),(67,173),(72,173),(78,173),(78,166),(85,166),(90,160),(94,163),(100,158),(104,154)
                     ,(110,154),(114,154),(120,160),(125,165),(129,169),(133,165),(138,165),(142,169),(146,169)
@@ -46,6 +32,7 @@ zombie_cave_path = [(14,144),(20,138),(26,132),(33,132),(36,139),(42,145),(47,15
                     ,(32,110),(27,105),(22,110),(28,116),(22,122),(28,128),(20,138),(14,144)]
 
 
+# 生死之间路径
 centipede_cave_path = [(15,55),(21,61),(26,61),(31,61),(39,67),(46,74),(52,80),(59,80),(65,80),(71,80),(76,75),
                         (81,70),(81,64),(81,56),(73,48),(64,48),(58,42),(52,36),(46,30),(41,25),(35,19),(29,13),
                         (26,17),(17,17),(24,17),(31,17),(37,17),(44,25),(52,32),(59,39),(59,53),(52,53),(46,53),

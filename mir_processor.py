@@ -5,6 +5,7 @@ import cv2
 import random
 import numpy
 
+import globals
 import settings
 import image_processor
 import adb_controller
@@ -46,15 +47,15 @@ def get_current_coordinate():
 		current_y = int(coordinate[1])
 		print("当前坐标: {},{}".format(str(current_x), str(current_y)))
 		if current_x != 0:
-			settings.current_x = current_x
+			globals.current_x = current_x
 		if current_y != 0:
-			settings.current_y = current_y
+			globals.current_y = current_y
 		return current_x, current_y
 
 
 def get_current_coordinate_after_adjust():
 	if settings.expect_current_x == 0 and settings.expect_current_y == 0:
-		adjust_count = settings.adjust_count % 16
+		adjust_count = globals.adjust_count % 16
 		if adjust_count == 0:
 			game_controller.one_step_walk_left()
 		elif adjust_count == 1:
@@ -112,7 +113,7 @@ def get_current_coordinate_after_adjust():
 		elif adjust_count == 23:
 			game_controller.one_step_run_left_down()
 
-		settings.adjust_count = adjust_count + 1
+		globals.adjust_count = adjust_count + 1
 		return get_current_coordinate()
 	else:
 		print("use expect current coordinate: {},{}".format(str(settings.expect_current_x), str(settings.expect_current_y)))
@@ -141,11 +142,11 @@ def get_nearest_pos_index(cave_path):
 	return nearest_index
 
 def go_to_next_point(cave_path):
-	print("go_to_next_point path_index : {}".format(str(settings.current_path_index)))
+	print("go_to_next_point path_index : {}".format(str(globals.current_path_index)))
 
 	path_len = len(cave_path)
-	settings.current_path_index = (settings.current_path_index + 1) % path_len
-	move_to_index_of_path(settings.current_path_index, cave_path)
+	globals.current_path_index = (globals.current_path_index + 1) % path_len
+	move_to_index_of_path(globals.current_path_index, cave_path)
 
 	if not check_monster_reachable():
 		go_to_next_point(cave_path)
@@ -153,8 +154,8 @@ def go_to_next_point(cave_path):
 def move_to_index_of_path(path_index,path):
 	target_pos = path[path_index]
 	print("target_pos: {}".format(str(target_pos)))
-	current_x = settings.current_x
-	current_y = settings.current_y
+	current_x = globals.current_x
+	current_y = globals.current_y
 	while current_x != target_pos[0] or current_y != target_pos[1]:
 		game_controller.move_from_to((current_x, current_y), target_pos)
 		time.sleep(1.0)
@@ -164,8 +165,8 @@ def move_to_index_of_path(path_index,path):
 def start_get_exp(cave_path):
 	print("开始练级")
 	#前往距离最近的路径点
-	settings.current_path_index = get_nearest_pos_index(cave_path)
-	move_to_index_of_path(settings.current_path_index, cave_path)
+	globals.current_path_index = get_nearest_pos_index(cave_path)
+	move_to_index_of_path(globals.current_path_index, cave_path)
 	last_move_time = time.time()
 
 	while(True):
@@ -214,7 +215,7 @@ start_get_exp_at_centipede_cave()
 # test
 # ******************************************
 
-# image_processor.show_hsv_tool(settings.last_screenshot_path, (450,482,742,918))
+# image_processor.show_hsv_tool(settings.screenshot_path, (450,482,742,918))
 
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.click_sure_btn()
