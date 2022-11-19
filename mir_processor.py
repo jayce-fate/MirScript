@@ -147,11 +147,11 @@ def get_nearest_pos_index(cave_path):
 			nearest_pos = position
 
 	nearest_index = cave_path.index(nearest_pos)
-	print("nearest_index: {}".format(str(nearest_index)))
+	print("最近坐标序号: {}".format(str(nearest_index)))
 	return nearest_index
 
 def go_to_next_point(cave_path):
-	print("go_to_next_point path_index : {}".format(str(globals.current_path_index)))
+	# print("go_to_next_point path_index : {}".format(str(globals.current_path_index)))
 
 	path_len = len(cave_path)
 	globals.current_path_index = (globals.current_path_index + 1) % path_len
@@ -162,7 +162,7 @@ def go_to_next_point(cave_path):
 
 def move_to_index_of_path(path_index,path):
 	target_pos = path[path_index]
-	print("target_pos: {}".format(str(target_pos)))
+	# print("target_pos: {}".format(str(target_pos)))
 	current_x = globals.current_x
 	current_y = globals.current_y
 	while current_x != target_pos[0] or current_y != target_pos[1]:

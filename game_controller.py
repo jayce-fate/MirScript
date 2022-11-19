@@ -211,8 +211,8 @@ def click_sure_btn():
 
 
 def move_from_to(from_pos, to_pos):
-	print("move from pos: {}".format(str(from_pos)))
-	print("move to pos: {}".format(str(to_pos)))
+	print("初始位置: {}".format(str(from_pos)))
+	print("目标位置: {}".format(str(to_pos)))
 
 	move_x = to_pos[0] - from_pos[0]
 	move_y = to_pos[1] - from_pos[1]
