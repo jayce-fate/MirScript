@@ -134,6 +134,10 @@ def close_target_list():
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
+def open_or_close_map():
+	# print("open_or_close_map....")
+	adb_controller.click((1432, 4))
+
 def read_coordinate_text():
 	adb_controller.screenshot(settings.screenshot_path)
 	# 坐标颜色绿色参数

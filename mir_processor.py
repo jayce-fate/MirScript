@@ -38,7 +38,16 @@ def check_exp_getting():
 def get_current_coordinate():
 	coordinate = game_controller.read_coordinate_text()
 	if coordinate == None:
-		 return get_current_coordinate()
+		 print("当前坐标获取失败，可能地图被收起")
+		 # 尝试点击地图开关
+		 game_controller.open_or_close_map()
+		 time.sleep(0.2)
+		 #再次读取坐标
+		 coordinate = game_controller.read_coordinate_text()
+
+	if coordinate == None:
+		print("当前坐标获取失败，可能游戏中断")
+		return globals.current_x, globals.current_y
 
 	if len(coordinate) != 2:
 		return get_current_coordinate_after_adjust()
@@ -219,4 +228,6 @@ start_get_exp_at_centipede_cave()
 
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.click_sure_btn()
+
+
 
