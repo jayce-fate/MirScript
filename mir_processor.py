@@ -20,12 +20,13 @@ def check_monster_reachable():
 
 def check_exp_getting():
 	start_exp = game_controller.read_current_exp()
-	print("start_exp: {}".format(str(start_exp)))
+	print("当前经验值: {}".format(str(start_exp)))
 
-	time.sleep(10)
+	sleep_time = 10
+	time.sleep(sleep_time)
 
 	end_exp = game_controller.read_current_exp()
-	print("end_exp: {}".format(str(end_exp)))
+	print("经过{}秒,当前经验值: {}".format(sleep_time, str(end_exp)))
 
 	# 经验读取失败，默认经验仍在增加，偏向于不移动(等过check_exp_getting的时间无怪再移动)
 	if start_exp == None or end_exp == None or end_exp - start_exp > 0:
@@ -43,7 +44,7 @@ def get_current_coordinate():
 	else:
 		current_x = int(coordinate[0].replace(".",""))
 		current_y = int(coordinate[1])
-		print("current coordinate: {},{}".format(str(current_x), str(current_y)))
+		print("当前坐标: {},{}".format(str(current_x), str(current_y)))
 		if current_x != 0:
 			settings.current_x = current_x
 		if current_y != 0:
@@ -216,18 +217,5 @@ start_get_exp_at_centipede_cave()
 # image_processor.show_hsv_tool(settings.last_screenshot_path, (450,482,742,918))
 
 # adb_controller.screenshot(settings.screenshot_path)
-# if game_controller.already_has_master():
-# 	print("已拜师")
-# else:
-# 	print("未拜师")
-
-# game_controller.read_coordinate_text()
-
-# exp = game_controller.read_current_exp()
-# print("exp: {}".format(str(exp)))
-
-# lv = game_controller.read_lv_text()
-# print("lv: {}".format(str(lv)))
-
-# game_controller.get_monster_list()
+# game_controller.click_sure_btn()
 

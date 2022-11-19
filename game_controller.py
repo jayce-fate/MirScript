@@ -72,10 +72,10 @@ def one_step_run_right_down():
 	adb_controller.swipe((400,600),(700,900),200)
 
 def get_monster_list():
-	print("获取怪物列表....")
+	print("获取怪物列表:")
 	#打开目标列表
 	open_target_list()
-	time.sleep(0.1)
+	time.sleep(0.2)
 
 	#切换到怪物列表
 	adb_controller.screenshot(settings.screenshot_path)
@@ -123,14 +123,14 @@ def open_target_list():
 def open_monster_list():
 	# print("open_monster_list....")
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_monster.png",0.6)
+		settings.screenshot_path,r"template_images/btn_monster.png",0.02,(561,627,1525,1632))
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
 def close_target_list():
 	# print("close_target_list....")
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_return.png",0.05)
+		settings.screenshot_path,r"template_images/btn_return.png",0.05,(850,892,1576,1628))
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
@@ -143,8 +143,8 @@ def read_coordinate_text():
 	for reline in result:
 		re_text = reline[1].replace(" ","")
 		re_text = re.findall(r'\d+', re_text)
-		if(len(re_text) != 0):
-			print("coordinate text Found: {}".format(str(re_text)))
+		# if(len(re_text) != 0):
+			# print("coordinate text Found: {}".format(str(re_text)))
 		return re_text
 	return None
 
@@ -157,7 +157,7 @@ def read_lv_text():
 		re_text = reline[1].replace(" ","")
 		re_text = re.findall(r'\d+', re_text)
 		if(len(re_text) != 0):
-			print("lv text Found: {}".format(str(re_text[0])))
+			print("当前等级: {}".format(str(re_text[0])))
 			return re_text[0]
 		else:
 			return -1
@@ -191,14 +191,16 @@ def read_current_exp():
 	return None
 
 def click_sure_btn():
-	print("click_sure_btn....")
+	# print("click_sure_btn....")
 
-	# 自动公告点击确定
+	# 弹出公告自动点击确定
 	for tab_index in range(0,1):
 		adb_controller.screenshot(settings.screenshot_path)
+		# 弹框可被拖动，所以不指定区域
 		match_loc = image_processor.match_template(
 			settings.screenshot_path,r"template_images/btn_sure.png",0.05)
 		if(match_loc != None):
+			print("检测到弹框确定按钮，自动关闭....")
 			adb_controller.click(match_loc)
 		else:
 			time.sleep(0.001)

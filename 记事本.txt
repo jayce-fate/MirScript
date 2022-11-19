@@ -1,8 +1,3 @@
-
-怪物列表关闭等按钮识别区域缩小 image_processor.match_template
-
-停在目标列表，NPC选项时，“怪物”按钮未能识别
-
 使用全局变量，简化settings
 
 打印去掉多余英文，只留提示性中文

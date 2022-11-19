@@ -10,7 +10,7 @@ import settings
 
 # 图片匹配
 def match_template(target_path,template_path,threshold = 0.05,scope = None):
-	print("ImageProcessor: start to match "+target_path+" by "+template_path)
+	# print("ImageProcessor: start to match "+target_path+" by "+template_path)
 
 	# 读取目标图片
 	target = cv2.imread(target_path)
@@ -42,13 +42,13 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None):
 	# cv2.imshow("MatchResult-----MatchingValue="+strmin_val,target)
 	# cv2.waitKey()
 
-	print("ImageProcessor: best match value :"+str(min_val)+"   match location:"+str(min_loc[0])+" "+str(min_loc[1]))
+	# print("ImageProcessor: best match value :"+str(min_val)+"   match location:"+str(min_loc[0])+" "+str(min_loc[1]))
 
 	if(min_val > threshold):
-		print("ImageProcessor: match failed")
+		# print("ImageProcessor: match failed")
 		return None
-	else:
-		print("ImageProcessor: match succeeded")
+	# else:
+		# print("ImageProcessor: match succeeded scope: (" + str(min_loc[1]) + "," + str(min_loc[1] + theight) + "," + str(min_loc[0]) + "," + str(min_loc[0] + twidth) + ")")
 
 	if(scope != None):
 		min_loc = (min_loc[0] + scope[2],min_loc[1] + scope[0])
