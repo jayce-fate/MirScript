@@ -10,8 +10,8 @@ package_name = "com.abc.def"
 # 截屏保存路径
 screenshot_path = r"temp_screenshot/screenshot.png"
 
-# 检查屏幕是否有怪间隔时间（距离上次移动）
-move_check_time = 60
+# 检查屏幕是否有怪间隔时间（距离上次移动），单位秒
+move_check_time = 40
 
 
 ########### 练级路径 ###########

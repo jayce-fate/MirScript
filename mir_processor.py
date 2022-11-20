@@ -30,7 +30,9 @@ def check_exp_getting():
 	print("经过{}秒,当前经验值: {}".format(sleep_time, str(end_exp)))
 
 	# 经验读取失败，默认经验仍在增加，偏向于不移动(等过check_exp_getting的时间无怪再移动)
-	if start_exp == None or end_exp == None or end_exp - start_exp > 0:
+	cha = end_exp - start_exp
+	print("{} - {} =  {}".format(str(end_exp), str(start_exp), str(cha)))
+	if start_exp == None or end_exp == None or cha > 0:
 		return True
 	else:
 		return False
@@ -47,7 +49,7 @@ def get_current_coordinate():
 
 	if coordinate == None:
 		print("当前坐标获取失败，可能游戏中断")
-		return globals.current_x, globals.current_y
+		# 重启游戏
 
 	if len(coordinate) != 2:
 		return get_current_coordinate_after_adjust()
@@ -181,9 +183,13 @@ def start_get_exp(cave_path):
 	while(True):
 		#检查等级，等级等于29且未拜师，停止练级
 		lv = game_controller.read_lv_text()
-		if (lv == 29) and (not game_controller.already_has_master()):
-			print("达到29级，请先去拜师，练级结束")
-			return
+		if (lv >= 26) and (not game_controller.already_has_master()):
+			print("等级已达到26级，请先去拜师!!!")
+			print("等级已达到26级，请先去拜师!!!")
+			print("等级已达到26级，请先去拜师!!!")
+			if (lv == 29):
+				print("达到29级，请先去拜师，练级结束")
+				return
 
 		#消除系统确定消息框
 		game_controller.click_sure_btn()
@@ -192,7 +198,7 @@ def start_get_exp(cave_path):
 			print("经验有增加")
 			if time.time() - last_move_time > settings.move_check_time:
 				if not check_monster_reachable():
-					print("距离上次移动已达1分钟，检查当前屏幕无怪，去下一个点")
+					print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
 					go_to_next_point(cave_path)
 					last_move_time = time.time()
 		else:
@@ -214,10 +220,10 @@ def start_get_exp_at_centipede_cave():
 
 
 # 僵尸洞
-# start_get_exp_at_zombie_cave()
+start_get_exp_at_zombie_cave()
 
 # 蜈蚣洞-生死之间
-start_get_exp_at_centipede_cave()
+# start_get_exp_at_centipede_cave()
 
 
 # ******************************************
@@ -227,7 +233,7 @@ start_get_exp_at_centipede_cave()
 # image_processor.show_hsv_tool(settings.screenshot_path, (450,482,742,918))
 
 # adb_controller.screenshot(settings.screenshot_path)
-# game_controller.click_sure_btn()
+# game_controller.open_or_close_map()
 
 
 

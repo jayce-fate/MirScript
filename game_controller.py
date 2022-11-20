@@ -136,7 +136,10 @@ def close_target_list():
 
 def open_or_close_map():
 	# print("open_or_close_map....")
-	adb_controller.click((1432, 4))
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/map_bar.png",0.05,(0,41,1636,1664))
+	if(match_loc != None):
+		adb_controller.click(match_loc)
 
 def read_coordinate_text():
 	adb_controller.screenshot(settings.screenshot_path)
@@ -162,7 +165,7 @@ def read_lv_text():
 		re_text = re.findall(r'\d+', re_text)
 		if(len(re_text) != 0):
 			print("当前等级: {}".format(str(re_text[0])))
-			return re_text[0]
+			return int(re_text[0])
 		else:
 			return -1
 

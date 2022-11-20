@@ -48,7 +48,7 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None):
 		# print("ImageProcessor: match failed")
 		return None
 	# else:
-		# print("ImageProcessor: match succeeded scope: (" + str(min_loc[1]) + "," + str(min_loc[1] + theight) + "," + str(min_loc[0]) + "," + str(min_loc[0] + twidth) + ")")
+	# 	print("ImageProcessor: match succeeded scope: (" + str(min_loc[1]) + "," + str(min_loc[1] + theight) + "," + str(min_loc[0]) + "," + str(min_loc[0] + twidth) + ")")
 
 	if(scope != None):
 		min_loc = (min_loc[0] + scope[2],min_loc[1] + scope[0])
