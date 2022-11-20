@@ -236,6 +236,61 @@ def click_sure_btn():
 			time.sleep(0.001)
 
 
+# 计算间距为一步的路径
+def to_each_step_path(path):
+	step_path = []
+
+	path_len = len(path)
+	if path_len < 1:
+		return path
+	step_path.append(path[0])
+	for index in range(1, path_len):
+		from_pos =  path[index - 1]
+		to_pos =  path[index]
+		# print(from_point)
+		move_x = to_pos[0] - from_pos[0]
+		move_y = to_pos[1] - from_pos[1]
+
+		abs_move_x = abs(move_x)
+		abs_move_y = abs(move_y)
+
+		# 斜方向移动步数
+		oblique_move_count = abs_move_x
+		# 总移动步数
+		total_move_count = abs_move_y
+		if abs_move_x != 0 and abs_move_y != 0:
+			if abs_move_y < abs_move_x:
+				oblique_move_count = abs_move_y
+				total_move_count = abs_move_x
+		elif abs_move_x == 0:
+			oblique_move_count = abs_move_y
+			total_move_count = abs_move_y
+		elif abs_move_y == 0:
+			oblique_move_count = abs_move_x
+			total_move_count = abs_move_x
+
+		one_step_x = 0
+		if abs_move_x != 0:
+			one_step_x = (int)(move_x / abs_move_x)
+		one_step_y = 0
+		if abs_move_y != 0:
+			one_step_y = (int)(move_y / abs_move_y)
+		for i in range(0, total_move_count):
+			if i < oblique_move_count:
+				mid_pos = (from_pos[0] + one_step_x * (i + 1), from_pos[1] + one_step_y * (i + 1))
+				step_path.append(mid_pos)
+			elif abs_move_y < abs_move_x:
+				mid_pos = (from_pos[0] + one_step_x * (i + 1), from_pos[1] + one_step_y * oblique_move_count)
+				step_path.append(mid_pos)
+			elif abs_move_y > abs_move_x:
+				mid_pos = (from_pos[0] + one_step_x * oblique_move_count, from_pos[1] + one_step_y * (i + 1))
+				step_path.append(mid_pos)
+
+	# for index in range(0, len(step_path)):
+	# 	print(step_path[index])
+	return step_path
+
+
 def move_from_to(from_pos, to_pos):
 	print("初始位置: {}".format(str(from_pos)))
 	print("目标位置: {}".format(str(to_pos)))
@@ -324,6 +379,86 @@ def move_from_to(from_pos, to_pos):
 
 	if to_pos[0] - updated_from_pos[0] != 0 or to_pos[1] - updated_from_pos[1] != 0:
 		move_from_to(tuple(updated_from_pos), to_pos)
+	else:
+		settings.expect_current_x = to_pos[0]
+		settings.expect_current_y = to_pos[1]
+
+def move_by_path(path):
+	move_path = path.copy()
+	print("move_by_path")
+	if move_path == None:
+		return
+
+	path_length = len(move_path)
+	if path_length < 2:
+		return
+
+	from_pos = move_path[0]
+	to_pos = move_path[1]
+	if path_length > 2:
+		third_pos = move_path[2]
+		line_x = from_pos[0] + third_pos[0] == 2 * to_pos[0]
+		line_y = from_pos[1] + third_pos[1] == 2 * to_pos[1]
+		if line_x and line_y:
+			to_pos = third_pos
+
+	print("初始位置: {}".format(str(from_pos)))
+	print("目标位置: {}".format(str(to_pos)))
+
+	move_x = to_pos[0] - from_pos[0]
+	move_y = to_pos[1] - from_pos[1]
+
+	by_run = to_pos != move_path[1]
+	print("to_pos: {}".format(str(to_pos)))
+	print("move_path[1]: {}".format(str(move_path[1])))
+	print("by_run: {}".format(str(by_run)))
+	if move_x > 0 and move_y > 0:
+		if by_run:
+			one_step_run_right_down()
+		else:
+			one_step_walk_right_down()
+	elif move_x > 0 and move_y < 0:
+		if by_run:
+			one_step_run_right_up()
+		else:
+			one_step_walk_right_up()
+	elif move_x < 0 and move_y > 0:
+		if by_run:
+			one_step_run_left_down()
+		else:
+			one_step_walk_left_down()
+	elif move_x < 0 and move_y < 0:
+		if by_run:
+			one_step_run_left_up()
+		else:
+			one_step_walk_left_up()
+	elif move_x > 0 and move_y == 0:
+		if by_run:
+			one_step_run_right()
+		else:
+			one_step_walk_right()
+	elif move_x < 0 and move_y == 0:
+		if by_run:
+			one_step_run_left()
+		else:
+			one_step_walk_left()
+	elif move_x == 0 and move_y > 0:
+		if by_run:
+			one_step_run_down()
+		else:
+			one_step_walk_down()
+	elif move_x == 0 and move_y < 0:
+		if by_run:
+			one_step_run_up()
+		else:
+			one_step_walk_up()
+
+	del(move_path[0])
+	if by_run:
+		del(move_path[0])
+
+	if len(move_path) >= 2:
+		move_by_path(move_path)
 	else:
 		settings.expect_current_x = to_pos[0]
 		settings.expect_current_y = to_pos[1]

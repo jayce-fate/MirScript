@@ -164,7 +164,7 @@ def go_to_next_point(cave_path):
 	# print("go_to_next_point path_index : {}".format(str(globals.current_path_index)))
 
 	path_len = len(cave_path)
-	globals.current_path_index = (globals.current_path_index + 1) % path_len
+	globals.current_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
 	move_to_index_of_path(globals.current_path_index, cave_path)
 
 	if not check_monster_reachable():
@@ -176,10 +176,10 @@ def move_to_index_of_path(path_index,path):
 	current_x = globals.current_x
 	current_y = globals.current_y
 	# 最大尝试次数
-	move_limit = settings.move_limit
+	move_retry_limit = settings.move_retry_limit
 	while current_x != target_pos[0] or current_y != target_pos[1]:
-		if move_limit > 0:
-			move_limit = move_limit - 1
+		if move_retry_limit > 0:
+			move_retry_limit = move_retry_limit - 1
 			game_controller.move_from_to((current_x, current_y), target_pos)
 			time.sleep(1.0)
 			current_x, current_y = get_current_coordinate()
@@ -196,6 +196,9 @@ def start_get_exp():
 		print("程序结束")
 		return
 
+	# 转换为单步路径
+	# cave_path = game_controller.to_each_step_path(cave_path)
+
 	try:
 	    #前往距离最近的路径点
 		globals.current_path_index = get_nearest_pos_index(cave_path)
@@ -203,6 +206,9 @@ def start_get_exp():
 		last_move_time = time.time()
 
 		while(True):
+			#消除系统确定消息框
+			game_controller.click_sure_btn()
+
 			#检查等级，等级等于29且未拜师，停止练级
 			lv = game_controller.read_lv_text()
 			if (lv >= 26) and (not game_controller.already_has_master()):
@@ -212,9 +218,6 @@ def start_get_exp():
 				if (lv == 29):
 					print("达到29级，请先去拜师，练级结束")
 					return
-
-			#消除系统确定消息框
-			game_controller.click_sure_btn()
 
 			if check_exp_getting():
 				print("经验有增加")
@@ -243,18 +246,6 @@ start_get_exp()
 # ******************************************
 
 # image_processor.show_hsv_tool(settings.screenshot_path)
-
-# game_controller.open_or_close_map()
-# match_loc = image_processor.match_template(
-# 	settings.screenshot_path,r"template_images/screenshot.png",0.05)
-# game_controller.read_map_name()
-
 # adb_controller.screenshot(settings.screenshot_path)
-# lv = game_controller.read_lv_text()
-# if (lv >= 26) and (not game_controller.already_has_master()):
-# 	print("等级已达到26级，请先去拜师!!!")
-# 	print("等级已达到26级，请先去拜师!!!")
-# 	print("等级已达到26级，请先去拜师!!!")
-# 	if (lv == 29):
-# 		print("达到29级，请先去拜师，练级结束")
+# game_controller.move_by_path(game_controller.to_each_step_path(settings.test_path))
 
