@@ -13,6 +13,8 @@ screenshot_path = r"temp_screenshot/screenshot.png"
 # 检查屏幕是否有怪间隔时间（距离上次移动），单位秒
 move_check_time = 40
 
+# 读取当前坐标失败，尝试重新读取最大次数
+read_coordinate_fail_limit = 60
 
 ########### 练级路径 ###########
 # 僵尸洞二层路径

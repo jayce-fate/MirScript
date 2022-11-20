@@ -40,7 +40,7 @@ def check_exp_getting():
 def get_current_coordinate():
 	coordinate = game_controller.read_coordinate_text()
 	if coordinate == None:
-		 print("当前坐标获取失败，可能地图被收起")
+		 print("当前坐标获取失败，可能地图被收起，尝试再次开关地图")
 		 # 尝试点击地图开关
 		 game_controller.open_or_close_map()
 		 time.sleep(0.2)
@@ -48,12 +48,20 @@ def get_current_coordinate():
 		 coordinate = game_controller.read_coordinate_text()
 
 	if coordinate == None:
-		print("当前坐标获取失败，可能游戏中断")
-		# 重启游戏
+		print("当前坐标获取失败，可能背包被打开，小地图被遮挡，或者游戏中断")
+		if globals.read_coordinate_fail_remain > 0:
+			globals.read_coordinate_fail_remain = globals.read_coordinate_fail_remain - 1
+			print("尝试重新读取坐标，剩余次数:{}".format(str(globals.read_coordinate_fail_remain)))
+			time.sleep(1.0)
+			return get_current_coordinate()
+		else:
+			print("已达最大重试次数，尝试重启游戏")
+			raise SystemExit("RESTART")
 
 	if len(coordinate) != 2:
 		return get_current_coordinate_after_adjust()
 	else:
+		globals.read_coordinate_fail_remain = settings.read_coordinate_fail_limit
 		current_x = int(coordinate[0].replace(".",""))
 		current_y = int(coordinate[1])
 		print("当前坐标: {},{}".format(str(current_x), str(current_y)))
@@ -175,38 +183,42 @@ def move_to_index_of_path(path_index,path):
 
 def start_get_exp(cave_path):
 	print("开始练级")
-	#前往距离最近的路径点
-	globals.current_path_index = get_nearest_pos_index(cave_path)
-	move_to_index_of_path(globals.current_path_index, cave_path)
-	last_move_time = time.time()
+	try:
+	    #前往距离最近的路径点
+		globals.current_path_index = get_nearest_pos_index(cave_path)
+		move_to_index_of_path(globals.current_path_index, cave_path)
+		last_move_time = time.time()
 
-	while(True):
-		#检查等级，等级等于29且未拜师，停止练级
-		lv = game_controller.read_lv_text()
-		if (lv >= 26) and (not game_controller.already_has_master()):
-			print("等级已达到26级，请先去拜师!!!")
-			print("等级已达到26级，请先去拜师!!!")
-			print("等级已达到26级，请先去拜师!!!")
-			if (lv == 29):
-				print("达到29级，请先去拜师，练级结束")
-				return
+		while(True):
+			#检查等级，等级等于29且未拜师，停止练级
+			lv = game_controller.read_lv_text()
+			if (lv >= 26) and (not game_controller.already_has_master()):
+				print("等级已达到26级，请先去拜师!!!")
+				print("等级已达到26级，请先去拜师!!!")
+				print("等级已达到26级，请先去拜师!!!")
+				if (lv == 29):
+					print("达到29级，请先去拜师，练级结束")
+					return
 
-		#消除系统确定消息框
-		game_controller.click_sure_btn()
+			#消除系统确定消息框
+			game_controller.click_sure_btn()
 
-		if check_exp_getting():
-			print("经验有增加")
-			if time.time() - last_move_time > settings.move_check_time:
-				if not check_monster_reachable():
-					print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
-					go_to_next_point(cave_path)
-					last_move_time = time.time()
-		else:
-			print("经验没增加，去下一个点")
-			#移动到下一个点
-			go_to_next_point(cave_path)
-			last_move_time = time.time()
-
+			if check_exp_getting():
+				print("经验有增加")
+				if time.time() - last_move_time > settings.move_check_time:
+					if not check_monster_reachable():
+						print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
+						go_to_next_point(cave_path)
+						last_move_time = time.time()
+			else:
+				print("经验没增加，去下一个点")
+				#移动到下一个点
+				go_to_next_point(cave_path)
+				last_move_time = time.time()
+	except SystemExit as err:
+		if err.args[0] == "RESTART":
+			print("重启游戏")
+			# start_get_exp_at_zombie_cave()
 
 
 def start_get_exp_at_zombie_cave():
@@ -234,6 +246,7 @@ start_get_exp_at_zombie_cave()
 
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.open_or_close_map()
+
 
 
 

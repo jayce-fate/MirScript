@@ -1,3 +1,4 @@
+import settings
 ########### 全局变量 ###########
 
 # 当前位置读取出错调整次数累计
@@ -15,3 +16,6 @@ expect_current_y = 0
 
 # 期望路径序号
 current_path_index = 0
+
+# 读取当前坐标失败，尝试重新读取剩余次数
+read_coordinate_fail_remain = settings.read_coordinate_fail_limit
