@@ -188,8 +188,14 @@ def move_to_index_of_path(path_index,path):
 			raise SystemExit("RESTART")
 
 
-def start_get_exp(cave_path):
+def start_get_exp():
 	print("开始练级")
+
+	cave_path = game_controller.get_map_path()
+	if len(cave_path) == 0:
+		print("程序结束")
+		return
+
 	try:
 	    #前往距离最近的路径点
 		globals.current_path_index = get_nearest_pos_index(cave_path)
@@ -228,32 +234,27 @@ def start_get_exp(cave_path):
 			# start_get_exp_at_zombie_cave()
 
 
-def start_get_exp_at_zombie_cave():
-	start_get_exp(settings.zombie_cave_path)
-
-
-def start_get_exp_at_centipede_cave():
-	start_get_exp(settings.centipede_cave_path)
-
-
-
-
-# 僵尸洞
-start_get_exp_at_zombie_cave()
-
-# 蜈蚣洞-生死之间
-# start_get_exp_at_centipede_cave()
+# 练级
+start_get_exp()
 
 
 # ******************************************
 # test
 # ******************************************
 
-# image_processor.show_hsv_tool(settings.screenshot_path, (450,482,742,918))
+# image_processor.show_hsv_tool(settings.screenshot_path)
+
+# game_controller.open_or_close_map()
+# match_loc = image_processor.match_template(
+# 	settings.screenshot_path,r"template_images/screenshot.png",0.05)
+# game_controller.read_map_name()
 
 # adb_controller.screenshot(settings.screenshot_path)
-# game_controller.open_or_close_map()
-
-
-
+# lv = game_controller.read_lv_text()
+# if (lv >= 26) and (not game_controller.already_has_master()):
+# 	print("等级已达到26级，请先去拜师!!!")
+# 	print("等级已达到26级，请先去拜师!!!")
+# 	print("等级已达到26级，请先去拜师!!!")
+# 	if (lv == 29):
+# 		print("达到29级，请先去拜师，练级结束")
 

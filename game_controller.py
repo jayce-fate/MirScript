@@ -178,6 +178,7 @@ def already_has_master():
 		re_text = reline[1].replace(" ","")
 		print("我的名字: {}".format(str(re_text)))
 		if "徒" in re_text or "的" in re_text or "弟" in re_text:
+			print("当前已拜师")
 			return True
 	return False
 
@@ -196,6 +197,28 @@ def read_current_exp():
 			for index in range(0,len(digit_array)):
 				return float(digit_array[index])
 	return None
+
+def read_map_name():
+	# 等级颜色米色参数
+	lower_color = [0,0,130]
+	upper_color = [179,169,255]
+	result = image_processor.easyocr_read_cn(settings.screenshot_path,(4,41,1355,1662),lower_color,upper_color)
+	for reline in result:
+		re_text = reline[1].replace(" ","")
+		print("地图名称: {}".format(re_text))
+		return re_text
+
+def get_map_path():
+	adb_controller.screenshot(settings.screenshot_path)
+	map_name = read_map_name()
+	cave_path = []
+	if map_name == "废矿东部":
+		cave_path = settings.zombie_cave_path
+	elif map_name == "生死之间":
+		cave_path = settings.centipede_cave_path
+	else:
+		print("当前地图:{} 未设置挂机路径".format(map_name))
+	return cave_path
 
 def click_sure_btn():
 	# print("click_sure_btn....")
