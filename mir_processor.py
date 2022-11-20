@@ -175,10 +175,17 @@ def move_to_index_of_path(path_index,path):
 	# print("target_pos: {}".format(str(target_pos)))
 	current_x = globals.current_x
 	current_y = globals.current_y
+	# 最大尝试次数
+	move_limit = settings.move_limit
 	while current_x != target_pos[0] or current_y != target_pos[1]:
-		game_controller.move_from_to((current_x, current_y), target_pos)
-		time.sleep(1.0)
-		current_x, current_y = get_current_coordinate()
+		if move_limit > 0:
+			move_limit = move_limit - 1
+			game_controller.move_from_to((current_x, current_y), target_pos)
+			time.sleep(1.0)
+			current_x, current_y = get_current_coordinate()
+		else:
+			print("已达最大重试次数，尝试重启游戏")
+			raise SystemExit("RESTART")
 
 
 def start_get_exp(cave_path):
