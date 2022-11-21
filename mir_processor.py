@@ -211,7 +211,7 @@ def start_get_exp():
 
 			#检查等级，等级等于29且未拜师，停止练级
 			lv = game_controller.read_lv_text()
-			if (lv >= 26) and (not game_controller.already_has_master()):
+			if (lv >= 26 and lv <= 29) and (not game_controller.already_has_master()):
 				print("等级已达到26级，请先去拜师!!!")
 				print("等级已达到26级，请先去拜师!!!")
 				print("等级已达到26级，请先去拜师!!!")
