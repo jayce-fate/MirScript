@@ -177,9 +177,10 @@ def already_has_master():
 	for reline in result:
 		re_text = reline[1].replace(" ","")
 		print("我的名字: {}".format(str(re_text)))
-		if "徒" in re_text or "的" in re_text or "弟" in re_text:
+		if "徒" in re_text or "弟" in re_text or "[" in re_text or "]" in re_text:
 			print("当前已拜师")
 			return True
+	print("当前未拜师")
 	return False
 
 def read_current_exp():

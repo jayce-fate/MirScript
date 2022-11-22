@@ -215,9 +215,19 @@ def start_get_exp():
 				print("等级已达到26级，请先去拜师!!!")
 				print("等级已达到26级，请先去拜师!!!")
 				print("等级已达到26级，请先去拜师!!!")
+				print("等级已达到26级，请先去拜师!!!")
+				print("等级已达到26级，请先去拜师!!!")
+				print("等级已达到26级，请先去拜师!!!")
+				print("等级已达到26级，请先去拜师!!!")
+				print("等级已达到26级，请先去拜师!!!")
+				print("等级已达到26级，请先去拜师!!!")
 				if (lv == 29):
-					print("达到29级，请先去拜师，练级结束")
-					return
+					if globals.check_has_master_fail_remain > 0:
+						globals.check_has_master_fail_remain = globals.check_has_master_fail_remain - 1
+						print("达到29级，请先去拜师，再提示{}次将结束本程序".format(str(globals.read_coordinate_fail_remain)))
+					else:
+						print("达到29级，请先去拜师，练级结束")
+						return
 
 			if check_exp_getting():
 				print("经验有增加")
