@@ -244,7 +244,8 @@ def start_get_exp():
 	except SystemExit as err:
 		if err.args[0] == "RESTART":
 			print("重启游戏")
-			# start_get_exp_at_zombie_cave()
+			game_controller.restart_game()
+			start_get_exp()
 
 
 # 练级
@@ -258,4 +259,5 @@ start_get_exp()
 # image_processor.show_hsv_tool(settings.screenshot_path)
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.move_by_path(game_controller.to_each_step_path(settings.test_path))
+
 

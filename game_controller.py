@@ -463,3 +463,36 @@ def move_by_path(path):
 	else:
 		settings.expect_current_x = to_pos[0]
 		settings.expect_current_y = to_pos[1]
+
+
+def wait_till_match_any(template_path,threshold,max_time,step_time,scope = None):
+	print("Start to wait till match screenshot by any "+str(template_path)+" for up to "+str(max_time)+" seconds  ....")
+	time_start = time.time()
+	match_loc = None
+	while(True):
+		adb_controller.screenshot(settings.screenshot_path)
+		match_loc = image_processor.match_template(
+			settings.screenshot_path,template_path,threshold,scope = scope)
+		if(match_loc != None):
+			return match_loc
+		if(time.time() - time_start > max_time):
+			print("Reach max_time but failed to match")
+			return None
+		time.sleep(step_time)
+	return None
+
+def wait_to_match_and_click(template_path,threshold,max_time,step_time,scope = None):
+	match_loc = wait_till_match_any(template_path,threshold,max_time,step_time,scope = scope)
+	if(match_loc == None):
+		print("Cannot find "+str(template_path))
+		return False
+	adb_controller.click(match_loc)
+	return True
+
+
+def restart_game():
+	adb_controller.stop_app()
+	adb_controller.start_app()
+	wait_to_match_and_click(r"template_images/btn_login.png",0.05,60,1,(706,779,737,930))
+	wait_to_match_and_click(r"template_images/btn_close_pet_list.png",0.05,60,1,(144,175,359,386))
+	wait_to_match_and_click(r"template_images/btn_active_pet.png",0.05,60,1,(43,83,453,516))
