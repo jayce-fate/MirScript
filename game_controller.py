@@ -481,6 +481,7 @@ def wait_till_match_any(template_path,threshold,max_time,step_time,scope = None)
 		time.sleep(step_time)
 	return None
 
+
 def wait_to_match_and_click(template_path,threshold,max_time,step_time,scope = None):
 	match_loc = wait_till_match_any(template_path,threshold,max_time,step_time,scope = scope)
 	if(match_loc == None):

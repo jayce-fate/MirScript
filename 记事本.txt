@@ -1,4 +1,4 @@
-多开？ https://blog.csdn.net/newlw/article/details/123043166
+
 
 寻路优化，设置步长参数
 0,0  1,2
@@ -13,6 +13,7 @@
 
 自动捡金币、元宝
 
+多开？ https://blog.csdn.net/newlw/article/details/123043166 (好像走不通，使用不同模拟器得重新截图)
 
 
 13657286696

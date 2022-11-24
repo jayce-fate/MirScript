@@ -252,5 +252,7 @@ start_get_exp()
 # image_processor.show_hsv_tool(settings.screenshot_path)
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.move_by_path(game_controller.to_each_step_path(settings.test_path))
-
+# adb_controller.start_app()
+# adb_controller.screenshot(settings.screenshot_path)
+# adb_controller.stop_app()
 

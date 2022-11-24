@@ -1,3 +1,10 @@
+# 包名activity查看方法
+# win: adb shell dumpsys window | findstr mCurrentFocus
+# mac: adb shell dumpsys window | grep mCurrentFocus
+# 获取UserId
+# win: adb shell ps | findstr air.com.PaladinOfMarphaNew
+# mac: adb shell ps | grep air.com.PaladinOfMarphaNew
+
 # adb.exe 的路径，模拟器安装路径下的bin文件夹里面有
 adb_path = "/Applications/NemuPlayer.app/Contents/MacOS/adb"
 
@@ -9,6 +16,9 @@ package_name = "air.com.PaladinOfMarphaNew"
 
 # 包启动activity
 package_activity = "AppEntry"
+
+# 获取UserId, mumu 原生 0, #N1 10, #N2 11, #N3 12, #N4 13
+package_UserId = "0"
 
 # 截屏保存路径
 screenshot_path = r"temp_screenshot/screenshot.png"
