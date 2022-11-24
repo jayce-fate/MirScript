@@ -4,8 +4,11 @@ adb_path = "/Applications/NemuPlayer.app/Contents/MacOS/adb"
 # 模拟器的地址
 device_address = "emulator-5554"
 
-# 包名, 获取方式:/Applications/android-sdk/build-tools/30.0.3/aapt dump badging path_of_apk
+# 包名
 package_name = "air.com.PaladinOfMarphaNew"
+
+# 包启动activity
+package_activity = "AppEntry"
 
 # 截屏保存路径
 screenshot_path = r"temp_screenshot/screenshot.png"

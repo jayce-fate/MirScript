@@ -22,12 +22,12 @@ def swipe(from_loc,to_loc,use_time):
 
 # 关闭app
 def stop_app():
-	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell am force-stop "+settings.package_name)
+	os.system("\"" + settings.adb_path + "\"" + " -s " + settings.device_address + " shell am force-stop " + settings.package_name)
 	time.sleep(1)
 
 # 启动app
 def start_app():
-	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell am start -n "+settings.package_name + "/.AppEntry")
+	os.system("\"" + settings.adb_path + "\"" + " -s " + settings.device_address + " shell am start -n " + settings.package_name + "/." + settings.package_activity)
 	time.sleep(1)
 
 # 点击操作
