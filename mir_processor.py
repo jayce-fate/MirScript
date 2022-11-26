@@ -61,6 +61,7 @@ def get_current_coordinate():
 	if len(coordinate) != 2:
 		return get_current_coordinate_after_adjust()
 	else:
+		# 重置最大失败重试次数
 		globals.read_coordinate_fail_remain = settings.read_coordinate_fail_limit
 		current_x = int(coordinate[0].replace(".",""))
 		current_y = int(coordinate[1])
@@ -140,7 +141,6 @@ def get_current_coordinate_after_adjust():
 
 
 def get_nearest_pos_index(cave_path):
-	# print("get_nearest_pos_index")
 	current_x, current_y = get_current_coordinate()
 
 	path_len = len(cave_path)
@@ -160,19 +160,15 @@ def get_nearest_pos_index(cave_path):
 	print("最近坐标序号: {}".format(str(nearest_index)))
 	return nearest_index
 
-def go_to_next_point(cave_path):
-	# print("go_to_next_point path_index : {}".format(str(globals.current_path_index)))
+# 转换为每步路径移动
+def step_go_to_point(target_pos):
+	# 当前移动路径
+	step_path = [(globals.current_x, globals.current_y)]
+	step_path.append(target_pos)
+	step_path = game_controller.to_each_step_path(step_path)
+	print("step_path: {}".format(str(step_path)))
+	game_controller.move_by_path(step_path)
 
-	path_len = len(cave_path)
-	globals.current_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
-	move_to_index_of_path(globals.current_path_index, cave_path)
-
-	if not check_monster_reachable():
-		go_to_next_point(cave_path)
-
-def move_to_index_of_path(path_index,path):
-	target_pos = path[path_index]
-	# print("target_pos: {}".format(str(target_pos)))
 	current_x = globals.current_x
 	current_y = globals.current_y
 	# 最大尝试次数
@@ -180,12 +176,52 @@ def move_to_index_of_path(path_index,path):
 	while current_x != target_pos[0] or current_y != target_pos[1]:
 		if move_retry_limit > 0:
 			move_retry_limit = move_retry_limit - 1
-			game_controller.move_from_to((current_x, current_y), target_pos)
+
+			# 当前移动路径
+			step_path = [(current_x, current_y)]
+			step_path.append(target_pos)
+			step_path = game_controller.to_each_step_path(step_path)
+			print("step_path: {}".format(str(step_path)))
+			game_controller.move_by_path(step_path)
+
 			time.sleep(1.0)
 			current_x, current_y = get_current_coordinate()
 		else:
 			print("已达最大重试次数，尝试重启游戏")
 			raise SystemExit("RESTART")
+
+# 移动到最近的路径点
+def go_to_the_nearest_path_point(cave_path):
+	# 最近路径坐标序号
+	globals.current_path_index = get_nearest_pos_index(cave_path)
+	# 最近路径坐标点
+	target_pos = cave_path[globals.current_path_index]
+	step_go_to_point(target_pos)
+
+def go_to_next_point(cave_path):
+	path_len = len(cave_path)
+	globals.current_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
+	move_to_index_of_path(globals.current_path_index, cave_path)
+
+	if not check_monster_reachable():
+		go_to_next_point(cave_path)
+
+# def move_to_index_of_path(path_index,path):
+# 	target_pos = path[path_index]
+# 	# print("target_pos: {}".format(str(target_pos)))
+# 	current_x = globals.current_x
+# 	current_y = globals.current_y
+# 	# 最大尝试次数
+# 	move_retry_limit = settings.move_retry_limit
+# 	while current_x != target_pos[0] or current_y != target_pos[1]:
+# 		if move_retry_limit > 0:
+# 			move_retry_limit = move_retry_limit - 1
+# 			game_controller.move_from_to((current_x, current_y), target_pos)
+# 			time.sleep(1.0)
+# 			current_x, current_y = get_current_coordinate()
+# 		else:
+# 			print("已达最大重试次数，尝试重启游戏")
+# 			raise SystemExit("RESTART")
 
 
 def start_get_exp():
@@ -197,12 +233,13 @@ def start_get_exp():
 		return
 
 	# 转换为单步路径
-	# cave_path = game_controller.to_each_step_path(cave_path)
+	cave_path = game_controller.to_each_step_path(cave_path)
 
 	try:
 	    #前往距离最近的路径点
-		globals.current_path_index = get_nearest_pos_index(cave_path)
-		move_to_index_of_path(globals.current_path_index, cave_path)
+		# globals.current_path_index = get_nearest_pos_index(cave_path)
+		# move_to_index_of_path(globals.current_path_index, cave_path)
+		go_to_the_nearest_path_point(cave_path)
 		last_move_time = time.time()
 
 		while(True):
@@ -242,7 +279,7 @@ def start_get_exp():
 
 
 # 练级
-start_get_exp()
+# start_get_exp()
 
 
 # ******************************************
@@ -255,4 +292,8 @@ start_get_exp()
 # adb_controller.start_app()
 # adb_controller.screenshot(settings.screenshot_path)
 # adb_controller.stop_app()
+
+# cave_path = game_controller.get_map_path()
+# cave_path = game_controller.to_each_step_path(cave_path)
+# go_to_the_nearest_path_point(cave_path)
 

@@ -18,7 +18,7 @@ package_name = "air.com.PaladinOfMarphaNew"
 package_activity = "AppEntry"
 
 # 获取UserId, mumu 原生 0, #N1 10, #N2 11, #N3 12, #N4 13
-package_UserId = "0"
+package_UserId = "10"
 
 # 截屏保存路径
 screenshot_path = r"temp_screenshot/screenshot.png"

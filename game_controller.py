@@ -292,97 +292,97 @@ def to_each_step_path(path):
 	return step_path
 
 
-def move_from_to(from_pos, to_pos):
-	print("初始位置: {}".format(str(from_pos)))
-	print("目标位置: {}".format(str(to_pos)))
-
-	move_x = to_pos[0] - from_pos[0]
-	move_y = to_pos[1] - from_pos[1]
-
-	abs_move_x = abs(move_x)
-	abs_move_y = abs(move_y)
-
-	move_count = abs_move_x
-	if abs_move_x != 0 and abs_move_y != 0:
-		move_count = abs_move_x
-		if abs_move_y < abs_move_x:
-			move_count = abs_move_y
-	elif abs_move_x == 0:
-		move_count = abs_move_y
-	elif abs_move_y == 0:
-		move_count = abs_move_x
-
-	if move_count > 20:
-		print("invalid move_count: {}, give up".format(str(move_count)))
-		return
-
-	updated_from_pos = list(from_pos)
-	print("begin while move_count: {}".format(str(move_count)))
-	while move_count > 0:
-		print("move_count: {}".format(str(move_count)))
-		step = 1
-		if move_count > 1:
-			step = 2
-
-		if move_x > 0 and move_y > 0:
-			updated_from_pos[0] = updated_from_pos[0] + step
-			updated_from_pos[1] = updated_from_pos[1] + step
-			if step == 2:
-				one_step_run_right_down()
-			else:
-				one_step_walk_right_down()
-		elif move_x > 0 and move_y < 0:
-			updated_from_pos[0] = updated_from_pos[0] + step
-			updated_from_pos[1] = updated_from_pos[1] - step
-			if step == 2:
-				one_step_run_right_up()
-			else:
-				one_step_walk_right_up()
-		elif move_x < 0 and move_y > 0:
-			updated_from_pos[0] = updated_from_pos[0] - step
-			updated_from_pos[1] = updated_from_pos[1] + step
-			if step == 2:
-				one_step_run_left_down()
-			else:
-				one_step_walk_left_down()
-		elif move_x < 0 and move_y < 0:
-			updated_from_pos[0] = updated_from_pos[0] - step
-			updated_from_pos[1] = updated_from_pos[1] - step
-			if step == 2:
-				one_step_run_left_up()
-			else:
-				one_step_walk_left_up()
-		elif move_x > 0 and move_y == 0:
-			updated_from_pos[0] = updated_from_pos[0] + step
-			if step == 2:
-				one_step_run_right()
-			else:
-				one_step_walk_right()
-		elif move_x < 0 and move_y == 0:
-			updated_from_pos[0] = updated_from_pos[0] - step
-			if step == 2:
-				one_step_run_left()
-			else:
-				one_step_walk_left()
-		elif move_x == 0 and move_y > 0:
-			updated_from_pos[1] = updated_from_pos[1] + step
-			if step == 2:
-				one_step_run_down()
-			else:
-				one_step_walk_down()
-		elif move_x == 0 and move_y < 0:
-			updated_from_pos[1] = updated_from_pos[1] - step
-			if step == 2:
-				one_step_run_up()
-			else:
-				one_step_walk_up()
-		move_count = move_count - step
-
-	if to_pos[0] - updated_from_pos[0] != 0 or to_pos[1] - updated_from_pos[1] != 0:
-		move_from_to(tuple(updated_from_pos), to_pos)
-	else:
-		settings.expect_current_x = to_pos[0]
-		settings.expect_current_y = to_pos[1]
+# def move_from_to(from_pos, to_pos):
+# 	print("初始位置: {}".format(str(from_pos)))
+# 	print("目标位置: {}".format(str(to_pos)))
+#
+# 	move_x = to_pos[0] - from_pos[0]
+# 	move_y = to_pos[1] - from_pos[1]
+#
+# 	abs_move_x = abs(move_x)
+# 	abs_move_y = abs(move_y)
+#
+# 	move_count = abs_move_x
+# 	if abs_move_x != 0 and abs_move_y != 0:
+# 		move_count = abs_move_x
+# 		if abs_move_y < abs_move_x:
+# 			move_count = abs_move_y
+# 	elif abs_move_x == 0:
+# 		move_count = abs_move_y
+# 	elif abs_move_y == 0:
+# 		move_count = abs_move_x
+#
+# 	if move_count > 20:
+# 		print("invalid move_count: {}, give up".format(str(move_count)))
+# 		return
+#
+# 	updated_from_pos = list(from_pos)
+# 	print("begin while move_count: {}".format(str(move_count)))
+# 	while move_count > 0:
+# 		print("move_count: {}".format(str(move_count)))
+# 		step = 1
+# 		if move_count > 1:
+# 			step = 2
+#
+# 		if move_x > 0 and move_y > 0:
+# 			updated_from_pos[0] = updated_from_pos[0] + step
+# 			updated_from_pos[1] = updated_from_pos[1] + step
+# 			if step == 2:
+# 				one_step_run_right_down()
+# 			else:
+# 				one_step_walk_right_down()
+# 		elif move_x > 0 and move_y < 0:
+# 			updated_from_pos[0] = updated_from_pos[0] + step
+# 			updated_from_pos[1] = updated_from_pos[1] - step
+# 			if step == 2:
+# 				one_step_run_right_up()
+# 			else:
+# 				one_step_walk_right_up()
+# 		elif move_x < 0 and move_y > 0:
+# 			updated_from_pos[0] = updated_from_pos[0] - step
+# 			updated_from_pos[1] = updated_from_pos[1] + step
+# 			if step == 2:
+# 				one_step_run_left_down()
+# 			else:
+# 				one_step_walk_left_down()
+# 		elif move_x < 0 and move_y < 0:
+# 			updated_from_pos[0] = updated_from_pos[0] - step
+# 			updated_from_pos[1] = updated_from_pos[1] - step
+# 			if step == 2:
+# 				one_step_run_left_up()
+# 			else:
+# 				one_step_walk_left_up()
+# 		elif move_x > 0 and move_y == 0:
+# 			updated_from_pos[0] = updated_from_pos[0] + step
+# 			if step == 2:
+# 				one_step_run_right()
+# 			else:
+# 				one_step_walk_right()
+# 		elif move_x < 0 and move_y == 0:
+# 			updated_from_pos[0] = updated_from_pos[0] - step
+# 			if step == 2:
+# 				one_step_run_left()
+# 			else:
+# 				one_step_walk_left()
+# 		elif move_x == 0 and move_y > 0:
+# 			updated_from_pos[1] = updated_from_pos[1] + step
+# 			if step == 2:
+# 				one_step_run_down()
+# 			else:
+# 				one_step_walk_down()
+# 		elif move_x == 0 and move_y < 0:
+# 			updated_from_pos[1] = updated_from_pos[1] - step
+# 			if step == 2:
+# 				one_step_run_up()
+# 			else:
+# 				one_step_walk_up()
+# 		move_count = move_count - step
+#
+# 	if to_pos[0] - updated_from_pos[0] != 0 or to_pos[1] - updated_from_pos[1] != 0:
+# 		move_from_to(tuple(updated_from_pos), to_pos)
+# 	else:
+# 		settings.expect_current_x = to_pos[0]
+# 		settings.expect_current_y = to_pos[1]
 
 def move_by_path(path):
 	move_path = path.copy()
@@ -409,53 +409,53 @@ def move_by_path(path):
 	move_x = to_pos[0] - from_pos[0]
 	move_y = to_pos[1] - from_pos[1]
 
-	by_run = to_pos != move_path[1]
+	is_runing = to_pos != move_path[1]
 	print("to_pos: {}".format(str(to_pos)))
 	print("move_path[1]: {}".format(str(move_path[1])))
-	print("by_run: {}".format(str(by_run)))
+	print("is_runing: {}".format(str(is_runing)))
 	if move_x > 0 and move_y > 0:
-		if by_run:
+		if is_runing:
 			one_step_run_right_down()
 		else:
 			one_step_walk_right_down()
 	elif move_x > 0 and move_y < 0:
-		if by_run:
+		if is_runing:
 			one_step_run_right_up()
 		else:
 			one_step_walk_right_up()
 	elif move_x < 0 and move_y > 0:
-		if by_run:
+		if is_runing:
 			one_step_run_left_down()
 		else:
 			one_step_walk_left_down()
 	elif move_x < 0 and move_y < 0:
-		if by_run:
+		if is_runing:
 			one_step_run_left_up()
 		else:
 			one_step_walk_left_up()
 	elif move_x > 0 and move_y == 0:
-		if by_run:
+		if is_runing:
 			one_step_run_right()
 		else:
 			one_step_walk_right()
 	elif move_x < 0 and move_y == 0:
-		if by_run:
+		if is_runing:
 			one_step_run_left()
 		else:
 			one_step_walk_left()
 	elif move_x == 0 and move_y > 0:
-		if by_run:
+		if is_runing:
 			one_step_run_down()
 		else:
 			one_step_walk_down()
 	elif move_x == 0 and move_y < 0:
-		if by_run:
+		if is_runing:
 			one_step_run_up()
 		else:
 			one_step_walk_up()
 
 	del(move_path[0])
-	if by_run:
+	if is_runing:
 		del(move_path[0])
 
 	if len(move_path) >= 2:
