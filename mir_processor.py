@@ -30,9 +30,12 @@ def check_exp_getting():
 	print("经过{}秒,当前经验值: {}".format(sleep_time, str(end_exp)))
 
 	# 经验读取失败，默认经验仍在增加，偏向于不移动(等过check_exp_getting的时间无怪再移动)
+	if start_exp == None or end_exp == None:
+		return True
+
 	cha = end_exp - start_exp
 	print("{} - {} =  {}".format(str(end_exp), str(start_exp), str(cha)))
-	if start_exp == None or end_exp == None or cha > 0:
+	if cha > 0:
 		return True
 	else:
 		return False
