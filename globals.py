@@ -18,3 +18,6 @@ read_coordinate_fail_remain = settings.read_coordinate_fail_limit
 
 # 检测未拜师剩余尝试次数
 check_has_master_fail_remain = settings.check_has_master_fail_limit
+
+# 连续走路步数统计（主要是押镖）
+step_count = 0

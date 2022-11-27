@@ -150,26 +150,6 @@ def get_current_coordinate_after_adjust():
 		return settings.expect_current_pos
 
 
-# def get_nearest_pos_index(cave_path):
-# 	current_pos = get_current_coordinate()
-#
-# 	path_len = len(cave_path)
-# 	nearest_pos = (-1, -1)
-#
-# 	for index in range(0,path_len):
-# 		position = cave_path[index]
-# 		# print("position: {}".format(str(position)))
-# 		current_pow = pow((position[0] - current_pos[0]), 2) + pow((position[1] - current_pos[1]), 2)
-# 		# print("current_pow: {}".format(str(current_pow)))
-# 		nearest_pow = pow((nearest_pos[0] - current_pos[0]), 2) + pow((nearest_pos[1] - current_pos[1]), 2)
-# 		# print("nearest_pow: {}".format(str(nearest_pow)))
-# 		if current_pow < nearest_pow:
-# 			nearest_pos = position
-#
-# 	nearest_index = cave_path.index(nearest_pos)
-# 	print("最近坐标序号: {}".format(str(nearest_index)))
-# 	return nearest_index
-
 def get_nearest_pos(cave_path):
 	current_pos = globals.current_pos
 	path_len = len(cave_path)
@@ -188,7 +168,7 @@ def get_nearest_pos(cave_path):
 	return nearest_pos
 
 # 单步路径移动，如果脱离路径，会先到当前路径距离目标路径最近点
-def step_go_by_path(step_path):
+def step_go_by_path(step_path, must_walk = False):
 	print("step_go_by_path: {}".format(str(step_path)))
 	# 目标坐标
 	target_pos = step_path[len(step_path) - 1]
@@ -212,7 +192,7 @@ def step_go_by_path(step_path):
 				step_path = path_to_nearest_pos + step_path
 				# print("step_path:{}".format(str(step_path)))
 
-			game_controller.move_by_path(step_path)
+			game_controller.move_by_path(step_path, must_walk)
 
 			time.sleep(1.0)
 			get_current_coordinate()
@@ -229,6 +209,7 @@ def get_step_path_to(target_pos):
 	return step_path
 
 def go_to_next_point(cave_path):
+	# print("go_to_next_point cave_path:{}".format(str(cave_path)))
 	if globals.current_pos == (0, 0):
 		get_current_coordinate()
 
@@ -236,8 +217,11 @@ def go_to_next_point(cave_path):
 
 	step_path = []
 	if globals.current_pos in cave_path:
+		# print("globals.current_pos in cave_path")
 		globals.current_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
+		# print("globals.current_path_index = {}".format(str(globals.current_path_index)))
 		target_pos = cave_path[globals.current_path_index]
+		# print("target_pos = {}".format(str(target_pos)))
 
 		if globals.current_pos == target_pos:
 			return
@@ -245,13 +229,18 @@ def go_to_next_point(cave_path):
 		step_path = [target_pos]
 		for index in range(0, path_len):
 			path_index = (path_len + globals.current_path_index - 1 - index) % path_len
+			# print("path_index = {}".format(str(path_index)))
 			pos = cave_path[path_index]
 			step_path = [pos] + step_path
+			# print("step_path = {}".format(str(step_path)))
 			if globals.current_pos == pos:
 				break
 	else:
+		# print("globals.current_pos NOT in cave_path")
 		nearest_pos = get_nearest_pos(cave_path)
+		# print("nearest_pos：{}".format(str(nearest_pos)))
 		globals.current_path_index = cave_path.index(nearest_pos)
+		# print("globals.current_path_index{}".format(str(globals.current_path_index)))
 		step_path = get_step_path_to(nearest_pos)
 
 	step_go_by_path(step_path)
@@ -264,14 +253,18 @@ def start_get_exp():
 	print("开始练级")
 
 	cave_path = game_controller.get_map_path()
+	# print("start_get_exp cave_path0:{}".format(str(cave_path)))
 	if len(cave_path) == 0:
 		print("程序结束")
 		return
 
 	# 转换为单步路径
 	cave_path = game_controller.to_each_step_path(cave_path)
+	# print("start_get_exp cave_path1:{}".format(str(cave_path)))
 
 	try:
+		nearest_pos = get_nearest_pos(cave_path)
+		globals.current_path_index = cave_path.index(nearest_pos)
 		last_move_time = 0;
 
 		while(True):
@@ -310,8 +303,23 @@ def start_get_exp():
 			start_get_exp()
 
 
+def start_ya_biao():
+	print("开始押镖")
+	step_path = settings.ya_biao_path
+	# 转换为单步路径
+	step_path = game_controller.to_each_step_path(step_path)
+	try:
+		must_walk = True
+		step_go_by_path(step_path, must_walk)
+	except SystemExit as err:
+		if err.args[0] == "RESTART":
+			print("重启游戏")
+			game_controller.restart_game()
+			start_ya_biao()
+
+
 # 练级
-start_get_exp()
+# start_get_exp()
 
 
 # ******************************************
