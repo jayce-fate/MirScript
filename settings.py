@@ -30,10 +30,10 @@ move_check_time = 40
 read_coordinate_fail_limit = 60
 
 # 最大尝试移动次数
-move_retry_limit = 60
+move_try_limit = 60
 
 # 单次移动距离
-one_time_move_distance = 1
+one_time_move_distance = 8
 
 # 检测未拜师最大尝试次数（容错）
 check_has_master_fail_limit = 10

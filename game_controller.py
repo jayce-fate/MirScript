@@ -461,8 +461,7 @@ def move_by_path(path):
 	if len(move_path) >= 2:
 		move_by_path(move_path)
 	else:
-		settings.expect_current_x = to_pos[0]
-		settings.expect_current_y = to_pos[1]
+		settings.expect_current_pos = (to_pos[0], to_pos[1])
 
 
 def wait_till_match_any(template_path,threshold,max_time,step_time,scope = None):

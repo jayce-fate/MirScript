@@ -61,20 +61,27 @@ def get_current_coordinate():
 	if len(coordinate) != 2:
 		return get_current_coordinate_after_adjust()
 	else:
-		# 重置最大失败重试次数
-		globals.read_coordinate_fail_remain = settings.read_coordinate_fail_limit
-		current_x = int(coordinate[0].replace(".",""))
-		current_y = int(coordinate[1])
-		print("当前坐标: {},{}".format(str(current_x), str(current_y)))
-		if current_x != 0:
-			globals.current_x = current_x
-		if current_y != 0:
-			globals.current_y = current_y
-		return current_x, current_y
+		current_pos = (int(coordinate[0].replace(".","")), int(coordinate[1]))
+		print("当前坐标: {}".format(str(current_pos)))
+		if current_pos[0] != 0 and current_pos[1] != 0:
+			# 重置最大失败重试次数
+			globals.read_coordinate_fail_remain = settings.read_coordinate_fail_limit
+			globals.current_pos = current_pos
+			return current_pos
+		else:
+			if globals.read_coordinate_fail_remain > 0:
+				globals.read_coordinate_fail_remain = globals.read_coordinate_fail_remain - 1
+				print("尝试重新读取坐标，剩余次数:{}".format(str(globals.read_coordinate_fail_remain)))
+				time.sleep(1.0)
+				return get_current_coordinate()
+			else:
+				print("已达最大重试次数，尝试重启游戏")
+				raise SystemExit("RESTART")
+
 
 
 def get_current_coordinate_after_adjust():
-	if settings.expect_current_x == 0 and settings.expect_current_y == 0:
+	if settings.expect_current_pos[0] == 0 and settings.expect_current_pos[1] == 0:
 		adjust_count = globals.adjust_count % 16
 		if adjust_count == 0:
 			game_controller.one_step_walk_left()
@@ -136,92 +143,118 @@ def get_current_coordinate_after_adjust():
 		globals.adjust_count = adjust_count + 1
 		return get_current_coordinate()
 	else:
-		print("use expect current coordinate: {},{}".format(str(settings.expect_current_x), str(settings.expect_current_y)))
-		return settings.expect_current_x, settings.expect_current_y
+		print("use expect current coordinate: {}".format(str(settings.expect_current_pos)))
+		return settings.expect_current_pos
 
 
-def get_nearest_pos_index(cave_path):
-	current_x, current_y = get_current_coordinate()
+# def get_nearest_pos_index(cave_path):
+# 	current_pos = get_current_coordinate()
+#
+# 	path_len = len(cave_path)
+# 	nearest_pos = (-1, -1)
+#
+# 	for index in range(0,path_len):
+# 		position = cave_path[index]
+# 		# print("position: {}".format(str(position)))
+# 		current_pow = pow((position[0] - current_pos[0]), 2) + pow((position[1] - current_pos[1]), 2)
+# 		# print("current_pow: {}".format(str(current_pow)))
+# 		nearest_pow = pow((nearest_pos[0] - current_pos[0]), 2) + pow((nearest_pos[1] - current_pos[1]), 2)
+# 		# print("nearest_pow: {}".format(str(nearest_pow)))
+# 		if current_pow < nearest_pow:
+# 			nearest_pos = position
+#
+# 	nearest_index = cave_path.index(nearest_pos)
+# 	print("最近坐标序号: {}".format(str(nearest_index)))
+# 	return nearest_index
 
+def get_nearest_pos(cave_path):
+	current_pos = globals.current_pos
 	path_len = len(cave_path)
-	nearest_pos = (-1, -1)
+	nearest_pos = cave_path[0]
 
-	for index in range(0,path_len):
+	for index in range(1, path_len):
 		position = cave_path[index]
 		# print("position: {}".format(str(position)))
-		current_pow = pow((position[0] - current_x), 2) + pow((position[1] - current_y), 2)
+		current_pow = pow((position[0] - current_pos[0]), 2) + pow((position[1] - current_pos[1]), 2)
 		# print("current_pow: {}".format(str(current_pow)))
-		nearest_pow = pow((nearest_pos[0] - current_x), 2) + pow((nearest_pos[1] - current_y), 2)
+		nearest_pow = pow((nearest_pos[0] - current_pos[0]), 2) + pow((nearest_pos[1] - current_pos[1]), 2)
 		# print("nearest_pow: {}".format(str(nearest_pow)))
 		if current_pow < nearest_pow:
 			nearest_pos = position
 
-	nearest_index = cave_path.index(nearest_pos)
-	print("最近坐标序号: {}".format(str(nearest_index)))
-	return nearest_index
+	return nearest_pos
 
-# 转换为每步路径移动
-def step_go_to_point(target_pos):
-	# 当前移动路径
-	step_path = [(globals.current_x, globals.current_y)]
-	step_path.append(target_pos)
-	step_path = game_controller.to_each_step_path(step_path)
-	print("step_path: {}".format(str(step_path)))
-	game_controller.move_by_path(step_path)
-
-	current_x = globals.current_x
-	current_y = globals.current_y
+# 单步路径移动，如果脱离路径，会先到当前路径距离目标路径最近点
+def step_go_by_path(step_path):
+	print("step_go_by_path: {}".format(str(step_path)))
+	# 目标坐标
+	target_pos = step_path[len(step_path) - 1]
+	# 刷新当前坐标
+	get_current_coordinate()
 	# 最大尝试次数
-	move_retry_limit = settings.move_retry_limit
-	while current_x != target_pos[0] or current_y != target_pos[1]:
-		if move_retry_limit > 0:
-			move_retry_limit = move_retry_limit - 1
+	move_try_limit = settings.move_try_limit
+	while globals.current_pos[0] != target_pos[0] or globals.current_pos[1] != target_pos[1]:
+		if move_try_limit > 0:
+			move_try_limit = move_try_limit - 1
 
-			# 当前移动路径
-			step_path = [(current_x, current_y)]
-			step_path.append(target_pos)
-			step_path = game_controller.to_each_step_path(step_path)
-			print("step_path: {}".format(str(step_path)))
+			if (globals.current_pos in step_path):
+				index_of_current_pos = step_path.index(globals.current_pos)
+				step_path = step_path[index_of_current_pos:]
+			else:
+				# 从当前坐标先到最近的点，再执行路径
+				nearest_pos = get_nearest_pos(step_path)
+				path_to_nearest_pos = get_step_path_to(nearest_pos)
+				index_of_nearest_pos = step_path.index(nearest_pos)
+				step_path = step_path[index_of_nearest_pos+1:]
+				step_path = path_to_nearest_pos + step_path
+				# print("step_path:{}".format(str(step_path)))
+
 			game_controller.move_by_path(step_path)
 
 			time.sleep(1.0)
-			current_x, current_y = get_current_coordinate()
+			get_current_coordinate()
 		else:
 			print("已达最大重试次数，尝试重启游戏")
 			raise SystemExit("RESTART")
 
-# 移动到最近的路径点
-def go_to_the_nearest_path_point(cave_path):
-	# 最近路径坐标序号
-	globals.current_path_index = get_nearest_pos_index(cave_path)
-	# 最近路径坐标点
-	target_pos = cave_path[globals.current_path_index]
-	step_go_to_point(target_pos)
+# 获取移动路劲
+def get_step_path_to(target_pos):
+	# 从当前坐标开始
+	step_path = [globals.current_pos, target_pos]
+	step_path = game_controller.to_each_step_path(step_path)
+	# print("step_path: {}".format(str(step_path)))
+	return step_path
 
 def go_to_next_point(cave_path):
+	if globals.current_pos == (0, 0):
+		get_current_coordinate()
+
 	path_len = len(cave_path)
-	globals.current_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
-	move_to_index_of_path(globals.current_path_index, cave_path)
+
+	step_path = []
+	if globals.current_pos in cave_path:
+		globals.current_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
+		target_pos = cave_path[globals.current_path_index]
+
+		if globals.current_pos == target_pos:
+			return
+
+		step_path = [target_pos]
+		for index in range(0, path_len):
+			path_index = (path_len + globals.current_path_index - 1 - index) % path_len
+			pos = cave_path[path_index]
+			step_path = [pos] + step_path
+			if globals.current_pos == pos:
+				break
+	else:
+		nearest_pos = get_nearest_pos(cave_path)
+		globals.current_path_index = cave_path.index(nearest_pos)
+		step_path = get_step_path_to(nearest_pos)
+
+	step_go_by_path(step_path)
 
 	if not check_monster_reachable():
 		go_to_next_point(cave_path)
-
-# def move_to_index_of_path(path_index,path):
-# 	target_pos = path[path_index]
-# 	# print("target_pos: {}".format(str(target_pos)))
-# 	current_x = globals.current_x
-# 	current_y = globals.current_y
-# 	# 最大尝试次数
-# 	move_retry_limit = settings.move_retry_limit
-# 	while current_x != target_pos[0] or current_y != target_pos[1]:
-# 		if move_retry_limit > 0:
-# 			move_retry_limit = move_retry_limit - 1
-# 			game_controller.move_from_to((current_x, current_y), target_pos)
-# 			time.sleep(1.0)
-# 			current_x, current_y = get_current_coordinate()
-# 		else:
-# 			print("已达最大重试次数，尝试重启游戏")
-# 			raise SystemExit("RESTART")
 
 
 def start_get_exp():
@@ -236,11 +269,7 @@ def start_get_exp():
 	cave_path = game_controller.to_each_step_path(cave_path)
 
 	try:
-	    #前往距离最近的路径点
-		# globals.current_path_index = get_nearest_pos_index(cave_path)
-		# move_to_index_of_path(globals.current_path_index, cave_path)
-		go_to_the_nearest_path_point(cave_path)
-		last_move_time = time.time()
+		last_move_time = 0;
 
 		while(True):
 			#消除系统确定消息框
@@ -279,7 +308,7 @@ def start_get_exp():
 
 
 # 练级
-# start_get_exp()
+start_get_exp()
 
 
 # ******************************************
@@ -296,4 +325,5 @@ def start_get_exp():
 # cave_path = game_controller.get_map_path()
 # cave_path = game_controller.to_each_step_path(cave_path)
 # go_to_the_nearest_path_point(cave_path)
+
 
