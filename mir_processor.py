@@ -300,7 +300,11 @@ def start_get_exp():
 		if err.args[0] == "RESTART":
 			print("重启游戏")
 			game_controller.restart_game()
-			start_get_exp()
+			success = game_controller.active_pet()
+			if success:
+				start_get_exp()
+			else:
+				game_controller.restart_game()
 
 
 def start_ya_biao():
@@ -336,5 +340,5 @@ def start_ya_biao():
 # cave_path = game_controller.get_map_path()
 # cave_path = game_controller.to_each_step_path(cave_path)
 # go_to_the_nearest_path_point(cave_path)
-
+# game_controller.restart_game()
 

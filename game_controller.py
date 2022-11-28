@@ -410,6 +410,17 @@ def wait_to_match_and_click(template_path,threshold,max_time,step_time,scope = N
 def restart_game():
 	adb_controller.stop_app()
 	adb_controller.start_app()
-	wait_to_match_and_click(r"template_images/btn_login.png",0.05,60,1,(706,779,737,930))
-	wait_to_match_and_click(r"template_images/btn_close_pet_list.png",0.05,60,1,(144,175,359,386))
-	wait_to_match_and_click(r"template_images/btn_active_pet.png",0.05,60,1,(43,83,453,516))
+
+	success = wait_to_match_and_click(r"template_images/btn_login.png",0.05,60,1,(706,779,737,930))
+	if not success:
+		restart_game()
+
+
+def active_pet():
+	success = wait_to_match_and_click(r"template_images/btn_close_pet_list.png",0.05,60,1,(144,175,359,386))
+	if not success:
+		return False
+
+	result = wait_to_match_and_click(r"template_images/btn_active_pet.png",0.05,60,1,(43,83,453,516))
+	return result
+
