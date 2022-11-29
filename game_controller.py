@@ -151,8 +151,7 @@ def read_coordinate_text():
 	for reline in result:
 		re_text = reline[1].replace(" ","")
 		re_text = re.findall(r'\d+', re_text)
-		# if(len(re_text) != 0):
-			# print("coordinate text Found: {}".format(str(re_text)))
+		print("coordinate text Found: {}".format(str(re_text)))
 		return re_text
 	return None
 
@@ -266,10 +265,7 @@ def click_npc_wen_biao_tou():
 		adb_controller.click(match_loc)
 
 def click_accept_ya_biao():
-	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_accept_ya_biao.png",0.05)
-	if(match_loc != None):
-		adb_controller.click(match_loc)
+	adb_controller.click((145, 450))
 
 # 计算间距为一步的路径
 def to_each_step_path(path):
@@ -411,7 +407,7 @@ def move_by_path(path, must_walk = False):
 	if len(move_path) >= 2:
 		move_by_path(move_path, must_walk)
 	else:
-		settings.expect_current_pos = (to_pos[0], to_pos[1])
+		globals.expect_current_pos = (to_pos[0], to_pos[1])
 
 
 def wait_till_match_any(template_path,threshold,max_time,step_time,scope = None):

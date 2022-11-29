@@ -84,7 +84,7 @@ def get_current_coordinate():
 
 
 def get_current_coordinate_after_adjust():
-	if settings.expect_current_pos[0] == 0 and settings.expect_current_pos[1] == 0:
+	if globals.expect_current_pos[0] == 0 and globals.expect_current_pos[1] == 0:
 		adjust_count = globals.adjust_count % 16
 		if adjust_count == 0:
 			game_controller.one_step_walk_left()
@@ -146,8 +146,8 @@ def get_current_coordinate_after_adjust():
 		globals.adjust_count = adjust_count + 1
 		return get_current_coordinate()
 	else:
-		print("use expect current coordinate: {}".format(str(settings.expect_current_pos)))
-		return settings.expect_current_pos
+		print("use expect current coordinate: {}".format(str(globals.expect_current_pos)))
+		return globals.expect_current_pos
 
 
 def get_nearest_pos(cave_path):
@@ -245,8 +245,6 @@ def go_to_next_point(cave_path):
 
 	step_go_by_path(step_path)
 
-	if not check_monster_reachable():
-		go_to_next_point(cave_path)
 
 
 def start_get_exp():
@@ -287,7 +285,7 @@ def start_get_exp():
 			if check_exp_getting():
 				print("经验有增加")
 				if time.time() - last_move_time > settings.move_check_time:
-					if not check_monster_reachable():
+					while not check_monster_reachable():
 						print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
 						go_to_next_point(cave_path)
 						last_move_time = time.time()
@@ -296,6 +294,9 @@ def start_get_exp():
 				#移动到下一个点
 				go_to_next_point(cave_path)
 				last_move_time = time.time()
+				while not check_monster_reachable():
+					go_to_next_point(cave_path)
+					last_move_time = time.time()
 	except SystemExit as err:
 		if err.args[0] == "RESTART":
 			print("重启游戏")
@@ -307,13 +308,12 @@ def start_get_exp():
 				game_controller.restart_game()
 
 
-def start_ya_biao():
-	print("开始押镖")
+def go_to_wen_biao_tou():
 	#消除系统确定消息框
 	game_controller.click_sure_btn()
 
 	game_controller.click_map()
-	time.sleep(0.1)
+	time.sleep(1.0)
 	adb_controller.screenshot(settings.screenshot_path)
 	game_controller.click_map_npc_wen_biao_tou()
 	game_controller.click_xun_lu()
@@ -337,6 +337,8 @@ def start_ya_biao():
 	adb_controller.screenshot(settings.screenshot_path)
 	game_controller.click_accept_ya_biao()
 
+
+def go_to_lu_lao_ban():
 	cave_path = settings.ya_biao_path
 	if len(cave_path) == 0:
 		print("程序结束")
@@ -344,7 +346,7 @@ def start_ya_biao():
 
 	# 转换为单步路径
 	cave_path = game_controller.to_each_step_path(cave_path)
-
+	settings.one_time_move_distance = 16
 	try:
 		nearest_pos = get_nearest_pos(cave_path)
 		globals.current_path_index = cave_path.index(nearest_pos)
@@ -363,6 +365,16 @@ def start_ya_biao():
 			start_ya_biao()
 
 
+def start_ya_biao():
+	print("开始押镖")
+	go_to_wen_biao_tou()
+	go_to_lu_lao_ban()
+
+
+
+
+
+
 # 练级
 # start_get_exp()
 
@@ -376,4 +388,7 @@ def start_ya_biao():
 # game_controller.click_npc_wen_biao_tou()
 # game_controller.click_xun_lu()
 # game_controller.close_map()
+# adb_controller.screenshot(settings.screenshot_path)
+# game_controller.click_accept_ya_biao()
+# go_to_lu_lao_ban()
 
