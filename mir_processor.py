@@ -309,12 +309,53 @@ def start_get_exp():
 
 def start_ya_biao():
 	print("开始押镖")
-	step_path = settings.ya_biao_path
+	#消除系统确定消息框
+	game_controller.click_sure_btn()
+
+	game_controller.click_map()
+	time.sleep(0.1)
+	adb_controller.screenshot(settings.screenshot_path)
+	game_controller.click_map_npc_wen_biao_tou()
+	game_controller.click_xun_lu()
+	game_controller.close_map()
+
+	while True:
+		current_pos = get_current_coordinate()
+		if abs(current_pos[0] - 438) < 20 and abs(current_pos[1] - 211) < 20:
+			break
+
+	step_path = get_step_path_to((443,206))
+	step_go_by_path(step_path)
+
+	#消除系统确定消息框
+	game_controller.click_sure_btn()
+	adb_controller.screenshot(settings.screenshot_path)
+	game_controller.click_npc_wen_biao_tou()
+	time.sleep(0.1)
+
+	#改为点击固定点
+	adb_controller.screenshot(settings.screenshot_path)
+	game_controller.click_accept_ya_biao()
+
+	cave_path = settings.ya_biao_path
+	if len(cave_path) == 0:
+		print("程序结束")
+		return
+
 	# 转换为单步路径
-	step_path = game_controller.to_each_step_path(step_path)
+	cave_path = game_controller.to_each_step_path(cave_path)
+
 	try:
-		must_walk = True
-		step_go_by_path(step_path, must_walk)
+		nearest_pos = get_nearest_pos(cave_path)
+		globals.current_path_index = cave_path.index(nearest_pos)
+		last_move_time = 0;
+
+		while(True):
+			#消除系统确定消息框
+			game_controller.click_sure_btn()
+			go_to_next_point(cave_path)
+			last_move_time = time.time()
+
 	except SystemExit as err:
 		if err.args[0] == "RESTART":
 			print("重启游戏")
@@ -330,15 +371,9 @@ def start_ya_biao():
 # test
 # ******************************************
 
-# image_processor.show_hsv_tool(settings.screenshot_path)
+# game_controller.click_map()
 # adb_controller.screenshot(settings.screenshot_path)
-# game_controller.move_by_path(game_controller.to_each_step_path(settings.test_path))
-# adb_controller.start_app()
-# adb_controller.screenshot(settings.screenshot_path)
-# adb_controller.stop_app()
-
-# cave_path = game_controller.get_map_path()
-# cave_path = game_controller.to_each_step_path(cave_path)
-# go_to_the_nearest_path_point(cave_path)
-# game_controller.restart_game()
+# game_controller.click_npc_wen_biao_tou()
+# game_controller.click_xun_lu()
+# game_controller.close_map()
 

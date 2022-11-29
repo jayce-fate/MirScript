@@ -238,6 +238,39 @@ def click_sure_btn():
 			time.sleep(0.001)
 
 
+def click_map():
+	adb_controller.click((1645, 100))
+
+def click_map_npc_wen_biao_tou():
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/npc_wen_biao_tou.png",0.05)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
+def click_xun_lu():
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_xun_lu.png",0.05)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
+def close_map():
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_close_map.png",0.05)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
+def click_npc_wen_biao_tou():
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_npc_wen_biao_tou.png",0.05)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
+def click_accept_ya_biao():
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_accept_ya_biao.png",0.05)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
 # 计算间距为一步的路径
 def to_each_step_path(path):
 	step_path = []
