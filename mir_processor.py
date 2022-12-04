@@ -391,4 +391,5 @@ def start_ya_biao():
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.click_accept_ya_biao()
 # go_to_lu_lao_ban()
+# game_controller.one_step_run_left_up()
 
