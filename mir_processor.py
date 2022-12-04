@@ -346,7 +346,7 @@ def go_to_lu_lao_ban():
 
 	# 转换为单步路径
 	cave_path = game_controller.to_each_step_path(cave_path)
-	settings.one_time_move_distance = 16
+	settings.one_time_move_distance = 20
 	try:
 		nearest_pos = get_nearest_pos(cave_path)
 		globals.current_path_index = cave_path.index(nearest_pos)
