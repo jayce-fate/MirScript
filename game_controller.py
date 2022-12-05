@@ -168,6 +168,7 @@ def read_lv_text():
 			return int(re_text[0])
 		else:
 			return -1
+	return -1
 
 def already_has_master():
 	print("检查是否已拜师....")

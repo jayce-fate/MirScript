@@ -33,7 +33,7 @@ read_coordinate_fail_limit = 60
 move_try_limit = 60
 
 # 单次移动距离
-one_time_move_distance = 8
+one_time_move_distance = 6
 
 # 检测未拜师最大尝试次数（容错）
 check_has_master_fail_limit = 10
