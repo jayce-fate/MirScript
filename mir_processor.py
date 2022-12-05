@@ -246,6 +246,20 @@ def go_to_next_point(cave_path):
 	step_go_by_path(step_path)
 
 
+def check_level():
+	#检查等级，等级等于29且未拜师，停止练级
+	lv = game_controller.read_lv_text()
+	if (lv >= 26 and lv <= 29) and (not game_controller.already_has_master()):
+		for index in range(0, 20):
+			print("等级已达到{}级，请先去拜师!!!".format(str(lv)))
+		if (lv == 29):
+			if globals.check_has_master_fail_remain > 0:
+				globals.check_has_master_fail_remain = globals.check_has_master_fail_remain - 1
+				print("达到29级，请先去拜师，再提示{}次将结束本程序".format(str(globals.read_coordinate_fail_remain)))
+			else:
+				print("达到29级，请先去拜师，练级结束")
+				return
+
 
 def start_get_exp():
 	print("开始练级")
@@ -269,18 +283,7 @@ def start_get_exp():
 			#消除系统确定消息框
 			game_controller.click_sure_btn()
 
-			#检查等级，等级等于29且未拜师，停止练级
-			lv = game_controller.read_lv_text()
-			if (lv >= 26 and lv <= 29) and (not game_controller.already_has_master()):
-				for index in range(0, 20):
-					print("等级已达到{}级，请先去拜师!!!".format(str(lv)))
-				if (lv == 29):
-					if globals.check_has_master_fail_remain > 0:
-						globals.check_has_master_fail_remain = globals.check_has_master_fail_remain - 1
-						print("达到29级，请先去拜师，再提示{}次将结束本程序".format(str(globals.read_coordinate_fail_remain)))
-					else:
-						print("达到29级，请先去拜师，练级结束")
-						return
+			# check_level()
 
 			if check_exp_getting():
 				print("经验有增加")
@@ -346,7 +349,7 @@ def go_to_lu_lao_ban():
 
 	# 转换为单步路径
 	cave_path = game_controller.to_each_step_path(cave_path)
-	settings.one_time_move_distance = 20
+	settings.one_time_move_distance = 1000
 	try:
 		nearest_pos = get_nearest_pos(cave_path)
 		globals.current_path_index = cave_path.index(nearest_pos)
