@@ -23,7 +23,7 @@ def check_exp_getting():
 	start_exp = game_controller.read_current_exp()
 	print("当前经验值: {}".format(str(start_exp)))
 
-	sleep_time = 10
+	sleep_time = 20
 	time.sleep(sleep_time)
 
 	end_exp = game_controller.read_current_exp()
