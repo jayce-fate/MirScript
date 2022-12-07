@@ -272,6 +272,15 @@ def click_npc_wen_biao_tou():
 def click_accept_ya_biao():
 	adb_controller.click((145, 450))
 
+def click_npc_lu_lao_ban():
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_npc_lu_lao_ban.png",0.05)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
+def click_finish_ya_biao():
+	adb_controller.click((185, 175))
+
 # 计算间距为一步的路径
 def to_each_step_path(path):
 	step_path = []

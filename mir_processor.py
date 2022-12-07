@@ -365,7 +365,7 @@ def go_to_lu_lao_ban():
 
 	# 转换为单步路径
 	cave_path = game_controller.to_each_step_path(cave_path)
-	settings.one_time_move_distance = 1000
+	settings.one_time_move_distance = 50
 	try:
 		nearest_pos = get_nearest_pos(cave_path)
 		globals.current_path_index = cave_path.index(nearest_pos)
@@ -374,10 +374,26 @@ def go_to_lu_lao_ban():
 		while(True):
 			#消除系统确定消息框
 			game_controller.click_sure_btn()
-			# 这里得有出口
+
+			path_len = len(cave_path)
+			# 出口
+			if (globals.current_path_index + settings.one_time_move_distance) == path_len - 1:
+				break;
+			elif (globals.current_path_index + settings.one_time_move_distance) > path_len - 1:
+				settings.one_time_move_distance = path_len - 1 - globals.current_path_index
+
 			go_to_next_point(cave_path)
 			last_move_time = time.time()
 
+		# 等双倍时间
+		while should_wait_until_double_time():
+			time.sleep(10)
+
+		#交付
+		adb_controller.screenshot(settings.screenshot_path)
+		game_controller.click_npc_lu_lao_ban()
+		time.sleep(1.0)
+		game_controller.click_finish_ya_biao()
 	except SystemExit as err:
 		if err.args[0] == "RESTART":
 			print("重启游戏")
@@ -415,6 +431,8 @@ def start_ya_biao():
 # for index in range(0, 5):
 # 	time.sleep(0.1)
 # 	game_controller.one_step_run_right_down()
+
+
 
 
 
