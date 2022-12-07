@@ -4,6 +4,7 @@ import re
 import cv2
 import random
 import numpy
+import datetime
 
 import globals
 import settings
@@ -341,6 +342,21 @@ def go_to_wen_biao_tou():
 	game_controller.click_accept_ya_biao()
 
 
+def should_wait_until_double_time():
+	# 范围时间
+	time_min = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '19:00', '%Y-%m-%d%H:%M')
+	time_max = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '20:00', '%Y-%m-%d%H:%M')
+
+	# 当前时间
+	current_time = datetime.datetime.now()
+
+	# 判断当前时间是否在范围时间内
+	if current_time > time_min and current_time < time_max:
+	    return True
+	else:
+	    return False
+
+
 def go_to_lu_lao_ban():
 	cave_path = settings.ya_biao_path
 	if len(cave_path) == 0:
@@ -358,6 +374,7 @@ def go_to_lu_lao_ban():
 		while(True):
 			#消除系统确定消息框
 			game_controller.click_sure_btn()
+			# 这里得有出口
 			go_to_next_point(cave_path)
 			last_move_time = time.time()
 
@@ -398,4 +415,6 @@ def start_ya_biao():
 # for index in range(0, 5):
 # 	time.sleep(0.1)
 # 	game_controller.one_step_run_right_down()
+
+
 
