@@ -8,69 +8,73 @@ import image_processor
 import settings
 import globals
 
+walk_swip_time = 200
+run_swip_time = 550
+joystick_pos = (275, 500)
+
 def one_step_walk_left():
 	print("往左走一步....")
-	adb_controller.swipe((300,600),(250,600),300)
+	adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1]), (joystick_pos[0] - 25, joystick_pos[1]), walk_swip_time)
 
 def one_step_walk_right():
 	print("往右走一步....")
-	adb_controller.swipe((300,600),(350,600),300)
+	adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1]), (joystick_pos[0] + 25, joystick_pos[1]), walk_swip_time)
 
 def one_step_walk_up():
 	print("往上走一步....")
-	adb_controller.swipe((300,600),(300,550),300)
+	adb_controller.swipe((joystick_pos[0], joystick_pos[1] + 25), (joystick_pos[0], joystick_pos[1] - 25), walk_swip_time)
 
 def one_step_walk_down():
 	print("往下走一步....")
-	adb_controller.swipe((300,600),(300,650),300)
+	adb_controller.swipe((joystick_pos[0], joystick_pos[1] - 25), (joystick_pos[0], joystick_pos[1] + 25), walk_swip_time)
 
 def one_step_walk_left_up():
 	print("往左上走一步....")
-	adb_controller.swipe((300,600),(250,550),300)
+	adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1] + 25), (joystick_pos[0] - 25, joystick_pos[1] - 25), walk_swip_time)
 
 def one_step_walk_right_up():
 	print("往右上走一步....")
-	adb_controller.swipe((300,600),(350,550),300)
+	adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1] + 25), (joystick_pos[0] + 25, joystick_pos[1] - 25), walk_swip_time)
 
 def one_step_walk_left_down():
 	print("往左下走一步....")
-	adb_controller.swipe((300,600),(250,650),300)
+	adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1] - 25), (joystick_pos[0] - 25, joystick_pos[1] + 25), walk_swip_time)
 
 def one_step_walk_right_down():
 	print("往右下走一步....")
-	adb_controller.swipe((300,600),(350,650),300)
+	adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1] - 25), (joystick_pos[0] + 25, joystick_pos[1] + 25), walk_swip_time)
 
 def one_step_run_left():
 	print("往左跑两步....")
-	adb_controller.swipe((400,600),(100,600),500)
+	adb_controller.swipe((joystick_pos[0] + 125, joystick_pos[1]), (joystick_pos[0] - 125, joystick_pos[1]), run_swip_time)
 
 def one_step_run_right():
 	print("往右跑两步....")
-	adb_controller.swipe((400,600),(700,600),500)
+	adb_controller.swipe((joystick_pos[0] - 125, joystick_pos[1]), (joystick_pos[0] + 125, joystick_pos[1]), run_swip_time)
 
 def one_step_run_up():
 	print("往上跑两步....")
-	adb_controller.swipe((400,600),(400,300),500)
+	adb_controller.swipe((joystick_pos[0], joystick_pos[1] + 125), (joystick_pos[0], joystick_pos[1] - 125), run_swip_time)
 
 def one_step_run_down():
 	print("往下跑两步....")
-	adb_controller.swipe((400,600),(400,900),500)
+	adb_controller.swipe((joystick_pos[0], joystick_pos[1] - 125), (joystick_pos[0], joystick_pos[1] + 125), run_swip_time)
 
 def one_step_run_left_up():
 	print("往左上跑两步....")
-	adb_controller.swipe((400,600),(100,300),500)
+	adb_controller.swipe((joystick_pos[0] + 125, joystick_pos[1] + 125), (joystick_pos[0] - 125, joystick_pos[1] - 125), run_swip_time)
 
 def one_step_run_right_up():
 	print("往右上跑两步....")
-	adb_controller.swipe((400,600),(700,300),500)
+	adb_controller.swipe((joystick_pos[0] - 125, joystick_pos[1] + 125), (joystick_pos[0] + 125, joystick_pos[1] - 125), run_swip_time)
 
 def one_step_run_left_down():
 	print("往左下跑两步....")
-	adb_controller.swipe((400,600),(100,900),500)
+	adb_controller.swipe((joystick_pos[0] + 125, joystick_pos[1] - 125), (joystick_pos[0] - 125, joystick_pos[1] + 125), run_swip_time)
 
 def one_step_run_right_down():
 	print("往右下跑两步....")
-	adb_controller.swipe((400,600),(700,900),500)
+	adb_controller.swipe((joystick_pos[0] - 125, joystick_pos[1] - 125), (joystick_pos[0] + 125, joystick_pos[1] + 125), run_swip_time)
 
 def get_monster_list():
 	print("获取怪物列表:")
