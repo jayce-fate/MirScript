@@ -44,38 +44,6 @@ def one_step_walk_right_down():
 	print("往右下走一步....")
 	adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1] - 25), (joystick_pos[0] + 25, joystick_pos[1] + 25), walk_swip_time)
 
-def one_step_run_left():
-	print("往左跑两步....")
-	adb_controller.swipe((joystick_pos[0] + 125, joystick_pos[1]), (joystick_pos[0] - 125, joystick_pos[1]), run_swip_time)
-
-def one_step_run_right():
-	print("往右跑两步....")
-	adb_controller.swipe((joystick_pos[0] - 125, joystick_pos[1]), (joystick_pos[0] + 125, joystick_pos[1]), run_swip_time)
-
-def one_step_run_up():
-	print("往上跑两步....")
-	adb_controller.swipe((joystick_pos[0], joystick_pos[1] + 125), (joystick_pos[0], joystick_pos[1] - 125), run_swip_time)
-
-def one_step_run_down():
-	print("往下跑两步....")
-	adb_controller.swipe((joystick_pos[0], joystick_pos[1] - 125), (joystick_pos[0], joystick_pos[1] + 125), run_swip_time)
-
-def one_step_run_left_up():
-	print("往左上跑两步....")
-	adb_controller.swipe((joystick_pos[0] + 125, joystick_pos[1] + 125), (joystick_pos[0] - 125, joystick_pos[1] - 125), run_swip_time)
-
-def one_step_run_right_up():
-	print("往右上跑两步....")
-	adb_controller.swipe((joystick_pos[0] - 125, joystick_pos[1] + 125), (joystick_pos[0] + 125, joystick_pos[1] - 125), run_swip_time)
-
-def one_step_run_left_down():
-	print("往左下跑两步....")
-	adb_controller.swipe((joystick_pos[0] + 125, joystick_pos[1] - 125), (joystick_pos[0] - 125, joystick_pos[1] + 125), run_swip_time)
-
-def one_step_run_right_down():
-	print("往右下跑两步....")
-	adb_controller.swipe((joystick_pos[0] - 125, joystick_pos[1] - 125), (joystick_pos[0] + 125, joystick_pos[1] + 125), run_swip_time)
-
 def get_monster_list():
 	print("获取怪物列表:")
 	#打开目标列表
@@ -336,7 +304,7 @@ def to_each_step_path(path):
 	return step_path
 
 
-def move_by_path(path, must_walk = False):
+def move_by_path(path):
 	print("move_by_path")
 	move_path = path.copy()
 	if move_path == None:
@@ -349,77 +317,35 @@ def move_by_path(path, must_walk = False):
 	from_pos = move_path[0]
 	to_pos = move_path[1]
 
-	# 每步都走，太慢了（主要是押镖）
-	must_must_walk = False
-	if must_walk:
-		globals.step_count = (globals.step_count + 1) % 2
-		if globals.step_count == 1:
-			must_must_walk = True
-
-	if not must_must_walk and path_length > 2:
-		third_pos = move_path[2]
-		line_x = from_pos[0] + third_pos[0] == 2 * to_pos[0]
-		line_y = from_pos[1] + third_pos[1] == 2 * to_pos[1]
-		if line_x and line_y:
-			to_pos = third_pos
-
 	print("初始位置: {}".format(str(from_pos)))
 	print("目标位置: {}".format(str(to_pos)))
 
 	move_x = to_pos[0] - from_pos[0]
 	move_y = to_pos[1] - from_pos[1]
 
-	is_runing = to_pos != move_path[1]
 	print("to_pos: {}".format(str(to_pos)))
 	print("move_path[1]: {}".format(str(move_path[1])))
-	print("is_runing: {}".format(str(is_runing)))
 	if move_x > 0 and move_y > 0:
-		if is_runing:
-			one_step_run_right_down()
-		else:
-			one_step_walk_right_down()
+		one_step_walk_right_down()
 	elif move_x > 0 and move_y < 0:
-		if is_runing:
-			one_step_run_right_up()
-		else:
-			one_step_walk_right_up()
+		one_step_walk_right_up()
 	elif move_x < 0 and move_y > 0:
-		if is_runing:
-			one_step_run_left_down()
-		else:
-			one_step_walk_left_down()
+		one_step_walk_left_down()
 	elif move_x < 0 and move_y < 0:
-		if is_runing:
-			one_step_run_left_up()
-		else:
-			one_step_walk_left_up()
+		one_step_walk_left_up()
 	elif move_x > 0 and move_y == 0:
-		if is_runing:
-			one_step_run_right()
-		else:
-			one_step_walk_right()
+		one_step_walk_right()
 	elif move_x < 0 and move_y == 0:
-		if is_runing:
-			one_step_run_left()
-		else:
-			one_step_walk_left()
+		one_step_walk_left()
 	elif move_x == 0 and move_y > 0:
-		if is_runing:
-			one_step_run_down()
-		else:
-			one_step_walk_down()
+		one_step_walk_down()
 	elif move_x == 0 and move_y < 0:
-		if is_runing:
-			one_step_run_up()
-		else:
-			one_step_walk_up()
+		one_step_walk_up()
 
 	del(move_path[0])
-	if is_runing:
-		del(move_path[0])
 
 	if len(move_path) >= 2:
-		move_by_path(move_path, must_walk)
+		move_by_path(move_path)
 	else:
 		globals.expect_current_pos = (to_pos[0], to_pos[1])
 

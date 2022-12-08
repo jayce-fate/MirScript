@@ -128,21 +128,37 @@ def get_current_coordinate_after_adjust():
 			game_controller.one_step_walk_left_down()
 			game_controller.one_step_walk_left_down()
 		elif adjust_count == 16:
-			game_controller.one_step_run_left()
+			game_controller.one_step_walk_left()
+			game_controller.one_step_walk_left()
+			game_controller.one_step_walk_left()
 		elif adjust_count == 17:
-			game_controller.one_step_run_left_up()
+			game_controller.one_step_walk_left_up()
+			game_controller.one_step_walk_left_up()
+			game_controller.one_step_walk_left_up()
 		elif adjust_count == 18:
-			game_controller.one_step_run_up()
+			game_controller.one_step_walk_up()
+			game_controller.one_step_walk_up()
+			game_controller.one_step_walk_up()
 		elif adjust_count == 19:
-			game_controller.one_step_run_right_up()
+			game_controller.one_step_walk_right_up()
+			game_controller.one_step_walk_right_up()
+			game_controller.one_step_walk_right_up()
 		elif adjust_count == 20:
-			game_controller.one_step_run_right()
+			game_controller.one_step_walk_right()
+			game_controller.one_step_walk_right()
+			game_controller.one_step_walk_right()
 		elif adjust_count == 21:
-			game_controller.one_step_run_right_down()
+			game_controller.one_step_walk_right_down()
+			game_controller.one_step_walk_right_down()
+			game_controller.one_step_walk_right_down()
 		elif adjust_count == 22:
-			game_controller.one_step_run_down()
+			game_controller.one_step_walk_down()
+			game_controller.one_step_walk_down()
+			game_controller.one_step_walk_down()
 		elif adjust_count == 23:
-			game_controller.one_step_run_left_down()
+			game_controller.one_step_walk_left_down()
+			game_controller.one_step_walk_left_down()
+			game_controller.one_step_walk_left_down()
 
 		globals.adjust_count = adjust_count + 1
 		return get_current_coordinate()
@@ -153,6 +169,7 @@ def get_current_coordinate_after_adjust():
 
 def get_nearest_pos(cave_path):
 	current_pos = globals.current_pos
+	print("current_pos: {}".format(str(current_pos)))
 	path_len = len(cave_path)
 	nearest_pos = cave_path[0]
 
@@ -166,10 +183,11 @@ def get_nearest_pos(cave_path):
 		if current_pow < nearest_pow:
 			nearest_pos = position
 
+	print("nearest_pos: {}".format(str(nearest_pos)))
 	return nearest_pos
 
 # 单步路径移动，如果脱离路径，会先到当前路径距离目标路径最近点
-def step_go_by_path(step_path, must_walk = False):
+def step_go_by_path(step_path):
 	print("step_go_by_path: {}".format(str(step_path)))
 	# 目标坐标
 	target_pos = step_path[len(step_path) - 1]
@@ -193,7 +211,7 @@ def step_go_by_path(step_path, must_walk = False):
 				step_path = path_to_nearest_pos + step_path
 				# print("step_path:{}".format(str(step_path)))
 
-			game_controller.move_by_path(step_path, must_walk)
+			game_controller.move_by_path(step_path)
 
 			time.sleep(1.0)
 			get_current_coordinate()
@@ -429,8 +447,8 @@ def start_ya_biao():
 # go_to_lu_lao_ban()
 
 # for index in range(0, 5):
-# 	time.sleep(0.1)
-# 	game_controller.one_step_run_right_down()
+# 	# time.sleep(0.1)
+# 	game_controller.one_step_walk_left()
 
 
 
