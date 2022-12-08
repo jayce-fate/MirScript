@@ -345,7 +345,7 @@ def go_to_wen_biao_tou():
 def should_wait_until_double_time():
 	# 范围时间
 	time_min = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '19:00', '%Y-%m-%d%H:%M')
-	time_max = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '20:00', '%Y-%m-%d%H:%M')
+	time_max = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '20:01', '%Y-%m-%d%H:%M')
 
 	# 当前时间
 	current_time = datetime.datetime.now()
