@@ -249,6 +249,46 @@ def read_map_name():
 		return result
 	return None
 
+def read_quality_text():
+	adb_controller.screenshot(settings.screenshot_path)
+	# 等级颜色米色参数
+	lower_color = [0,0,212]
+	upper_color = [179,255,255]
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (370,412,865,973),lower_color,upper_color)
+	result = get_first_result(resultss)
+	if result != None:
+		print("当前极品文字: {}".format(str(result)))
+		return result
+	return None
+
+def read_bag_capacity():
+	adb_controller.screenshot(settings.screenshot_path)
+	# 等级颜色米色参数
+	lower_color = [0,0,212]
+	upper_color = [179,255,255]
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (881,915,1011,1192),lower_color,upper_color)
+	result = get_first_result(resultss)
+	if result != None:
+		print("背包容量: {}".format(str(result)))
+		digit_array = re.findall(r'\d+\.?\d*', result)
+		print("digit_array: {}".format(str(digit_array)))
+		return digit_array
+	return None
+
+def is_bag_full():
+	result = read_bag_capacity()
+	if result != None:
+		if int(result[0]) == 0:
+			return True
+	return False
+
+def is_quality():
+	result = read_quality_text()
+	if result != None:
+		if "极" in result:
+			return True
+	return False
+
 def get_map_path():
 	adb_controller.screenshot(settings.screenshot_path)
 	map_name = read_map_name()
@@ -460,3 +500,38 @@ def active_pet():
 	result = wait_to_match_and_click(r"template_images/btn_active_pet.png",0.05,60,1,(43,83,453,516))
 	return result
 
+def open_bag():
+	adb_controller.click((560, 860))
+
+def click_drop():
+	adb_controller.click((1310, 840))
+
+def click_cancel_drop():
+	adb_controller.click((622, 616))
+
+def click_confirm_drop():
+	adb_controller.click((1038, 616))
+
+def click_arrange_bag():
+	adb_controller.click((1590, 714))
+
+def click_left_return():
+	adb_controller.click((59, 872))
+
+def click_right_return():
+	adb_controller.click((1604, 872))
+
+
+def show_scope():
+	item_template = "template_images/screenshot.png"
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,item_template,0.05)
+
+def select_item(item_name):
+	item_template = "template_images/items/{}.png".format(str(item_name))
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,item_template,0.05,(125,807,939,1525))
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+		return True
+	return False

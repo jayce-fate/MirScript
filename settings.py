@@ -26,6 +26,9 @@ screenshot_path = r"temp_screenshot/screenshot.png"
 # 检查屏幕是否有怪间隔时间（距离上次移动），单位秒
 move_check_time = 40
 
+# 检查背包容量时间间隔，单位秒
+move_bag_capacity_time = 1200
+
 # 读取当前坐标失败，尝试重新读取最大次数
 read_coordinate_fail_limit = 60
 
@@ -68,3 +71,26 @@ test_path = [(60,78),(62,76),(64,76),(64,78),(61,81),(60,80),(59,80)]
 ya_biao_path = [(439,207),(467,207),(467,307),(500,340),(500,357),(517,373),(539,373),(626,460),(630,460),(640,470)
                 ,(640,475),(652,487),(652,492),(662,502),(662,508),(677,523),(689,523),(754,588),(794,588),(797,591)
                 ,(797,595),(807,605),(808,611),(838,641)]
+
+
+trash_list_white = [
+                "dao_shi_shou_zhuo",
+                "dao_shi_tou_kui",
+                "jian_gu_shou_tao",
+                "jin_shou_zhuo",
+                "lan_fei_chui_xiang_liang",
+                "ling_feng",
+                "po_hun",
+                "qing_xing_kui_jia_nan",
+                "sheng_tie_jie_zhi",
+                "xiu_luo",
+                "yan_yue",
+                "zhan_ma_dao",
+                "zhu_di",
+                "hei_tan_shou_zhuo",
+                ]
+
+trash_list_green = [
+                "bai_se_hu_chi_xiang_lian",
+                "shan_hu_jie_zhi",
+                ]

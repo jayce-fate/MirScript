@@ -298,12 +298,17 @@ def start_get_exp():
 	try:
 		nearest_pos = get_nearest_pos(cave_path)
 		globals.current_path_index = cave_path.index(nearest_pos)
-		last_move_time = 0;
+		last_move_time = 0
+		last_check_bag_capacity_time = 0
 
 		while(True):
 			#消除系统确定消息框
 			game_controller.click_sure_btn()
 
+			if time.time() - last_check_bag_capacity_time > settings.move_bag_capacity_time:
+				last_check_bag_capacity_time = time.time()
+				if is_bag_full():
+					drop_trashes()
 			# check_level()
 
 			if check_exp_getting():
@@ -427,8 +432,55 @@ def start_ya_biao():
 	go_to_lu_lao_ban()
 
 
+def loop_drop_one_item(trash_name, is_green = False):
+	if game_controller.select_item(trash_name):
+		game_controller.click_drop()
+		adb_controller.screenshot(settings.screenshot_path)
+		if game_controller.is_quality():
+			game_controller.click_cancel_drop()
+		else:
+			if is_green:
+				game_controller.click_confirm_drop()
+			loop_drop_one_item(trash_name)
 
+def drop_trashes_loop():
+	trash_list = settings.trash_list_white
+	list_len = len(trash_list)
+	for index in range(0, list_len):
+		trash_name = trash_list[index]
+		print("trash_name: {}".format(str(trash_name)))
+		adb_controller.screenshot(settings.screenshot_path)
+		loop_drop_one_item(trash_name)
 
+	trash_list = settings.trash_list_green
+	list_len = len(trash_list)
+	for index in range(0, list_len):
+		trash_name = trash_list[index]
+		print("trash_name: {}".format(str(trash_name)))
+		loop_drop_one_item(trash_name, is_green = True)
+
+def drop_trashes():
+	game_controller.open_bag()
+	time.sleep(0.5)
+	game_controller.click_arrange_bag()
+	time.sleep(2.0)
+	drop_trashes_loop()
+	game_controller.click_arrange_bag()
+	time.sleep(2.0)
+	drop_trashes_loop()
+	game_controller.click_left_return()
+	game_controller.click_right_return()
+
+def is_bag_full():
+	game_controller.open_bag()
+	time.sleep(0.5)
+
+	is_bag_full = game_controller.is_bag_full()
+
+	game_controller.click_left_return()
+	game_controller.click_right_return()
+
+	return is_bag_full
 
 
 # 练级
@@ -452,6 +504,17 @@ def start_ya_biao():
 # 	# time.sleep(0.1)
 # 	game_controller.one_step_walk_left()
 # check_monster_reachable()
+
+# drop_trashes()
+
+# adb_controller.screenshot(settings.screenshot_path)
+# game_controller.show_scope()
+
+# drop_trashes()
+
+# game_controller.read_bag_capacity()
+
+
 
 
 
