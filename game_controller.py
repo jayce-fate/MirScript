@@ -44,6 +44,17 @@ def one_step_walk_right_down():
 	print("往右下走一步....")
 	adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1] - 25), (joystick_pos[0] + 25, joystick_pos[1] + 25), walk_swip_time)
 
+def get_first_result(resultss):
+	for idx in range(len(resultss)):
+		results = resultss[idx]
+		for result in results:
+			rec = result[1] #('43', 0.99934321641922)
+			# print("rec: {}".format(str(rec)))
+			res = rec[0] #'43'
+			# print("res: {}".format(str(res)))
+			return res
+	return None
+
 def get_monster_list():
 	print("获取怪物列表:")
 	#打开目标列表
@@ -59,10 +70,23 @@ def get_monster_list():
 	adb_controller.screenshot(settings.screenshot_path)
 	lower_color = [0,0,118]
 	upper_color = [179,255,255]
-	monster_list = image_processor.easyocr_read_cn(settings.screenshot_path,(24,870,948,1512),lower_color,upper_color)
-	for reline in monster_list:
-		re_text = reline[1].replace(" ","")
-		print("怪物名: {}".format(str(re_text)))
+	# monster_list = image_processor.easyocr_read_cn(settings.screenshot_path,(24,870,948,1512),lower_color,upper_color)
+	# for reline in monster_list:
+	# 	re_text = reline[1].replace(" ","")
+	# 	print("怪物名: {}".format(str(re_text)))
+
+	monster_list = []
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (24,870,948,1512),lower_color,upper_color)
+	for idx in range(len(resultss)):
+		results = resultss[idx]
+		for result in results:
+			rec = result[1] #('43', 0.99934321641922)
+			# print("rec: {}".format(str(rec)))
+			res = rec[0] #'43'
+			# print("res: {}".format(str(res)))
+			print("怪物名: {}".format(str(res)))
+		monster_list = results
+		break
 
 	if len(monster_list) == 0:
 		print("怪物列表为空")
@@ -119,38 +143,64 @@ def read_coordinate_text():
 	# 坐标颜色绿色参数
 	lower_color = [35,43,46]
 	upper_color = [75,255,255]
-	result = image_processor.easyocr_read_en(settings.screenshot_path,(42,82,1540,1664),lower_color,upper_color)
-	for reline in result:
-		re_text = reline[1].replace(" ","")
-		re_text = re.findall(r'\d+', re_text)
-		print("coordinate text Found: {}".format(str(re_text)))
-		return re_text
+	# result = image_processor.easyocr_read_en(settings.screenshot_path,(42,82,1540,1664),lower_color,upper_color)
+	# for reline in result:
+	# 	re_text = reline[1].replace(" ","")
+	# 	re_text = re.findall(r'\d+', re_text)
+	# 	print("coordinate text Found: {}".format(str(re_text)))
+	# 	return re_text
+	# return None
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (42,82,1540,1664),lower_color,upper_color)
+	result = get_first_result(resultss)
+	if result != None:
+		result = re.findall(r'\d+', result)
+		# print("当前坐标: {}".format(str(result)))
+		return result
 	return None
 
 def read_lv_text():
 	# 等级颜色米色参数
 	lower_color = [0,0,212]
 	upper_color = [179,255,255]
-	result = image_processor.easyocr_read_en(settings.screenshot_path,(56,100,58,104),lower_color,upper_color)
-	for reline in result:
-		re_text = reline[1].replace(" ","")
-		re_text = re.findall(r'\d+', re_text)
-		if(len(re_text) != 0):
-			print("当前等级: {}".format(str(re_text[0])))
-			return int(re_text[0])
-		else:
-			return -1
+	# result = image_processor.easyocr_read_en(settings.screenshot_path,(56,100,58,104),lower_color,upper_color)
+	# for reline in result:
+	# 	re_text = reline[1].replace(" ","")
+	# 	re_text = re.findall(r'\d+', re_text)
+	# 	if(len(re_text) != 0):
+	# 		print("当前等级: {}".format(str(re_text[0])))
+	# 		return int(re_text[0])
+	# 	else:
+	# 		return -1
+	# return -1
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (56,100,58,104),lower_color,upper_color)
+	result = get_first_result(resultss)
+	if result != None:
+		print("当前等级: {}".format(str(result)))
+		return int(result)
 	return -1
+
 
 def already_has_master():
 	print("检查是否已拜师....")
 	lower_color = [0,0,0]
 	upper_color = [0,0,255]
-	result = image_processor.easyocr_read_cn(settings.screenshot_path,(450,482,722,938),lower_color,upper_color)
-	for reline in result:
-		re_text = reline[1].replace(" ","")
-		print("我的名字: {}".format(str(re_text)))
-		if "徒" in re_text or "弟" in re_text or "[" in re_text or "]" in re_text:
+	# result = image_processor.easyocr_read_cn(settings.screenshot_path,(450,482,722,938),lower_color,upper_color)
+	# for reline in result:
+	# 	re_text = reline[1].replace(" ","")
+	# 	print("我的名字: {}".format(str(re_text)))
+	# 	if "徒" in re_text or "弟" in re_text or "[" in re_text or "]" in re_text:
+	# 		print("当前已拜师")
+	# 		return True
+	# print("当前未拜师")
+	# return False
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (450,482,722,938),lower_color,upper_color)
+	result = get_first_result(resultss)
+	if result != None:
+		print("我的名字: {}".format(str(result)))
+		if "徒" in result or "弟" in result or "[" in result or "]" in result:
 			print("当前已拜师")
 			return True
 	print("当前未拜师")
@@ -161,26 +211,43 @@ def read_current_exp():
 	# 经验颜色米色参数
 	lower_color = [0,0,212]
 	upper_color = [179,255,255]
-	result = image_processor.easyocr_read_en(settings.screenshot_path,(56,100,181,316),lower_color,upper_color)
-	for reline in result:
-		re_text = reline[1].replace(" ","")
-		if(re_text != None):
-			# print("exp text Found: {}".format(str(re_text)))
-			digit_array = re.findall(r'\d+\.?\d*', re_text)
-			# print("digit_array: {}".format(str(digit_array)))
-			for index in range(0,len(digit_array)):
-				return float(digit_array[index])
+	# result = image_processor.easyocr_read_en(settings.screenshot_path,(56,100,181,316),lower_color,upper_color)
+	# for reline in result:
+	# 	re_text = reline[1].replace(" ","")
+	# 	if(re_text != None):
+	# 		# print("exp text Found: {}".format(str(re_text)))
+	# 		digit_array = re.findall(r'\d+\.?\d*', re_text)
+	# 		# print("digit_array: {}".format(str(digit_array)))
+	# 		for index in range(0,len(digit_array)):
+	# 			return float(digit_array[index])
+	# return None
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (56,100,181,316),lower_color,upper_color)
+	result = get_first_result(resultss)
+	if result != None:
+		digit_array = re.findall(r'\d+\.?\d*', result)
+		for index in range(0,len(digit_array)):
+			current_exp = digit_array[index]
+			# print("当前经验: {}".format(str(current_exp)))
+			return float(current_exp)
 	return None
 
 def read_map_name():
 	# 等级颜色米色参数
 	lower_color = [0,0,130]
 	upper_color = [179,169,255]
-	result = image_processor.easyocr_read_cn(settings.screenshot_path,(4,41,1355,1662),lower_color,upper_color)
-	for reline in result:
-		re_text = reline[1].replace(" ","")
-		print("地图名称: {}".format(re_text))
-		return re_text
+	# result = image_processor.easyocr_read_cn(settings.screenshot_path,(4,41,1355,1662),lower_color,upper_color)
+	# for reline in result:
+	# 	re_text = reline[1].replace(" ","")
+	# 	print("地图名称: {}".format(re_text))
+	# 	return re_text
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (4,41,1355,1662),lower_color,upper_color)
+	result = get_first_result(resultss)
+	if result != None:
+		print("地图名称: {}".format(str(result)))
+		return result
+	return None
 
 def get_map_path():
 	adb_controller.screenshot(settings.screenshot_path)

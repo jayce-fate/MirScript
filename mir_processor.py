@@ -15,6 +15,7 @@ import game_controller
 
 def check_monster_reachable():
 	monster_list = game_controller.get_monster_list()
+	# print("monster_list: {}".format(str(monster_list)))
 	if len(monster_list) > 0:
 		return True
 	else:
@@ -63,6 +64,7 @@ def get_current_coordinate():
 			raise SystemExit("RESTART")
 
 	if len(coordinate) != 2:
+		print("len(coordinate) != 2")
 		return get_current_coordinate_after_adjust()
 	else:
 		current_pos = (int(coordinate[0].replace(".","")), int(coordinate[1]))
@@ -168,7 +170,7 @@ def get_current_coordinate_after_adjust():
 
 
 def get_nearest_pos(cave_path):
-	current_pos = globals.current_pos
+	current_pos = get_current_coordinate()
 	print("current_pos: {}".format(str(current_pos)))
 	path_len = len(cave_path)
 	nearest_pos = cave_path[0]
@@ -383,7 +385,7 @@ def go_to_lu_lao_ban():
 
 	# 转换为单步路径
 	cave_path = game_controller.to_each_step_path(cave_path)
-	settings.one_time_move_distance = 50
+	settings.one_time_move_distance = 100
 	try:
 		nearest_pos = get_nearest_pos(cave_path)
 		globals.current_path_index = cave_path.index(nearest_pos)
@@ -449,7 +451,7 @@ def start_ya_biao():
 # for index in range(0, 5):
 # 	# time.sleep(0.1)
 # 	game_controller.one_step_walk_left()
-
+# check_monster_reachable()
 
 
 

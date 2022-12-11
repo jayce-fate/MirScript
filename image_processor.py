@@ -4,9 +4,14 @@ import re
 import cv2
 import easyocr
 import numpy
+import copy
+
 from PIL import Image
+from paddleocr import PaddleOCR, draw_ocr
 
 import settings
+
+paddleocr = PaddleOCR(use_angle_cls=False, lang="ch", show_log=False)
 
 # 图片匹配
 def match_template(target_path,template_path,threshold = 0.05,scope = None):
@@ -164,4 +169,47 @@ def show_hsv_tool(target_path, scope = None):
 		if cv2.waitKey(10) & 0xFF == ord('q'):
 			break
 	cv2.destroyAllWindows()
+
+# paddleocr 文字读取
+def paddleocr_read(target_path,scope = None,lower_color = [],upper_color = []):
+	# print("paddleocr_read: "+target_path)
+	target = cv2.imread(target_path)
+
+	if(scope != None):
+		target = target[scope[0]:scope[1],scope[2]:scope[3]]
+
+	if len(lower_color) != 0 and len(upper_color) != 0:
+		# 定义HSV中颜色的范围 https://www.cnblogs.com/ericling/p/15508044.html
+		hsv = cv2.cvtColor(target, cv2.COLOR_BGR2HSV )
+		lower_color = numpy.array(lower_color)
+		upper_color = numpy.array(upper_color)
+
+		# 设置HSV的阈值使得只取目标颜色
+		mask = cv2.inRange(hsv,lower_color, upper_color)
+		target = cv2.bitwise_and(target, target, mask=mask)
+
+	# Display result image
+	# cv2.imshow('image', target)
+	# cv2.waitKey()
+
+	h, w = target.shape[0], target.shape[1]
+	border = [0, 0]
+	transform_size = 320  # 图片增加边框到320大小
+	if w < transform_size or h < transform_size:
+	    if h < transform_size:
+	        border[0] = (transform_size - h) / 2.0
+	    if w < transform_size:
+	        border[1] = (transform_size - w) / 2.0
+	    # top，buttom，left，right 对应边界的像素数目（分别为图像上面， 下面， 左面，右面填充边界的长度）
+	    target = cv2.copyMakeBorder(target, int(border[0]), int(border[0]), int(border[1]), int(border[1]),
+	                                     cv2.BORDER_CONSTANT,
+	                                     value=[215, 215, 215])
+
+	result = paddleocr.ocr(target, cls=False)
+	for idx in range(len(result)):
+	    res = result[idx]
+	    # for line in res:
+	        # print(line)
+
+	return result
 
