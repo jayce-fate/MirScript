@@ -27,7 +27,7 @@ screenshot_path = r"temp_screenshot/screenshot.png"
 move_check_time = 40
 
 # 检查背包容量时间间隔，单位秒
-move_bag_capacity_time = 1200
+move_bag_capacity_time = 600
 
 # 读取当前坐标失败，尝试重新读取最大次数
 read_coordinate_fail_limit = 60
@@ -88,9 +88,11 @@ trash_list_white = [
                 "zhan_ma_dao",
                 "zhu_di",
                 "hei_tan_shou_zhuo",
+                "fang_da_jing",
                 ]
 
 trash_list_green = [
                 "bai_se_hu_chi_xiang_lian",
                 "shan_hu_jie_zhi",
+                "qiang_xiao_mo_fa_yao",
                 ]
