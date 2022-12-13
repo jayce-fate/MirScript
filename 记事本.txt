@@ -2,7 +2,7 @@
 
 自动攻击经验宝箱
 
-
+模拟器可能卡死
 
 多开？ https://blog.csdn.net/newlw/article/details/123043166 (好像走不通，使用不同模拟器得重新截图)
 
