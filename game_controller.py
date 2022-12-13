@@ -278,7 +278,7 @@ def read_bag_capacity():
 def is_bag_full():
 	result = read_bag_capacity()
 	if result != None:
-		if int(result[0]) <= 6:
+		if int(result[0]) < 6:
 			return True
 	return False
 
