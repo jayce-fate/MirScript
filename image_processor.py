@@ -212,11 +212,3 @@ def paddleocr_read(target_path,scope = None,lower_color = [],upper_color = []):
 	        # print(line)
 
 	return result
-
-#
-def show_map(map_path):
-	# 读取目标图片
-	target = cv2.imread(map_path)
-	# Display result image
-	cv2.imshow('image', target)
-	cv2.waitKey()

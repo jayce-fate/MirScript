@@ -564,7 +564,37 @@ def read_map_data(map_data_path):
 			data_list.append(point)
 	return data_list
 
+def get_map_scale():
+	adb_controller.screenshot(settings.screenshot_path)
+	map_name = read_map_name()
+	scale = (1.0, 1.0, 0, 0)
+	if map_name == "废矿东部":
+		scale = (1.0, 1.0, 0, 0)
+	elif map_name == "生死之间":
+		scale = (14.8, 9.3, 60, 0)
+	else:
+		scale = (14.8, 9.3, 60, 0)
+	return scale
+
 def show_map():
 	map_img_path = get_map_img_path()
-	image_processor.show_map(map_img_path)
+	map_data_path = get_map_data_path()
 
+	scale = get_map_scale()
+	color = [0, 255, 0] #b,g,r
+	line_width = 10
+
+	data_list = read_map_data(map_data_path)
+	# 读取目标图片
+	target = cv2.imread(map_img_path)
+	for index in range(0, len(data_list)):
+		point = data_list[index]
+		for x_idx in range(0, line_width):
+			for y_idx in range(0, line_width):
+				point_y = int((point[1]) * scale[1] - line_width * 0.5) + x_idx + scale[3]
+				point_x = int((point[0] + 1) * scale[0] - line_width * 0.5) + y_idx + scale[2]
+				target[point_y, point_x] = color
+
+	# Display result image
+	cv2.imshow('image', target)
+	cv2.waitKey()

@@ -15,6 +15,11 @@ def swipe(from_loc,to_loc,use_time):
 		+str(from_loc[0])+" "+str(from_loc[1])+" "+str(to_loc[0])+" "+str(to_loc[1])+" "+str(use_time))
 	time.sleep(use_time/1000)
 
+# 输入文字
+def input_text(text):
+	os.system("\"" + settings.adb_path + "\"" + " -s " + settings.device_address + " shell input text \"" + text + "\"")
+	time.sleep(0.001)
+
 # 关闭app
 def stop_app():
 	os.system("\"" + settings.adb_path + "\"" + " -s " + settings.device_address + " shell am force-stop  --user " + settings.package_UserId + " " + settings.package_name)

@@ -529,6 +529,7 @@ def generate_map_data():
 
 # generate_map_data()
 # game_controller.show_map()
+# adb_controller.input_text("999,999")
 
 
 
