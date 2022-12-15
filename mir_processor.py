@@ -465,9 +465,10 @@ def drop_trashes():
 	game_controller.click_arrange_bag()
 	time.sleep(2.0)
 	drop_trashes_loop()
-	game_controller.click_arrange_bag()
-	time.sleep(2.0)
-	drop_trashes_loop()
+	# 按整理再来一次，使物品顺序相反，减少同一种物品因为极品，没有继续循环的问题
+	# game_controller.click_arrange_bag()
+	# time.sleep(2.0)
+	# drop_trashes_loop()
 	game_controller.click_left_return()
 	game_controller.click_right_return()
 
@@ -481,6 +482,20 @@ def is_bag_full():
 	game_controller.click_right_return()
 
 	return is_bag_full
+
+def generate_map_data():
+	map_data_path = game_controller.get_map_data_path()
+	data_list = game_controller.read_map_data(map_data_path)
+	print("data_list[2]: {}".format(data_list[2]))
+	if (data_list[2] == (17, 57)):
+		print("true")
+	else:
+		print("false")
+	data_list.append((999, 999))
+
+	game_controller.write_map_data(map_data_path, data_list)
+
+
 
 
 # 练级
@@ -512,7 +527,8 @@ def is_bag_full():
 
 # drop_trashes()
 
-# game_controller.read_bag_capacity()
+# generate_map_data()
+# game_controller.show_map()
 
 
 

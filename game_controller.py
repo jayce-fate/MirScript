@@ -535,3 +535,36 @@ def select_item(item_name):
 		adb_controller.click(match_loc)
 		return True
 	return False
+
+def get_map_img_path():
+	adb_controller.screenshot(settings.screenshot_path)
+	map_name = read_map_name()
+	map_img_path = "template_images/maps/{}.png".format(str(map_name))
+	return map_img_path
+
+def get_map_data_path():
+	adb_controller.screenshot(settings.screenshot_path)
+	map_name = read_map_name()
+	map_data_path = "template_images/maps/{}.txt".format(str(map_name))
+	return map_data_path
+
+def write_map_data(map_data_path, data_list):
+	with open(map_data_path, 'w') as fp:
+		for item in data_list:
+			fp.write("%s\n" % str(item))
+
+def read_map_data(map_data_path):
+	data_list = []
+	with open(map_data_path, 'r') as fp:
+		for line in fp:
+			# remove linebreak, the last character of each line
+			x = line[:-1]
+			without_quote = x.replace("(", "").replace(")", "")
+			point = tuple(map(int, without_quote.split(',')))
+			data_list.append(point)
+	return data_list
+
+def show_map():
+	map_img_path = get_map_img_path()
+	image_processor.show_map(map_img_path)
+
