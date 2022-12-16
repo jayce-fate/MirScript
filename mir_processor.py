@@ -486,50 +486,46 @@ def is_bag_full():
 def generate_map_data():
 	map_data_path = game_controller.get_map_data_path()
 	data_list = game_controller.read_map_data(map_data_path)
-	print("data_list[2]: {}".format(data_list[2]))
-	if (data_list[2] == (17, 57)):
-		print("true")
-	else:
-		print("false")
-	data_list.append((999, 999))
+
+	game_controller.click_map()
+	time.sleep(1.0)
+
+	map_size = (100,100)
+	for x_idx in range(50, map_size[0]):
+		for y_idx in range(50, map_size[1]):
+			point = (x_idx, y_idx)
+			game_controller.click_map_aim()
+			time.sleep(0.4)
+			game_controller.click_map_input()
+			time.sleep(0.4)
+			game_controller.click_map_clear()
+			point_str = "{},{}".format(point[0], point[1])
+			adb_controller.input_text(point_str)
+			game_controller.click_map_edit_confirm()
+			game_controller.click_map_input_confirm()
+			time.sleep(0.2)
+			adb_controller.screenshot(settings.screenshot_path)
+			match_loc = image_processor.match_template(
+				settings.screenshot_path,r"template_images/map_point_indicate.png",0.05)
+			if(match_loc != None):
+				if not point in data_list:
+					data_list.append(point)
+				else:
+					print("point: {} already in map data list".format(str(point)))
 
 	game_controller.write_map_data(map_data_path, data_list)
 
 
 
 
-# 练级
-# start_get_exp()
-
-
 # ******************************************
 # test
 # ******************************************
-
-# game_controller.click_map()
-# adb_controller.screenshot(settings.screenshot_path)
-# game_controller.click_npc_wen_biao_tou()
-# game_controller.click_xun_lu()
-# game_controller.close_map()
-# adb_controller.screenshot(settings.screenshot_path)
-# game_controller.click_accept_ya_biao()
-# go_to_lu_lao_ban()
-
-# for index in range(0, 5):
-# 	# time.sleep(0.1)
-# 	game_controller.one_step_walk_left()
-# check_monster_reachable()
-
-# drop_trashes()
-
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.show_scope()
 
-# drop_trashes()
-
 # generate_map_data()
 # game_controller.show_map()
-# adb_controller.input_text("999,999")
 
 
 

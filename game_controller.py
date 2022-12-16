@@ -316,9 +316,27 @@ def click_sure_btn():
 		else:
 			time.sleep(0.001)
 
+def click_scope(scope):
+	point = ((scope[3] - scope[2]) / 2 + scope[2], (scope[1] - scope[0]) / 2 + scope[0])
+	adb_controller.click(point)
 
 def click_map():
 	adb_controller.click((1645, 100))
+
+def click_map_aim():
+	click_scope((712,781,1556,1619))
+
+def click_map_input():
+	click_scope((420,501,562,1084))
+
+def click_map_clear():
+	click_scope((37,101,1398,1528))
+
+def click_map_edit_confirm():
+	click_scope((229,289,1405,1520))
+
+def click_map_input_confirm():
+	click_scope((586,647,912,1166))
 
 def click_map_npc_wen_biao_tou():
 	match_loc = image_processor.match_template(
