@@ -485,19 +485,18 @@ def is_bag_full():
 
 def generate_map_data():
 	map_data_path = game_controller.get_map_data_path()
-	data_list = game_controller.read_map_data(map_data_path)
 
 	game_controller.click_map()
 	time.sleep(1.0)
 
 	map_size = (100,100)
-	for x_idx in range(50, map_size[0]):
-		for y_idx in range(50, map_size[1]):
+	for y_idx in range(0, map_size[1]):
+		data_list = game_controller.read_map_data(map_data_path)
+		for x_idx in range(0, map_size[0]):
 			point = (x_idx, y_idx)
 			game_controller.click_map_aim()
-			time.sleep(0.4)
 			game_controller.click_map_input()
-			time.sleep(0.4)
+			game_controller.click_map_input()
 			game_controller.click_map_clear()
 			point_str = "{},{}".format(point[0], point[1])
 			adb_controller.input_text(point_str)
@@ -506,14 +505,14 @@ def generate_map_data():
 			time.sleep(0.2)
 			adb_controller.screenshot(settings.screenshot_path)
 			match_loc = image_processor.match_template(
-				settings.screenshot_path,r"template_images/map_point_indicate.png",0.05)
+				settings.screenshot_path,r"template_images/map_point_indicate.png",0.1)
 			if(match_loc != None):
 				if not point in data_list:
 					data_list.append(point)
 				else:
 					print("point: {} already in map data list".format(str(point)))
 
-	game_controller.write_map_data(map_data_path, data_list)
+		game_controller.write_map_data(map_data_path, data_list)
 
 
 
@@ -524,7 +523,8 @@ def generate_map_data():
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.show_scope()
 
-# generate_map_data()
+generate_map_data()
+start_get_exp()
 # game_controller.show_map()
 
 

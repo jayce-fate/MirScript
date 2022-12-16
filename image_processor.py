@@ -50,7 +50,7 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None):
 	# print("ImageProcessor: best match value :"+str(min_val)+"   match location:"+str(min_loc[0])+" "+str(min_loc[1]))
 
 	if(min_val > threshold):
-		print("ImageProcessor: match failed: " + template_path)
+		print("ImageProcessor: match failed: " + template_path + ", best match value: " + str(min_val))
 		return None
 	else:
 		print("ImageProcessor: match succeeded: " + template_path + " scope: (" + str(min_loc[1]) + "," + str(min_loc[1] + theight) + "," + str(min_loc[0]) + "," + str(min_loc[0] + twidth) + ")")
