@@ -490,9 +490,9 @@ def generate_map_data():
 	time.sleep(1.0)
 
 	map_size = (100,100)
-	for y_idx in range(0, map_size[1]):
+	for y_idx in range(70, 85):
 		data_list = game_controller.read_map_data(map_data_path)
-		for x_idx in range(0, map_size[0]):
+		for x_idx in range(66, 88):
 			point = (x_idx, y_idx)
 			game_controller.click_map_aim()
 			game_controller.click_map_input()
@@ -524,7 +524,8 @@ def generate_map_data():
 # game_controller.show_scope()
 
 generate_map_data()
-start_get_exp()
+# game_controller.close_map()
+# start_get_exp()
 # game_controller.show_map()
 
 
