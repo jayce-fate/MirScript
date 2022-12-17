@@ -600,6 +600,7 @@ def show_map():
 
 	scale = get_map_scale()
 	color = [0, 255, 0] #b,g,r
+	color1 = [0, 0, 255] #b,g,r
 	line_width = 10
 
 	data_list = read_map_data(map_data_path)
@@ -612,6 +613,14 @@ def show_map():
 				point_y = int((point[1]) * scale[1] - line_width * 0.5) + x_idx + scale[3]
 				point_x = int((point[0] + 1) * scale[0] - line_width * 0.5) + y_idx + scale[2]
 				target[point_y, point_x] = color
+
+	# debug
+	# point = (83, 69)
+	# for x_idx in range(0, line_width):
+	# 	for y_idx in range(0, line_width):
+	# 		point_y = int((point[1]) * scale[1] - line_width * 0.5) + x_idx + scale[3]
+	# 		point_x = int((point[0] + 1) * scale[0] - line_width * 0.5) + y_idx + scale[2]
+	# 		target[point_y, point_x] = color1
 
 	# Display result image
 	cv2.imshow('image', target)
