@@ -11,7 +11,7 @@ import settings
 import image_processor
 import adb_controller
 import game_controller
-
+import path_controller
 
 def check_monster_reachable():
 	monster_list = game_controller.get_monster_list()
@@ -484,14 +484,14 @@ def is_bag_full():
 	return is_bag_full
 
 def generate_map_data():
-	map_data_path = game_controller.get_map_data_path()
+	map_data_path = path_controller.get_map_data_path()
+	map_size = path_controller.get_map_size()
 
 	game_controller.click_map()
 	time.sleep(1.0)
 
-	map_size = (100,100)
 	for y_idx in range(69, 89):
-		data_list = game_controller.read_map_data(map_data_path)
+		data_list = path_controller.read_map_data(map_data_path)
 		for x_idx in range(73, 76):
 			point = (x_idx, y_idx)
 			game_controller.click_map_aim()
@@ -512,7 +512,7 @@ def generate_map_data():
 				else:
 					print("point: {} already in map data list".format(str(point)))
 
-		game_controller.write_map_data(map_data_path, data_list)
+		path_controller.write_map_data(map_data_path, data_list)
 
 
 
@@ -526,8 +526,10 @@ def generate_map_data():
 # generate_map_data()
 # game_controller.close_map()
 # start_get_exp()
-# game_controller.show_map()
+# path_controller.show_map()
 
+path_controller.set_map_data()
+path_controller.get_path()
 
 
 
