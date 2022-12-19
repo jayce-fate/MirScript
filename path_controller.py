@@ -118,5 +118,58 @@ def set_map_data():
 	current_map_data = two_dimension_array
 	# print("current_map_data: \n{}".format(str(current_map_data)))
 
-def get_path():
+#通过给予的字母获得起所选定字母的位置
+def GetPosition(a):
+    for i in range(len(map)):
+        for j in range(len(map[i])):
+            if(map[i][j]==a):
+                return(i,j)
+
+#获得字母相邻的四个子位置
+def GetChild(position):
+    ls=[("-1","0"),("0","+1"),("+1","0"),("0","-1")]
+    child=[]
+    for i in range(4):
+        try:
+            Hang=position[0]+eval(ls[i][0])
+            Lie=position[1]+eval(ls[i][1])
+            if(Hang>=0 and Lie>=0 ):
+                if(map[Hang][Lie]!="0"):
+                    child.append(map[Hang][Lie])
+        except:
+            pass
+    return child
+
+#通过不断寻找子位置当找到选定的地点后，通过逆推找到最佳路线
+def find_path(start_pos, end_pos):
 	# print("current_map_data: \n{}".format(str(current_map_data)))
+	print("start_pos: {}".format(str(start_pos)))
+	print("end_pos: {}".format(str(end_pos)))
+
+	# start=list(starts)
+    # cacheLs=[]
+    # way=[]
+    # d={}
+    # flag=True
+    # while flag:
+    #     for i in start:
+    #         cacheLs.append(i)
+    #     ls=[]
+    #     for i in start:
+    #         if i==end:
+    #             way.append(i)
+    #             while True:
+    #                 way.append(d[i])
+    #                 i=d[i]
+    #                 if i==starts:
+    #                     break
+    #             flag=False
+    #     for i in start:
+    #         child=GetChild(GetPosition(i))
+    #         for j in child:
+    #             if j not in cacheLs and j not in ls:
+    #                 ls.append(j)
+    #                 d[j]=i
+    #     start=ls
+    # return way[::-1]
+
