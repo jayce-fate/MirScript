@@ -442,16 +442,20 @@ def start_ya_biao():
 	go_to_lu_lao_ban()
 
 
-def loop_drop_one_item(trash_name, is_green = False):
+def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
 	if game_controller.select_item(trash_name):
 		game_controller.click_drop()
 		adb_controller.screenshot(settings.screenshot_path)
-		if game_controller.is_quality():
-			game_controller.click_cancel_drop()
+		if force_drop:
+			game_controller.click_confirm_drop()
+			loop_drop_one_item(trash_name, is_green, force_drop)
 		else:
-			if is_green:
-				game_controller.click_confirm_drop()
-			loop_drop_one_item(trash_name)
+			if game_controller.is_quality():
+				game_controller.click_cancel_drop()
+			else:
+				if is_green:
+					game_controller.click_confirm_drop()
+				loop_drop_one_item(trash_name, is_green, force_drop)
 
 def drop_trashes_loop():
 	trash_list = settings.trash_list_white
@@ -469,9 +473,17 @@ def drop_trashes_loop():
 		print("trash_name: {}".format(str(trash_name)))
 		loop_drop_one_item(trash_name, is_green = True)
 
+	trash_list = settings.trash_list_force_drop
+	list_len = len(trash_list)
+	for index in range(0, list_len):
+		trash_name = trash_list[index]
+		print("trash_name: {}".format(str(trash_name)))
+		loop_drop_one_item(trash_name, force_drop = True)
+
 def drop_trashes():
 	game_controller.open_bag()
 	time.sleep(0.5)
+	game_controller.wipe_down_bag()
 	game_controller.click_arrange_bag()
 	time.sleep(2.0)
 	drop_trashes_loop()
@@ -541,5 +553,6 @@ def generate_map_data():
 # path_controller.set_map_data()
 # path = path_controller.find_path((48, 39), (49, 47))
 # print("find path: {}".format(str(path)))
+
 
 

@@ -538,6 +538,10 @@ def active_pet():
 def open_bag():
 	adb_controller.click((560, 860))
 
+def wipe_down_bag():
+	pos = (1000, 500)
+	adb_controller.swipe((pos[0], pos[1] + 50), (pos[0], pos[1] - 50), 200)
+
 def click_drop():
 	adb_controller.click((1310, 840))
 
