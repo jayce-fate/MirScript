@@ -540,10 +540,6 @@ def generate_map_data():
 
 # path_controller.set_map_data()
 # path = path_controller.find_path((48, 39), (49, 47))
-# for i in path:
-#    if i==way[-1]:
-# 	   print(i)
-#    else:
-# 	   print(i,end="=>")
+# print("find path: {}".format(str(path)))
 
 

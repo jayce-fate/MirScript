@@ -118,58 +118,121 @@ def set_map_data():
 	current_map_data = two_dimension_array
 	# print("current_map_data: \n{}".format(str(current_map_data)))
 
-#通过给予的字母获得起所选定字母的位置
-def GetPosition(a):
-    for i in range(len(map)):
-        for j in range(len(map[i])):
-            if(map[i][j]==a):
-                return(i,j)
 
-#获得字母相邻的四个子位置
-def GetChild(position):
-    ls=[("-1","0"),("0","+1"),("+1","0"),("0","-1")]
-    child=[]
-    for i in range(4):
-        try:
-            Hang=position[0]+eval(ls[i][0])
-            Lie=position[1]+eval(ls[i][1])
-            if(Hang>=0 and Lie>=0 ):
-                if(map[Hang][Lie]!="0"):
-                    child.append(map[Hang][Lie])
-        except:
-            pass
-    return child
 
-#通过不断寻找子位置当找到选定的地点后，通过逆推找到最佳路线
-def find_path(start_pos, end_pos):
+def find_path(start, end):
 	# print("current_map_data: \n{}".format(str(current_map_data)))
-	print("start_pos: {}".format(str(start_pos)))
-	print("end_pos: {}".format(str(end_pos)))
+	map_height = len(current_map_data)
+	print("map_height: {}".format(str(map_height)))
+	map_width = len(current_map_data[0])
+	print("map_width: {}".format(str(map_width)))
+	print("start: {}".format(str(start)))
+	print("end: {}".format(str(end)))
+	if start == end:
+		print("start == end")
+		return []
 
-	# start=list(starts)
-    # cacheLs=[]
-    # way=[]
-    # d={}
-    # flag=True
-    # while flag:
-    #     for i in start:
-    #         cacheLs.append(i)
-    #     ls=[]
-    #     for i in start:
-    #         if i==end:
-    #             way.append(i)
-    #             while True:
-    #                 way.append(d[i])
-    #                 i=d[i]
-    #                 if i==starts:
-    #                     break
-    #             flag=False
-    #     for i in start:
-    #         child=GetChild(GetPosition(i))
-    #         for j in child:
-    #             if j not in cacheLs and j not in ls:
-    #                 ls.append(j)
-    #                 d[j]=i
-    #     start=ls
-    # return way[::-1]
+	paths = [[start]]
+	# print("paths: {}".format(str(paths)))
+	while True:
+		total_count = len(paths)
+		new_paths = []
+		searched_points = []
+		for idx in range(0, total_count):
+			path = paths[idx]
+			last_point = path[-1]
+			# print("last_point: {}".format(str(last_point)))
+			x = last_point[0]
+			y = last_point[1]
+			if 0 <= x - 1 and 0 <= y - 1:
+				next_pos = (x - 1, y - 1)
+				if current_map_data[next_pos[1]][next_pos[0]] == 1:
+					if not next_pos in path and not next_pos in searched_points:
+						searched_points.append(next_pos)
+						new_path = list(path)
+						new_path.append(next_pos)
+						if new_path[-1] == end:
+							return new_path
+						new_paths.append(new_path)
+			if 0 <= y - 1:
+				next_pos = (x, y - 1)
+				if current_map_data[next_pos[1]][next_pos[0]] == 1:
+					if not next_pos in path and not next_pos in searched_points:
+						searched_points.append(next_pos)
+						new_path = list(path)
+						new_path.append(next_pos)
+						if new_path[-1] == end:
+							return new_path
+						new_paths.append(new_path)
+			if x + 1 < map_width and 0 <= y - 1:
+				next_pos = (x + 1, y - 1)
+				if current_map_data[next_pos[1]][next_pos[0]] == 1:
+					if not next_pos in path and not next_pos in searched_points:
+						searched_points.append(next_pos)
+						new_path = list(path)
+						new_path.append(next_pos)
+						if new_path[-1] == end:
+							return new_path
+						new_paths.append(new_path)
+			if 0 <= x - 1:
+				next_pos = (x - 1, y)
+				if current_map_data[next_pos[1]][next_pos[0]] == 1:
+					if not next_pos in path and not next_pos in searched_points:
+						searched_points.append(next_pos)
+						new_path = list(path)
+						new_path.append(next_pos)
+						if new_path[-1] == end:
+							return new_path
+						new_paths.append(new_path)
+			if x + 1 < map_width:
+				next_pos = (x + 1, y)
+				if current_map_data[next_pos[1]][next_pos[0]] == 1:
+					if not next_pos in path and not next_pos in searched_points:
+						searched_points.append(next_pos)
+						new_path = list(path)
+						new_path.append(next_pos)
+						if new_path[-1] == end:
+							return new_path
+						new_paths.append(new_path)
+			if 0 <= x - 1 and y + 1 < map_height:
+				next_pos = (x - 1, y + 1)
+				if current_map_data[next_pos[1]][next_pos[0]] == 1:
+					if not next_pos in path and not next_pos in searched_points:
+						searched_points.append(next_pos)
+						new_path = list(path)
+						new_path.append(next_pos)
+						if new_path[-1] == end:
+							return new_path
+						new_paths.append(new_path)
+			if y + 1 < map_height:
+				next_pos = (x, y + 1)
+				if current_map_data[next_pos[1]][next_pos[0]] == 1:
+					if not next_pos in path and not next_pos in searched_points:
+						searched_points.append(next_pos)
+						new_path = list(path)
+						new_path.append(next_pos)
+						if new_path[-1] == end:
+							return new_path
+						new_paths.append(new_path)
+			if x + 1 < map_width and y + 1 < map_height:
+				next_pos = (x + 1, y + 1)
+				if current_map_data[next_pos[1]][next_pos[0]] == 1:
+					if not next_pos in path and not next_pos in searched_points:
+						searched_points.append(next_pos)
+						new_path = list(path)
+						new_path.append(next_pos)
+						if new_path[-1] == end:
+							return new_path
+						new_paths.append(new_path)
+
+		# print("paths: {}".format(str(paths)))
+		# print("new_paths: {}".format(str(new_paths)))
+		if 0 == len(new_paths):
+			return []
+		else:
+			paths = new_paths
+
+
+
+
 
