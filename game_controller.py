@@ -549,7 +549,7 @@ def click_cancel_drop():
 	adb_controller.click((622, 616))
 
 def click_confirm_drop():
-	adb_controller.click((1038, 616))
+	adb_controller.click((938, 616))
 
 def click_arrange_bag():
 	adb_controller.click((1590, 714))

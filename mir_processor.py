@@ -443,27 +443,34 @@ def start_ya_biao():
 
 
 def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
+	print("loop_drop_one_item:" + trash_name + str(is_green) + str(force_drop))
 	if game_controller.select_item(trash_name):
 		game_controller.click_drop()
-		adb_controller.screenshot(settings.screenshot_path)
 		if force_drop:
 			game_controller.click_confirm_drop()
+			# print("click_confirm_drop")
+			adb_controller.screenshot(settings.screenshot_path)
 			loop_drop_one_item(trash_name, is_green, force_drop)
 		else:
+			time.sleep(0.1)
+			adb_controller.screenshot(settings.screenshot_path)
 			if game_controller.is_quality():
 				game_controller.click_cancel_drop()
+				adb_controller.screenshot(settings.screenshot_path)
 			else:
 				if is_green:
 					game_controller.click_confirm_drop()
+					adb_controller.screenshot(settings.screenshot_path)
 				loop_drop_one_item(trash_name, is_green, force_drop)
 
 def drop_trashes_loop():
+	adb_controller.screenshot(settings.screenshot_path)
+
 	trash_list = settings.trash_list_white
 	list_len = len(trash_list)
 	for index in range(0, list_len):
 		trash_name = trash_list[index]
 		print("trash_name: {}".format(str(trash_name)))
-		adb_controller.screenshot(settings.screenshot_path)
 		loop_drop_one_item(trash_name)
 
 	trash_list = settings.trash_list_green
@@ -554,5 +561,7 @@ def generate_map_data():
 # path = path_controller.find_path((48, 39), (49, 47))
 # print("find path: {}".format(str(path)))
 
-
+# adb_controller.screenshot(settings.screenshot_path)
+# loop_drop_one_item("强效魔法药", force_drop = True)
+# game_controller.click_confirm_drop()
 
