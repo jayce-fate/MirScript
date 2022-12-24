@@ -562,6 +562,16 @@ def generate_map_data():
 # print("find path: {}".format(str(path)))
 
 # adb_controller.screenshot(settings.screenshot_path)
-# loop_drop_one_item("强效魔法药", force_drop = True)
+# loop_drop_one_item(	"强效魔法药", force_drop = True)
 # game_controller.click_confirm_drop()
 
+	# adb_controller.screenshot(settings.screenshot_path)
+	# match_loc = image_processor.match_template(
+	# 	settings.screenshot_path,r"template_images/ground_items/item_gold_m.png",0.1)
+	# if(match_loc != None):
+	# 	print("find match_loc: {}".format(str(match_loc)))
+
+# image_processor.show_hsv_tool("temp_screenshot/screenshot1.png")
+
+# game_controller.check_ground_items()
+# game_controller.check_ground_golds()

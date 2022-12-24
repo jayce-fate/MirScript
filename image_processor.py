@@ -36,6 +36,7 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None):
 	# 对于其他方法max_val越趋近于1匹配度越好，匹配位置取max_loc
 	min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
 
+	# print("ImageProcessor: best match value :"+str(min_val)+"   match location:"+str(min_loc[0])+" "+str(min_loc[1]))
 
 	# 绘制矩形边框，将匹配区域标注出来
 	# min_loc：矩形定点
@@ -46,8 +47,6 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None):
 	# cv2.rectangle(target, min_loc, (min_loc[0]+twidth, min_loc[1]+theight),(0,0,255),2)
 	# cv2.imshow("MatchResult-----MatchingValue="+strmin_val,target)
 	# cv2.waitKey()
-
-	# print("ImageProcessor: best match value :"+str(min_val)+"   match location:"+str(min_loc[0])+" "+str(min_loc[1]))
 
 	if(min_val > threshold):
 		print("ImageProcessor: match failed: " + template_path + ", best match value: " + str(min_val))

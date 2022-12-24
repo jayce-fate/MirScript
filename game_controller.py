@@ -138,19 +138,13 @@ def open_or_close_map():
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
-def read_coordinate_text():
-	adb_controller.screenshot(settings.screenshot_path)
+def read_coordinate_text(need_screenshot = True):
+	if need_screenshot:
+		adb_controller.screenshot(settings.screenshot_path)
+
 	# 坐标颜色绿色参数
 	lower_color = [35,43,46]
 	upper_color = [75,255,255]
-	# result = image_processor.easyocr_read_en(settings.screenshot_path,(42,82,1540,1664),lower_color,upper_color)
-	# for reline in result:
-	# 	re_text = reline[1].replace(" ","")
-	# 	re_text = re.findall(r'\d+', re_text)
-	# 	print("coordinate text Found: {}".format(str(re_text)))
-	# 	return re_text
-	# return None
-
 	resultss = image_processor.paddleocr_read(settings.screenshot_path, (42,82,1540,1664),lower_color,upper_color)
 	result = get_first_result(resultss)
 	if result != None:
@@ -574,3 +568,79 @@ def select_item(item_name):
 		adb_controller.click(match_loc)
 		return True
 	return False
+
+def map_point_to_coordination(map_point):
+	my_coordinate = read_coordinate_text(need_screenshot = False)
+	center = (841.5, 504.5)
+	cell_size = (86, 58)
+	offset_x = (map_point[0] - center[0]) / cell_size[0]
+	offset_y = (map_point[1] - center[1]) / cell_size[1]
+	offset_x = round(offset_x)
+	offset_y = round(offset_y)
+	target_coord = (int(my_coordinate[0]) + offset_x, int(my_coordinate[1]) + offset_y)
+	print("target_coord: {}".format(str(target_coord)))
+	# print("offset_x: {}".format(str(offset_x)))
+	# print("offset_y: {}".format(str(offset_y)))
+	return target_coord
+
+
+def is_trash(trash_name):
+	trash = False
+	keywords = settings.ground_trashes_green_key_word
+	for idx in range(len(keywords)):
+		keyword = keywords[idx]
+		if keyword in trash_name:
+			trash = True
+			break
+
+	return trash
+
+
+def check_ground_items():
+	adb_controller.screenshot(settings.screenshot_path)
+	coords = []
+	# 底色绿色文字物品
+	lower_color = [35,43,46]
+	upper_color = [75,255,255]
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (0,790,0,1360),lower_color,upper_color)
+	for idx in range(len(resultss)):
+		results = resultss[idx]
+		for result in results:
+			# print("result: {}".format(str(result)))
+			name_rate = result[1] #('43', 0.99934321641922)
+			name = name_rate[0] #'43'
+			if not is_trash(name):
+				print("found ground treasure: {}".format(str(name)))
+				corners = result[0]
+				left_top_point = corners[0]
+				right_top_point = corners[1]
+				right_bottom_point = corners[2]
+				left_bottom_point = corners[3]
+				center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
+				center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
+				center = (center_x, center_y)
+				# print("center: {}".format(str(center)))
+				target_coord = map_point_to_coordination(center)
+				coords.append(target_coord)
+	return coords
+
+
+def check_ground_golds():
+	adb_controller.screenshot(settings.screenshot_path)
+	coords = []
+
+	dir = "template_images/ground_treasures/"
+	entries = os.listdir(dir)
+	for entry in entries:
+		if not "DS_Store" in entry:
+			path = "{}{}".format(dir, entry)
+			print("path: {}".format(str(path)))
+			match_loc = image_processor.match_template(
+				settings.screenshot_path, path, 0.01)
+			if(match_loc != None):
+				print("find match_loc: {}".format(str(match_loc)))
+				target_coord = map_point_to_coordination(match_loc)
+				coords.append(target_coord)
+
+	return coords
+

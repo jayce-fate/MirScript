@@ -22,6 +22,7 @@ package_UserId = "12"
 
 # 截屏保存路径
 screenshot_path = r"temp_screenshot/screenshot.png"
+screenshot_path1 = r"temp_screenshot/screenshot1.png"
 
 # 检查屏幕是否有怪间隔时间（距离上次移动），单位秒
 move_check_time = 40
@@ -119,4 +120,10 @@ trash_list_force_drop = [
                 "凌风",
                 "八荒",
                 "修罗",
+                ]
+
+
+ground_trashes_green_key_word = [
+                "虎齿",
+                "珊瑚",
                 ]
