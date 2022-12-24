@@ -596,8 +596,9 @@ def is_trash(trash_name):
 	return trash
 
 
-def check_ground_items():
-	adb_controller.screenshot(settings.screenshot_path)
+def check_ground_items(need_screenshot = True):
+	if need_screenshot:
+		adb_controller.screenshot(settings.screenshot_path)
 	coords = []
 	# 底色绿色文字物品
 	lower_color = [35,43,46]
@@ -625,8 +626,9 @@ def check_ground_items():
 	return coords
 
 
-def check_ground_golds():
-	adb_controller.screenshot(settings.screenshot_path)
+def check_ground_golds(need_screenshot = True):
+	if need_screenshot:
+		adb_controller.screenshot(settings.screenshot_path)
 	coords = []
 
 	dir = "template_images/ground_treasures/"

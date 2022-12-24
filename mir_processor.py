@@ -301,6 +301,8 @@ def start_get_exp():
 		print("程序结束")
 		return
 
+	path_controller.set_map_data()
+	
 	# 转换为单步路径
 	cave_path = game_controller.to_each_step_path(cave_path)
 	# print("start_get_exp cave_path1:{}".format(str(cave_path)))
@@ -325,11 +327,15 @@ def start_get_exp():
 				print("经验有增加")
 				if time.time() - last_move_time > settings.move_check_time:
 					while not check_monster_reachable():
+						collect_ground_treasures()
 						print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
 						go_to_next_point(cave_path)
 						last_move_time = time.time()
 			else:
-				print("经验没增加，去下一个点")
+				print("经验没增加")
+				if collect_ground_treasures() > 0:
+					continue
+
 				#移动到下一个点
 				go_to_next_point(cave_path)
 				last_move_time = time.time()
@@ -544,6 +550,29 @@ def generate_map_data():
 		path_controller.write_map_data(map_data_path, data_list)
 
 
+def collect_ground_treasures():
+	adb_controller.screenshot(settings.screenshot_path)
+	current_pos = get_current_coordinate()
+	item_coords = game_controller.check_ground_items(need_screenshot = False)
+	gold_coords = game_controller.check_ground_golds(need_screenshot = False)
+
+	for idx in range(0, len(item_coords)):
+		print("捡绿色物品")
+		coord = item_coords[idx]
+		path = path_controller.find_path(current_pos, coord)
+		step_go_by_path(path)
+		current_pos = globals.current_pos
+
+	for idx in range(0, len(gold_coords)):
+		print("捡金币")
+		coord = gold_coords[idx]
+		path = path_controller.find_path(current_pos, coord)
+		step_go_by_path(path)
+		current_pos = globals.current_pos
+
+	treasure_count = len(item_coords) + len(gold_coords);
+	return treasure_count
+
 
 
 # ******************************************
@@ -575,3 +604,4 @@ def generate_map_data():
 
 # game_controller.check_ground_items()
 # game_controller.check_ground_golds()
+# collect_ground_treasures()
