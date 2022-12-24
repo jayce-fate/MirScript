@@ -272,7 +272,7 @@ def read_quality_text():
 		return result
 	return None
 
-def read_bag_capacity():
+def read_bag_remain_capacity():
 	adb_controller.screenshot(settings.screenshot_path)
 	# 等级颜色米色参数
 	lower_color = [0,0,212]
@@ -283,14 +283,14 @@ def read_bag_capacity():
 		print("背包容量: {}".format(str(result)))
 		digit_array = re.findall(r'\d+\.?\d*', result)
 		print("digit_array: {}".format(str(digit_array)))
-		return digit_array
-	return None
+		capacity = int(digit_array[0])
+		return capacity
+	return -1
 
 def is_bag_full():
-	result = read_bag_capacity()
-	if result != None:
-		if int(result[0]) < 6:
-			return True
+	result = read_bag_remain_capacity()
+	if result < 6:
+		return True
 	return False
 
 def is_quality():
