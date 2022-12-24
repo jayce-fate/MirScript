@@ -326,7 +326,8 @@ def start_get_exp():
 			if check_exp_getting():
 				print("经验有增加")
 				if time.time() - last_move_time > settings.move_check_time:
-					if collect_ground_treasures() > 0:
+					if not check_monster_reachable() and collect_ground_treasures() > 0:
+						last_check_bag_capacity_time = time.time()
 						continue
 					while not check_monster_reachable():
 						print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
@@ -335,6 +336,7 @@ def start_get_exp():
 			else:
 				print("经验没增加")
 				if collect_ground_treasures() > 0:
+					last_check_bag_capacity_time = time.time()
 					continue
 
 				#移动到下一个点
@@ -345,6 +347,14 @@ def start_get_exp():
 					last_move_time = time.time()
 	except SystemExit as err:
 		if err.args[0] == "RESTART":
+			print("重启游戏")
+			game_controller.restart_game()
+			success = game_controller.active_pet()
+			if success:
+				start_get_exp()
+			else:
+				game_controller.restart_game()
+		else:
 			print("重启游戏")
 			game_controller.restart_game()
 			success = game_controller.active_pet()
