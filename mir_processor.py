@@ -570,6 +570,16 @@ def drink_red():
 		adb_controller.click(match_loc)
 		adb_controller.click(match_loc)
 
+def drink_sun_water():
+	print("drink_sun_water")
+	adb_controller.screenshot(settings.screenshot_path)
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/items/强效太阳水.png",0.1)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+		adb_controller.click(match_loc)
+		adb_controller.click(match_loc)
+
 def try_get_bag_space(space_need):
 	if space_need > 0:
 		game_controller.open_bag()
@@ -587,8 +597,17 @@ def try_get_bag_space(space_need):
 				game_controller.click_right_return()
 				return True
 
-			for idx in range(0, len(space_need - remain_capacity)):
+			for idx in range(0, space_need - remain_capacity):
 				drink_red()
+
+			remain_capacity = game_controller.read_bag_remain_capacity()
+			if space_need <= remain_capacity:
+				game_controller.click_left_return()
+				game_controller.click_right_return()
+				return True
+
+			for idx in range(0, space_need - remain_capacity):
+				drink_sun_water()
 
 			remain_capacity = game_controller.read_bag_remain_capacity()
 			if space_need <= remain_capacity:
