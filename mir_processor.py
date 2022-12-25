@@ -317,6 +317,10 @@ def start_get_exp():
 			#消除系统确定消息框
 			game_controller.click_sure_btn()
 
+			if collect_ground_treasures() > 0:
+				last_check_bag_capacity_time = time.time()
+				continue
+
 			if time.time() - last_check_bag_capacity_time > settings.move_bag_capacity_time:
 				last_check_bag_capacity_time = time.time()
 				if is_bag_full():
@@ -326,19 +330,12 @@ def start_get_exp():
 			if check_exp_getting():
 				print("经验有增加")
 				if time.time() - last_move_time > settings.move_check_time:
-					if not check_monster_reachable() and collect_ground_treasures() > 0:
-						last_check_bag_capacity_time = time.time()
-						continue
 					while not check_monster_reachable():
 						print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
 						go_to_next_point(cave_path)
 						last_move_time = time.time()
 			else:
 				print("经验没增加")
-				if collect_ground_treasures() > 0:
-					last_check_bag_capacity_time = time.time()
-					continue
-
 				#移动到下一个点
 				go_to_next_point(cave_path)
 				last_move_time = time.time()
