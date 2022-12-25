@@ -306,20 +306,20 @@ def start_get_exp():
 		nearest_pos = get_nearest_pos(cave_path)
 		globals.current_path_index = cave_path.index(nearest_pos)
 		last_move_time = 0
-		last_check_bag_capacity_time = 0
+		# last_check_bag_capacity_time = 0
 
 		while(True):
 			#消除系统确定消息框
 			game_controller.click_sure_btn()
 
 			if collect_ground_treasures() > 0:
-				last_check_bag_capacity_time = time.time()
+				# last_check_bag_capacity_time = time.time()
 				continue
 
-			if time.time() - last_check_bag_capacity_time > settings.move_bag_capacity_time:
-				last_check_bag_capacity_time = time.time()
-				if is_bag_full():
-					drop_trashes()
+			# if time.time() - last_check_bag_capacity_time > settings.move_bag_capacity_time:
+			# 	last_check_bag_capacity_time = time.time()
+			# 	if is_bag_full():
+			# 		drop_trashes()
 			# check_level()
 
 			if check_exp_getting():
