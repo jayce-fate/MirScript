@@ -230,24 +230,38 @@ def go_to_next_point(cave_path):
 	step_path = []
 	if globals.current_pos in cave_path:
 		# print("globals.current_pos in cave_path")
-		globals.current_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
+		# print("globals.current_pos".format(str(globals.current_pos)))
+		# print("path_len = {}".format(str(path_len)))
+		# print("settings.one_time_move_distance = {}".format(str(settings.one_time_move_distance)))
 		# print("globals.current_path_index = {}".format(str(globals.current_path_index)))
-		target_pos = cave_path[globals.current_path_index]
+		next_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
+		# print("globals.current_path_index = {}".format(str(globals.current_path_index)))
+		target_pos = cave_path[next_path_index]
 		# print("target_pos = {}".format(str(target_pos)))
 
 		if globals.current_pos == target_pos:
 			return
 
-		step_path = [target_pos]
+		step_path_tmp = [target_pos]
 		for index in range(0, path_len):
-			path_index = (path_len + globals.current_path_index - 1 - index) % path_len
+			path_index = (path_len + next_path_index - 1 - index) % path_len
 			# print("path_index = {}".format(str(path_index)))
 			pos = cave_path[path_index]
-			step_path = [pos] + step_path
-			# print("step_path = {}".format(str(step_path)))
-			if globals.current_pos == pos:
+			step_path_tmp = [pos] + step_path_tmp
+			if len(step_path_tmp) > settings.one_time_move_distance + 1:
+				print("len(step_path_tmp) > settings.one_time_move_distance + 1")
 				break
-	else:
+				# print("step_path_tmp = {}".format(str(step_path_tmp)))
+				# print("path_index = {}".format(str(path_index)))
+				# print("cave_path = {}".format(str(cave_path)))
+			# print("step_path_tmp = {}".format(str(step_path_tmp)))
+			if globals.current_pos == pos:
+				if len(step_path_tmp) <= settings.one_time_move_distance + 1:
+					step_path = step_path_tmp
+					globals.current_path_index = next_path_index
+				break
+
+	if len(step_path) == 0:
 		# print("globals.current_pos NOT in cave_path")
 		nearest_pos = get_nearest_pos(cave_path)
 		# print("nearest_pos：{}".format(str(nearest_pos)))
