@@ -22,7 +22,7 @@ def check_monster_reachable():
 		return False
 
 def check_exp_getting():
-	for index in range(0, 10):
+	for index in range(0, 5):
 		if game_controller.got_exp_add_text():
 			print("exp adding")
 			return True
@@ -31,25 +31,6 @@ def check_exp_getting():
 
 	print("exp not adding")
 	return False
-	# start_exp = game_controller.read_current_exp()
-	# print("当前经验值: {}".format(str(start_exp)))
-	#
-	# sleep_time = 20
-	# time.sleep(sleep_time)
-	#
-	# end_exp = game_controller.read_current_exp()
-	# print("经过{}秒,当前经验值: {}".format(sleep_time, str(end_exp)))
-	#
-	# # 经验读取失败，默认经验仍在增加，偏向于不移动(等过check_exp_getting的时间无怪再移动)
-	# if start_exp == None or end_exp == None:
-	# 	return True
-	#
-	# cha = end_exp - start_exp
-	# print("{} - {} =  {}".format(str(end_exp), str(start_exp), str(cha)))
-	# if cha > 0:
-	# 	return True
-	# else:
-	# 	return False
 
 
 def get_current_coordinate():
