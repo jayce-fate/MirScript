@@ -504,9 +504,11 @@ def drop_trashes_loop():
 		print("trash_name: {}".format(str(trash_name)))
 		loop_drop_one_item(trash_name, force_drop = True)
 
-def drop_trashes():
-	game_controller.open_bag()
-	time.sleep(0.5)
+def drop_trashes(neen_open_close_bag = True):
+	if neen_open_close_bag:
+		game_controller.open_bag()
+		time.sleep(0.5)
+
 	game_controller.wipe_down_bag()
 	game_controller.click_arrange_bag()
 	time.sleep(2.0)
@@ -515,8 +517,9 @@ def drop_trashes():
 	# game_controller.click_arrange_bag()
 	# time.sleep(2.0)
 	# drop_trashes_loop()
-	game_controller.click_left_return()
-	game_controller.click_right_return()
+	if neen_open_close_bag:
+		game_controller.click_left_return()
+		game_controller.click_right_return()
 
 def is_bag_full():
 	game_controller.open_bag()
@@ -569,6 +572,9 @@ def drink_red():
 		adb_controller.click(match_loc)
 		adb_controller.click(match_loc)
 		adb_controller.click(match_loc)
+		return True
+	else:
+		return False
 
 def drink_sun_water():
 	print("drink_sun_water")
@@ -579,6 +585,9 @@ def drink_sun_water():
 		adb_controller.click(match_loc)
 		adb_controller.click(match_loc)
 		adb_controller.click(match_loc)
+		return True
+	else:
+		return False
 
 def try_get_bag_space(space_need):
 	if space_need > 0:
@@ -590,7 +599,7 @@ def try_get_bag_space(space_need):
 			game_controller.click_right_return()
 			return True
 		else:
-			drop_trashes()
+			drop_trashes(neen_open_close_bag = False)
 			remain_capacity = game_controller.read_bag_remain_capacity()
 			if space_need <= remain_capacity:
 				game_controller.click_left_return()
@@ -598,7 +607,8 @@ def try_get_bag_space(space_need):
 				return True
 
 			for idx in range(0, space_need - remain_capacity):
-				drink_red()
+				if not drink_red():
+					break
 
 			remain_capacity = game_controller.read_bag_remain_capacity()
 			if space_need <= remain_capacity:
@@ -607,7 +617,8 @@ def try_get_bag_space(space_need):
 				return True
 
 			for idx in range(0, space_need - remain_capacity):
-				drink_sun_water()
+				if not drink_sun_water():
+					break
 
 			remain_capacity = game_controller.read_bag_remain_capacity()
 			if space_need <= remain_capacity:
@@ -625,20 +636,24 @@ def collect_ground_treasures():
 	gold_coords = game_controller.check_ground_golds(need_screenshot = False)
 	gold_count = len(gold_coords)
 	treasure_count = item_count + gold_count
-	if try_get_bag_space(item_count):
+	# 多腾点空间，以免金币上面有别的东西
+	if try_get_bag_space(treasure_count):
+		path_all = [current_pos]
 		for idx in range(0, item_count):
 			print("捡绿色物品")
 			coord = item_coords[idx]
-			path = path_controller.find_path(current_pos, coord)
-			step_go_by_path(path)
+			path = path_controller.find_path(path_all[len(path_all) - 1], coord)
+			path_all = path_all + path[1:]
 			current_pos = globals.current_pos
 
 		for idx in range(0, gold_count):
 			print("捡金币")
 			coord = gold_coords[idx]
-			path = path_controller.find_path(current_pos, coord)
-			step_go_by_path(path)
+			path = path_controller.find_path(path_all[len(path_all) - 1], coord)
+			path_all = path_all + path[1:]
 			current_pos = globals.current_pos
+
+		step_go_by_path(path_all)
 
 		collect_count = treasure_count
 	else:
@@ -677,4 +692,6 @@ def collect_ground_treasures():
 
 # game_controller.check_ground_items()
 # game_controller.check_ground_golds()
+
+# path_controller.set_map_data()
 # collect_ground_treasures()
