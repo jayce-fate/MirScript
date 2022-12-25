@@ -312,20 +312,17 @@ def get_map_path():
 		print("当前地图:{} 未设置挂机路径".format(map_name))
 	return cave_path
 
-def click_sure_btn():
-	# print("click_sure_btn....")
 
-	# 弹出公告自动点击确定
-	for tab_index in range(0,1):
-		adb_controller.screenshot(settings.screenshot_path)
-		# 弹框可被拖动，所以不指定区域
-		match_loc = image_processor.match_template(
-			settings.screenshot_path,r"template_images/btn_sure.png",0.05)
-		if(match_loc != None):
-			print("检测到弹框确定按钮，自动关闭....")
-			adb_controller.click(match_loc)
-		else:
-			time.sleep(0.001)
+# 如有弹出公告，则点击确定
+def click_sure_btn():
+	adb_controller.screenshot(settings.screenshot_path)
+	# 弹框可被拖动，所以不指定区域
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_sure.png",0.05,(529,702,623,1039))
+	if(match_loc != None):
+		print("检测到弹框确定按钮，自动关闭....")
+		adb_controller.click(match_loc)
+
 
 def click_scope(scope):
 	point = ((scope[3] - scope[2]) / 2 + scope[2], (scope[1] - scope[0]) / 2 + scope[0])
@@ -646,3 +643,29 @@ def check_ground_golds(need_screenshot = True):
 
 	return coords
 
+
+def drink_red():
+	print("drink_red")
+	adb_controller.screenshot(settings.screenshot_path)
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/items/强效金疮药.png",0.1)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+		adb_controller.click(match_loc)
+		adb_controller.click(match_loc)
+		return True
+	else:
+		return False
+
+def drink_sun_water():
+	print("drink_sun_water")
+	adb_controller.screenshot(settings.screenshot_path)
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/items/强效太阳水.png",0.1)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+		adb_controller.click(match_loc)
+		adb_controller.click(match_loc)
+		return True
+	else:
+		return False

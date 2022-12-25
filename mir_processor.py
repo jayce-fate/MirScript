@@ -541,32 +541,6 @@ def generate_map_data():
 
 		path_controller.write_map_data(map_data_path, data_list)
 
-def drink_red():
-	print("drink_red")
-	adb_controller.screenshot(settings.screenshot_path)
-	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/items/强效金疮药.png",0.1)
-	if(match_loc != None):
-		adb_controller.click(match_loc)
-		adb_controller.click(match_loc)
-		adb_controller.click(match_loc)
-		return True
-	else:
-		return False
-
-def drink_sun_water():
-	print("drink_sun_water")
-	adb_controller.screenshot(settings.screenshot_path)
-	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/items/强效太阳水.png",0.1)
-	if(match_loc != None):
-		adb_controller.click(match_loc)
-		adb_controller.click(match_loc)
-		adb_controller.click(match_loc)
-		return True
-	else:
-		return False
-
 def try_get_bag_space(space_need):
 	if space_need > 0:
 		game_controller.open_bag()
@@ -585,7 +559,7 @@ def try_get_bag_space(space_need):
 				return True
 
 			for idx in range(0, space_need - remain_capacity):
-				if not drink_red():
+				if not game_controller.drink_red():
 					break
 
 			remain_capacity = game_controller.read_bag_remain_capacity()
@@ -595,7 +569,7 @@ def try_get_bag_space(space_need):
 				return True
 
 			for idx in range(0, space_need - remain_capacity):
-				if not drink_sun_water():
+				if not game_controller.drink_sun_water():
 					break
 
 			remain_capacity = game_controller.read_bag_remain_capacity()
