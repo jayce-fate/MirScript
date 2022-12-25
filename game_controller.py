@@ -243,6 +243,23 @@ def got_exp_add_text():
 				return True
 	return False
 
+def got_bag_full_text():
+	adb_controller.screenshot(settings.screenshot_path)
+	# 颜色参数
+	lower_color = [14,255,255]
+	upper_color = [30,255,255]
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (100,350,675,1000),lower_color,upper_color)
+	for idx in range(len(resultss)):
+		results = resultss[idx]
+		for result in results:
+			rec = result[1] #('43', 0.99934321641922)
+			res = rec[0] #'43'
+			print("text: {}".format(str(res)))
+			if "满" in res:
+				return True
+	return False
+
 def read_map_name():
 	# 等级颜色米色参数
 	lower_color = [0,0,130]

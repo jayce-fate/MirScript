@@ -594,36 +594,63 @@ def try_get_bag_space(space_need):
 
 	return False
 
+def handle_bag_full():
+	while game_controller.got_bag_full_text():
+		if not try_get_bag_space(1):
+			print("背包已满，无法腾出空间，休息2秒")
+			time.sleep(2)
+
 def collect_ground_treasures():
 	adb_controller.screenshot(settings.screenshot_path)
-	current_pos = get_current_coordinate()
+	# current_pos = get_current_coordinate()
 	item_coords = game_controller.check_ground_items(need_screenshot = False)
 	item_count = len(item_coords)
-	gold_coords = game_controller.check_ground_golds(need_screenshot = False)
-	gold_count = len(gold_coords)
-	treasure_count = item_count + gold_count
-	# 多腾点空间，以免金币上面有别的东西
-	if try_get_bag_space(treasure_count):
-		path_all = [current_pos]
-		for idx in range(0, item_count):
-			print("捡绿色物品")
-			coord = item_coords[idx]
-			path = path_controller.find_path(path_all[len(path_all) - 1], coord)
-			path_all = path_all + path[1:]
-			current_pos = globals.current_pos
+	# gold_coords = game_controller.check_ground_golds(need_screenshot = False)
+	# gold_count = len(gold_coords)
+	# treasure_count = item_count + gold_count
 
-		for idx in range(0, gold_count):
+	# 多腾点空间，以免金币上面有别的东西
+	# if try_get_bag_space(treasure_count):
+	# 	path_all = [current_pos]
+	# 	for idx in range(0, item_count):
+	# 		print("捡绿色物品")
+	# 		coord = item_coords[idx]
+	# 		path = path_controller.find_path(path_all[len(path_all) - 1], coord)
+	# 		path_all = path_all + path[1:]
+	# 		current_pos = globals.current_pos
+	#
+	# 	for idx in range(0, gold_count):
+	# 		print("捡金币")
+	# 		coord = gold_coords[idx]
+	# 		path = path_controller.find_path(path_all[len(path_all) - 1], coord)
+	# 		path_all = path_all + path[1:]
+	# 		current_pos = globals.current_pos
+	#
+	# 	step_go_by_path(path_all)
+	#
+	# 	collect_count = treasure_count
+	# else:
+	# 	collect_count = 0
+
+	collect_count = 0
+	for idx in range(0, item_count):
+		print("捡绿色物品")
+		coord = item_coords[idx]
+		path = path_controller.find_path(globals.current_pos, coord)
+		step_go_by_path(path)
+		collect_count = collect_count + 1
+		handle_bag_full()
+
+	gold_coords = game_controller.check_ground_golds()
+	while 0 < len(gold_coords):
+		for idx in range(0, len(gold_coords)):
 			print("捡金币")
 			coord = gold_coords[idx]
-			path = path_controller.find_path(path_all[len(path_all) - 1], coord)
-			path_all = path_all + path[1:]
-			current_pos = globals.current_pos
-
-		step_go_by_path(path_all)
-
-		collect_count = treasure_count
-	else:
-		collect_count = 0
+			path = path_controller.find_path(globals.current_pos, coord)
+			step_go_by_path(path)
+			collect_count = collect_count + 1
+			handle_bag_full()
+		gold_coords = game_controller.check_ground_golds()
 
 	return collect_count
 
@@ -661,3 +688,4 @@ def collect_ground_treasures():
 
 # path_controller.set_map_data()
 # collect_ground_treasures()
+# handle_bag_full()
