@@ -612,6 +612,22 @@ def is_trash(trash_name):
 	return trash
 
 
+#检验是否全是中文字符
+def is_all_chinese(strs):
+    for _char in strs:
+        if not '\u4e00' <= _char <= '\u9fa5':
+            return False
+    return True
+
+
+#检验是否含有中文字符
+def is_contains_chinese(strs):
+    for _char in strs:
+        if '\u4e00' <= _char <= '\u9fa5':
+            return True
+    return False
+
+
 def check_ground_items(need_screenshot = True):
 	if need_screenshot:
 		adb_controller.screenshot(settings.screenshot_path)
@@ -626,19 +642,21 @@ def check_ground_items(need_screenshot = True):
 			# print("result: {}".format(str(result)))
 			name_rate = result[1] #('43', 0.99934321641922)
 			name = name_rate[0] #'43'
-			if not is_trash(name):
-				print("found ground treasure: {}".format(str(name)))
-				corners = result[0]
-				left_top_point = corners[0]
-				right_top_point = corners[1]
-				right_bottom_point = corners[2]
-				left_bottom_point = corners[3]
-				center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
-				center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
-				center = (center_x, center_y)
-				# print("center: {}".format(str(center)))
-				target_coord = map_point_to_coordination(center)
-				coords.append(target_coord)
+			if is_contains_chinese(name):
+				if not is_trash(name):
+					print("found ground treasure: {}".format(str(name)))
+					corners = result[0]
+					left_top_point = corners[0]
+					right_top_point = corners[1]
+					right_bottom_point = corners[2]
+					left_bottom_point = corners[3]
+					center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
+					center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
+					center = (center_x, center_y)
+					# print("center: {}".format(str(center)))
+					target_coord = map_point_to_coordination(center)
+					coords.append(target_coord)
+
 	return coords
 
 

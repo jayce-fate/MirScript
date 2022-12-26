@@ -641,9 +641,10 @@ def collect_ground_treasures():
 		print("捡绿色物品")
 		coord = item_coords[idx]
 		path = path_controller.find_path(globals.current_pos, coord)
-		step_go_by_path(path)
-		collect_count = collect_count + 1
-		handle_bag_full()
+		if len(path) > 0:
+			step_go_by_path(path)
+			collect_count = collect_count + 1
+			handle_bag_full()
 
 	gold_coords = game_controller.check_ground_golds()
 	while 0 < len(gold_coords):
