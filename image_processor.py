@@ -54,12 +54,13 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None):
 	else:
 		print("ImageProcessor: match succeeded: " + template_path + " scope: (" + str(min_loc[1]) + "," + str(min_loc[1] + theight) + "," + str(min_loc[0]) + "," + str(min_loc[0] + twidth) + ")")
 
+	# print("min_loc: " + str(min_loc))
+	center_loc = (min_loc[0] + twidth / 2,min_loc[1] + theight / 2)
 	if(scope != None):
-		min_loc = (min_loc[0] + scope[2],min_loc[1] + scope[0])
-	else:
-		min_loc = (min_loc[0] + twidth/2,min_loc[1] + theight/2)
+		# print("scope: " + str(scope))
+		center_loc = (center_loc[0] + scope[2], center_loc[1] + scope[0])
 
-	return min_loc
+	return center_loc
 
 # 匹配文字
 def easyocr_read(reader,target_path,scope = None,lower_color = [],upper_color = []):

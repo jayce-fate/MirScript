@@ -157,16 +157,6 @@ def read_lv_text():
 	# 等级颜色米色参数
 	lower_color = [0,0,212]
 	upper_color = [179,255,255]
-	# result = image_processor.easyocr_read_en(settings.screenshot_path,(56,100,58,104),lower_color,upper_color)
-	# for reline in result:
-	# 	re_text = reline[1].replace(" ","")
-	# 	re_text = re.findall(r'\d+', re_text)
-	# 	if(len(re_text) != 0):
-	# 		print("当前等级: {}".format(str(re_text[0])))
-	# 		return int(re_text[0])
-	# 	else:
-	# 		return -1
-	# return -1
 
 	resultss = image_processor.paddleocr_read(settings.screenshot_path, (56,100,58,104),lower_color,upper_color)
 	result = get_first_result(resultss)
@@ -175,6 +165,18 @@ def read_lv_text():
 		return int(result)
 	return -1
 
+def connection_lose():
+	# adb_controller.screenshot(settings.screenshot_path)
+	# 等级颜色米色参数
+	lower_color = [0,0,212]
+	upper_color = [179,255,255]
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (390,462,620,1023),lower_color,upper_color)
+	result = get_first_result(resultss)
+	if result != None:
+		print("当前提示文字: {}".format(str(result)))
+		if "断开" in result:
+			return True
+	return False
 
 def already_has_master():
 	print("检查是否已拜师....")
@@ -337,7 +339,7 @@ def click_sure_btn():
 	match_loc = image_processor.match_template(
 		settings.screenshot_path,r"template_images/btn_sure.png",0.05,(529,702,623,1039))
 	if(match_loc != None):
-		print("检测到弹框确定按钮，自动关闭....")
+		print("检测到弹框确定按钮，自动关闭...." + str(match_loc))
 		adb_controller.click(match_loc)
 
 

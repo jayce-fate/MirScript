@@ -309,8 +309,12 @@ def start_get_exp():
 		# last_check_bag_capacity_time = 0
 
 		while(True):
-			#消除系统确定消息框
-			game_controller.click_sure_btn()
+			if game_controller.connection_lose():
+				print("断开")
+				raise SystemExit("RESTART")
+			else:
+				#消除系统确定消息框
+				game_controller.click_sure_btn()
 
 			if collect_ground_treasures() > 0:
 				# last_check_bag_capacity_time = time.time()
@@ -689,3 +693,6 @@ def collect_ground_treasures():
 # path_controller.set_map_data()
 # collect_ground_treasures()
 # handle_bag_full()
+
+# game_controller.click_sure_btn()
+
