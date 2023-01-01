@@ -14,7 +14,7 @@ import settings
 paddleocr = PaddleOCR(use_angle_cls=False, lang="ch", show_log=False)
 
 # 图片匹配
-def match_template(target_path,template_path,threshold = 0.05,scope = None):
+def match_template(target_path,template_path,threshold = 0.05,scope = None, masks = None):
 	# print("ImageProcessor: start to match "+target_path+" by "+template_path)
 
 	# 读取目标图片
@@ -23,6 +23,16 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None):
 	template = cv2.imread(template_path)
 	# 获得模版图片的宽高尺寸
 	theight, twidth = template.shape[:2]
+
+	if masks != None:
+		for mask in masks:
+			# print(str(mask))
+			for x in range(mask[0], mask[1]):
+				for y in range(mask[2], mask[3]):
+					target[x, y] = [0, 0, 255]
+					template[x, y] = [0, 0, 255]
+		# cv2.imshow('image', template)
+		# cv2.waitKey()
 
 	# 对应y0,y1 x0,x1
 	if(scope != None):
@@ -52,7 +62,7 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None):
 		print("ImageProcessor: match failed: " + template_path + ", best match value: " + str(min_val))
 		return None
 	else:
-		print("ImageProcessor: match succeeded: " + template_path + " scope: (" + str(min_loc[1]) + "," + str(min_loc[1] + theight) + "," + str(min_loc[0]) + "," + str(min_loc[0] + twidth) + ")")
+		print("ImageProcessor: match succeeded: " + template_path + " scope: (" + str(min_loc[1]) + "," + str(min_loc[1] + theight) + "," + str(min_loc[0]) + "," + str(min_loc[0] + twidth) + ")" + ", best match value: " + str(min_val))
 
 	# print("min_loc: " + str(min_loc))
 	center_loc = (min_loc[0] + twidth / 2,min_loc[1] + theight / 2)

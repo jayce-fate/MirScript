@@ -329,7 +329,7 @@ def start_get_exp():
 			if check_exp_getting():
 				print("经验有增加")
 				if time.time() - last_move_time > settings.move_check_time:
-					while not check_monster_reachable():
+					while not is_monster_nearby(): #or not check_monster_reachable():
 						print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
 						go_to_next_point(cave_path)
 						last_move_time = time.time()
@@ -338,7 +338,7 @@ def start_get_exp():
 				#移动到下一个点
 				go_to_next_point(cave_path)
 				last_move_time = time.time()
-				while not check_monster_reachable():
+				while not is_monster_nearby(): #or not check_monster_reachable():
 					go_to_next_point(cave_path)
 					last_move_time = time.time()
 	except SystemExit as err:
@@ -660,6 +660,25 @@ def collect_ground_treasures():
 	return collect_count
 
 
+def is_monster_nearby():
+	adb_controller.screenshot(settings.screenshot_path1)
+	adb_controller.screenshot(settings.screenshot_path2)
+	masks = []
+	masks.append((0,34,440,1234)) #顶部滚动通知
+	masks.append((42,198,1354,1664)) #右上角地图
+	masks.append((796,936,625,1196)) #底部聊天窗口
+	masks.append((358,600,710,980)) #我自己
+	masks.append((152,274,756,910)) #经验提示框1
+	masks.append((796,936,470,610)) #血、魔球
+	match_loc = image_processor.match_template(
+		settings.screenshot_path1, settings.screenshot_path2, 0.0001, masks = masks)
+	if(match_loc != None):
+		print("monster not nearby")
+		return False
+	else:
+		print("monster nearby")
+		return True
+
 
 # ******************************************
 # test
@@ -696,4 +715,5 @@ def collect_ground_treasures():
 # handle_bag_full()
 
 # game_controller.click_sure_btn()
+# is_monster_nearby()
 
