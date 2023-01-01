@@ -221,7 +221,6 @@ def get_step_path_to(target_pos):
 	return step_path
 
 def go_to_next_point(cave_path):
-	# print("go_to_next_point cave_path:{}".format(str(cave_path)))
 	if globals.current_pos == (0, 0):
 		get_current_coordinate()
 
@@ -229,32 +228,19 @@ def go_to_next_point(cave_path):
 
 	step_path = []
 	if globals.current_pos in cave_path:
-		# print("globals.current_pos in cave_path")
-		# print("globals.current_pos".format(str(globals.current_pos)))
-		# print("path_len = {}".format(str(path_len)))
-		# print("settings.one_time_move_distance = {}".format(str(settings.one_time_move_distance)))
-		# print("globals.current_path_index = {}".format(str(globals.current_path_index)))
 		next_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
-		# print("globals.current_path_index = {}".format(str(globals.current_path_index)))
 		target_pos = cave_path[next_path_index]
-		# print("target_pos = {}".format(str(target_pos)))
-
 		if globals.current_pos == target_pos:
 			return
 
 		step_path_tmp = [target_pos]
 		for index in range(0, path_len):
 			path_index = (path_len + next_path_index - 1 - index) % path_len
-			# print("path_index = {}".format(str(path_index)))
 			pos = cave_path[path_index]
 			step_path_tmp = [pos] + step_path_tmp
 			if len(step_path_tmp) > settings.one_time_move_distance + 1:
 				print("len(step_path_tmp) > settings.one_time_move_distance + 1")
 				break
-				# print("step_path_tmp = {}".format(str(step_path_tmp)))
-				# print("path_index = {}".format(str(path_index)))
-				# print("cave_path = {}".format(str(cave_path)))
-			# print("step_path_tmp = {}".format(str(step_path_tmp)))
 			if globals.current_pos == pos:
 				if len(step_path_tmp) <= settings.one_time_move_distance + 1:
 					step_path = step_path_tmp
@@ -262,11 +248,8 @@ def go_to_next_point(cave_path):
 				break
 
 	if len(step_path) == 0:
-		# print("globals.current_pos NOT in cave_path")
 		nearest_pos = get_nearest_pos(cave_path)
-		# print("nearest_pos：{}".format(str(nearest_pos)))
 		globals.current_path_index = cave_path.index(nearest_pos)
-		# print("globals.current_path_index{}".format(str(globals.current_path_index)))
 		step_path = get_step_path_to(nearest_pos)
 
 	step_go_by_path(step_path)
