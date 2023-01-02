@@ -181,6 +181,8 @@ def get_nearest_pos(cave_path):
 
 # 单步路径移动，如果脱离路径，会先到当前路径距离目标路径最近点
 def step_go_by_path(step_path):
+	if len(step_path) == 0:
+		return 
 	print("step_go_by_path: {}".format(str(step_path)))
 	# 目标坐标
 	target_pos = step_path[len(step_path) - 1]
@@ -221,38 +223,60 @@ def get_step_path_to(target_pos):
 	return step_path
 
 def go_to_next_point(cave_path):
+	# print("go_to_next_point")
 	if globals.current_pos == (0, 0):
 		get_current_coordinate()
 
 	path_len = len(cave_path)
 
-	step_path = []
-	if globals.current_pos in cave_path:
-		next_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
-		target_pos = cave_path[next_path_index]
-		if globals.current_pos == target_pos:
-			return
+	# step_path = []
+	# if globals.current_pos in cave_path:
+	# 	next_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
+	# 	target_pos = cave_path[next_path_index]
+	# 	if globals.current_pos == target_pos:
+	# 		return
+	#
+	# 	step_path_tmp = [target_pos]
+	# 	for index in range(0, path_len):
+	# 		path_index = (path_len + next_path_index - 1 - index) % path_len
+	# 		pos = cave_path[path_index]
+	# 		step_path_tmp = [pos] + step_path_tmp
+	# 		if len(step_path_tmp) > settings.one_time_move_distance + 1:
+	# 			print("len(step_path_tmp) > settings.one_time_move_distance + 1")
+	# 			break
+	# 		if globals.current_pos == pos:
+	# 			if len(step_path_tmp) <= settings.one_time_move_distance + 1:
+	# 				step_path = step_path_tmp
+	# 				globals.current_path_index = next_path_index
+	# 			break
+	#
+	# if len(step_path) == 0:
+	# 	nearest_pos = get_nearest_pos(cave_path)
+	# 	globals.current_path_index = cave_path.index(nearest_pos)
+	# 	step_path = get_step_path_to(nearest_pos)
+	#
+	# step_go_by_path(step_path)
 
-		step_path_tmp = [target_pos]
-		for index in range(0, path_len):
-			path_index = (path_len + next_path_index - 1 - index) % path_len
-			pos = cave_path[path_index]
-			step_path_tmp = [pos] + step_path_tmp
-			if len(step_path_tmp) > settings.one_time_move_distance + 1:
-				print("len(step_path_tmp) > settings.one_time_move_distance + 1")
-				break
-			if globals.current_pos == pos:
-				if len(step_path_tmp) <= settings.one_time_move_distance + 1:
-					step_path = step_path_tmp
-					globals.current_path_index = next_path_index
-				break
+	globals.current_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
+	target_pos = cave_path[globals.current_path_index]
+	# print("globals.current_pos:{}".format(str(globals.current_pos)))
+	# print("target_pos:{}".format(str(target_pos)))
+	if globals.current_pos == target_pos:
+		return
+	path = path_controller.find_path(globals.current_pos, target_pos)
+	if len(path) > settings.one_time_move_distance + 1:
+		target_pos = get_nearest_pos(cave_path)
+		globals.current_path_index = cave_path.index(target_pos)
+		path = path_controller.find_path(globals.current_pos, target_pos)
 
-	if len(step_path) == 0:
-		nearest_pos = get_nearest_pos(cave_path)
-		globals.current_path_index = cave_path.index(nearest_pos)
-		step_path = get_step_path_to(nearest_pos)
+	if len(path) == 0:
+		print("未找{}到{}的路径, 重置地图数据（待完成）".format(str(globals.current_pos), str(target_pos)))
+		#此处添加重置地图数据代码
+		path = path_controller.find_path(globals.current_pos, target_pos)
 
-	step_go_by_path(step_path)
+	step_go_by_path(path)
+
+
 
 
 def check_level():
