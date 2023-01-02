@@ -130,7 +130,7 @@ def find_path(start, end):
 	print("end: {}".format(str(end)))
 	if start == end:
 		print("start == end")
-		return []
+		return [end]
 
 	paths = [[start]]
 	# print("paths: {}".format(str(paths)))
@@ -233,6 +233,7 @@ def find_path(start, end):
 			paths = new_paths
 
 
-
+def set_block(pos):
+	current_map_data[pos[1]][pos[0]] == 0
 
 

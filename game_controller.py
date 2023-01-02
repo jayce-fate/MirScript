@@ -457,7 +457,7 @@ def to_each_step_path(path):
 
 
 def move_by_path(path):
-	print("move_by_path")
+	# print("move_by_path:{}".format(str(path)))
 	move_path = path.copy()
 	if move_path == None:
 		return

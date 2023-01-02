@@ -182,7 +182,7 @@ def get_nearest_pos(cave_path):
 # 单步路径移动，如果脱离路径，会先到当前路径距离目标路径最近点
 def step_go_by_path(step_path):
 	if len(step_path) == 0:
-		return 
+		return
 	print("step_go_by_path: {}".format(str(step_path)))
 	# 目标坐标
 	target_pos = step_path[len(step_path) - 1]
@@ -190,6 +190,7 @@ def step_go_by_path(step_path):
 	get_current_coordinate()
 	# 最大尝试次数
 	move_try_limit = settings.move_try_limit
+	last_step_path = []
 	while globals.current_pos[0] != target_pos[0] or globals.current_pos[1] != target_pos[1]:
 		if move_try_limit > 0:
 			move_try_limit = move_try_limit - 1
@@ -200,13 +201,22 @@ def step_go_by_path(step_path):
 			else:
 				# 从当前坐标先到最近的点，再执行路径
 				nearest_pos = get_nearest_pos(step_path)
-				path_to_nearest_pos = get_step_path_to(nearest_pos)
+				# path_to_nearest_pos = get_step_path_to(nearest_pos)
+				path_to_nearest_pos = path_controller.find_path(globals.current_pos, target_pos)
+
 				index_of_nearest_pos = step_path.index(nearest_pos)
 				step_path = step_path[index_of_nearest_pos+1:]
 				step_path = path_to_nearest_pos + step_path
 				# print("step_path:{}".format(str(step_path)))
 
+			# print("step_path:{}".format(str(step_path)))
+			if len(last_step_path) > 0 and last_step_path[0] == step_path[0]:
+				path_controller.set_block(step_path[0])
+				step_path = path_controller.find_path(globals.current_pos, step_path[-1])
+
 			game_controller.move_by_path(step_path)
+
+			last_step_path = step_path
 
 			time.sleep(1.0)
 			get_current_coordinate()
@@ -270,8 +280,8 @@ def go_to_next_point(cave_path):
 		path = path_controller.find_path(globals.current_pos, target_pos)
 
 	if len(path) == 0:
-		print("未找{}到{}的路径, 重置地图数据（待完成）".format(str(globals.current_pos), str(target_pos)))
-		#此处添加重置地图数据代码
+		print("未找{}到{}的路径, 重置地图数据".format(str(globals.current_pos), str(target_pos)))
+		path_controller.set_map_data()
 		path = path_controller.find_path(globals.current_pos, target_pos)
 
 	step_go_by_path(path)
