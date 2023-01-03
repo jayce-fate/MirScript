@@ -573,32 +573,77 @@ def generate_map_data():
 	map_data_path = path_controller.get_map_data_path()
 	map_size = path_controller.get_map_size()
 
+	#获取预设路径
+	cave_path = game_controller.get_map_path()
+	if len(cave_path) == 0:
+		print("len(cave_path) == 0")
+		return
+	# 转换为单步路径
+	cave_path = game_controller.to_each_step_path(cave_path)
+
+	# if os.path.exists(map_data_path):
+	data_list = path_controller.read_map_data(map_data_path)
+	for idx in range(0, len(cave_path)):
+		point = cave_path[idx]
+		if not point in data_list:
+			data_list.append(point)
+
+	path_controller.write_map_data(map_data_path, data_list)
+
 	game_controller.click_map()
 	time.sleep(1.0)
 
-	for y_idx in range(69, 89):
-		data_list = path_controller.read_map_data(map_data_path)
-		for x_idx in range(73, 76):
-			point = (x_idx, y_idx)
-			game_controller.click_map_aim()
-			game_controller.click_map_input()
-			game_controller.click_map_input()
-			game_controller.click_map_clear()
-			point_str = "{},{}".format(point[0], point[1])
-			adb_controller.input_text(point_str)
-			game_controller.click_map_edit_confirm()
-			game_controller.click_map_input_confirm()
-			time.sleep(0.2)
-			adb_controller.screenshot(settings.screenshot_path)
-			match_loc = image_processor.match_template(
-				settings.screenshot_path,r"template_images/map_point_indicate.png",0.1)
-			if(match_loc != None):
-				if not point in data_list:
-					data_list.append(point)
-				else:
-					print("point: {} already in map data list".format(str(point)))
 
-		path_controller.write_map_data(map_data_path, data_list)
+	generate_scope = (1, 1)
+	current_data_list = path_controller.read_map_data(map_data_path)
+	for idx in range(0, len(data_list)):
+		base_point = data_list[idx]
+		for y_idx in range(base_point[1] - generate_scope[1], base_point[1] + generate_scope[1] + 1):
+			for x_idx in range(base_point[0] - generate_scope[0], base_point[0] + generate_scope[0] + 1):
+				point = (x_idx, y_idx)
+				if not point in current_data_list:
+					game_controller.click_map_aim()
+					game_controller.click_map_input()
+					game_controller.click_map_input()
+					game_controller.click_map_clear()
+					point_str = "{},{}".format(point[0], point[1])
+					adb_controller.input_text(point_str)
+					game_controller.click_map_edit_confirm()
+					game_controller.click_map_input_confirm()
+					time.sleep(0.2)
+					adb_controller.screenshot(settings.screenshot_path)
+					match_loc = image_processor.match_template(
+						settings.screenshot_path,r"template_images/map_point_indicate.png",0.1)
+					if(match_loc != None):
+						current_data_list.append(point)
+						path_controller.write_map_data(map_data_path, current_data_list)
+
+	# path_controller.write_map_data(map_data_path, current_data_list)
+
+
+	# for y_idx in range(69, 89):
+	# 	data_list = path_controller.read_map_data(map_data_path)
+	# 	for x_idx in range(73, 76):
+	# 		point = (x_idx, y_idx)
+	# 		game_controller.click_map_aim()
+	# 		game_controller.click_map_input()
+	# 		game_controller.click_map_input()
+	# 		game_controller.click_map_clear()
+	# 		point_str = "{},{}".format(point[0], point[1])
+	# 		adb_controller.input_text(point_str)
+	# 		game_controller.click_map_edit_confirm()
+	# 		game_controller.click_map_input_confirm()
+	# 		time.sleep(0.2)
+	# 		adb_controller.screenshot(settings.screenshot_path)
+	# 		match_loc = image_processor.match_template(
+	# 			settings.screenshot_path,r"template_images/map_point_indicate.png",0.1)
+	# 		if(match_loc != None):
+	# 			if not point in data_list:
+	# 				data_list.append(point)
+	# 			else:
+	# 				print("point: {} already in map data list".format(str(point)))
+	#
+	# 	path_controller.write_map_data(map_data_path, data_list)
 
 def try_get_bag_space(space_need):
 	if space_need > 0:
@@ -727,7 +772,7 @@ def is_monster_nearby():
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.show_scope()
 
-# generate_map_data()
+generate_map_data()
 # game_controller.close_map()
 # start_get_exp()
 # path_controller.show_map()

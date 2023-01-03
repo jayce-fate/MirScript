@@ -28,6 +28,9 @@ def write_map_data(map_data_path, data_list):
 			fp.write("%s\n" % str(item))
 
 def read_map_data(map_data_path):
+	if not os.path.exists(map_data_path):
+		return []
+
 	data_list = []
 	with open(map_data_path, 'r') as fp:
 		for line in fp:
@@ -90,6 +93,8 @@ def get_map_size():
 		size = (100, 100)
 	elif map_name == "生死之间":
 		size = (100, 100)
+	elif map_name == "盟重土城":
+		size = (1000, 800)
 	else:
 		size = (100, 100)
 	return size

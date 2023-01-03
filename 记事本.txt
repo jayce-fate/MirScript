@@ -15,6 +15,7 @@ https://docs.opencv.org/4.x/d4/dc6/tutorial_py_template_matching.html
     target = target[scope[0]:scope[1],scope[2]:scope[3]]
 TypeError: 'NoneType' object is not subscriptable
 
+粘连物品名拆分识别捡取
 
 多开？ https://blog.csdn.net/newlw/article/details/123043166 (好像走不通，使用不同模拟器得重新截图)
 

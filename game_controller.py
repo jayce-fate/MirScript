@@ -327,6 +327,8 @@ def get_map_path():
 		cave_path = settings.zombie_cave_path
 	elif map_name == "生死之间":
 		cave_path = settings.centipede_cave_path
+	elif map_name == "盟重土城":
+		cave_path = settings.ya_biao_path
 	else:
 		print("当前地图:{} 未设置挂机路径".format(map_name))
 	return cave_path
