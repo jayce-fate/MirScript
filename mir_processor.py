@@ -179,6 +179,8 @@ def get_nearest_pos(cave_path):
 	print("nearest_pos: {}".format(str(nearest_pos)))
 	return nearest_pos
 
+
+block_point_cache = []
 # 单步路径移动，如果脱离路径，会先到当前路径距离目标路径最近点
 def step_go_by_path(step_path):
 	if len(step_path) == 0:
@@ -199,20 +201,38 @@ def step_go_by_path(step_path):
 				index_of_current_pos = step_path.index(globals.current_pos)
 				step_path = step_path[index_of_current_pos:]
 			else:
-				# 从当前坐标先到最近的点，再执行路径
-				nearest_pos = get_nearest_pos(step_path)
-				# path_to_nearest_pos = get_step_path_to(nearest_pos)
-				path_to_nearest_pos = path_controller.find_path(globals.current_pos, target_pos)
-
-				index_of_nearest_pos = step_path.index(nearest_pos)
-				step_path = step_path[index_of_nearest_pos+1:]
-				step_path = path_to_nearest_pos + step_path
+				# # 从当前坐标先到最近的点，再执行路径
+				# nearest_pos = get_nearest_pos(step_path)
+				# print("nearest_pos:{}".format(str(nearest_pos)))
+				# # path_to_nearest_pos = get_step_path_to(nearest_pos)
+				# path_to_nearest_pos = path_controller.find_path(globals.current_pos, nearest_pos)
+				# print("path_to_nearest_pos:{}".format(str(path_to_nearest_pos)))
+				# index_of_nearest_pos = step_path.index(nearest_pos)
+				# print("index_of_nearest_pos:{}".format(str(index_of_nearest_pos)))
+				# step_path = step_path[index_of_nearest_pos+1:]
 				# print("step_path:{}".format(str(step_path)))
+				# step_path = path_to_nearest_pos + step_path
+				# print("step_path:{}".format(str(step_path)))
+				step_path = path_controller.find_path(globals.current_pos, target_pos)
 
-			# print("step_path:{}".format(str(step_path)))
-			if len(last_step_path) > 0 and last_step_path[0] == step_path[0]:
-				path_controller.set_block(step_path[0])
-				step_path = path_controller.find_path(globals.current_pos, step_path[-1])
+			print("step_path:{}".format(str(step_path)))
+			if len(last_step_path) >= 2 and last_step_path[0] == step_path[0]:
+				next_pos = step_path[1]
+				target_pos = step_path[-1]
+				global block_point_cache
+				if next_pos in block_point_cache:
+					print("set_block:{}".format(str(next_pos)))
+					block_point_cache.remove(next_pos)
+					path_controller.set_block(next_pos)
+					print("step_path[-1]:{}".format(str(target_pos)))
+					step_path = path_controller.find_path(globals.current_pos, target_pos)
+					if len(step_path) == 0:
+						print("未找{}到{}的路径, 重置地图数据".format(str(globals.current_pos), str(target_pos)))
+						path_controller.set_map_data()
+						block_point_cache = []
+						step_path = path_controller.find_path(globals.current_pos, target_pos)
+				else:
+					block_point_cache.append(next_pos)
 
 			game_controller.move_by_path(step_path)
 
@@ -282,6 +302,8 @@ def go_to_next_point(cave_path):
 	if len(path) == 0:
 		print("未找{}到{}的路径, 重置地图数据".format(str(globals.current_pos), str(target_pos)))
 		path_controller.set_map_data()
+		global block_point_cache
+		block_point_cache = []
 		path = path_controller.find_path(globals.current_pos, target_pos)
 
 	step_go_by_path(path)
@@ -314,6 +336,8 @@ def start_get_exp():
 		return
 
 	path_controller.set_map_data()
+	global block_point_cache
+	block_point_cache = []
 
 	# 转换为单步路径
 	cave_path = game_controller.to_each_step_path(cave_path)

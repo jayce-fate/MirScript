@@ -134,7 +134,9 @@ def find_path(start, end):
 
 	paths = [[start]]
 	# print("paths: {}".format(str(paths)))
+	count = 0
 	while True:
+		count = count + 1
 		total_count = len(paths)
 		new_paths = []
 		searched_points = []
@@ -227,13 +229,20 @@ def find_path(start, end):
 
 		# print("paths: {}".format(str(paths)))
 		# print("new_paths: {}".format(str(new_paths)))
-		if 0 == len(new_paths):
+		if count > map_height:
+			print("count > map_height")
+			return []
+		elif 0 == len(new_paths):
 			return []
 		else:
 			paths = new_paths
 
 
 def set_block(pos):
-	current_map_data[pos[1]][pos[0]] == 0
+	# print("pos: {}".format(str(pos)))
+	# print("current_map_data: \n{}".format(str(current_map_data)))
+	current_map_data[pos[1]][pos[0]] = 0
+	# print("pos: {}".format(str(pos)))
+	# print("current_map_data: \n{}".format(str(current_map_data)))
 
 
