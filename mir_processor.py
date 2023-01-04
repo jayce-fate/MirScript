@@ -492,6 +492,7 @@ def go_to_lu_lao_ban():
 
 def start_ya_biao():
 	print("开始押镖")
+	path_controller.set_map_data()
 	go_to_wen_biao_tou()
 	go_to_lu_lao_ban()
 
@@ -571,6 +572,7 @@ def is_bag_full():
 
 def generate_map_data():
 	map_data_path = path_controller.get_map_data_path()
+	map_data_cache_path = path_controller.get_map_data_cache_path()
 	map_size = path_controller.get_map_size()
 
 	#获取预设路径
@@ -593,17 +595,18 @@ def generate_map_data():
 	game_controller.click_map()
 	time.sleep(1.0)
 
-	start_scope = 2
-	generate_scope = (3, 3)
+	start_scope = 0
+	generate_scope = (2, 2)
 	current_data_list = path_controller.read_map_data(map_data_path)
+	checked_point_list = path_controller.read_map_data(map_data_cache_path)
 	for idx in range(0, len(cave_path)):
-		base_point = cave_path[-idx]
+		base_point = cave_path[idx]
 		for y_idx in range(base_point[1] - generate_scope[1], base_point[1] + generate_scope[1] + 1):
 			for x_idx in range(base_point[0] - generate_scope[0], base_point[0] + generate_scope[0] + 1):
 				if x_idx < base_point[0] - start_scope or base_point[0] + start_scope < x_idx:
 					if y_idx < base_point[1] - start_scope or base_point[1] + start_scope < y_idx:
 						point = (x_idx, y_idx)
-						if not point in current_data_list:
+						if not point in current_data_list and not point in checked_point_list:
 							game_controller.click_map_aim()
 							game_controller.click_map_input()
 							game_controller.click_map_input()
@@ -619,6 +622,10 @@ def generate_map_data():
 							if(match_loc != None):
 								current_data_list.append(point)
 								path_controller.write_map_data(map_data_path, current_data_list)
+
+							if not point in checked_point_list:
+								checked_point_list.append(point)
+								path_controller.write_map_data(map_data_cache_path, checked_point_list)
 
 	# path_controller.write_map_data(map_data_path, current_data_list)
 
