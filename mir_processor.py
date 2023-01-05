@@ -781,34 +781,7 @@ def is_monster_nearby():
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.show_scope()
 
-generate_map_data()
+# generate_map_data()
 # game_controller.close_map()
 # start_get_exp()
 # path_controller.show_map()
-
-# path_controller.set_map_data()
-# path = path_controller.find_path((48, 39), (49, 47))
-# print("find path: {}".format(str(path)))
-
-# adb_controller.screenshot(settings.screenshot_path)
-# loop_drop_one_item(	"强效魔法药", force_drop = True)
-# game_controller.click_confirm_drop()
-
-	# adb_controller.screenshot(settings.screenshot_path)
-	# match_loc = image_processor.match_template(
-	# 	settings.screenshot_path,r"template_images/ground_items/item_gold_m.png",0.1)
-	# if(match_loc != None):
-	# 	print("find match_loc: {}".format(str(match_loc)))
-
-# image_processor.show_hsv_tool("temp_screenshot/screenshot1.png")
-
-# game_controller.check_ground_items()
-# game_controller.check_ground_golds()
-
-# path_controller.set_map_data()
-# collect_ground_treasures()
-# handle_bag_full()
-
-# game_controller.click_sure_btn()
-# is_monster_nearby()
-

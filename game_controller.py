@@ -405,11 +405,15 @@ def click_finish_ya_biao():
 
 # 计算间距为一步的路径
 def to_each_step_path(path):
-	step_path = []
+	if len(path) < 1:
+		return path
+
+	#使得头尾相连
+	if path[-1] != path[0]:
+		path.append(path[0])
 
 	path_len = len(path)
-	if path_len < 1:
-		return path
+	step_path = []
 	step_path.append(path[0])
 	for index in range(1, path_len):
 		from_pos =  path[index - 1]
