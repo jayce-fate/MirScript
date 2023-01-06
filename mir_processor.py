@@ -596,7 +596,7 @@ def generate_map_data():
 	time.sleep(1.0)
 
 	start_scope = 0
-	generate_scope = (2, 2)
+	generate_scope = (7, 7)
 	current_data_list = path_controller.read_map_data(map_data_path)
 	checked_point_list = path_controller.read_map_data(map_data_cache_path)
 	for idx in range(0, len(cave_path)):
@@ -781,7 +781,7 @@ def is_monster_nearby():
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.show_scope()
 
-# generate_map_data()
+generate_map_data()
 # game_controller.close_map()
 # start_get_exp()
 # path_controller.show_map()
