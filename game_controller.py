@@ -396,7 +396,7 @@ def click_accept_ya_biao():
 
 def click_npc_lu_lao_ban():
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_npc_lu_lao_ban.png",0.05)
+		settings.screenshot_path,r"template_images/btn_npc_lu_lao_ban.png",0.1)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 

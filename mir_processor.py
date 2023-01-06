@@ -405,20 +405,28 @@ def go_to_wen_biao_tou():
 	#消除系统确定消息框
 	game_controller.click_sure_btn()
 
+	target_pos = (445, 206)
 	game_controller.click_map()
 	time.sleep(1.0)
 	adb_controller.screenshot(settings.screenshot_path)
-	game_controller.click_map_npc_wen_biao_tou()
+	game_controller.click_map_aim()
+	game_controller.click_map_input()
+	game_controller.click_map_input()
+	game_controller.click_map_clear()
+	point_str = "{},{}".format(target_pos[0], target_pos[1])
+	adb_controller.input_text(point_str)
+	game_controller.click_map_edit_confirm()
+	game_controller.click_map_input_confirm()
 	game_controller.click_xun_lu()
 	game_controller.close_map()
 
-	while True:
-		current_pos = get_current_coordinate()
-		if abs(current_pos[0] - 438) < 20 and abs(current_pos[1] - 211) < 20:
-			break
+	time.sleep(1.0)
+	current_pos1 = get_current_coordinate()
+	time.sleep(1.0)
+	current_pos2 = get_current_coordinate()
 
-	step_path = get_step_path_to((443,206))
-	step_go_by_path(step_path)
+	if current_pos1 != target_pos and current_pos1 == current_pos2:
+		go_to_wen_biao_tou()
 
 	#消除系统确定消息框
 	game_controller.click_sure_btn()
@@ -434,7 +442,7 @@ def go_to_wen_biao_tou():
 def should_wait_until_double_time():
 	# 范围时间
 	time_min = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '19:00', '%Y-%m-%d%H:%M')
-	time_max = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '20:01', '%Y-%m-%d%H:%M')
+	time_max = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '20:00', '%Y-%m-%d%H:%M')
 
 	# 当前时间
 	current_time = datetime.datetime.now()
@@ -452,47 +460,25 @@ def go_to_lu_lao_ban():
 		print("程序结束")
 		return
 
-	# 转换为单步路径
-	cave_path = game_controller.to_each_step_path(cave_path)
-	settings.one_time_move_distance = 100
-	try:
-		nearest_pos = get_nearest_pos(cave_path)
-		globals.current_path_index = cave_path.index(nearest_pos)
-		last_move_time = 0;
+	get_current_coordinate()
+	target_pos = settings.ya_biao_path[-1]
+	path = path_controller.find_path(globals.current_pos, target_pos)
+	step_go_by_path(path)
 
-		while(True):
-			#消除系统确定消息框
-			game_controller.click_sure_btn()
+	# 等双倍时间
+	while should_wait_until_double_time():
+		time.sleep(10)
 
-			path_len = len(cave_path)
-			# 出口
-			if (globals.current_path_index + settings.one_time_move_distance) == path_len - 1:
-				break;
-			elif (globals.current_path_index + settings.one_time_move_distance) > path_len - 1:
-				settings.one_time_move_distance = path_len - 1 - globals.current_path_index
-
-			go_to_next_point(cave_path)
-			last_move_time = time.time()
-
-		# 等双倍时间
-		while should_wait_until_double_time():
-			time.sleep(10)
-
-		#交付
-		adb_controller.screenshot(settings.screenshot_path)
-		game_controller.click_npc_lu_lao_ban()
-		time.sleep(1.0)
-		game_controller.click_finish_ya_biao()
-	except SystemExit as err:
-		if err.args[0] == "RESTART":
-			print("重启游戏")
-			game_controller.restart_game()
-			start_ya_biao()
+	#交付
+	adb_controller.screenshot(settings.screenshot_path)
+	game_controller.click_npc_lu_lao_ban()
+	time.sleep(1.0)
+	game_controller.click_finish_ya_biao()
 
 
 def start_ya_biao():
 	print("开始押镖")
-	path_controller.set_map_data()
+	path_controller.set_map_data("盟重土城")
 	go_to_wen_biao_tou()
 	go_to_lu_lao_ban()
 
@@ -781,7 +767,7 @@ def is_monster_nearby():
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.show_scope()
 
-generate_map_data()
+# generate_map_data()
 # game_controller.close_map()
 # start_get_exp()
 # path_controller.show_map()

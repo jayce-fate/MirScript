@@ -16,9 +16,10 @@ def get_map_img_path():
 	map_img_path = "template_images/maps/{}.png".format(str(map_name))
 	return map_img_path
 
-def get_map_data_path():
+def get_map_data_path(map_name):
 	adb_controller.screenshot(settings.screenshot_path)
-	map_name = game_controller.read_map_name()
+	if not map_name:
+		map_name = game_controller.read_map_name()
 	map_data_path = "template_images/maps/{}.txt".format(str(map_name))
 	return map_data_path
 
@@ -91,9 +92,10 @@ def show_map():
 	cv2.imshow('image', target)
 	cv2.waitKey()
 
-def get_map_size():
+def get_map_size(map_name):
 	adb_controller.screenshot(settings.screenshot_path)
-	map_name = game_controller.read_map_name()
+	if not map_name:
+		map_name = game_controller.read_map_name()
 	size = (100, 100)
 	if map_name == "废矿东部":
 		size = (200, 200)
@@ -105,10 +107,10 @@ def get_map_size():
 		size = (100, 100)
 	return size
 
-def set_map_data():
+def set_map_data(map_name):
 	# 初始化
 	two_dimension_array = []
-	map_size = get_map_size()
+	map_size = get_map_size(map_name)
 	for y_idx in range(0, map_size[1]):
 		one_dimension_array = []
 		for x_idx in range(0, map_size[0]):
@@ -118,7 +120,7 @@ def set_map_data():
 	# print("two_dimension_array: \n{}".format(str(two_dimension_array)))
 
 	#设置可达的点
-	map_data_path = get_map_data_path()
+	map_data_path = get_map_data_path(map_name)
 	data_list = read_map_data(map_data_path)
 	for index in range(0, len(data_list)):
 		point = data_list[index]
