@@ -1,27 +1,4 @@
-error: device 'emulator-5554' not found
-Traceback (most recent call last):
-  File "exp_controller.py", line 94, in <module>
-    start_get_exp()
-  File "exp_controller.py", line 22, in start_get_exp
-    cave_path = game_controller.get_map_path()
-  File "/Users/jay/Documents/项目/Python/MirScripts/game_controller.py", line 318, in get_map_path
-    map_name = read_map_name()
-  File "/Users/jay/Documents/项目/Python/MirScripts/game_controller.py", line 275, in read_map_name
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, (4,41,1355,1662),lower_color,upper_color)
-  File "/Users/jay/Documents/项目/Python/MirScripts/image_processor.py", line 189, in paddleocr_read
-    target = target[scope[0]:scope[1],scope[2]:scope[3]]
-TypeError: 'NoneType' object is not subscriptable
-Saving session...
-...copying shared history...
-...saving history...truncating history files...
-...completed.
-
 在移动循环中可能服务器断开，需要定期判断（可以通过异地登录测试）
-模拟器可能卡死，检查adb devices，如果adb没挂，检查连续几帧画面是否有变化,adb失联，
-模拟器app卡死，需要重启模拟器以及adb：
-  File "/Users/jay/Documents/项目/Python/MirScripts/image_processor.py", line 189, in paddleocr_read
-    target = target[scope[0]:scope[1],scope[2]:scope[3]]
-TypeError: 'NoneType' object is not subscriptable
 
 
 

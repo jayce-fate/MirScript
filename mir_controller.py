@@ -13,7 +13,7 @@ import adb_controller
 import game_controller
 import path_controller
 import move_controller
-
+import exp_controller
 
 # ******************************************
 # test
@@ -25,3 +25,9 @@ import move_controller
 # game_controller.close_map()
 # start_get_exp()
 # path_controller.show_map()
+
+# adb_controller.restart_mumu()
+# exp_controller.retart_routine()
+# adb_controller.restart_adb()
+# adb_controller.stop_app()
+# adb_controller.start_app()

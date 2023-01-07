@@ -61,18 +61,31 @@ def start_get_exp():
 				last_move_time = time.time()
 
 
-try:
-	start_get_exp()
-except Exception as err:
-	print('exception:', err)
-	reason = err.args[0]
-	if reason == "RESTART":
-		print("重启游戏")
+def retart_routine():
+	print("重启游戏")
+	game_controller.restart_game()
+	success = game_controller.active_pet()
+	if success:
+		start()
+	else:
 		game_controller.restart_game()
-		success = game_controller.active_pet()
-		if success:
-			start_get_exp()
-		else:
-			game_controller.restart_game()
+
+
+def start():
+	try:
+		start_get_exp()
+	except Exception as err:
+		print('exception:', err)
+		reason = err.args[0]
+		if reason == "RESTART":
+			retart_routine()
+		elif "NoneType" in reason:
+			print("adb 断开")
+			adb_controller.restart_mumu()
+			time.sleep(30)
+			adb_controller.restart_adb()
+			retart_routine()
+	except:
+		print('unknown exception')
 
 
