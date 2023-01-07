@@ -1,10 +1,27 @@
-重连的时候可能又显示断开；卡在载入upfile, 
 在移动循环中可能服务器断开，需要定期判断（可以通过异地登录测试）
 模拟器可能卡死，检查adb devices，如果adb没挂，检查连续几帧画面是否有变化,adb失联，
 模拟器app卡死，需要重启模拟器以及adb：
   File "/Users/jay/Documents/项目/Python/MirScripts/image_processor.py", line 189, in paddleocr_read
     target = target[scope[0]:scope[1],scope[2]:scope[3]]
 TypeError: 'NoneType' object is not subscriptable
+
+error: device 'emulator-5554' not found
+Traceback (most recent call last):
+  File "exp_controller.py", line 94, in <module>
+    start_get_exp()
+  File "exp_controller.py", line 22, in start_get_exp
+    cave_path = game_controller.get_map_path()
+  File "/Users/jay/Documents/项目/Python/MirScripts/game_controller.py", line 318, in get_map_path
+    map_name = read_map_name()
+  File "/Users/jay/Documents/项目/Python/MirScripts/game_controller.py", line 275, in read_map_name
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, (4,41,1355,1662),lower_color,upper_color)
+  File "/Users/jay/Documents/项目/Python/MirScripts/image_processor.py", line 189, in paddleocr_read
+    target = target[scope[0]:scope[1],scope[2]:scope[3]]
+TypeError: 'NoneType' object is not subscriptable
+Saving session...
+...copying shared history...
+...saving history...truncating history files...
+...completed.
 
 SystemExit("RESTART") 是否都捕捉到
 
@@ -21,6 +38,8 @@ https://docs.opencv.org/4.x/d4/dc6/tutorial_py_template_matching.html
 多开？ https://blog.csdn.net/newlw/article/details/123043166 (好像走不通，使用不同模拟器得重新截图)
 
 附近有没有怪，可以数小地图的红点数，哪个方向有怪也是
+
+法师号没有宠物，自动切换道士号挂机
 
 13657286696
 

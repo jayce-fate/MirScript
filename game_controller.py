@@ -532,6 +532,9 @@ def restart_game():
 	adb_controller.stop_app()
 	adb_controller.start_app()
 
+	#消除系统确定消息框
+	click_sure_btn()
+
 	success = wait_to_match_and_click(r"template_images/btn_login.png",0.05,60,1,(706,779,737,930))
 	if not success:
 		restart_game()
