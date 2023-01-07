@@ -12,8 +12,8 @@ import image_processor
 import adb_controller
 import game_controller
 import path_controller
-import mir_controller
 import move_controller
+import trash_controller
 
 
 def start_get_exp():
@@ -45,21 +45,21 @@ def start_get_exp():
 				#消除系统确定消息框
 				game_controller.click_sure_btn()
 
-			if mir_controller.collect_ground_treasures() > 0:
+			if trash_controller.collect_ground_treasures() > 0:
 				# last_check_bag_capacity_time = time.time()
 				continue
 
 			# if time.time() - last_check_bag_capacity_time > settings.move_bag_capacity_time:
 			# 	last_check_bag_capacity_time = time.time()
-			# 	if is_bag_full():
+			# 	if game_controller.is_bag_full():
 			# 		drop_trashes()
-			# if not check_level():
+			# if not game_controller.check_level():
 			# 	return
 
-			if mir_controller.check_exp_getting():
+			if game_controller.check_exp_getting():
 				print("经验有增加")
 				if time.time() - last_move_time > settings.move_check_time:
-					while not mir_controller.is_monster_nearby(): #or not check_monster_reachable():
+					while not game_controller.is_monster_nearby():
 						print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
 						move_controller.go_to_next_point(cave_path)
 						last_move_time = time.time()
@@ -68,7 +68,7 @@ def start_get_exp():
 				#移动到下一个点
 				move_controller.go_to_next_point(cave_path)
 				last_move_time = time.time()
-				while not mir_controller.is_monster_nearby(): #or not check_monster_reachable():
+				while not game_controller.is_monster_nearby():
 					move_controller.go_to_next_point(cave_path)
 					last_move_time = time.time()
 	except SystemExit as err:

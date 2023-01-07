@@ -12,7 +12,7 @@ import image_processor
 import adb_controller
 import game_controller
 import path_controller
-import mir_controller
+
 
 def start_ya_biao():
 	print("开始押镖")
@@ -41,9 +41,9 @@ def go_to_wen_biao_tou():
 	game_controller.close_map()
 
 	time.sleep(1.0)
-	current_pos1 = mir_controller.get_current_coordinate()
+	current_pos1 = move_controller.get_current_coordinate()
 	time.sleep(1.0)
-	current_pos2 = mir_controller.get_current_coordinate()
+	current_pos2 = move_controller.get_current_coordinate()
 
 	if current_pos1 != target_pos and current_pos1 == current_pos2:
 		go_to_wen_biao_tou()
@@ -64,10 +64,10 @@ def go_to_lu_lao_ban():
 		print("程序结束")
 		return
 
-	mir_controller.get_current_coordinate()
+	move_controller.get_current_coordinate()
 	target_pos = settings.ya_biao_path[-1]
 	path = path_controller.find_path(globals.current_pos, target_pos)
-	mir_controller.step_go_by_path(path)
+	move_controller.step_go_by_path(path)
 
 	# 等双倍时间
 	while should_wait_until_double_time():

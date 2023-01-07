@@ -306,12 +306,6 @@ def read_bag_remain_capacity():
 		return capacity
 	return -1
 
-def is_bag_full():
-	result = read_bag_remain_capacity()
-	if result < 6:
-		return True
-	return False
-
 def is_quality():
 	result = read_quality_text()
 	if result != None:
@@ -712,3 +706,73 @@ def drink_sun_water():
 		return True
 	else:
 		return False
+
+def check_monster_reachable():
+	monster_list = get_monster_list()
+	# print("monster_list: {}".format(str(monster_list)))
+	if len(monster_list) > 0:
+		return True
+	else:
+		return False
+
+def check_exp_getting():
+	for index in range(0, 5):
+		if got_exp_add_text():
+			print("exp adding")
+			return True
+		else:
+			print("exp cheking")
+
+	print("exp not adding")
+	return False
+
+
+def check_level():
+	#检查等级，等级等于29且未拜师，停止练级
+	lv = read_lv_text()
+	if (lv >= 26 and lv <= 29) and (not already_has_master()):
+		for index in range(0, 20):
+			print("等级已达到{}级，请先去拜师!!!".format(str(lv)))
+		if (lv == 29):
+			if globals.check_has_master_fail_remain > 0:
+				globals.check_has_master_fail_remain = globals.check_has_master_fail_remain - 1
+				print("达到29级，请先去拜师，再提示{}次将结束本程序".format(str(globals.read_coordinate_fail_remain)))
+			else:
+				print("达到29级，请先去拜师，练级结束")
+				return False
+	return True
+
+
+def is_monster_nearby():
+	adb_controller.screenshot(settings.screenshot_path1)
+	adb_controller.screenshot(settings.screenshot_path2)
+	masks = []
+	masks.append((0,34,440,1234)) #顶部滚动通知
+	masks.append((42,198,1354,1664)) #右上角地图
+	masks.append((796,936,625,1196)) #底部聊天窗口
+	masks.append((358,600,710,980)) #我自己
+	masks.append((152,274,756,910)) #经验提示框1
+	masks.append((796,936,470,610)) #血、魔球
+	match_loc = image_processor.match_template(
+		settings.screenshot_path1, settings.screenshot_path2, 0.0001, masks = masks)
+	if(match_loc != None):
+		print("monster not nearby")
+		return False
+	else:
+		print("monster nearby")
+		return True
+
+
+def is_bag_full():
+	open_bag()
+	time.sleep(0.5)
+
+	is_bag_full = False
+	result = read_bag_remain_capacity()
+	if result < 6:
+		is_bag_full = True
+
+	click_left_return()
+	click_right_return()
+
+	return is_bag_full
