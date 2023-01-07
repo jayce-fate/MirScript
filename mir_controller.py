@@ -14,6 +14,7 @@ import game_controller
 import path_controller
 import move_controller
 import exp_controller
+import ya_biao_controller
 
 # ******************************************
 # test
@@ -31,3 +32,9 @@ import exp_controller
 # adb_controller.restart_adb()
 # adb_controller.stop_app()
 # adb_controller.start_app()
+
+# adb_controller.screenshot(settings.screenshot_path)
+# game_controller.click_npc_wen_biao_tou()
+
+# path_controller.set_map_data("盟重土城")
+# ya_biao_controller.go_to_lu_lao_ban()

@@ -380,10 +380,28 @@ def close_map():
 		adb_controller.click(match_loc)
 
 def click_npc_wen_biao_tou():
-	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_npc_wen_biao_tou.png",0.05)
-	if(match_loc != None):
-		adb_controller.click(match_loc)
+	# 坐标颜色绿色参数
+	lower_color = [35,43,46]
+	upper_color = [75,255,255]
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (0,936,0,1664),lower_color,upper_color)
+	for idx in range(len(resultss)):
+		results = resultss[idx]
+		for result in results:
+			name_rate = result[1] #('43', 0.99934321641922)
+			name = name_rate[0] #'43'
+			if "温镖头" in name:
+				print("result: {}".format(str(result)))
+				corners = result[0]
+				left_top_point = corners[0]
+				right_top_point = corners[1]
+				right_bottom_point = corners[2]
+				left_bottom_point = corners[3]
+				center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
+				center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
+				center = (center_x, center_y)
+				adb_controller.click(center)
+				return True
+	return False
 
 def click_accept_ya_biao():
 	adb_controller.click((145, 450))

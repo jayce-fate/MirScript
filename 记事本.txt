@@ -1,8 +1,5 @@
 在移动循环中可能服务器断开，需要定期判断（可以通过异地登录测试）
 
-
-
-
 图像匹配可以一次匹配多个目标（捡金币）：
 https://docs.opencv.org/4.x/d4/dc6/tutorial_py_template_matching.html
 

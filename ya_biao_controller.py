@@ -12,6 +12,7 @@ import image_processor
 import adb_controller
 import game_controller
 import path_controller
+import move_controller
 
 
 def start_ya_biao():
@@ -25,7 +26,7 @@ def go_to_wen_biao_tou():
 	#消除系统确定消息框
 	game_controller.click_sure_btn()
 
-	target_pos = (445, 206)
+	target_pos = (439, 206)
 	game_controller.click_map()
 	time.sleep(1.0)
 	adb_controller.screenshot(settings.screenshot_path)
@@ -40,34 +41,40 @@ def go_to_wen_biao_tou():
 	game_controller.click_xun_lu()
 	game_controller.close_map()
 
-	time.sleep(1.0)
-	current_pos1 = move_controller.get_current_coordinate()
-	time.sleep(1.0)
-	current_pos2 = move_controller.get_current_coordinate()
-
-	if current_pos1 != target_pos and current_pos1 == current_pos2:
-		go_to_wen_biao_tou()
-
-	#消除系统确定消息框
-	game_controller.click_sure_btn()
-	adb_controller.screenshot(settings.screenshot_path)
-	game_controller.click_npc_wen_biao_tou()
-	time.sleep(0.1)
+	while True:
+		time.sleep(1.0)
+		current_pos1 = move_controller.get_current_coordinate()
+		print("current_pos1 {}".format(str(current_pos1)))
+		time.sleep(1.0)
+		current_pos2 = move_controller.get_current_coordinate()
+		print("current_pos2 {}".format(str(current_pos2)))
+		far_from_target = abs(current_pos1[0] - target_pos[0]) > 5 or abs(current_pos1[1] - target_pos[1]) > 5
+		if far_from_target and current_pos1 == current_pos2:
+			print("current_pos1 != target_pos and current_pos1 == current_pos2")
+			go_to_wen_biao_tou()
+		else:
+			#消除系统确定消息框
+			game_controller.click_sure_btn()
+			adb_controller.screenshot(settings.screenshot_path)
+			if game_controller.click_npc_wen_biao_tou():
+				break
+			time.sleep(0.1)
 
 	#改为点击固定点
 	adb_controller.screenshot(settings.screenshot_path)
 	game_controller.click_accept_ya_biao()
 
 def go_to_lu_lao_ban():
-	cave_path = settings.ya_biao_path
+	cave_path = settings.ya_biao_full_path
 	if len(cave_path) == 0:
 		print("程序结束")
 		return
 
 	move_controller.get_current_coordinate()
-	target_pos = settings.ya_biao_path[-1]
-	path = path_controller.find_path(globals.current_pos, target_pos)
+	path = path_controller.find_path(globals.current_pos, cave_path[0])
 	move_controller.step_go_by_path(path)
+
+	move_controller.step_go_by_path(cave_path)
 
 	# 等双倍时间
 	while should_wait_until_double_time():
@@ -95,6 +102,5 @@ def should_wait_until_double_time():
 	    return False
 
 
-
-#main
-start_ya_biao()
+def start():
+	start_ya_biao()
