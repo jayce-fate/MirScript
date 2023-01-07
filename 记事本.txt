@@ -1,10 +1,3 @@
-在移动循环中可能服务器断开，需要定期判断（可以通过异地登录测试）
-模拟器可能卡死，检查adb devices，如果adb没挂，检查连续几帧画面是否有变化,adb失联，
-模拟器app卡死，需要重启模拟器以及adb：
-  File "/Users/jay/Documents/项目/Python/MirScripts/image_processor.py", line 189, in paddleocr_read
-    target = target[scope[0]:scope[1],scope[2]:scope[3]]
-TypeError: 'NoneType' object is not subscriptable
-
 error: device 'emulator-5554' not found
 Traceback (most recent call last):
   File "exp_controller.py", line 94, in <module>
@@ -23,7 +16,14 @@ Saving session...
 ...saving history...truncating history files...
 ...completed.
 
-SystemExit("RESTART") 是否都捕捉到
+在移动循环中可能服务器断开，需要定期判断（可以通过异地登录测试）
+模拟器可能卡死，检查adb devices，如果adb没挂，检查连续几帧画面是否有变化,adb失联，
+模拟器app卡死，需要重启模拟器以及adb：
+  File "/Users/jay/Documents/项目/Python/MirScripts/image_processor.py", line 189, in paddleocr_read
+    target = target[scope[0]:scope[1],scope[2]:scope[3]]
+TypeError: 'NoneType' object is not subscriptable
+
+
 
 
 图像匹配可以一次匹配多个目标（捡金币）：

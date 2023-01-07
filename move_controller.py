@@ -84,7 +84,8 @@ def go_to_next_point(cave_path):
 	if globals.current_pos == target_pos:
 		return
 	path = path_controller.find_path(globals.current_pos, target_pos)
-	if len(path) > settings.one_time_move_distance + 1:
+	# 允许 distance在范围内的路径移动（为了绕过障碍物）：settings.one_time_move_distance < distance < 2 * settings.one_time_move_distance
+	if len(path) > 2 * settings.one_time_move_distance:
 		target_pos = get_nearest_pos(cave_path)
 		globals.current_path_index = cave_path.index(target_pos)
 		path = path_controller.find_path(globals.current_pos, target_pos)
@@ -138,7 +139,7 @@ def get_current_coordinate():
 			return get_current_coordinate()
 		else:
 			print("已达最大重试次数，尝试重启游戏")
-			raise SystemExit("RESTART")
+			raise Exception("RESTART")
 
 	if len(coordinate) != 2:
 		print("len(coordinate) != 2")
@@ -159,7 +160,7 @@ def get_current_coordinate():
 				return get_current_coordinate()
 			else:
 				print("已达最大重试次数，尝试重启游戏")
-				raise SystemExit("RESTART")
+				raise Exception("RESTART")
 
 
 def get_current_coordinate_after_adjust():
