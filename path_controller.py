@@ -16,7 +16,7 @@ def get_map_img_path():
 	map_img_path = "template_images/maps/{}.png".format(str(map_name))
 	return map_img_path
 
-def get_map_data_path(map_name):
+def get_map_data_path(map_name = None):
 	adb_controller.screenshot(settings.screenshot_path)
 	if not map_name:
 		map_name = game_controller.read_map_name()
@@ -92,7 +92,7 @@ def show_map():
 	cv2.imshow('image', target)
 	cv2.waitKey()
 
-def get_map_size(map_name):
+def get_map_size(map_name = None):
 	adb_controller.screenshot(settings.screenshot_path)
 	if not map_name:
 		map_name = game_controller.read_map_name()
@@ -107,7 +107,7 @@ def get_map_size(map_name):
 		size = (100, 100)
 	return size
 
-def set_map_data(map_name):
+def set_map_data(map_name = None):
 	# 初始化
 	two_dimension_array = []
 	map_size = get_map_size(map_name)

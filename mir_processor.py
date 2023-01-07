@@ -201,18 +201,6 @@ def step_go_by_path(step_path):
 				index_of_current_pos = step_path.index(globals.current_pos)
 				step_path = step_path[index_of_current_pos:]
 			else:
-				# # 从当前坐标先到最近的点，再执行路径
-				# nearest_pos = get_nearest_pos(step_path)
-				# print("nearest_pos:{}".format(str(nearest_pos)))
-				# # path_to_nearest_pos = get_step_path_to(nearest_pos)
-				# path_to_nearest_pos = path_controller.find_path(globals.current_pos, nearest_pos)
-				# print("path_to_nearest_pos:{}".format(str(path_to_nearest_pos)))
-				# index_of_nearest_pos = step_path.index(nearest_pos)
-				# print("index_of_nearest_pos:{}".format(str(index_of_nearest_pos)))
-				# step_path = step_path[index_of_nearest_pos+1:]
-				# print("step_path:{}".format(str(step_path)))
-				# step_path = path_to_nearest_pos + step_path
-				# print("step_path:{}".format(str(step_path)))
 				step_path = path_controller.find_path(globals.current_pos, target_pos)
 
 			print("step_path:{}".format(str(step_path)))
@@ -258,34 +246,6 @@ def go_to_next_point(cave_path):
 		get_current_coordinate()
 
 	path_len = len(cave_path)
-
-	# step_path = []
-	# if globals.current_pos in cave_path:
-	# 	next_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
-	# 	target_pos = cave_path[next_path_index]
-	# 	if globals.current_pos == target_pos:
-	# 		return
-	#
-	# 	step_path_tmp = [target_pos]
-	# 	for index in range(0, path_len):
-	# 		path_index = (path_len + next_path_index - 1 - index) % path_len
-	# 		pos = cave_path[path_index]
-	# 		step_path_tmp = [pos] + step_path_tmp
-	# 		if len(step_path_tmp) > settings.one_time_move_distance + 1:
-	# 			print("len(step_path_tmp) > settings.one_time_move_distance + 1")
-	# 			break
-	# 		if globals.current_pos == pos:
-	# 			if len(step_path_tmp) <= settings.one_time_move_distance + 1:
-	# 				step_path = step_path_tmp
-	# 				globals.current_path_index = next_path_index
-	# 			break
-	#
-	# if len(step_path) == 0:
-	# 	nearest_pos = get_nearest_pos(cave_path)
-	# 	globals.current_path_index = cave_path.index(nearest_pos)
-	# 	step_path = get_step_path_to(nearest_pos)
-	#
-	# step_go_by_path(step_path)
 
 	globals.current_path_index = (globals.current_path_index + settings.one_time_move_distance) % path_len
 	target_pos = cave_path[globals.current_path_index]
@@ -537,10 +497,7 @@ def drop_trashes(neen_open_close_bag = True):
 	game_controller.click_arrange_bag()
 	time.sleep(2.0)
 	drop_trashes_loop()
-	# 按整理再来一次，使物品顺序相反，减少同一种物品因为极品，没有继续循环的问题
-	# game_controller.click_arrange_bag()
-	# time.sleep(2.0)
-	# drop_trashes_loop()
+
 	if neen_open_close_bag:
 		game_controller.click_left_return()
 		game_controller.click_right_return()
@@ -613,32 +570,7 @@ def generate_map_data():
 								checked_point_list.append(point)
 								path_controller.write_map_data(map_data_cache_path, checked_point_list)
 
-	# path_controller.write_map_data(map_data_path, current_data_list)
 
-
-	# for y_idx in range(69, 89):
-	# 	data_list = path_controller.read_map_data(map_data_path)
-	# 	for x_idx in range(73, 76):
-	# 		point = (x_idx, y_idx)
-	# 		game_controller.click_map_aim()
-	# 		game_controller.click_map_input()
-	# 		game_controller.click_map_input()
-	# 		game_controller.click_map_clear()
-	# 		point_str = "{},{}".format(point[0], point[1])
-	# 		adb_controller.input_text(point_str)
-	# 		game_controller.click_map_edit_confirm()
-	# 		game_controller.click_map_input_confirm()
-	# 		time.sleep(0.2)
-	# 		adb_controller.screenshot(settings.screenshot_path)
-	# 		match_loc = image_processor.match_template(
-	# 			settings.screenshot_path,r"template_images/map_point_indicate.png",0.1)
-	# 		if(match_loc != None):
-	# 			if not point in data_list:
-	# 				data_list.append(point)
-	# 			else:
-	# 				print("point: {} already in map data list".format(str(point)))
-	#
-	# 	path_controller.write_map_data(map_data_path, data_list)
 
 def try_get_bag_space(space_need):
 	if space_need > 0:
@@ -687,35 +619,8 @@ def handle_bag_full():
 
 def collect_ground_treasures():
 	adb_controller.screenshot(settings.screenshot_path)
-	# current_pos = get_current_coordinate()
 	item_coords = game_controller.check_ground_items(need_screenshot = False)
 	item_count = len(item_coords)
-	# gold_coords = game_controller.check_ground_golds(need_screenshot = False)
-	# gold_count = len(gold_coords)
-	# treasure_count = item_count + gold_count
-
-	# 多腾点空间，以免金币上面有别的东西
-	# if try_get_bag_space(treasure_count):
-	# 	path_all = [current_pos]
-	# 	for idx in range(0, item_count):
-	# 		print("捡绿色物品")
-	# 		coord = item_coords[idx]
-	# 		path = path_controller.find_path(path_all[len(path_all) - 1], coord)
-	# 		path_all = path_all + path[1:]
-	# 		current_pos = globals.current_pos
-	#
-	# 	for idx in range(0, gold_count):
-	# 		print("捡金币")
-	# 		coord = gold_coords[idx]
-	# 		path = path_controller.find_path(path_all[len(path_all) - 1], coord)
-	# 		path_all = path_all + path[1:]
-	# 		current_pos = globals.current_pos
-	#
-	# 	step_go_by_path(path_all)
-	#
-	# 	collect_count = treasure_count
-	# else:
-	# 	collect_count = 0
 
 	collect_count = 0
 	for idx in range(0, item_count):

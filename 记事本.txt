@@ -1,15 +1,18 @@
-重连的时候可能又显示断开；卡在载入upfile, 在移动循环中可能服务器断开，需要定期判断（可以通过异地登录测试）
+重连的时候可能又显示断开；卡在载入upfile, 
+在移动循环中可能服务器断开，需要定期判断（可以通过异地登录测试）
+模拟器可能卡死，检查adb devices，如果adb没挂，检查连续几帧画面是否有变化,adb失联，
+模拟器app卡死，需要重启模拟器以及adb：
+  File "/Users/jay/Documents/项目/Python/MirScripts/image_processor.py", line 189, in paddleocr_read
+    target = target[scope[0]:scope[1],scope[2]:scope[3]]
+TypeError: 'NoneType' object is not subscriptable
+
+
 
 图像匹配可以一次匹配多个目标（捡金币）：
 https://docs.opencv.org/4.x/d4/dc6/tutorial_py_template_matching.html
 
 寻路序号问题，捡完东西回到最近的点，得在上次的期望点之内，不是绝对最近点，防止重复路径
 
-模拟器可能卡死，检查adb devices，如果adb没挂，检查连续几帧画面是否有变化,adb失联，
-模拟器app卡死，需要重启模拟器以及adb：
-  File "/Users/jay/Documents/项目/Python/MirScripts/image_processor.py", line 189, in paddleocr_read
-    target = target[scope[0]:scope[1],scope[2]:scope[3]]
-TypeError: 'NoneType' object is not subscriptable
 
 粘连物品名拆分识别捡取
 
