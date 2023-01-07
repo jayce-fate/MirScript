@@ -43,6 +43,9 @@ def step_go_by_path(step_path):
 				target_pos = step_path[-1]
 				global block_point_cache
 				if next_pos in block_point_cache:
+					# 目标位置被堵住，直接返回
+					if next_pos == target_pos:
+						return
 					print("set_block:{}".format(str(next_pos)))
 					block_point_cache.remove(next_pos)
 					path_controller.set_block(next_pos)
@@ -63,8 +66,8 @@ def step_go_by_path(step_path):
 			time.sleep(1.0)
 			get_current_coordinate()
 		else:
-			print("已达最大重试次数，尝试重启游戏")
-			raise SystemExit("RESTART")
+			# 达到最大尝试次数，放弃，返回
+			return
 
 
 def go_to_next_point(cave_path):

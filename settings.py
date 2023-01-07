@@ -35,8 +35,7 @@ move_bag_capacity_time = 600
 read_coordinate_fail_limit = 60
 
 # 最大尝试移动次数
-move_try_limit = 60
-
+move_try_limit = 3
 # 单次移动距离
 one_time_move_distance = 5
 
