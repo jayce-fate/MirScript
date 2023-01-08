@@ -567,6 +567,7 @@ def active_pet():
 	return result
 
 def open_bag():
+	print("open_bag")
 	adb_controller.click((560, 860))
 
 def wipe_down_bag():
@@ -586,9 +587,11 @@ def click_arrange_bag():
 	adb_controller.click((1590, 714))
 
 def click_left_return():
+	print("click_left_return")
 	adb_controller.click((59, 872))
 
 def click_right_return():
+	print("click_right_return")
 	adb_controller.click((1604, 872))
 
 

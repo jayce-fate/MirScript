@@ -1,3 +1,7 @@
+
+
+寻路性能优化
+
 在移动循环中可能服务器断开，需要定期判断（可以通过异地登录测试）
 
 图像匹配可以一次匹配多个目标（捡金币）：
@@ -8,6 +12,8 @@ https://docs.opencv.org/4.x/d4/dc6/tutorial_py_template_matching.html
 
 粘连物品名拆分识别捡取
 自动使用镖银、蓝药
+
+检查宠物血量，血量过低，停止移动
 
 多开？ https://blog.csdn.net/newlw/article/details/123043166 (好像走不通，使用不同模拟器得重新截图)
 
