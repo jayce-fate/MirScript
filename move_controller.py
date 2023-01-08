@@ -66,6 +66,11 @@ def step_go_by_path(step_path):
 			time.sleep(1.0)
 			get_current_coordinate()
 		else:
+			#检测断开消息框
+			if game_controller.connection_lose():
+				print("断开")
+				raise Exception("RESTART")
+
 			# 达到最大尝试次数，放弃，返回
 			return
 
