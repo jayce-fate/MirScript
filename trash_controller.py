@@ -95,6 +95,7 @@ def try_get_bag_space(space_need):
 				if not game_controller.drink_red():
 					break
 
+			time.sleep(0.5)
 			remain_capacity = game_controller.read_bag_remain_capacity()
 			if space_need <= remain_capacity:
 				game_controller.click_left_return()
@@ -110,6 +111,9 @@ def try_get_bag_space(space_need):
 				game_controller.click_left_return()
 				game_controller.click_right_return()
 				return True
+
+		game_controller.click_left_return()
+		game_controller.click_right_return()
 
 	return False
 
