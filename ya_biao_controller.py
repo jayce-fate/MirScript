@@ -74,14 +74,14 @@ def go_to_lu_lao_ban():
 
 	move_controller.get_current_coordinate()
 	# 先去路径开始点
-	# path = path_controller.find_path(globals.current_pos, cave_path[0])
-	# move_controller.step_go_by_path(path)
-	# 再沿固定路径去陆老板
-	# move_controller.step_go_by_path(cave_path)
-
-	#直接搜索寻路去陆老板
-	path = path_controller.find_path(globals.current_pos, cave_path[-1])
+	path = path_controller.find_path(globals.current_pos, cave_path[0])
 	move_controller.step_go_by_path(path)
+	# 再沿固定路径去陆老板
+	move_controller.step_go_by_path(cave_path)
+
+	# 直接搜索寻路去陆老板
+	# path = path_controller.find_path(globals.current_pos, cave_path[-1])
+	# move_controller.step_go_by_path(path)
 
 	# 等双倍时间
 	while should_wait_until_double_time():

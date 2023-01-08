@@ -37,7 +37,7 @@ def step_go_by_path(step_path):
 			else:
 				step_path = path_controller.find_path(globals.current_pos, target_pos)
 
-			print("step_path:{}".format(str(step_path)))
+			# print("step_path:{}".format(str(step_path)))
 			if len(last_step_path) >= 2 and last_step_path[0] == step_path[0]:
 				next_pos = step_path[1]
 				target_pos = step_path[-1]
