@@ -148,11 +148,11 @@ def find_path(start, end):
 	paths = [[start]]
 	# print("paths: {}".format(str(paths)))
 	count = 0
+	searched_points = []
 	while True:
 		count = count + 1
 		total_count = len(paths)
 		new_paths = []
-		searched_points = []
 		for idx in range(0, total_count):
 			path = paths[idx]
 			last_point = path[-1]

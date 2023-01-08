@@ -50,9 +50,11 @@ def go_to_wen_biao_tou():
 		print("current_pos2 {}".format(str(current_pos2)))
 		far_from_target = abs(current_pos1[0] - target_pos[0]) > 5 or abs(current_pos1[1] - target_pos[1]) > 5
 		if far_from_target and current_pos1 == current_pos2:
-			print("current_pos1 != target_pos and current_pos1 == current_pos2")
+			print("far_from_target and current_pos1 == current_pos2")
 			go_to_wen_biao_tou()
-		else:
+			break
+		elif not far_from_target and current_pos1 == current_pos2:
+			print("not far_from_target and current_pos1 == current_pos2")
 			#消除系统确定消息框
 			game_controller.click_sure_btn()
 			adb_controller.screenshot(settings.screenshot_path)
@@ -71,10 +73,15 @@ def go_to_lu_lao_ban():
 		return
 
 	move_controller.get_current_coordinate()
-	path = path_controller.find_path(globals.current_pos, cave_path[0])
-	move_controller.step_go_by_path(path)
+	# 先去路径开始点
+	# path = path_controller.find_path(globals.current_pos, cave_path[0])
+	# move_controller.step_go_by_path(path)
+	# 再沿固定路径去陆老板
+	# move_controller.step_go_by_path(cave_path)
 
-	move_controller.step_go_by_path(cave_path)
+	#直接搜索寻路去陆老板
+	path = path_controller.find_path(globals.current_pos, cave_path[-1])
+	move_controller.step_go_by_path(path)
 
 	# 等双倍时间
 	while should_wait_until_double_time():
