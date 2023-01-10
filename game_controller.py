@@ -695,13 +695,16 @@ def check_ground_golds(need_screenshot = True):
 		if not "DS_Store" in entry:
 			path = "{}{}".format(dir, entry)
 			print("path: {}".format(str(path)))
-			match_loc = image_processor.match_template(
+			match_locs = image_processor.multiple_match_template(
 				settings.screenshot_path, path, 0.01)
-			if(match_loc != None):
-				print("find match_loc: {}".format(str(match_loc)))
+			for idx in range(0, len(match_locs)):
+				match_loc = match_locs[idx]
+				# print("find match_loc: {}".format(str(match_loc)))
 				target_coord = map_point_to_coordination(match_loc)
-				coords.append(target_coord)
+				if not target_coord in coords:
+					coords.append(target_coord)
 
+	print("find gold coords: {}".format(str(coords)))
 	return coords
 
 

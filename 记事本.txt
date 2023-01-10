@@ -1,6 +1,3 @@
-图像匹配可以一次匹配多个目标（捡金币）：
-https://docs.opencv.org/4.x/d4/dc6/tutorial_py_template_matching.html
-
 寻路序号问题，捡完东西回到最近的点，得在上次的期望点之内，不是绝对最近点，防止重复路径
 
 

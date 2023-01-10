@@ -72,6 +72,45 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None, mask
 
 	return center_loc
 
+
+# 图片匹配，返回多项结果
+def multiple_match_template(target_path,template_path,threshold = 0.05,scope = None, masks = None):
+	# 读取目标图片
+	target = cv2.imread(target_path)
+	# 读取模版图片
+	template = cv2.imread(template_path)
+	# 获得模版图片的宽高尺寸
+	theight, twidth = template.shape[:2]
+
+	if masks != None:
+		for mask in masks:
+			# print(str(mask))
+			for x in range(mask[0], mask[1]):
+				for y in range(mask[2], mask[3]):
+					target[x, y] = [0, 0, 255]
+					template[x, y] = [0, 0, 255]
+		# cv2.imshow('image', template)
+		# cv2.waitKey()
+
+	# 对应y0,y1 x0,x1
+	if(scope != None):
+		target = target[scope[0]:scope[1],scope[2]:scope[3]]
+
+	# 执行模版匹配，采用的匹配方式cv2.TM_SQDIFF_NORMED
+	result = cv2.matchTemplate(target,template,cv2.TM_SQDIFF_NORMED)
+	# print("result: " + str(result))
+	loc = numpy.where(result < threshold)
+	# print("loc: " + str(loc))
+	match_locs = []
+	for pt in zip(*loc[::-1]):
+		center_loc = (pt[0] + twidth / 2, pt[1] + theight / 2)
+		match_locs.append(center_loc)
+		cv2.rectangle(target, pt, (pt[0] + twidth, pt[1] + theight), (0,0,255), 2)
+	# cv2.imshow('image', target)
+	# cv2.waitKey()
+
+	return match_locs
+
 # 匹配文字
 def easyocr_read(reader,target_path,scope = None,lower_color = [],upper_color = []):
 	# print("easyocr_read: "+target_path)
