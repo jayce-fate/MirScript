@@ -111,15 +111,29 @@ def get_nearest_pos(cave_path):
 	path_len = len(cave_path)
 	nearest_pos = cave_path[0]
 
-	for index in range(1, path_len):
-		position = cave_path[index]
-		# print("position: {}".format(str(position)))
+	# 期望寻路范围
+	min_index = globals.current_path_index - 3 * settings.one_time_move_distance
+	max_index = globals.current_path_index + 3 * settings.one_time_move_distance + 1
+	for index in range(min_index, max_index):
+		path_index = (index + path_len) % path_len
+		position = cave_path[path_index]
 		current_pow = pow((position[0] - current_pos[0]), 2) + pow((position[1] - current_pos[1]), 2)
-		# print("current_pow: {}".format(str(current_pow)))
 		nearest_pow = pow((nearest_pos[0] - current_pos[0]), 2) + pow((nearest_pos[1] - current_pos[1]), 2)
-		# print("nearest_pow: {}".format(str(nearest_pow)))
 		if current_pow < nearest_pow:
 			nearest_pos = position
+
+	# 如果超出期望，则重新搜索全路径中最近的点
+	path = path_controller.find_path(current_pos, nearest_pos)
+	if len(path) > 3 * settings.one_time_move_distance:
+		for index in range(1, path_len):
+			position = cave_path[index]
+			# print("position: {}".format(str(position)))
+			current_pow = pow((position[0] - current_pos[0]), 2) + pow((position[1] - current_pos[1]), 2)
+			# print("current_pow: {}".format(str(current_pow)))
+			nearest_pow = pow((nearest_pos[0] - current_pos[0]), 2) + pow((nearest_pos[1] - current_pos[1]), 2)
+			# print("nearest_pow: {}".format(str(nearest_pow)))
+			if current_pow < nearest_pow:
+				nearest_pos = position
 
 	print("nearest_pos: {}".format(str(nearest_pos)))
 	return nearest_pos
