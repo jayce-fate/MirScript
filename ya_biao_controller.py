@@ -68,20 +68,24 @@ def go_to_wen_biao_tou():
 
 def go_to_lu_lao_ban():
 	cave_path = settings.ya_biao_full_path
-	if len(cave_path) == 0:
+	cave_path_length = len(cave_path)
+	if cave_path_length == 0:
 		print("程序结束")
 		return
 
 	move_controller.get_current_coordinate()
-	# 先去路径开始点
-	path = path_controller.find_path(globals.current_pos, cave_path[0])
-	move_controller.step_go_by_path(path)
-	# 再沿固定路径去陆老板
-	move_controller.step_go_by_path(cave_path)
+	# # 先去路径开始点
+	# path = path_controller.find_path(globals.current_pos, cave_path[0])
+	# move_controller.step_go_by_path(path)
+	# # 再沿固定路径去陆老板
+	# move_controller.step_go_by_path(cave_path)
+
 
 	# 直接搜索寻路去陆老板
-	# path = path_controller.find_path(globals.current_pos, cave_path[-1])
-	# move_controller.step_go_by_path(path)
+	for idx in range(1, 5):
+		index = int(cave_path_length / 4 * idx)
+		path = path_controller.find_path(globals.current_pos, cave_path[index])
+		move_controller.step_go_by_path(path)
 
 	# 等双倍时间
 	while should_wait_until_double_time():
