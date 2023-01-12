@@ -803,3 +803,39 @@ def is_bag_full():
 	click_right_return()
 
 	return is_bag_full
+
+
+def read_pet_HP():
+	# 收起宠物列表（如有）
+	adb_controller.screenshot(settings.screenshot_path)
+	match_loc = image_processor.match_template(settings.screenshot_path, r"template_images/btn_close_pet_list.png",0.05,(144,175,359,386))
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+		time.sleep(1.0)
+		adb_controller.screenshot(settings.screenshot_path)
+
+
+	# 识别血量
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (132,160,400,580))
+	for idx in range(len(resultss)):
+		results = resultss[idx]
+		for result in results:
+			rec = result[1] #('43', 0.99934321641922)
+			res = rec[0] #'43'
+			res = re.sub(u"([^\u0030-\u0039\u002f])", "", res)
+			print("宝宝血量: {}".format(str(res)))
+			if "/" in res:
+				splits = res.split('/')
+				if len(splits) == 2:
+					return splits
+	return None
+
+
+def is_pet_Healthy():
+	pet_HP = read_pet_HP()
+	if pet_HP != None:
+		current_hp = int(pet_HP[0])
+		max_hp = int(pet_HP[1])
+		if current_hp < max_hp * 2 / 3:
+			return False
+	return True

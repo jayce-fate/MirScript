@@ -44,6 +44,11 @@ def start_get_exp():
 		if trash_controller.collect_ground_treasures() > 0:
 			continue
 
+		#检查宝宝血量是否健康
+		if not game_controller.is_pet_Healthy():
+			time.sleep(2.0)
+			continue
+
 		if game_controller.check_exp_getting():
 			print("经验有增加")
 			if time.time() - last_move_time > settings.move_check_time:
@@ -84,6 +89,8 @@ def start():
 			adb_controller.restart_mumu()
 			time.sleep(30)
 			adb_controller.restart_adb()
+			retart_routine()
+		else:
 			retart_routine()
 	except:
 		print('unknown exception')

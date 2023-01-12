@@ -46,3 +46,7 @@ import trash_controller
 
 # path_controller.set_map_data()
 # trash_controller.collect_ground_treasures()
+
+# image_processor.show_hsv_tool(settings.screenshot_path)
+
+# adb_controller.screenshot(settings.screenshot_path)

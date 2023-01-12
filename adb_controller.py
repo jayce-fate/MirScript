@@ -2,6 +2,7 @@ import os
 import time
 import re
 import cv2
+import shutil
 
 import subprocess
 import settings
@@ -40,7 +41,9 @@ def click(location):
 
 # 截屏
 def screenshot(path):
-	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" exec-out screencap -p > " + path)
+	tmp_path = path + ".tmp"
+	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" exec-out screencap -p > " + tmp_path)
+	shutil.move(tmp_path, path)
 	time.sleep(0.001)
 
 # restart adb-server
