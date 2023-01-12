@@ -557,11 +557,35 @@ def restart_game():
 	if not success:
 		restart_game()
 
+def reactive_pet():
+	adb_controller.screenshot(settings.screenshot_path)
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_close_pet_list.png",0.05,(144,175,359,386))
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
+	time.sleep(1)
+
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_rest_pet.png",0.05,(38,88,448,521))
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
+	time.sleep(0.5)
+	adb_controller.screenshot(settings.screenshot_path)
+
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/btn_active_pet.png",0.05,(43,83,453,516))
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
 
 def active_pet():
 	success = wait_to_match_and_click(r"template_images/btn_close_pet_list.png",0.05,60,1,(144,175,359,386))
 	if not success:
 		return False
+
+	time.sleep(1)
 
 	result = wait_to_match_and_click(r"template_images/btn_active_pet.png",0.05,60,1,(43,83,453,516))
 	return result
@@ -836,6 +860,6 @@ def is_pet_Healthy():
 	if pet_HP != None:
 		current_hp = int(pet_HP[0])
 		max_hp = int(pet_HP[1])
-		if current_hp < max_hp * 2 / 3:
+		if max_hp < 1500 and current_hp < max_hp * 2 / 3:
 			return False
 	return True

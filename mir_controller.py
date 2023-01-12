@@ -50,3 +50,5 @@ import trash_controller
 # image_processor.show_hsv_tool(settings.screenshot_path)
 
 # adb_controller.screenshot(settings.screenshot_path)
+
+# game_controller.reactive_pet()

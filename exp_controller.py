@@ -46,7 +46,8 @@ def start_get_exp():
 
 		#检查宝宝血量是否健康
 		if not game_controller.is_pet_Healthy():
-			time.sleep(2.0)
+			game_controller.reactive_pet()
+			time.sleep(5.0)
 			continue
 
 		if game_controller.check_exp_getting():
