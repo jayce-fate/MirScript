@@ -82,10 +82,29 @@ def go_to_lu_lao_ban():
 
 
 	# 直接搜索寻路去陆老板
-	for idx in range(1, 5):
-		index = int(cave_path_length / 4 * idx)
-		path = path_controller.find_path(globals.current_pos, cave_path[index])
+	# for idx in range(1, 5):
+	# 	index = int(cave_path_length / 4 * idx)
+	# 	if index >= cave_path_length:
+	# 		index = cave_path_length - 1
+	# 	path = path_controller.find_path(globals.current_pos, cave_path[index])
+	# 	move_controller.step_go_by_path(path)
+
+	# 先去最近点
+	next_pos = move_controller.get_nearest_pos(cave_path)
+	current_path_index = cave_path.index(next_pos)
+
+	while True:
+		path = path_controller.find_path(globals.current_pos, next_pos)
 		move_controller.step_go_by_path(path)
+
+		if current_path_index == cave_path_length - 1:
+			break
+
+		current_path_index = current_path_index + int(cave_path_length / 4)
+		if current_path_index >= cave_path_length:
+			current_path_index = cave_path_length - 1
+		next_pos = cave_path[current_path_index]
+
 
 	# 等双倍时间
 	while should_wait_until_double_time():
