@@ -67,33 +67,49 @@ def start_get_exp():
 				last_move_time = time.time()
 
 
-def retart_routine():
-	print("重启游戏")
-	game_controller.restart_game()
-	success = game_controller.active_pet()
-	if success:
-		start()
-	else:
+def restart_routine(restart_mumu_adb = False):
+	try:
+		print("重启游戏")
+
+		if restart_mumu_adb:
+			adb_controller.restart_mumu()
+			time.sleep(30)
+			adb_controller.restart_adb()
+
 		game_controller.restart_game()
+		success = game_controller.active_pet()
+		if success:
+			start()
+		else:
+			game_controller.restart_game()
+	except Exception as e:
+		print('exception:', e)
+		reason = e.args[0]
+		if reason == "RESTART":
+			restart_routine()
+		elif "NoneType" in reason:
+			print("adb 断开")
+			restart_routine(True)
+		else:
+			restart_routine()
+	else:
+		print('unknown exception')
 
 
 def start():
 	try:
 		start_get_exp()
-	except Exception as err:
-		print('exception:', err)
-		reason = err.args[0]
+	except Exception as e:
+		print('exception:', e)
+		reason = e.args[0]
 		if reason == "RESTART":
-			retart_routine()
+			restart_routine()
 		elif "NoneType" in reason:
 			print("adb 断开")
-			adb_controller.restart_mumu()
-			time.sleep(30)
-			adb_controller.restart_adb()
-			retart_routine()
+			restart_routine(True)
 		else:
-			retart_routine()
-	except:
+			restart_routine()
+	else:
 		print('unknown exception')
 
 

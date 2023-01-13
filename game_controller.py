@@ -860,6 +860,6 @@ def is_pet_Healthy():
 	if pet_HP != None:
 		current_hp = int(pet_HP[0])
 		max_hp = int(pet_HP[1])
-		if max_hp < 1500 and current_hp < max_hp * 2 / 3:
+		if max_hp < 1500 and current_hp < max_hp * 5 / 6:
 			return False
 	return True
