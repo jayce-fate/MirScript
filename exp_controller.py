@@ -32,7 +32,7 @@ def start_get_exp():
 	nearest_pos = move_controller.get_nearest_pos(cave_path)
 	globals.current_path_index = cave_path.index(nearest_pos)
 	last_move_time = 0
-
+	last_go_back_time = 0
 	while(True):
 		#消除系统确定消息框
 		game_controller.click_sure_btn()
@@ -55,11 +55,13 @@ def start_get_exp():
 				game_controller.cast_shield()
 				game_controller.cast_lighting()
 			else:
-				# 往回跑，试图召回宠物
-				game_controller.reactive_pet()
-				game_controller.cast_shield()
-				move_controller.go_to_previous_point()
-				game_controller.reactive_pet()
+				if time.time() - last_go_back_time > settings.go_back_check_time:
+					# 往回跑，试图召回宠物
+					game_controller.reactive_pet()
+					game_controller.cast_shield()
+					move_controller.go_to_previous_point(cave_path)
+					game_controller.reactive_pet()
+					last_go_back_time = time.time()
 
 			time.sleep(5.0)
 			continue
@@ -125,5 +127,6 @@ def start():
 			restart_routine()
 	else:
 		print('unknown exception')
+		restart_routine()
 
 

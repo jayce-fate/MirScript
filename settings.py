@@ -28,6 +28,8 @@ screenshot_path2 = r"temp_screenshot/screenshot2.png"
 # 检查屏幕是否有怪间隔时间（距离上次移动），单位秒
 move_check_time = 40
 
+go_back_check_time = 60
+
 # 检查背包容量时间间隔，单位秒
 move_bag_capacity_time = 600
 
@@ -86,6 +88,7 @@ trash_list_white = [
                 "灯笼项链",
                 "坚固手套",
                 "技能书",
+                "死神手套",
                 ]
 
 # 极品不扔，非极品扔，需要二次确认

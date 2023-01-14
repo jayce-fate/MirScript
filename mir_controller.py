@@ -21,6 +21,8 @@ import trash_controller
 # test
 # ******************************************
 
+# game_controller.select_boss()
+
 # trash_controller.loop_drink_one_item("强效魔法药")
 
 # game_controller.check_ground_items()
