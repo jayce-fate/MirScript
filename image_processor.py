@@ -220,7 +220,7 @@ def show_hsv_tool(target_path, scope = None):
 	cv2.destroyAllWindows()
 
 # paddleocr 文字读取
-def paddleocr_read(target_path,scope = None,lower_color = [],upper_color = []):
+def paddleocr_read(target_path, scope = None, lower_color = [], upper_color = [], masks = None):
 	# print("paddleocr_read: "+target_path)
 	target = cv2.imread(target_path)
 
@@ -236,6 +236,13 @@ def paddleocr_read(target_path,scope = None,lower_color = [],upper_color = []):
 		# 设置HSV的阈值使得只取目标颜色
 		mask = cv2.inRange(hsv,lower_color, upper_color)
 		target = cv2.bitwise_and(target, target, mask=mask)
+
+	if masks != None:
+		for mask in masks:
+			# print(str(mask))
+			for x in range(mask[0], mask[1]):
+				for y in range(mask[2], mask[3]):
+					target[x, y] = [0, 0, 255]
 
 	# Display result image
 	# cv2.imshow('image', target)

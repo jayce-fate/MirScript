@@ -699,8 +699,17 @@ def check_ground_items(need_screenshot = True):
 	# 底色绿色文字物品
 	lower_color = [35,43,46]
 	upper_color = [75,255,255]
-	match_scope = (0,790,0,1360)
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+	match_scope = (0,936,0,1664)
+
+	masks = []
+	masks.append((0,34,440,1234)) #顶部滚动通知
+	masks.append((42,198,1354,1664)) #右上角地图
+	masks.append((796,936,625,1196)) #底部聊天窗口
+	# masks.append((358,600,710,980)) #我自己
+	# masks.append((152,274,756,910)) #经验提示框1
+	masks.append((796,936,470,610)) #血、魔球
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color, masks = masks)
 	for idx in range(len(resultss)):
 		results = resultss[idx]
 		for result in results:
@@ -708,9 +717,9 @@ def check_ground_items(need_screenshot = True):
 			name_rate = result[1] #('43', 0.99934321641922)
 			name = name_rate[0] #'43'
 			if is_contains_chinese(name):
-				print("found ground treasure: {}".format(str(name)))
 				filtered_name = filter_trash_name(name)
 				if len(filtered_name) > 0:
+					print("found ground treasure: {}".format(str(filtered_name)))
 					corners = result[0]
 					left_top_point = corners[0]
 					right_top_point = corners[1]
@@ -731,8 +740,6 @@ def check_ground_items(need_screenshot = True):
 					# print("center: {}".format(str(center)))
 					target_coord = map_point_to_coordination(center)
 					coords.append(target_coord)
-				else:
-					print("is trash")
 
 	return coords
 
