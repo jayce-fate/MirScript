@@ -131,6 +131,11 @@ ground_trashes_green_key_word = [
                 "珊瑚",
                 ]
 
+ground_green_trash_list = [
+                "白色虎齿项链",
+                "珊瑚戒指",
+                ]
+
 
 
 

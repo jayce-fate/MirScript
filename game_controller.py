@@ -660,6 +660,21 @@ def is_trash(trash_name):
 
 	return trash
 
+def filter_trash_name(trash_name):
+	trash_list = settings.ground_green_trash_list
+
+	if len(trash_name) <= 4:
+		return trash_name
+
+	for idx in range(len(trash_list)):
+		name = trash_list[idx]
+		for i in range(0, len(name) - 2):
+			sub_name = name[i:]
+			trash_name = trash_name.replace(sub_name, "")
+			sub_name = name[:-i]
+			trash_name = trash_name.replace(sub_name, "")
+
+	return trash_name
 
 #检验是否全是中文字符
 def is_all_chinese(strs):
@@ -693,19 +708,31 @@ def check_ground_items(need_screenshot = True):
 			name_rate = result[1] #('43', 0.99934321641922)
 			name = name_rate[0] #'43'
 			if is_contains_chinese(name):
-				if not is_trash(name):
-					print("found ground treasure: {}".format(str(name)))
+				print("found ground treasure: {}".format(str(name)))
+				filtered_name = filter_trash_name(name)
+				if len(filtered_name) > 0:
 					corners = result[0]
 					left_top_point = corners[0]
 					right_top_point = corners[1]
 					right_bottom_point = corners[2]
 					left_bottom_point = corners[3]
-					center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
-					center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
+
+					total_width = right_bottom_point[0] - left_top_point[0]
+					total_height = right_bottom_point[1] - left_top_point[1]
+
+					name_length = len(name)
+					each_width = total_width / name_length
+
+					index = name.index(filtered_name)
+
+					center_x = left_top_point[0] + each_width * (index + len(filtered_name) / 2)
+					center_y = left_top_point[1] + total_height / 2
 					center = (match_scope[2] + center_x, match_scope[0] + center_y)
 					# print("center: {}".format(str(center)))
 					target_coord = map_point_to_coordination(center)
 					coords.append(target_coord)
+				else:
+					print("is trash")
 
 	return coords
 
