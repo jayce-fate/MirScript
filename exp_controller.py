@@ -58,7 +58,7 @@ def start_get_exp():
 				# 往回跑，试图召回宠物
 				game_controller.reactive_pet()
 				game_controller.cast_shield()
-				game_controller.go_to_previous_point()
+				move_controller.go_to_previous_point()
 				game_controller.reactive_pet()
 
 			time.sleep(5.0)

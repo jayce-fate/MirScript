@@ -649,16 +649,17 @@ def map_point_to_coordination(map_point):
 	return target_coord
 
 
-def is_trash(trash_name):
-	trash = False
-	keywords = settings.ground_trashes_green_key_word
-	for idx in range(len(keywords)):
-		keyword = keywords[idx]
-		if keyword in trash_name:
-			trash = True
-			break
+# def is_trash(trash_name):
+# 	trash = False
+# 	keywords = settings.ground_trashes_green_key_word
+# 	for idx in range(len(keywords)):
+# 		keyword = keywords[idx]
+# 		if keyword in trash_name:
+# 			trash = True
+# 			break
+#
+# 	return trash
 
-	return trash
 
 def filter_trash_name(trash_name):
 	trash_list = settings.ground_green_trash_list
@@ -768,31 +769,18 @@ def check_ground_golds(need_screenshot = True):
 	return coords
 
 
-def drink_red():
-	print("drink_red")
+def drink_item(item_name):
+	print("drink:", item_name)
 	adb_controller.screenshot(settings.screenshot_path)
+	item_template = "template_images/items/{}.png".format(str(item_name))
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/items/强效金疮药.png",0.1)
+		settings.screenshot_path,item_template,0.05)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 		adb_controller.click(match_loc)
 		adb_controller.click(match_loc)
 		return True
-	else:
-		return False
-
-def drink_sun_water():
-	print("drink_sun_water")
-	adb_controller.screenshot(settings.screenshot_path)
-	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/items/强效太阳水.png",0.1)
-	if(match_loc != None):
-		adb_controller.click(match_loc)
-		adb_controller.click(match_loc)
-		adb_controller.click(match_loc)
-		return True
-	else:
-		return False
+	return False
 
 def check_monster_reachable():
 	monster_list = get_monster_list()

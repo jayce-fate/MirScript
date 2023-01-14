@@ -21,7 +21,9 @@ import trash_controller
 # test
 # ******************************************
 
-game_controller.check_ground_items()
+# trash_controller.loop_drink_one_item("强效魔法药")
+
+# game_controller.check_ground_items()
 # trash_name = game_controller.filter_trash_name("白色虎齿项链年雪霜万年雪霜")
 # print("trash_name = ", trash_name)
 

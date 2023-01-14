@@ -35,6 +35,13 @@ def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
 					adb_controller.screenshot(settings.screenshot_path)
 				loop_drop_one_item(trash_name, is_green, force_drop)
 
+
+def loop_drink_one_item(trash_name):
+	print("loop_drink_one_item:" + trash_name)
+	if game_controller.drink_item(trash_name):
+		loop_drink_one_item(trash_name)
+
+
 def drop_trashes_loop():
 	adb_controller.screenshot(settings.screenshot_path)
 
@@ -58,6 +65,13 @@ def drop_trashes_loop():
 		trash_name = trash_list[index]
 		print("trash_name: {}".format(str(trash_name)))
 		loop_drop_one_item(trash_name, force_drop = True)
+
+	trash_list = settings.trash_list_drink
+	list_len = len(trash_list)
+	for index in range(0, list_len):
+		trash_name = trash_list[index]
+		print("trash_name: {}".format(str(trash_name)))
+		loop_drink_one_item(trash_name)
 
 def drop_trashes(neen_open_close_bag = True):
 	if neen_open_close_bag:
@@ -92,7 +106,7 @@ def try_get_bag_space(space_need):
 				return True
 
 			for idx in range(0, space_need - remain_capacity):
-				if not game_controller.drink_red():
+				if not game_controller.drink_item("强效金疮药"):
 					break
 
 			time.sleep(0.5)
@@ -103,7 +117,7 @@ def try_get_bag_space(space_need):
 				return True
 
 			for idx in range(0, space_need - remain_capacity):
-				if not game_controller.drink_sun_water():
+				if not game_controller.drink_item("强效太阳水"):
 					break
 
 			remain_capacity = game_controller.read_bag_remain_capacity()
