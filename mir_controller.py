@@ -20,6 +20,10 @@ import trash_controller
 # ******************************************
 # test
 # ******************************************
+
+game_controller.get_my_health()
+
+
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.show_scope()
 

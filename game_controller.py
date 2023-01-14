@@ -919,3 +919,32 @@ def cast_lighting():
 
 def cast_shield():
 	adb_controller.click((1514, 680 - 93))
+
+def get_my_health():
+	# adb_controller.screenshot(settings.screenshot_path)
+	# 颜色参数
+	lower_color = [0,0,0]
+	upper_color = [179,0,255]
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, (330,410,675,1000),lower_color,upper_color)
+	for idx in range(len(resultss)):
+		results = resultss[idx]
+		for result in results:
+			rec = result[1] #('43', 0.99934321641922)
+			res = rec[0] #'43'
+			res = re.sub(u"([^\u0030-\u0039\u002f])", "", res)
+			print("我的血量: {}".format(str(res)))
+			if "/" in res:
+				splits = res.split('/')
+				if len(splits) == 2:
+					return splits
+	return None
+
+def is_me_healthy():
+	my_HP = get_my_health()
+	if my_HP != None:
+		current_hp = int(my_HP[0])
+		max_hp = int(my_HP[1])
+		if current_hp + 90 < max_hp:
+			return False
+	return True

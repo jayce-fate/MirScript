@@ -41,6 +41,10 @@ def start_get_exp():
 			print("断开")
 			raise Exception("RESTART")
 
+		# 血量低，可能背包满了，红喝不出来
+		if not game_controller.is_me_healthy():
+			trash_controller.try_get_bag_space(1)
+
 		if trash_controller.collect_ground_treasures() > 0:
 			continue
 
