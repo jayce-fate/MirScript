@@ -383,7 +383,8 @@ def click_npc_wen_biao_tou():
 	# 坐标颜色绿色参数
 	lower_color = [35,43,46]
 	upper_color = [75,255,255]
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (0,936,0,1664),lower_color,upper_color)
+	match_scope = (0,936,0,1664)
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	for idx in range(len(resultss)):
 		results = resultss[idx]
 		for result in results:
@@ -398,7 +399,7 @@ def click_npc_wen_biao_tou():
 				left_bottom_point = corners[3]
 				center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
 				center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
-				center = (center_x, center_y)
+				center = (match_scope[2] + center_x, match_scope[0] + center_y)
 				adb_controller.click(center)
 				return True
 	return False
@@ -683,7 +684,8 @@ def check_ground_items(need_screenshot = True):
 	# 底色绿色文字物品
 	lower_color = [35,43,46]
 	upper_color = [75,255,255]
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (0,790,0,1360),lower_color,upper_color)
+	match_scope = (0,790,0,1360)
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	for idx in range(len(resultss)):
 		results = resultss[idx]
 		for result in results:
@@ -700,7 +702,7 @@ def check_ground_items(need_screenshot = True):
 					left_bottom_point = corners[3]
 					center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
 					center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
-					center = (center_x, center_y)
+					center = (match_scope[2] + center_x, match_scope[0] + center_y)
 					# print("center: {}".format(str(center)))
 					target_coord = map_point_to_coordination(center)
 					coords.append(target_coord)
@@ -855,7 +857,7 @@ def read_pet_HP():
 	return None
 
 
-def is_pet_Healthy():
+def is_pet_healthy():
 	pet_HP = read_pet_HP()
 	if pet_HP != None:
 		current_hp = int(pet_HP[0])
@@ -863,3 +865,57 @@ def is_pet_Healthy():
 		if max_hp < 1500 and current_hp < max_hp * 5 / 6:
 			return False
 	return True
+
+
+def select_boss():
+	print("选择boss:")
+	#打开目标列表
+	open_target_list()
+	time.sleep(0.2)
+
+	#切换到怪物列表
+	adb_controller.screenshot(settings.screenshot_path)
+	open_monster_list()
+	time.sleep(0.1)
+
+	#识别怪物名称
+	adb_controller.screenshot(settings.screenshot_path)
+	lower_color = [0,0,118]
+	upper_color = [179,255,255]
+
+	boss_selected = False
+	match_scope = (24,870,948,1512)
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+	for idx in range(len(resultss)):
+		if boss_selected:
+			break
+
+		results = resultss[idx]
+		for result in results:
+			rec = result[1] #('43', 0.99934321641922)
+			# print("rec: {}".format(str(rec)))
+			res = rec[0] #'43'
+			# print("res: {}".format(str(res)))
+			print("怪物名: {}".format(str(res)))
+			if "邪恶" in res:
+				boss_selected = True
+				corners = result[0]
+				left_top_point = corners[0]
+				right_top_point = corners[1]
+				right_bottom_point = corners[2]
+				left_bottom_point = corners[3]
+				center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
+				center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
+				center = (match_scope[2] + center_x, match_scope[0] + center_y)
+				adb_controller.click(center)
+				break
+
+	#关闭目标列表
+	close_target_list()
+	return boss_selected
+
+def cast_lighting():
+	adb_controller.click((1514, 680))
+
+def cast_shield():
+	adb_controller.click((1514, 680 - 93))

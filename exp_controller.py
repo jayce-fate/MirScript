@@ -45,8 +45,18 @@ def start_get_exp():
 			continue
 
 		#检查宝宝血量是否健康
-		if not game_controller.is_pet_Healthy():
-			game_controller.reactive_pet()
+		if not game_controller.is_pet_healthy():
+			if game_controller.select_boss():
+				# 攻击boss
+				game_controller.cast_shield()
+				game_controller.cast_lighting()
+			else:
+				# 往回跑，试图召回宠物
+				game_controller.reactive_pet()
+				game_controller.cast_shield()
+				game_controller.go_to_previous_point()
+				game_controller.reactive_pet()
+
 			time.sleep(5.0)
 			continue
 

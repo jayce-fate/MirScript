@@ -105,6 +105,36 @@ def go_to_next_point(cave_path):
 	step_go_by_path(path)
 
 
+def go_to_previous_point(cave_path):
+	# print("go_to_previous_point")
+	if globals.current_pos == (0, 0):
+		get_current_coordinate()
+
+	path_len = len(cave_path)
+
+	globals.current_path_index = (path_len + globals.current_path_index - 2 * settings.one_time_move_distance) % path_len
+	target_pos = cave_path[globals.current_path_index]
+	# print("globals.current_pos:{}".format(str(globals.current_pos)))
+	# print("target_pos:{}".format(str(target_pos)))
+	if globals.current_pos == target_pos:
+		return
+	path = path_controller.find_path(globals.current_pos, target_pos)
+	# 允许 distance在范围内的路径移动（为了绕过障碍物）：settings.one_time_move_distance < distance < 2 * settings.one_time_move_distance
+	if len(path) > 3 * settings.one_time_move_distance:
+		target_pos = get_nearest_pos(cave_path)
+		globals.current_path_index = cave_path.index(target_pos)
+		path = path_controller.find_path(globals.current_pos, target_pos)
+
+	if len(path) == 0:
+		print("未找{}到{}的路径, 重置地图数据".format(str(globals.current_pos), str(target_pos)))
+		path_controller.set_map_data()
+		global block_point_cache
+		block_point_cache = []
+		path = path_controller.find_path(globals.current_pos, target_pos)
+
+	step_go_by_path(path)
+
+
 def get_nearest_pos(cave_path):
 	current_pos = get_current_coordinate()
 	print("current_pos: {}".format(str(current_pos)))
