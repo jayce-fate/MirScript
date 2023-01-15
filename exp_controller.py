@@ -110,6 +110,7 @@ def restart_routine(restart_mumu_adb = False):
 			restart_routine()
 	else:
 		print('unknown exception')
+		restart_routine()
 
 
 def start():

@@ -708,7 +708,7 @@ def check_ground_items(need_screenshot = True):
 	masks.append((796,936,625,1196)) #底部聊天窗口
 	# masks.append((358,600,710,980)) #我自己
 	# masks.append((152,274,756,910)) #经验提示框1
-	masks.append((796,936,470,610)) #血、魔球
+	# masks.append((796,936,470,610)) #血、魔球
 
 	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color, masks = masks)
 	for idx in range(len(resultss)):
