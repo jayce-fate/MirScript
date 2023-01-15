@@ -1,5 +1,4 @@
-僵尸洞挂机地点检查
-物品图片补充
+僵尸洞物品图片补充
 
 多开？ https://blog.csdn.net/newlw/article/details/123043166 (好像走不通，使用不同模拟器得重新截图)
 

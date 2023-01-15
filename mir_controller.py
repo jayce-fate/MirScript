@@ -21,6 +21,8 @@ import trash_controller
 # test
 # ******************************************
 
+# path_controller.show_map()
+
 # game_controller.select_boss()
 
 # trash_controller.loop_drink_one_item("强效魔法药")
@@ -34,7 +36,7 @@ import trash_controller
 
 # game_controller.cast_shield()
 
-# path_controller.generate_map_data()
+path_controller.generate_map_data([(110,92),(92,108),(114,136),(162,177),(166,128),(49,93),(40,54),(47,39)])
 # game_controller.close_map()
 # start_get_exp()
 # path_controller.show_map()

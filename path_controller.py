@@ -52,9 +52,10 @@ def read_map_data(map_data_path):
 def get_map_scale():
 	adb_controller.screenshot(settings.screenshot_path)
 	map_name = game_controller.read_map_name()
+	# x scale, y scale, x offset, y offset
 	scale = (1.0, 1.0, 0, 0)
 	if map_name == "废矿东部":
-		scale = (1.0, 1.0, 0, 0)
+		scale = (7.1, 4.65, 120, -10)
 	elif map_name == "生死之间":
 		scale = (14.8, 9.3, 60, 0)
 	else:
@@ -260,7 +261,7 @@ def set_block(pos):
 	# print("current_map_data: \n{}".format(str(current_map_data)))
 
 
-def generate_map_data():
+def generate_map_data(amend_points = None):
 	map_data_path = get_map_data_path()
 	map_data_cache_path = get_map_data_cache_path()
 	map_size = get_map_size()
@@ -281,6 +282,10 @@ def generate_map_data():
 			data_list.append(point)
 
 	write_map_data(map_data_path, data_list)
+
+	# 未检测点修补
+	if amend_points != None:
+		cave_path = amend_points
 
 	game_controller.click_map()
 	time.sleep(1.0)
