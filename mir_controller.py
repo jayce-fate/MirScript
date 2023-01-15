@@ -27,7 +27,7 @@ import trash_controller
 
 # trash_controller.loop_drink_one_item("强效魔法药")
 
-# game_controller.check_ground_items()
+# trash_controller.handle_bag_full()
 # trash_name = game_controller.filter_trash_name("白色虎齿项链年雪霜万年雪霜")
 # print("trash_name = ", trash_name)
 
@@ -36,7 +36,7 @@ import trash_controller
 
 # game_controller.cast_shield()
 
-path_controller.generate_map_data([(110,92),(92,108),(114,136),(162,177),(166,128),(49,93),(40,54),(47,39)])
+# path_controller.generate_map_data([(110,92),(92,108),(114,136),(162,177),(166,128),(49,93),(40,54),(47,39)])
 # game_controller.close_map()
 # start_get_exp()
 # path_controller.show_map()
