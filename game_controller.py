@@ -7,6 +7,7 @@ import adb_controller
 import image_processor
 import settings
 import globals
+import utils
 
 walk_swip_time = 200
 run_swip_time = 550
@@ -75,8 +76,11 @@ def get_monster_list():
 	# 	re_text = reline[1].replace(" ","")
 	# 	print("怪物名: {}".format(str(re_text)))
 
+	match_scope = (24,870,948,1512)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	monster_list = []
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (24,870,948,1512),lower_color,upper_color)
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	for idx in range(len(resultss)):
 		results = resultss[idx]
 		for result in results:
@@ -115,7 +119,8 @@ def cast_fire_ball():
 
 def open_target_list():
 	# print("open_target_list....")
-	adb_controller.click((1185, 584))
+	point = utils.convert_point((1185, 584), (1664, 936))
+	adb_controller.click(point)
 
 def open_monster_list():
 	# print("open_monster_list....")
@@ -145,7 +150,11 @@ def read_coordinate_text(need_screenshot = True):
 	# 坐标颜色绿色参数
 	lower_color = [35,43,46]
 	upper_color = [75,255,255]
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (42,82,1540,1664),lower_color,upper_color)
+
+	match_scope = (42,82,1540,1664)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, ower_color, upper_color)
 	result = get_first_result(resultss)
 	if result != None:
 		result = re.findall(r'\d+', result)
@@ -158,7 +167,10 @@ def read_lv_text():
 	lower_color = [0,0,212]
 	upper_color = [179,255,255]
 
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (56,100,58,104),lower_color,upper_color)
+	match_scope = (56,100,58,104)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	result = get_first_result(resultss)
 	if result != None:
 		print("当前等级: {}".format(str(result)))
@@ -170,7 +182,11 @@ def connection_lose():
 	# 等级颜色米色参数
 	lower_color = [0,0,212]
 	upper_color = [179,255,255]
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (390,462,620,1023),lower_color,upper_color)
+
+	match_scope = (390,462,620,1023)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	result = get_first_result(resultss)
 	if result != None:
 		print("当前提示文字: {}".format(str(result)))
@@ -192,7 +208,10 @@ def already_has_master():
 	# print("当前未拜师")
 	# return False
 
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (450,482,722,938),lower_color,upper_color)
+	match_scope = (450,482,722,938)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	result = get_first_result(resultss)
 	if result != None:
 		print("我的名字: {}".format(str(result)))
@@ -218,7 +237,10 @@ def read_current_exp():
 	# 			return float(digit_array[index])
 	# return None
 
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (56,100,181,316),lower_color,upper_color)
+	match_scope = (56,100,181,316)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	result = get_first_result(resultss)
 	if result != None:
 		digit_array = re.findall(r'\d+\.?\d*', result)
@@ -234,7 +256,10 @@ def got_exp_add_text():
 	lower_color = [14,255,255]
 	upper_color = [30,255,255]
 
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (100,350,675,1000),lower_color,upper_color)
+	match_scope = (100,350,675,1000)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	for idx in range(len(resultss)):
 		results = resultss[idx]
 		for result in results:
@@ -251,7 +276,10 @@ def got_bag_full_text():
 	lower_color = [14,255,255]
 	upper_color = [30,255,255]
 
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (100,350,675,1000),lower_color,upper_color)
+	match_scope = (100,350,675,1000)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	for idx in range(len(resultss)):
 		results = resultss[idx]
 		for result in results:
@@ -272,7 +300,10 @@ def read_map_name():
 	# 	print("地图名称: {}".format(re_text))
 	# 	return re_text
 
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (4,41,1355,1662),lower_color,upper_color)
+	match_scope = (4,41,1355,1662)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	result = get_first_result(resultss)
 	if result != None:
 		print("地图名称: {}".format(str(result)))
@@ -284,7 +315,11 @@ def read_quality_text():
 	# 等级颜色米色参数
 	lower_color = [0,0,212]
 	upper_color = [179,255,255]
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (370,412,865,973),lower_color,upper_color)
+
+	match_scope = (370,412,865,973)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	result = get_first_result(resultss)
 	if result != None:
 		print("当前极品文字: {}".format(str(result)))
@@ -296,7 +331,11 @@ def read_bag_remain_capacity():
 	# 等级颜色米色参数
 	lower_color = [0,0,212]
 	upper_color = [179,255,255]
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (881,915,1011,1192),lower_color,upper_color)
+
+	match_scope = (881,915,1011,1192)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	result = get_first_result(resultss)
 	if result != None:
 		print("背包容量: {}".format(str(result)))
@@ -344,22 +383,28 @@ def click_scope(scope):
 	adb_controller.click(point)
 
 def click_map():
-	adb_controller.click((1645, 100))
+	point = utils.convert_point((1645, 100), (1664, 936))
+	adb_controller.click(point)
 
 def click_map_aim():
-	click_scope((712,781,1556,1619))
+	match_scope = utils.convert_scope((712,781,1556,1619), (1664, 936))
+	click_scope(match_scope)
 
 def click_map_input():
-	click_scope((420,501,562,1084))
+	match_scope = utils.convert_scope((420,501,562,1084), (1664, 936))
+	click_scope(match_scope)
 
 def click_map_clear():
-	click_scope((37,101,1398,1528))
+	match_scope = utils.convert_scope((37,101,1398,1528), (1664, 936))
+	click_scope(match_scope)
 
 def click_map_edit_confirm():
-	click_scope((229,289,1405,1520))
+	match_scope = utils.convert_scope((229,289,1405,1520), (1664, 936))
+	click_scope(match_scope)
 
 def click_map_input_confirm():
-	click_scope((586,647,912,1166))
+	match_scope = utils.convert_scope((586,647,912,1166), (1664, 936))
+	click_scope(match_scope)
 
 def click_map_npc_wen_biao_tou():
 	match_loc = image_processor.match_template(
@@ -383,7 +428,10 @@ def click_npc_wen_biao_tou():
 	# 坐标颜色绿色参数
 	lower_color = [35,43,46]
 	upper_color = [75,255,255]
+
 	match_scope = (0,936,0,1664)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	for idx in range(len(resultss)):
 		results = resultss[idx]
@@ -405,7 +453,8 @@ def click_npc_wen_biao_tou():
 	return False
 
 def click_accept_ya_biao():
-	adb_controller.click((145, 450))
+	point = utils.convert_point((145, 450), (1664, 936))
+	adb_controller.click(point)
 
 def click_npc_lu_lao_ban():
 	match_loc = image_processor.match_template(
@@ -414,7 +463,8 @@ def click_npc_lu_lao_ban():
 		adb_controller.click(match_loc)
 
 def click_finish_ya_biao():
-	adb_controller.click((185, 175))
+	point = utils.convert_point((185, 175), (1664, 936))
+	adb_controller.click(point)
 
 # 计算间距为一步的路径
 def to_each_step_path(path):
@@ -593,31 +643,38 @@ def active_pet():
 
 def open_bag():
 	print("open_bag")
-	adb_controller.click((560, 860))
+	point = utils.convert_point((560, 860), (1664, 936))
+	adb_controller.click(point)
 
 def wipe_down_bag():
 	pos = (1000, 500)
 	adb_controller.swipe((pos[0], pos[1] + 50), (pos[0], pos[1] - 50), 200)
 
 def click_drop():
-	adb_controller.click((1310, 840))
+	point = utils.convert_point((1310, 840), (1664, 936))
+	adb_controller.click(point)
 
 def click_cancel_drop():
-	adb_controller.click((622, 616))
+	point = utils.convert_point((622, 616), (1664, 936))
+	adb_controller.click(point)
 
 def click_confirm_drop():
-	adb_controller.click((938, 616))
+	point = utils.convert_point((938, 616), (1664, 936))
+	adb_controller.click(point)
 
 def click_arrange_bag():
-	adb_controller.click((1590, 714))
+	point = utils.convert_point((1590, 714), (1664, 936))
+	adb_controller.click(point)
 
 def click_left_return():
 	print("click_left_return")
-	adb_controller.click((59, 872))
+	point = utils.convert_point((59, 872), (1664, 936))
+	adb_controller.click(point)
 
 def click_right_return():
 	print("click_right_return")
-	adb_controller.click((1604, 872))
+	point = utils.convert_point((1604, 872), (1664, 936))
+	adb_controller.click(point)
 
 
 def show_scope():
@@ -700,7 +757,9 @@ def check_ground_items(need_screenshot = True):
 	# 底色绿色文字物品
 	lower_color = [35,43,46]
 	upper_color = [75,255,255]
+
 	match_scope = (0,936,0,1664)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
 
 	masks = []
 	masks.append((0,34,440,1234)) #顶部滚动通知
@@ -709,6 +768,7 @@ def check_ground_items(need_screenshot = True):
 	# masks.append((358,600,710,980)) #我自己
 	# masks.append((152,274,756,910)) #经验提示框1
 	# masks.append((796,936,470,610)) #血、魔球
+	masks = utils.convert_masks(masks, (1664, 936))
 
 	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color, masks = masks)
 	for idx in range(len(resultss)):
@@ -821,6 +881,7 @@ def check_level():
 def is_monster_nearby():
 	adb_controller.screenshot(settings.screenshot_path1)
 	adb_controller.screenshot(settings.screenshot_path2)
+
 	masks = []
 	masks.append((0,34,440,1234)) #顶部滚动通知
 	masks.append((42,198,1354,1664)) #右上角地图
@@ -828,6 +889,8 @@ def is_monster_nearby():
 	masks.append((358,600,710,980)) #我自己
 	masks.append((152,274,756,910)) #经验提示框1
 	masks.append((796,936,470,610)) #血、魔球
+	masks = utils.convert_masks(masks, (1664, 936))
+
 	match_loc = image_processor.match_template(
 		settings.screenshot_path1, settings.screenshot_path2, 0.0001, masks = masks)
 	if(match_loc != None):
@@ -863,8 +926,11 @@ def read_pet_HP():
 		adb_controller.screenshot(settings.screenshot_path)
 
 
+	match_scope = (132,160,400,580)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	# 识别血量
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (132,160,400,580))
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope)
 	for idx in range(len(resultss)):
 		results = resultss[idx]
 		for result in results:
@@ -906,7 +972,10 @@ def select_boss():
 	upper_color = [179,255,255]
 
 	boss_selected = False
+
 	match_scope = (24,870,948,1512)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	for idx in range(len(resultss)):
 		if boss_selected:
@@ -937,10 +1006,12 @@ def select_boss():
 	return boss_selected
 
 def cast_lighting():
-	adb_controller.click((1514, 680))
+	point = utils.convert_point((1514, 680), (1664, 936))
+	adb_controller.click(point)
 
 def cast_shield():
-	adb_controller.click((1514, 680 - 93))
+	point = utils.convert_point((1514, 680 - 93), (1664, 936))
+	adb_controller.click(point)
 
 def get_my_health():
 	# adb_controller.screenshot(settings.screenshot_path)
@@ -948,7 +1019,10 @@ def get_my_health():
 	lower_color = [0,0,0]
 	upper_color = [179,0,255]
 
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, (330,410,675,1000),lower_color,upper_color)
+	match_scope = (330,410,675,1000)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	for idx in range(len(resultss)):
 		results = resultss[idx]
 		for result in results:

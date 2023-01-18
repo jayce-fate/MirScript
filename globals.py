@@ -21,3 +21,6 @@ check_has_master_fail_remain = settings.check_has_master_fail_limit
 
 # 连续走路步数统计（主要是押镖）
 # step_count = 0
+
+#屏幕（截图）尺寸
+resolution = None

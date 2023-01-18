@@ -16,10 +16,23 @@ import move_controller
 import exp_controller
 import ya_biao_controller
 import trash_controller
+import utils
 
 # ******************************************
 # test
 # ******************************************
+
+# adb_controller.screenshot(settings.screenshot_path)
+# game_controller.read_map_name()
+
+# masks = []
+# masks.append((0,34,440,1234)) #顶部滚动通知
+# masks.append((42,198,1354,1664)) #右上角地图
+# masks.append((796,936,625,1196)) #底部聊天窗口
+# print("masks 0 = ", masks)
+# masks = utils.convert_masks(masks)
+# print("masks 1 = ", masks)
+
 
 # path_controller.show_map()
 
