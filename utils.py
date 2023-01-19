@@ -31,7 +31,8 @@ def convert_scope(scope, resolution = (1280, 720)):
 	result = []
 	if(scope != None):
 		for idx in range(len(scope)):
-			result.append(scope[idx] / resolution[0] * current_resolution[0])
+			value = int(scope[idx] / resolution[0] * current_resolution[0])
+			result.append(value)
 	return tuple(result)
 
 

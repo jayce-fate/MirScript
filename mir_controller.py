@@ -22,6 +22,7 @@ import utils
 # test
 # ******************************************
 
+# game_controller.close_map()
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.read_map_name()
 

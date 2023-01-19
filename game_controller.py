@@ -11,7 +11,7 @@ import utils
 
 walk_swip_time = 200
 run_swip_time = 550
-joystick_pos = (275, 500)
+joystick_pos = utils.convert_point((275, 500), (1664, 936))
 
 def one_step_walk_left():
 	print("往左走一步....")
@@ -154,7 +154,7 @@ def read_coordinate_text(need_screenshot = True):
 	match_scope = (42,82,1540,1664)
 	match_scope = utils.convert_scope(match_scope, (1664, 936))
 
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, ower_color, upper_color)
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
 	result = get_first_result(resultss)
 	if result != None:
 		result = re.findall(r'\d+', result)

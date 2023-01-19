@@ -14,20 +14,20 @@ current_map_data = []
 def get_map_img_path():
 	adb_controller.screenshot(settings.screenshot_path)
 	map_name = game_controller.read_map_name()
-	map_img_path = "template_images/maps/{}.png".format(str(map_name))
+	map_img_path = "maps/{}.png".format(str(map_name))
 	return map_img_path
 
 def get_map_data_path(map_name = None):
 	adb_controller.screenshot(settings.screenshot_path)
 	if not map_name:
 		map_name = game_controller.read_map_name()
-	map_data_path = "template_images/maps/{}.txt".format(str(map_name))
+	map_data_path = "maps/{}.txt".format(str(map_name))
 	return map_data_path
 
 def get_map_data_cache_path():
 	adb_controller.screenshot(settings.screenshot_path)
 	map_name = game_controller.read_map_name()
-	map_data_path = "template_images/maps/{}_cache.txt".format(str(map_name))
+	map_data_path = "maps/{}_cache.txt".format(str(map_name))
 	return map_data_path
 
 def write_map_data(map_data_path, data_list):
