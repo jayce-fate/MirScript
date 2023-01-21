@@ -41,6 +41,9 @@ def start_get_exp():
 			print("断开")
 			raise Exception("RESTART")
 
+		if not game_controller.check_level():
+			raise Exception("NeedGetMaster")
+
 		# 血量低，可能背包满了，红喝不出来
 		if not game_controller.is_me_healthy():
 			trash_controller.try_get_bag_space(1)
@@ -121,6 +124,8 @@ def start():
 		reason = e.args[0]
 		if reason == "RESTART":
 			restart_routine()
+		elif reason == "NeedGetMaster":
+			print("到达必须拜师等级，停止程序")
 		elif "NoneType" in reason:
 			print("adb 可能断开")
 			if settings.device_address == "emulator-5554":
