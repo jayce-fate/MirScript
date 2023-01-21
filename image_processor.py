@@ -5,6 +5,7 @@ import cv2
 import easyocr
 import numpy
 import copy
+import utils
 
 from PIL import Image
 from paddleocr import PaddleOCR, draw_ocr
@@ -14,7 +15,7 @@ import settings
 paddleocr = PaddleOCR(use_angle_cls=False, lang="ch", show_log=False)
 
 # 图片匹配
-def match_template(target_path,template_path,threshold = 0.05,scope = None, masks = None):
+def match_template(target_path,template_path,threshold = 0.05,scope = None, masks = None, template_resolution = (1664, 936)):
 	# print("ImageProcessor: start to match "+target_path+" by "+template_path)
 
 	# 读取目标图片
@@ -37,6 +38,9 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None, mask
 	# 对应y0,y1 x0,x1
 	if(scope != None):
 		target = target[scope[0]:scope[1],scope[2]:scope[3]]
+
+	# 分辨率转换
+	template = utils.convert_image(template, template_resolution)
 
 	# 执行模版匹配，采用的匹配方式cv2.TM_SQDIFF_NORMED
 	result = cv2.matchTemplate(target,template,cv2.TM_SQDIFF_NORMED)
@@ -74,7 +78,7 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None, mask
 
 
 # 图片匹配，返回多项结果
-def multiple_match_template(target_path,template_path,threshold = 0.05,scope = None, masks = None):
+def multiple_match_template(target_path,template_path,threshold = 0.05,scope = None, masks = None, template_resolution = (1664, 936)):
 	# 读取目标图片
 	target = cv2.imread(target_path)
 	# 读取模版图片
@@ -95,6 +99,9 @@ def multiple_match_template(target_path,template_path,threshold = 0.05,scope = N
 	# 对应y0,y1 x0,x1
 	if(scope != None):
 		target = target[scope[0]:scope[1],scope[2]:scope[3]]
+
+	# 分辨率转换
+	template = utils.convert_image(template, template_resolution)
 
 	# 执行模版匹配，采用的匹配方式cv2.TM_SQDIFF_NORMED
 	result = cv2.matchTemplate(target,template,cv2.TM_SQDIFF_NORMED)

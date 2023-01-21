@@ -48,3 +48,10 @@ def convert_masks(masks, resolution = (1280, 720)):
 			result.append(convert_scope(mask, resolution))
 	return tuple(result)
 
+
+def convert_image(image, resolution):
+	current_resolution = get_resolution()
+	scale_x = current_resolution[0] / resolution[0]
+	scale_y = current_resolution[1] / resolution[1]
+	result = cv2.resize(image, (0, 0), fx=scale_x, fy=scale_y)
+	return result

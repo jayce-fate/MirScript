@@ -11,38 +11,48 @@ import utils
 
 walk_swip_time = 200
 run_swip_time = 550
-joystick_pos = utils.convert_point((275, 500), (1664, 936))
+
+def get_joystick_pos():
+	return utils.convert_point((275, 500), (1664, 936))
 
 def one_step_walk_left():
 	print("往左走一步....")
+	joystick_pos = get_joystick_pos()
 	adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1]), (joystick_pos[0] - 25, joystick_pos[1]), walk_swip_time)
 
 def one_step_walk_right():
 	print("往右走一步....")
+	joystick_pos = get_joystick_pos()
 	adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1]), (joystick_pos[0] + 25, joystick_pos[1]), walk_swip_time)
 
 def one_step_walk_up():
 	print("往上走一步....")
+	joystick_pos = get_joystick_pos()
 	adb_controller.swipe((joystick_pos[0], joystick_pos[1] + 25), (joystick_pos[0], joystick_pos[1] - 25), walk_swip_time)
 
 def one_step_walk_down():
 	print("往下走一步....")
+	joystick_pos = get_joystick_pos()
 	adb_controller.swipe((joystick_pos[0], joystick_pos[1] - 25), (joystick_pos[0], joystick_pos[1] + 25), walk_swip_time)
 
 def one_step_walk_left_up():
 	print("往左上走一步....")
+	joystick_pos = get_joystick_pos()
 	adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1] + 25), (joystick_pos[0] - 25, joystick_pos[1] - 25), walk_swip_time)
 
 def one_step_walk_right_up():
 	print("往右上走一步....")
+	joystick_pos = get_joystick_pos()
 	adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1] + 25), (joystick_pos[0] + 25, joystick_pos[1] - 25), walk_swip_time)
 
 def one_step_walk_left_down():
 	print("往左下走一步....")
+	joystick_pos = get_joystick_pos()
 	adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1] - 25), (joystick_pos[0] - 25, joystick_pos[1] + 25), walk_swip_time)
 
 def one_step_walk_right_down():
 	print("往右下走一步....")
+	joystick_pos = get_joystick_pos()
 	adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1] - 25), (joystick_pos[0] + 25, joystick_pos[1] + 25), walk_swip_time)
 
 def get_first_result(resultss):
@@ -124,22 +134,31 @@ def open_target_list():
 
 def open_monster_list():
 	# print("open_monster_list....")
+	match_scope = (561,627,1525,1632)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_monster.png",0.02,(561,627,1525,1632))
+		settings.screenshot_path, r"template_images/btn_monster.png", 0.02, match_scope)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
 def close_target_list():
 	# print("close_target_list....")
+	match_scope = (850,892,1576,1628)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_return.png",0.05,(850,892,1576,1628))
+		settings.screenshot_path,r"template_images/btn_return.png",0.05,match_scope)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
 def open_or_close_map():
 	# print("open_or_close_map....")
+	match_scope = (0,41,1636,1664)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/map_bar.png",0.05,(0,41,1636,1664))
+		settings.screenshot_path,r"template_images/map_bar.png",0.05,match_scope)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
@@ -370,9 +389,12 @@ def get_map_path():
 # 如有弹出公告，则点击确定
 def click_sure_btn():
 	adb_controller.screenshot(settings.screenshot_path)
-	# 弹框可被拖动，所以不指定区域
+
+	match_scope = (529,702,623,1039)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_sure.png",0.05,(529,702,623,1039))
+		settings.screenshot_path, r"template_images/btn_sure.png", 0.05, match_scope)
 	if(match_loc != None):
 		print("检测到弹框确定按钮，自动关闭...." + str(match_loc))
 		adb_controller.click(match_loc)
@@ -604,41 +626,60 @@ def restart_game():
 	#消除系统确定消息框
 	click_sure_btn()
 
-	success = wait_to_match_and_click(r"template_images/btn_login.png",0.05,60,1,(706,779,737,930))
+	match_scope = (706,779,737,930)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	success = wait_to_match_and_click(r"template_images/btn_login.png",0.05,60,1,match_scope)
 	if not success:
 		restart_game()
 
 def reactive_pet():
 	adb_controller.screenshot(settings.screenshot_path)
+
+	match_scope = (144,175,359,386)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_close_pet_list.png",0.05,(144,175,359,386))
+		settings.screenshot_path,r"template_images/btn_close_pet_list.png",0.05,match_scope)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
 	time.sleep(1)
 
+	match_scope = (38,88,448,521)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_rest_pet.png",0.05,(38,88,448,521))
+		settings.screenshot_path,r"template_images/btn_rest_pet.png",0.05,match_scope)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
 	time.sleep(0.5)
 	adb_controller.screenshot(settings.screenshot_path)
 
+	match_scope = (43,83,453,516)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/btn_active_pet.png",0.05,(43,83,453,516))
+		settings.screenshot_path,r"template_images/btn_active_pet.png",0.05,match_scope)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 
 
 def active_pet():
-	success = wait_to_match_and_click(r"template_images/btn_close_pet_list.png",0.05,60,1,(144,175,359,386))
+	match_scope = (144,175,359,386)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	success = wait_to_match_and_click(r"template_images/btn_close_pet_list.png", 0.05, 60, 1, match_scope)
 	if not success:
 		return False
 
 	time.sleep(1)
 
-	result = wait_to_match_and_click(r"template_images/btn_active_pet.png",0.05,60,1,(43,83,453,516))
+	match_scope = (43,83,453,516)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	result = wait_to_match_and_click(r"template_images/btn_active_pet.png", 0.05, 60, 1, match_scope)
 	return result
 
 def open_bag():
@@ -684,8 +725,12 @@ def show_scope():
 
 def select_item(item_name):
 	item_template = "template_images/items/{}.png".format(str(item_name))
+
+	match_scope = (125,807,939,1525)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,item_template,0.05,(125,807,939,1525))
+		settings.screenshot_path,item_template,0.05,match_scope)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 		return True
@@ -919,7 +964,11 @@ def is_bag_full():
 def read_pet_HP():
 	# 收起宠物列表（如有）
 	adb_controller.screenshot(settings.screenshot_path)
-	match_loc = image_processor.match_template(settings.screenshot_path, r"template_images/btn_close_pet_list.png",0.05,(144,175,359,386))
+
+	match_scope = (144,175,359,386)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	match_loc = image_processor.match_template(settings.screenshot_path, r"template_images/btn_close_pet_list.png",0.05,match_scope)
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 		time.sleep(1.0)
@@ -988,7 +1037,7 @@ def select_boss():
 			res = rec[0] #'43'
 			# print("res: {}".format(str(res)))
 			print("怪物名: {}".format(str(res)))
-			if "邪恶" in res:
+			if "邪恶" in res or "尸王" in res:
 				boss_selected = True
 				corners = result[0]
 				left_top_point = corners[0]
