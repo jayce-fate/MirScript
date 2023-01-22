@@ -107,8 +107,12 @@ def restart_routine(restart_mumu_adb = False):
 		if reason == "RESTART":
 			restart_routine()
 		elif "NoneType" in reason:
-			print("adb 断开")
-			restart_routine(True)
+			print("adb 可能断开")
+			if settings.device_address == "emulator-5554":
+				restart_routine(True)
+			else:
+				# genymotion 如何启动每个player?
+				restart_routine()
 		else:
 			restart_routine()
 	else:

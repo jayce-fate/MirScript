@@ -670,7 +670,7 @@ def active_pet():
 	match_scope = (144,175,359,386)
 	match_scope = utils.convert_scope(match_scope, (1664, 936))
 
-	success = wait_to_match_and_click(r"template_images/btn_close_pet_list.png", 0.05, 60, 1, match_scope)
+	success = wait_to_match_and_click(r"template_images/btn_close_pet_list.png", 0.05, 120, 1, match_scope)
 	if not success:
 		return False
 
@@ -738,8 +738,8 @@ def select_item(item_name):
 
 def map_point_to_coordination(map_point):
 	my_coordinate = read_coordinate_text(need_screenshot = False)
-	center = (841.5, 504.5)
-	cell_size = (86, 58)
+	center = utils.convert_point((841.5, 504.5), (1664, 936))
+	cell_size = utils.convert_point((86, 58), (1664, 936))
 	offset_x = (map_point[0] - center[0]) / cell_size[0]
 	offset_y = (map_point[1] - center[1]) / cell_size[1]
 	offset_x = round(offset_x)
@@ -881,9 +881,9 @@ def drink_item(item_name):
 	match_loc = image_processor.match_template(
 		settings.screenshot_path,item_template,0.05)
 	if(match_loc != None):
-		adb_controller.click(match_loc)
-		adb_controller.click(match_loc)
-		adb_controller.click(match_loc)
+		adb_controller.click(match_loc, 0)
+		adb_controller.click(match_loc, 0)
+		adb_controller.click(match_loc, 0)
 		return True
 	return False
 

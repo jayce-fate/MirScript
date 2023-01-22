@@ -34,10 +34,13 @@ def start_app():
 	os.system(command)
 	time.sleep(0.001)
 
+
 # 点击操作
-def click(location):
+def click(location, sleep_time = 0.001):
 	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell input tap "+str(location[0])+" "+str(location[1]))
-	time.sleep(0.001)
+	if sleep_time > 0:
+		time.sleep(sleep_time)
+
 
 # 截屏
 def screenshot(path):
