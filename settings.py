@@ -7,11 +7,13 @@
 
 # adb.exe 的路径，模拟器安装路径下的bin文件夹里面有
 # adb_path = "/Applications/NemuPlayer.app/Contents/MacOS/adb"
-adb_path = "/Applications/Genymotion.app/Contents/MacOS/tools/adb"
+# adb_path = "/Applications/Genymotion.app/Contents/MacOS/tools/adb"
+adb_path = "/Applications/NoxAppPlayer.app/Contents/MacOS/adb"
 
 # 模拟器的地址
 # device_address = "emulator-5554"
-device_address = "192.168.58.104:5555"
+# device_address = "192.168.58.104:5555"
+device_address = "127.0.0.1:62001"
 
 # 包名
 package_name = "air.com.PaladinOfMarphaNew"
