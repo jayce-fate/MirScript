@@ -882,8 +882,13 @@ def drink_item(item_name):
 		settings.screenshot_path,item_template,0.05)
 	if(match_loc != None):
 		adb_controller.click(match_loc, 0)
-		adb_controller.click(match_loc, 0)
-		adb_controller.click(match_loc, 0)
+		#除了网易mumu，所有双击无效，须改为批量使用
+		if settings.device_address == "emulator-5554":
+			adb_controller.click(match_loc, 0)
+			adb_controller.click(match_loc, 0)
+		else:
+			click_drop()
+			click_confirm_drop()
 		return True
 	return False
 

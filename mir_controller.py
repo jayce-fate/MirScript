@@ -22,7 +22,7 @@ import utils
 # test
 # ******************************************
 
-game_controller.drink_item("金疮药中量")
+# game_controller.drink_item("金疮药中量")
 # game_controller.close_map()
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.read_map_name()
