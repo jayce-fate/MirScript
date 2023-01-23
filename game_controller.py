@@ -917,9 +917,12 @@ def check_level():
 	if globals.current_lvl <= 29:
 		globals.current_lvl = read_lv_text()
 
-	if (globals.current_lvl >= 26 and globals.current_lvl <= 29) and (not already_has_master()):
+	if globals.already_has_master == None:
+		globals.already_has_master = already_has_master()
+
+	if (globals.current_lvl >= 26 and globals.current_lvl <= 29) and (not globals.already_has_master):
 		for index in range(0, 20):
-			print("等级已达到{}级，请先去拜师!!!".format(str(lv)))
+			print("等级已达到{}级，请先去拜师!!!".format(str(globals.current_lvl)))
 		if (globals.current_lvl == 29):
 			if globals.check_has_master_fail_remain > 0:
 				globals.check_has_master_fail_remain = globals.check_has_master_fail_remain - 1
