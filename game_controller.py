@@ -882,13 +882,13 @@ def drink_item(item_name):
 		settings.screenshot_path,item_template,0.05)
 	if(match_loc != None):
 		adb_controller.click(match_loc, 0)
-		#除了网易mumu，所有双击无效，须改为批量使用
+		#除了网易mumu，所有双击无效，改为批量使用
 		if settings.device_address == "emulator-5554":
 			adb_controller.click(match_loc, 0)
 			adb_controller.click(match_loc, 0)
 		else:
-			click_drop()
-			click_confirm_drop()
+			if game_controller.click_menu_batch_use():
+			    game_controller.click_confirm_batch_use()
 		return True
 	return False
 
@@ -1098,3 +1098,25 @@ def is_me_healthy():
 		if current_hp + 90 < max_hp:
 			return False
 	return True
+
+
+def click_menu_batch_use():
+	adb_controller.screenshot(settings.screenshot_path)
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/1280x720/btn_menu_batch_use.png",0.05,template_resolution=(1280, 720))
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+		return True
+	else:
+		return False
+
+
+def click_confirm_batch_use():
+	adb_controller.screenshot(settings.screenshot_path)
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/1280x720/btn_confirm_batch_use.png",0.05,template_resolution=(1280, 720))
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+		return True
+	else:
+		return False
