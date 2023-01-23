@@ -914,11 +914,13 @@ def check_exp_getting():
 
 def check_level():
 	#检查等级，等级等于29且未拜师，停止练级
-	lv = read_lv_text()
-	if (lv >= 26 and lv <= 29) and (not already_has_master()):
+	if globals.current_lvl <= 29:
+		globals.current_lvl = read_lv_text()
+
+	if (globals.current_lvl >= 26 and globals.current_lvl <= 29) and (not already_has_master()):
 		for index in range(0, 20):
 			print("等级已达到{}级，请先去拜师!!!".format(str(lv)))
-		if (lv == 29):
+		if (globals.current_lvl == 29):
 			if globals.check_has_master_fail_remain > 0:
 				globals.check_has_master_fail_remain = globals.check_has_master_fail_remain - 1
 				print("达到29级，请先去拜师，再提示{}次将结束本程序".format(str(globals.read_coordinate_fail_remain)))

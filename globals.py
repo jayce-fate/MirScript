@@ -24,3 +24,6 @@ check_has_master_fail_remain = settings.check_has_master_fail_limit
 
 #屏幕（截图）尺寸
 resolution = None
+
+# 当前等级
+current_lvl = 0
