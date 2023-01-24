@@ -22,6 +22,10 @@ import utils
 # test
 # ******************************************
 
+# game_controller.click_npc_lu_lao_ban()
+# game_controller.click_finish_ya_biao()
+
+# trash_controller.try_get_bag_space(2)
 
 # game_controller.drink_item("金疮药中量")
 # game_controller.close_map()
@@ -51,6 +55,14 @@ import utils
 # game_controller.show_scope()
 
 # game_controller.cast_shield()
+
+# cave_path = [(480,308), (491,337)]
+# cave_path = game_controller.to_each_step_path(cave_path)
+# path_controller.generate_map_data(cave_path)
+#
+# cave_path = [(680,513), (709,539)]
+# cave_path = game_controller.to_each_step_path(cave_path)
+# path_controller.generate_map_data(cave_path)
 
 # path_controller.generate_map_data([(110,92),(92,108),(114,136),(162,177),(166,128),(49,93),(40,54),(47,39)])
 # game_controller.close_map()
