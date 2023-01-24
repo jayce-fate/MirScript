@@ -367,7 +367,7 @@ def read_bag_remain_capacity():
 def is_quality():
 	result = read_quality_text()
 	if result != None:
-		if "极" in result:
+		if "极" in result or "稀" in result:
 			return True
 	return False
 
