@@ -23,7 +23,7 @@ import utils
 # ******************************************
 
 # adb_controller.restart_emulator()
-exp_controller.restart_routine(True)
+# exp_controller.restart_routine(True)
 # game_controller.click_npc_lu_lao_ban()
 # game_controller.click_finish_ya_biao()
 

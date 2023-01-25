@@ -947,7 +947,10 @@ def check_level():
 		globals.current_lvl = read_lv_text()
 
 	if globals.already_has_master == None:
-		globals.already_has_master = already_has_master()
+		if globals.current_lvl <= 29:
+			globals.already_has_master = already_has_master()
+		else:
+			globals.already_has_master = True
 
 	if (globals.current_lvl >= 26 and globals.current_lvl <= 29) and (not globals.already_has_master):
 		for index in range(0, 20):
