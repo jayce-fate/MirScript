@@ -92,8 +92,10 @@ def restart_routine(restart_emulator_adb = False):
 
 		if restart_emulator_adb:
 			adb_controller.restart_emulator()
-			time.sleep(30)
-			adb_controller.restart_adb()
+			# mumu才重启adb
+			if settings.device_address == "emulator-5554":
+				time.sleep(30)
+				adb_controller.restart_adb()
 
 		game_controller.restart_game()
 		success = game_controller.active_pet()
