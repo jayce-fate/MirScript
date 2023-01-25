@@ -914,8 +914,8 @@ def drink_item(item_name):
 			adb_controller.click(match_loc, 0)
 			adb_controller.click(match_loc, 0)
 		else:
-			if game_controller.click_menu_batch_use():
-			    game_controller.click_confirm_batch_use()
+			if click_menu_batch_use():
+			    click_confirm_batch_use()
 		return True
 	return False
 

@@ -3,6 +3,7 @@ import time
 import re
 import cv2
 import shutil
+import logging
 
 import subprocess
 import settings
@@ -58,12 +59,21 @@ def restart_adb():
 	time.sleep(3)
 
 # restart mumu
-def restart_mumu():
-	print("restart_mumu")
-	subprocess.run(["pkill", "-x", "NemuPlayer"])
+def restart_emulator():
+	print("restart_emulator")
+
+	emulator_name = ""
+	if settings.device_address == "emulator-5554":
+		emulator_name = "NemuPlayer"
+	elif settings.device_address == "127.0.0.1:62001":
+		emulator_name = "NoxAppPlayer"
+	else:
+		logging.warning('未知模拟器')
+
+	subprocess.run(["pkill", "-x", emulator_name])
 	time.sleep(0.001)
-	subprocess.run(["pkill", "-x", "NemuPlayer"])
+	subprocess.run(["pkill", "-x", emulator_name])
 	time.sleep(0.001)
-	subprocess.run(["open", "/Applications/NemuPlayer.app"])
+	subprocess.run(["open", "/Applications/" + emulator_name + ".app"])
 	time.sleep(0.001)
 

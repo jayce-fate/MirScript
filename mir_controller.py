@@ -69,7 +69,7 @@ import utils
 # start_get_exp()
 # path_controller.show_map()
 
-# adb_controller.restart_mumu()
+# adb_controller.restart_emulator()
 # exp_controller.retart_routine()
 # adb_controller.restart_adb()
 # adb_controller.stop_app()

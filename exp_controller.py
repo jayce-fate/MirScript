@@ -86,12 +86,12 @@ def start_get_exp():
 				last_move_time = time.time()
 
 
-def restart_routine(restart_mumu_adb = False):
+def restart_routine(restart_emulator_adb = False):
 	try:
 		print("重启游戏")
 
-		if restart_mumu_adb:
-			adb_controller.restart_mumu()
+		if restart_emulator_adb:
+			adb_controller.restart_emulator()
 			time.sleep(30)
 			adb_controller.restart_adb()
 
@@ -108,11 +108,7 @@ def restart_routine(restart_mumu_adb = False):
 			restart_routine()
 		elif "NoneType" in reason:
 			print("adb 可能断开")
-			if settings.device_address == "emulator-5554":
-				restart_routine(True)
-			else:
-				# genymotion 如何启动每个player?
-				restart_routine()
+			restart_routine(True)
 		else:
 			restart_routine()
 	else:
@@ -132,11 +128,7 @@ def start():
 			print("到达必须拜师等级，停止程序")
 		elif "NoneType" in reason:
 			print("adb 可能断开")
-			if settings.device_address == "emulator-5554":
-				restart_routine(True)
-			else:
-				# genymotion 如何启动每个player?
-				restart_routine()
+			restart_routine(True)
 		else:
 			restart_routine()
 	else:
