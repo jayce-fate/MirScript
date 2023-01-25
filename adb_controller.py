@@ -65,15 +65,24 @@ def restart_emulator():
 	emulator_name = ""
 	if settings.device_address == "emulator-5554":
 		emulator_name = "NemuPlayer"
+		subprocess.run(["pkill", "-x", emulator_name])
+		time.sleep(0.001)
+		subprocess.run(["pkill", "-x", emulator_name])
+		time.sleep(0.001)
+		subprocess.run(["open", "/Applications/" + emulator_name + ".app"])
+		time.sleep(0.001)
 	elif settings.device_address == "127.0.0.1:62001":
 		emulator_name = "NoxAppPlayer"
+		subprocess.run(["pkill", "-x", emulator_name])
+		time.sleep(0.001)
+		subprocess.run(["pkill", "-x", emulator_name])
+		time.sleep(0.5)
+		subprocess.run(["open", "/Applications/" + emulator_name + ".app"])
+		time.sleep(0.5)
+		subprocess.run(["open", "/Applications/" + emulator_name + ".app"])
+		time.sleep(0.5)
 	else:
 		logging.warning('未知模拟器')
 
-	subprocess.run(["pkill", "-x", emulator_name])
-	time.sleep(0.001)
-	subprocess.run(["pkill", "-x", emulator_name])
-	time.sleep(0.001)
-	subprocess.run(["open", "/Applications/" + emulator_name + ".app"])
-	time.sleep(0.001)
+
 

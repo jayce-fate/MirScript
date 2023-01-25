@@ -22,12 +22,14 @@ import utils
 # test
 # ******************************************
 
+# adb_controller.restart_emulator()
+exp_controller.restart_routine(True)
 # game_controller.click_npc_lu_lao_ban()
 # game_controller.click_finish_ya_biao()
 
 # trash_controller.try_get_bag_space(2)
 
-# game_controller.drink_item("金疮药中量")
+# trash_controller.drop_trashes()
 # game_controller.close_map()
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.read_map_name()

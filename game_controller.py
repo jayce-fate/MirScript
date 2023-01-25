@@ -914,8 +914,10 @@ def drink_item(item_name):
 			adb_controller.click(match_loc, 0)
 			adb_controller.click(match_loc, 0)
 		else:
+			time.sleep(0.5)
 			if click_menu_batch_use():
-			    click_confirm_batch_use()
+				time.sleep(0.5)
+				click_confirm_batch_use()
 		return True
 	return False
 
