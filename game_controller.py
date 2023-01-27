@@ -658,7 +658,10 @@ def restart_game():
 
 	success = wait_to_match_and_click(r"template_images/btn_login.png",0.05,60,1,match_scope)
 	if not success:
-		restart_game()
+		if settings.device_address == "127.0.0.1:62001":
+			exp_controller.restart_routine(True)
+		else:
+			restart_game()
 
 def reactive_pet():
 	adb_controller.screenshot(settings.screenshot_path)
