@@ -26,7 +26,10 @@ def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
 		else:
 			time.sleep(0.1)
 			adb_controller.screenshot(settings.screenshot_path)
-			if game_controller.is_quality():
+			if game_controller.is_ji_pin():
+				game_controller.click_cancel_drop()
+				adb_controller.screenshot(settings.screenshot_path)
+			elif trash_name == "技能书" and game_controller.is_zhen_xi():
 				game_controller.click_cancel_drop()
 				adb_controller.screenshot(settings.screenshot_path)
 			else:
