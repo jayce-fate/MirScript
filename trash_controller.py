@@ -166,4 +166,5 @@ def collect_ground_treasures():
 			handle_bag_full()
 		gold_coords = game_controller.check_ground_golds()
 
+	print("collect_count：" + str(collect_count))
 	return collect_count
