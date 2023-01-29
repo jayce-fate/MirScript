@@ -1089,7 +1089,7 @@ def select_boss():
 			res = rec[0] #'43'
 			# print("res: {}".format(str(res)))
 			print("怪物名: {}".format(str(res)))
-			if "邪恶" in res or "尸王" in res:
+			if "邪恶" in res or "尸王" in res or "经验宝箱" in res:
 				boss_selected = True
 				corners = result[0]
 				left_top_point = corners[0]
