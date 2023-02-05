@@ -10,6 +10,9 @@ import settings
 import image_processor
 
 
+def connect():
+	os.system("\""+settings.adb_path+"\""+" connect "+settings.device_address)
+
 # use_time 单位 毫秒
 def swipe(from_loc,to_loc,use_time):
 	process = os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" shell input swipe "
@@ -46,7 +49,9 @@ def click(location, sleep_time = 0.001):
 # 截屏
 def screenshot(path):
 	tmp_path = path + ".tmp"
-	os.system("\""+settings.adb_path+"\""+" -s "+settings.device_address+" exec-out screencap -p > " + tmp_path)
+	command = "\""+settings.adb_path+"\""+" -s "+settings.device_address+" exec-out screencap -p > " + tmp_path
+	print("command:\n", command)
+	os.system(command)
 	shutil.move(tmp_path, path)
 	time.sleep(0.001)
 
@@ -83,6 +88,3 @@ def restart_emulator():
 		time.sleep(0.5)
 	else:
 		logging.warning('未知模拟器')
-
-
-

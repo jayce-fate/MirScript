@@ -2,12 +2,11 @@ import os
 import time
 import re
 import cv2
-import easyocr
 import numpy
 import copy
 import utils
 
-from PIL import Image
+# from PIL import Image
 from paddleocr import PaddleOCR, draw_ocr
 
 import settings
@@ -117,47 +116,6 @@ def multiple_match_template(target_path,template_path,threshold = 0.05,scope = N
 	# cv2.waitKey()
 
 	return match_locs
-
-# 匹配文字
-def easyocr_read(reader,target_path,scope = None,lower_color = [],upper_color = []):
-	# print("easyocr_read: "+target_path)
-	target = cv2.imread(target_path)
-
-	if(scope != None):
-		target = target[scope[0]:scope[1],scope[2]:scope[3]]
-
-	if len(lower_color) != 0 and len(upper_color) != 0:
-		# 定义HSV中颜色的范围 https://www.cnblogs.com/ericling/p/15508044.html
-		hsv = cv2.cvtColor(target, cv2.COLOR_BGR2HSV )
-		lower_color = numpy.array(lower_color)
-		upper_color = numpy.array(upper_color)
-
-		# 设置HSV的阈值使得只取目标颜色
-		mask = cv2.inRange(hsv,lower_color, upper_color)
-		target = cv2.bitwise_and(target, target, mask=mask)
-
-	# Display result image
-	# cv2.imshow('image', target)
-	# cv2.waitKey()
-
-	result = reader.readtext(target)
-
-	# for reline in result:
-	# 	print(reline)
-
-	return result
-
-
-# 中文文字匹配
-def easyocr_read_cn(target_path,scope = None,lower_color = [],upper_color = []):
-	reader = easyocr.Reader(['ch_sim','en'], gpu = False)
-	return easyocr_read(reader, target_path, scope, lower_color, upper_color)
-
-
-# 非中文匹配
-def easyocr_read_en(target_path,scope = None,lower_color = [],upper_color = []):
-	reader = easyocr.Reader(['en'], gpu = False)
-	return easyocr_read(reader, target_path, scope, lower_color, upper_color)
 
 
 # 显示hsv调试工具

@@ -1,0 +1,17 @@
+1.安装python3.8
+python3
+python -m pip install --upgrade pip
+
+2.paddle
+python -m pip install paddlepaddle==2.4.1 -i https://pypi.tuna.tsinghua.edu.cn/simple
+python import paddle 查看是否安装成功
+
+python -m pip install paddleocr
+
+3.opencv
+python -m pip install opencv-python
+
+4.安装adb
+https://developer.android.com/studio/releases/platform-tools?hl=zh-cn
+运行 control sysdm.cpl
+添加环境变量

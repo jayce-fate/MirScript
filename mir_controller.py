@@ -21,6 +21,8 @@ import utils
 # ******************************************
 # test
 # ******************************************
+# adb_controller.connect()
+# adb_controller.screenshot(settings.screenshot_path)
 
 # exp_controller.restart_routine(True)
 # adb_controller.restart_emulator()

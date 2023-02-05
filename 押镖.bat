@@ -1,2 +1,2 @@
-python3.8 ya_biao.py
+python ya_biao.py
 pause

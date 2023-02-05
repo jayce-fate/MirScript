@@ -81,10 +81,6 @@ def get_monster_list():
 	adb_controller.screenshot(settings.screenshot_path)
 	lower_color = [0,0,118]
 	upper_color = [179,255,255]
-	# monster_list = image_processor.easyocr_read_cn(settings.screenshot_path,(24,870,948,1512),lower_color,upper_color)
-	# for reline in monster_list:
-	# 	re_text = reline[1].replace(" ","")
-	# 	print("怪物名: {}".format(str(re_text)))
 
 	match_scope = (24,870,948,1512)
 	match_scope = utils.convert_scope(match_scope, (1664, 936))
@@ -217,15 +213,6 @@ def already_has_master():
 	print("检查是否已拜师....")
 	lower_color = [0,0,0]
 	upper_color = [0,0,255]
-	# result = image_processor.easyocr_read_cn(settings.screenshot_path,(450,482,722,938),lower_color,upper_color)
-	# for reline in result:
-	# 	re_text = reline[1].replace(" ","")
-	# 	print("我的名字: {}".format(str(re_text)))
-	# 	if "徒" in re_text or "弟" in re_text or "[" in re_text or "]" in re_text:
-	# 		print("当前已拜师")
-	# 		return True
-	# print("当前未拜师")
-	# return False
 
 	match_scope = (450,482,722,938)
 	match_scope = utils.convert_scope(match_scope, (1664, 936))
@@ -245,16 +232,6 @@ def read_current_exp():
 	# 经验颜色米色参数
 	lower_color = [0,0,212]
 	upper_color = [179,255,255]
-	# result = image_processor.easyocr_read_en(settings.screenshot_path,(56,100,181,316),lower_color,upper_color)
-	# for reline in result:
-	# 	re_text = reline[1].replace(" ","")
-	# 	if(re_text != None):
-	# 		# print("exp text Found: {}".format(str(re_text)))
-	# 		digit_array = re.findall(r'\d+\.?\d*', re_text)
-	# 		# print("digit_array: {}".format(str(digit_array)))
-	# 		for index in range(0,len(digit_array)):
-	# 			return float(digit_array[index])
-	# return None
 
 	match_scope = (56,100,181,316)
 	match_scope = utils.convert_scope(match_scope, (1664, 936))
@@ -313,11 +290,6 @@ def read_map_name():
 	# 等级颜色米色参数
 	lower_color = [0,0,130]
 	upper_color = [179,169,255]
-	# result = image_processor.easyocr_read_cn(settings.screenshot_path,(4,41,1355,1662),lower_color,upper_color)
-	# for reline in result:
-	# 	re_text = reline[1].replace(" ","")
-	# 	print("地图名称: {}".format(re_text))
-	# 	return re_text
 
 	match_scope = (4,41,1355,1662)
 	match_scope = utils.convert_scope(match_scope, (1664, 936))

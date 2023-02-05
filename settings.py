@@ -8,12 +8,14 @@
 # adb.exe 的路径，模拟器安装路径下的bin文件夹里面有
 # adb_path = "/Applications/NemuPlayer.app/Contents/MacOS/adb"
 # adb_path = "/Applications/Genymotion.app/Contents/MacOS/tools/adb"
-adb_path = "/Applications/NoxAppPlayer.app/Contents/MacOS/adb"
+# adb_path = "/Applications/NoxAppPlayer.app/Contents/MacOS/adb"
+adb_path = r"C:\Program Files\platform-tools\adb.exe"
 
 # 模拟器的地址
 # device_address = "emulator-5554"
 # device_address = "192.168.58.104:5555"
-device_address = "127.0.0.1:62001"
+# device_address = "127.0.0.1:62001"
+device_address = "127.0.0.1:7555"
 
 # 包名
 package_name = "air.com.PaladinOfMarphaNew"
@@ -152,7 +154,3 @@ ground_green_trash_list = [
                 "白色虎齿项链",
                 "珊瑚戒指",
                 ]
-
-
-
-
