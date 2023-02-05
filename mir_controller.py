@@ -21,8 +21,9 @@ import utils
 # ******************************************
 # test
 # ******************************************
-# adb_controller.connect()
+adb_controller.connect()
 # adb_controller.screenshot(settings.screenshot_path)
+# adb_controller.input_text("100,100")
 
 # exp_controller.restart_routine(True)
 # adb_controller.restart_emulator()

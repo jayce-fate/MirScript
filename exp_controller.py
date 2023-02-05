@@ -18,6 +18,7 @@ import trash_controller
 
 def start_get_exp():
 	print("开始练级")
+	adb_controller.connect()
 
 	cave_path = game_controller.get_map_path()
 	if len(cave_path) == 0:
@@ -137,5 +138,3 @@ def start():
 	else:
 		print('unknown exception')
 		restart_routine()
-
-

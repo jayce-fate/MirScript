@@ -17,6 +17,8 @@ import move_controller
 
 def start_ya_biao():
 	print("开始押镖")
+	adb_controller.connect()
+	
 	path_controller.set_map_data("盟重土城")
 	go_to_wen_biao_tou()
 	go_to_lu_lao_ban()

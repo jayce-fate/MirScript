@@ -1,2 +1,4 @@
-python get_exp.py
+cd /d %~dp0
+
+python start_exp_controller.py
 pause
