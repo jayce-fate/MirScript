@@ -24,6 +24,9 @@ import utils
 adb_controller.connect()
 # adb_controller.screenshot(settings.screenshot_path)
 # adb_controller.input_text("100,100")
+# trash_controller.drop_trashes()
+# game_controller.drink_item("qiang_xiao_mo_fa_yao")
+game_controller.click_menu_batch_use()
 
 # exp_controller.restart_routine(True)
 # adb_controller.restart_emulator()
@@ -33,7 +36,7 @@ adb_controller.connect()
 
 # trash_controller.try_get_bag_space(2)
 
-# trash_controller.drop_trashes()
+
 # game_controller.close_map()
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.read_map_name()

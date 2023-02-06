@@ -209,9 +209,6 @@ def paddleocr_read(target_path, scope = None, lower_color = [], upper_color = []
 				for y in range(mask[2], mask[3]):
 					target[x, y] = [0, 0, 255]
 
-	# Display result image
-	# cv2.imshow('image', target)
-	# cv2.waitKey()
 
 	h, w = target.shape[0], target.shape[1]
 	border = [0, 0]
@@ -225,6 +222,10 @@ def paddleocr_read(target_path, scope = None, lower_color = [], upper_color = []
 	    target = cv2.copyMakeBorder(target, int(border[0]), int(border[0]), int(border[1]), int(border[1]),
 	                                     cv2.BORDER_CONSTANT,
 	                                     value=[215, 215, 215])
+
+	# Display result image
+	# cv2.imshow('image', target)
+	# cv2.waitKey()
 
 	result = paddleocr.ocr(target, cls=False)
 	for idx in range(len(result)):

@@ -109,7 +109,7 @@ def try_get_bag_space(space_need):
 				return True
 
 			for idx in range(0, space_need - remain_capacity):
-				if not game_controller.drink_item("强效金疮药"):
+				if not game_controller.drink_item("qiang_xiao_jin_chuang_yao"):
 					break
 
 			time.sleep(0.5)
@@ -120,7 +120,7 @@ def try_get_bag_space(space_need):
 				return True
 
 			for idx in range(0, space_need - remain_capacity):
-				if not game_controller.drink_item("强效太阳水"):
+				if not game_controller.drink_item("qiang_xiao_tai_yang_shui"):
 					break
 
 			remain_capacity = game_controller.read_bag_remain_capacity()

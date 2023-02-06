@@ -1121,8 +1121,37 @@ def is_me_healthy():
 
 def click_menu_batch_use():
 	adb_controller.screenshot(settings.screenshot_path)
+
+	# lower_color = [0,0,212]
+	# upper_color = [179,255,255]
+	#
+	# match_scope = (876,924,754,910)
+	# match_scope = utils.convert_scope(match_scope, (1664, 936))
+	#
+	# resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+	# for idx in range(len(resultss)):
+	# 	results = resultss[idx]
+	# 	for result in results:
+	# 		name_rate = result[1] #('43', 0.99934321641922)
+	# 		name = name_rate[0] #'43'
+	# 		if "批量使用" in name:
+	# 			print("result: {}".format(str(result)))
+	# 			corners = result[0]
+	# 			left_top_point = corners[0]
+	# 			right_top_point = corners[1]
+	# 			right_bottom_point = corners[2]
+	# 			left_bottom_point = corners[3]
+	# 			center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
+	# 			center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
+	# 			print("center_x: {}".format(str(center_x)))
+	# 			print("center_y: {}".format(str(center_y)))
+	# 			center = (match_scope[2] + center_x, match_scope[0] + center_y)
+	# 			adb_controller.click(center)
+	# 			return True
+	# return False
+
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/1280x720/btn_menu_batch_use.png",0.05,template_resolution=(1280, 720))
+		settings.screenshot_path,r"template_images/1280x720/btn_menu_batch_use.png",0.1,template_resolution=(1280, 720))
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 		return True
@@ -1133,7 +1162,7 @@ def click_menu_batch_use():
 def click_confirm_batch_use():
 	adb_controller.screenshot(settings.screenshot_path)
 	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/1280x720/btn_confirm_batch_use.png",0.05,template_resolution=(1280, 720))
+		settings.screenshot_path,r"template_images/1280x720/btn_confirm_batch_use.png",0.1,template_resolution=(1280, 720))
 	if(match_loc != None):
 		adb_controller.click(match_loc)
 		return True
