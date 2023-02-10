@@ -55,3 +55,15 @@ def convert_image(image, resolution):
 	scale_y = current_resolution[1] / resolution[1]
 	result = cv2.resize(image, (0, 0), fx=scale_x, fy=scale_y)
 	return result
+
+def get_center_of_corners(corners):
+	left_top_point = corners[0]
+	right_top_point = corners[1]
+	right_bottom_point = corners[2]
+	left_bottom_point = corners[3]
+	center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
+	center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
+	# print("center_x: {}".format(str(center_x)))
+	# print("center_y: {}".format(str(center_y)))
+	center = (center_x, center_y)
+	return center

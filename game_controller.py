@@ -442,13 +442,7 @@ def click_npc_wen_biao_tou():
 			if "温镖头" in name:
 				print("result: {}".format(str(result)))
 				corners = result[0]
-				left_top_point = corners[0]
-				right_top_point = corners[1]
-				right_bottom_point = corners[2]
-				left_bottom_point = corners[3]
-				center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
-				center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
-				center = (match_scope[2] + center_x, match_scope[0] + center_y)
+				center = utils.get_center_of_corners(corners)
 				adb_controller.click(center)
 				return True
 	return False
@@ -479,13 +473,7 @@ def click_npc_lu_lao_ban():
 			if "陆老板" in name:
 				# print("result: {}".format(str(result)))
 				corners = result[0]
-				left_top_point = corners[0]
-				right_top_point = corners[1]
-				right_bottom_point = corners[2]
-				left_bottom_point = corners[3]
-				center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
-				center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
-				center = (match_scope[2] + center_x, match_scope[0] + center_y)
+				center = utils.get_center_of_corners(corners)
 				adb_controller.click(center)
 				return True
 	return False
@@ -851,7 +839,7 @@ def check_ground_items(need_screenshot = True):
 
 					center_x = left_top_point[0] + each_width * (index + len(filtered_name) / 2)
 					center_y = left_top_point[1] + total_height / 2
-					center = (match_scope[2] + center_x, match_scope[0] + center_y)
+					center = (center_x, center_y)
 					# print("center: {}".format(str(center)))
 					target_coord = map_point_to_coordination(center)
 					coords.append(target_coord)
@@ -893,6 +881,9 @@ def drink_item(item_name):
 		adb_controller.click(match_loc, 0)
 		#除了网易mumu，所有双击无效，改为批量使用
 		if settings.device_address == "emulator-5554":
+			adb_controller.click(match_loc, 0)
+			adb_controller.click(match_loc, 0)
+		elif settings.device_address == "127.0.0.1:7555":
 			adb_controller.click(match_loc, 0)
 			adb_controller.click(match_loc, 0)
 		else:
@@ -1064,13 +1055,7 @@ def select_boss():
 			if "邪恶" in res or "尸王" in res or "经验宝箱" in res:
 				boss_selected = True
 				corners = result[0]
-				left_top_point = corners[0]
-				right_top_point = corners[1]
-				right_bottom_point = corners[2]
-				left_bottom_point = corners[3]
-				center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
-				center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
-				center = (match_scope[2] + center_x, match_scope[0] + center_y)
+				center = utils.get_center_of_corners(corners)
 				adb_controller.click(center)
 				break
 
@@ -1122,49 +1107,46 @@ def is_me_healthy():
 def click_menu_batch_use():
 	adb_controller.screenshot(settings.screenshot_path)
 
-	# lower_color = [0,0,212]
-	# upper_color = [179,255,255]
-	#
-	# match_scope = (876,924,754,910)
-	# match_scope = utils.convert_scope(match_scope, (1664, 936))
-	#
-	# resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
-	# for idx in range(len(resultss)):
-	# 	results = resultss[idx]
-	# 	for result in results:
-	# 		name_rate = result[1] #('43', 0.99934321641922)
-	# 		name = name_rate[0] #'43'
-	# 		if "批量使用" in name:
-	# 			print("result: {}".format(str(result)))
-	# 			corners = result[0]
-	# 			left_top_point = corners[0]
-	# 			right_top_point = corners[1]
-	# 			right_bottom_point = corners[2]
-	# 			left_bottom_point = corners[3]
-	# 			center_x = left_top_point[0] + (right_bottom_point[0] - left_top_point[0]) / 2
-	# 			center_y = left_top_point[1] + (right_bottom_point[1] - left_top_point[1]) / 2
-	# 			print("center_x: {}".format(str(center_x)))
-	# 			print("center_y: {}".format(str(center_y)))
-	# 			center = (match_scope[2] + center_x, match_scope[0] + center_y)
-	# 			adb_controller.click(center)
-	# 			return True
-	# return False
+	lower_color = [0,0,212]
+	upper_color = [179,255,255]
 
-	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/1280x720/btn_menu_batch_use.png",0.1,template_resolution=(1280, 720))
-	if(match_loc != None):
-		adb_controller.click(match_loc)
-		return True
-	else:
-		return False
+	match_scope = (876,924,754,910)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+	for idx in range(len(resultss)):
+		results = resultss[idx]
+		for result in results:
+			name_rate = result[1] #('43', 0.99934321641922)
+			name = name_rate[0] #'43'
+			if "批量使用" in name:
+				print("result: {}".format(str(result)))
+				corners = result[0]
+				center = utils.get_center_of_corners(corners)
+				adb_controller.click(center)
+				return True
+	return False
 
 
 def click_confirm_batch_use():
 	adb_controller.screenshot(settings.screenshot_path)
-	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/1280x720/btn_confirm_batch_use.png",0.1,template_resolution=(1280, 720))
-	if(match_loc != None):
-		adb_controller.click(match_loc)
-		return True
-	else:
-		return False
+
+	lower_color = [0,0,212]
+	upper_color = [179,255,255]
+
+	match_scope = (584,646,915,1167)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+	for idx in range(len(resultss)):
+		results = resultss[idx]
+		for result in results:
+			name_rate = result[1] #('43', 0.99934321641922)
+			name = name_rate[0] #'43'
+			if "批量使用" in name:
+				print("result: {}".format(str(result)))
+				corners = result[0]
+				center = utils.get_center_of_corners(corners)
+				adb_controller.click(center)
+				return True
+	return False
