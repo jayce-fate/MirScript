@@ -452,11 +452,6 @@ def click_accept_ya_biao():
 	adb_controller.click(point)
 
 def click_npc_lu_lao_ban():
-	# match_loc = image_processor.match_template(
-	# 	settings.screenshot_path,r"template_images/btn_npc_lu_lao_ban.png",0.1)
-	# if(match_loc != None):
-	# 	adb_controller.click(match_loc)
-
 	# 坐标颜色绿色参数
 	lower_color = [35,43,46]
 	upper_color = [75,255,255]
@@ -464,7 +459,13 @@ def click_npc_lu_lao_ban():
 	match_scope = (0,936,0,1664)
 	match_scope = utils.convert_scope(match_scope, (1664, 936))
 
-	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+	masks = []
+	masks.append((0,34,440,1234)) #顶部滚动通知
+	masks.append((42,198,1354,1664)) #右上角地图
+	masks.append((796,936,625,1196)) #底部聊天窗口
+	masks = utils.convert_masks(masks, (1664, 936))
+
+	resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color, masks = masks)
 	for idx in range(len(resultss)):
 		results = resultss[idx]
 		for result in results:
