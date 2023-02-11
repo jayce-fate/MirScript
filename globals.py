@@ -1,4 +1,12 @@
 import settings
+from enum import Enum
+
+class Occupation(Enum):
+    Default = 0
+    Magician = 1
+    Taoist = 2
+    Warrior = 3
+
 ########### 全局变量 ###########
 
 # 当前位置读取出错调整次数累计
@@ -30,3 +38,6 @@ current_lvl = 0
 
 # 是否拜师
 already_has_master = None
+
+# 当前职业
+occupation = Occupation.Default

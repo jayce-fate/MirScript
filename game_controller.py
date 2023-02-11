@@ -894,7 +894,10 @@ def check_monster_reachable():
 		return False
 
 def check_exp_getting():
-	for index in range(0, 5):
+	check_times = 5;
+	if globals.occupation == globals.Occupation.Taoist:
+		check_times = 10
+	for index in range(0, check_times):
 		if got_exp_add_text():
 			print("exp adding")
 			return True
@@ -1054,6 +1057,12 @@ def select_boss():
 	close_target_list()
 	return boss_selected
 
+def set_occupation():
+	match_loc = get_fire_ball_pos()
+	if(match_loc != None):
+		globals.occupation = globals.Occupation.Magician
+	else:
+		globals.occupation = globals.Occupation.Taoist
 
 def get_fire_ball_pos():
 	match_scope = (200,936,1355,1662)

@@ -25,6 +25,8 @@ def start_get_exp():
 		print("程序结束")
 		return
 
+	game_controller.set_occupation()
+
 	path_controller.set_map_data()
 
 	# 转换为单步路径
