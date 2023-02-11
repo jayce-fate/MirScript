@@ -1107,6 +1107,13 @@ def cast_heal():
         adb_controller.click(match_loc)
 
 
+def cast_defence():
+    match_loc = image_processor.match_template(
+        settings.screenshot_path,r"template_images/skill_defence.png",0.05,get_skill_scope())
+    if(match_loc != None):
+        adb_controller.click(match_loc)
+
+
 def get_my_health():
     # adb_controller.screenshot(settings.screenshot_path)
     # 颜色参数
@@ -1139,6 +1146,8 @@ def is_me_healthy():
         # 道士自动治愈术
         if globals.occupation == globals.Occupation.Taoist:
             if current_hp + 50 < max_hp:
+                cast_defence()
+                time.sleep(1)
                 cast_heal()
 
         if current_hp + 90 < max_hp:
