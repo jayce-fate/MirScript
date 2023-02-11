@@ -1,3 +1,5 @@
+道士不扔蓝药，扔红药，没空间了喝一瓶蓝
+
 需要判断职业，比如释放技能:
 not game_controller.is_pet_healthy()
 

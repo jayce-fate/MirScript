@@ -96,7 +96,7 @@ adb_controller.screenshot(settings.screenshot_path)
 #
 # adb_controller.screenshot(settings.screenshot_path)
 # match_loc = image_processor.multiple_match_template(
-# 	settings.screenshot_path,r"template_images/ground_treasures/gold_m.png",0.005)
+#     settings.screenshot_path,r"template_images/ground_treasures/gold_m.png",0.005)
 
 # path_controller.set_map_data()
 # trash_controller.collect_ground_treasures()
