@@ -38,6 +38,9 @@ def match_template(target_path,template_path,threshold = 0.05,scope = None, mask
     if(scope != None):
         target = target[scope[0]:scope[1],scope[2]:scope[3]]
 
+    # cv2.imshow('image', target)
+    # cv2.waitKey()
+
     # 分辨率转换
     template = utils.convert_image(template, template_resolution)
 

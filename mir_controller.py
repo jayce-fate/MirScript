@@ -22,11 +22,13 @@ import utils
 # test
 # ******************************************
 adb_controller.connect()
-# adb_controller.screenshot(settings.screenshot_path)
+adb_controller.screenshot(settings.screenshot_path)
 # adb_controller.input_text("100,100")
 # trash_controller.drop_trashes()
 # game_controller.drink_item("qiang_xiao_jin_chuang_yao")
-game_controller.click_confirm_batch_use()
+# game_controller.click_confirm_batch_use()
+# image_processor.show_hsv_tool("template_images/skill_all1.png")
+game_controller.cast_shield()
 
 # exp_controller.restart_routine(True)
 # adb_controller.restart_emulator()

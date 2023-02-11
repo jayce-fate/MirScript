@@ -149,8 +149,8 @@ trash_list_drink = [
 #                 "shan_hu",
 #                 ]
 
-# 地上的
+# 地上的垃圾名称（中文）
 ground_green_trash_list = [
-                "bai_se_hu_chi_xiang_lian",
-                "shan_hu_jie_zhi",
+                "白色虎齿项链",
+                "珊瑚戒指",
                 ]

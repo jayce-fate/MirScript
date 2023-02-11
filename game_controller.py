@@ -116,13 +116,6 @@ def close_target_panel():
 	else:
 		return False
 
-def cast_fire_ball():
-	print("cast_fire_ball....")
-	match_loc = image_processor.match_template(
-		settings.screenshot_path,r"template_images/skill_fire_ball.png",0.05)
-	if(match_loc != None):
-		adb_controller.click(match_loc)
-
 def open_target_list():
 	# print("open_target_list....")
 	point = utils.convert_point((1185, 584), (1664, 936))
@@ -881,10 +874,7 @@ def drink_item(item_name):
 	if(match_loc != None):
 		adb_controller.click(match_loc, 0)
 		#除了网易mumu，所有双击无效，改为批量使用
-		if settings.device_address == "emulator-5554":
-			adb_controller.click(match_loc, 0)
-			adb_controller.click(match_loc, 0)
-		elif settings.device_address == "127.0.0.1:7555":
+		if settings.device_address == "emulator-5554" or settings.device_address == "127.0.0.1:7555":
 			adb_controller.click(match_loc, 0)
 			adb_controller.click(match_loc, 0)
 		else:
@@ -1064,13 +1054,43 @@ def select_boss():
 	close_target_list()
 	return boss_selected
 
+
+def get_fire_ball_pos():
+	match_scope = (200,936,1355,1662)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/skill_fire_ball.png",0.05,match_scope)
+	return match_loc
+
+
+def cast_fire_ball():
+	print("cast_fire_ball....")
+
+	match_loc = get_fire_ball_pos()
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
+
 def cast_lighting():
-	point = utils.convert_point((1514, 680), (1664, 936))
-	adb_controller.click(point)
+	print("cast_lighting....")
+	match_scope = (200,936,1355,1662)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/skill_lighting.png",0.05,match_scope)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
+
 
 def cast_shield():
-	point = utils.convert_point((1514, 680 - 93), (1664, 936))
-	adb_controller.click(point)
+	match_scope = (200,936,1355,1662)
+	match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+	match_loc = image_processor.match_template(
+		settings.screenshot_path,r"template_images/skill_shield.png",0.05,match_scope)
+	if(match_loc != None):
+		adb_controller.click(match_loc)
 
 def get_my_health():
 	# adb_controller.screenshot(settings.screenshot_path)
