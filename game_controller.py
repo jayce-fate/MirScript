@@ -1105,11 +1105,22 @@ def cast_heal():
         settings.screenshot_path,r"template_images/skill_heal.png",0.05,get_skill_scope())
     if(match_loc != None):
         adb_controller.click(match_loc)
+    # 技能后摇1秒
+    time.sleep(1)
 
 
 def cast_defence():
     match_loc = image_processor.match_template(
         settings.screenshot_path,r"template_images/skill_defence.png",0.05,get_skill_scope())
+    if(match_loc != None):
+        adb_controller.click(match_loc)
+    # 技能后摇1秒
+    time.sleep(1)
+
+
+def cast_invisible():
+    match_loc = image_processor.match_template(
+        settings.screenshot_path,r"template_images/skill_invisible.png",0.05,get_skill_scope())
     if(match_loc != None):
         adb_controller.click(match_loc)
 
@@ -1145,10 +1156,10 @@ def is_me_healthy():
 
         # 道士自动治愈术
         if globals.occupation == globals.Occupation.Taoist:
-            if current_hp + 50 < max_hp:
+            if current_hp + 30 < max_hp:
                 cast_defence()
-                time.sleep(1)
                 cast_heal()
+                cast_invisible()
 
         if current_hp + 90 < max_hp:
             return False

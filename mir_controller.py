@@ -24,9 +24,9 @@ import utils
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
 
-# game_controller.cast_defence()
-# time.sleep(1)
-# game_controller.cast_heal()
+game_controller.cast_defence()
+game_controller.cast_heal()
+game_controller.cast_invisible()
 # adb_controller.input_text("100,100")
 # trash_controller.drop_trashes()
 # game_controller.drink_item("qiang_xiao_jin_chuang_yao")
