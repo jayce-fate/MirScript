@@ -1064,12 +1064,16 @@ def set_occupation():
     else:
         globals.occupation = globals.Occupation.Taoist
 
-def get_fire_ball_pos():
+
+def get_skill_scope():
     match_scope = (200,936,1355,1662)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
+    return match_scope
 
+
+def get_fire_ball_pos():
     match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/skill_fire_ball.png",0.05,match_scope)
+        settings.screenshot_path,r"template_images/skill_fire_ball.png",0.05,get_skill_scope())
     return match_loc
 
 
@@ -1083,23 +1087,25 @@ def cast_fire_ball():
 
 def cast_lighting():
     print("cast_lighting....")
-    match_scope = (200,936,1355,1662)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
     match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/skill_lighting.png",0.05,match_scope)
+        settings.screenshot_path,r"template_images/skill_lighting.png",0.05,get_skill_scope())
     if(match_loc != None):
         adb_controller.click(match_loc)
 
 
 def cast_shield():
-    match_scope = (200,936,1355,1662)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
     match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/skill_shield.png",0.05,match_scope)
+        settings.screenshot_path,r"template_images/skill_shield.png",0.05,get_skill_scope())
     if(match_loc != None):
         adb_controller.click(match_loc)
+
+
+def cast_heal():
+    match_loc = image_processor.match_template(
+        settings.screenshot_path,r"template_images/skill_heal.png",0.05,get_skill_scope())
+    if(match_loc != None):
+        adb_controller.click(match_loc)
+
 
 def get_my_health():
     # adb_controller.screenshot(settings.screenshot_path)
@@ -1129,6 +1135,12 @@ def is_me_healthy():
     if my_HP != None:
         current_hp = int(my_HP[0])
         max_hp = int(my_HP[1])
+
+        # 道士自动治愈术
+        if globals.occupation == globals.Occupation.Taoist:
+            if current_hp + 50 < max_hp:
+                cast_heal()
+
         if current_hp + 90 < max_hp:
             return False
     return True
