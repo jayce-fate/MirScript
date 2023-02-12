@@ -68,13 +68,22 @@ def start_get_exp():
         if not game_controller.is_pet_healthy():
             if game_controller.select_boss():
                 # 攻击boss
-                game_controller.cast_shield()
-                game_controller.cast_lighting()
+                if globals.occupation == globals.Occupation.Taoist:
+                    game_controller.cast_poison()
+                    game_controller.cast_defence()
+                    game_controller.cast_heal()
+                    game_controller.cast_talisman()
+                elif globals.occupation == globals.Occupation.Magician:
+                    game_controller.cast_shield()
+                    game_controller.cast_lighting()
             else:
                 if time.time() - last_go_back_time > settings.go_back_check_time:
                     # 往回跑，试图召回宠物
                     game_controller.reactive_pet()
-                    game_controller.cast_shield()
+                    if globals.occupation == globals.Occupation.Taoist:
+                        game_controller.cast_invisible()
+                    elif globals.occupation == globals.Occupation.Magician:
+                        game_controller.cast_shield()
                     move_controller.go_to_previous_point(cave_path)
                     game_controller.reactive_pet()
                     last_go_back_time = time.time()

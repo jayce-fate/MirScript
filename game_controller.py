@@ -1152,6 +1152,20 @@ def cast_invisible():
         adb_controller.click(match_loc)
 
 
+def cast_poison():
+    match_loc = image_processor.match_template(
+        settings.screenshot_path,r"template_images/skill_poison.png",0.05,get_skill_scope())
+    if(match_loc != None):
+        adb_controller.click(match_loc)
+
+
+def cast_talisman():
+    match_loc = image_processor.match_template(
+        settings.screenshot_path,r"template_images/skill_talisman.png",0.05,get_skill_scope())
+    if(match_loc != None):
+        adb_controller.click(match_loc)
+
+
 def get_my_health():
     # adb_controller.screenshot(settings.screenshot_path)
     # 颜色参数
