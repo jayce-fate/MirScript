@@ -37,6 +37,18 @@ def start_get_exp():
     last_move_time = 0
     last_go_back_time = 0
     while(True):
+        #检查血量
+        my_lose_HP = game_controller.get_my_lose_HP()
+        # 道士，移动完，先判断血量隐身
+        if globals.occupation == globals.Occupation.Taoist:
+            if 30 < my_lose_HP:
+                game_controller.cast_heal()
+                game_controller.cast_invisible()
+        # 法师血量低，可能背包满了，红喝不出来
+        elif globals.occupation == globals.Occupation.Magician:
+            if 90 < my_lose_HP:
+                trash_controller.try_get_bag_space(1)
+
         #消除系统确定消息框
         game_controller.click_sure_btn()
         #检测断开消息框
@@ -46,10 +58,6 @@ def start_get_exp():
 
         if not game_controller.check_level():
             raise Exception("NeedGetMaster")
-
-        # 血量低，可能背包满了，红喝不出来
-        if not game_controller.is_me_healthy():
-            trash_controller.try_get_bag_space(1)
 
         if trash_controller.collect_ground_treasures() > 0:
             continue

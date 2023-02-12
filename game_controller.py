@@ -896,7 +896,7 @@ def check_monster_reachable():
 def check_exp_getting():
     check_times = 5;
     if globals.occupation == globals.Occupation.Taoist:
-        check_times = 10
+        check_times = 5
     for index in range(0, check_times):
         if got_exp_add_text():
             print("exp adding")
@@ -1148,22 +1148,14 @@ def get_my_health():
                     return splits
     return None
 
-def is_me_healthy():
+
+def get_my_lose_HP():
     my_HP = get_my_health()
     if my_HP != None:
         current_hp = int(my_HP[0])
         max_hp = int(my_HP[1])
-
-        # 道士自动治愈术
-        if globals.occupation == globals.Occupation.Taoist:
-            if current_hp + 30 < max_hp:
-                cast_defence()
-                cast_heal()
-                cast_invisible()
-
-        if current_hp + 90 < max_hp:
-            return False
-    return True
+        return max_hp - current_hp
+    return 0
 
 
 def click_menu_batch_use():
