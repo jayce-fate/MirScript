@@ -87,67 +87,64 @@ ya_biao_full_path = [(438, 204), (437, 205), (436, 206), (436, 207), (436, 208),
 # 包里的
 # 极品不扔
 trash_list_white = [
-                "jin_shou_zhuo",
-                "jin_jie_zhi",
-                "dao_shi_tou_kui",
-                "sheng_tie_jie_zhi",
-                "deng_long_xiang_lian",
-                "jian_gu_shou_tao",
-                "ji_neng_shu",
-                "si_sheng_shou_tao",
+                "jin_shou_zhuo",        #金手镯
+                "jin_jie_zhi",          #金戒指
+                "dao_shi_tou_kui",      #道士头盔
+                "sheng_tie_jie_zhi",    #生铁戒指
+                "deng_long_xiang_lian", #灯笼项链
+                "jian_gu_shou_tao",     #坚固手套
+                "ji_neng_shu",          #技能书
+                "si_sheng_shou_tao",    #死神手套
                 ]
 
 # 极品不扔，非极品扔，需要二次确认
 trash_list_green = [
-                "bai_se_hu_chi_xiang_lian",
-                "shan_hu_jie_zhi",
+                "bai_se_hu_chi_xiang_lian", #白色虎齿项链
+                "shan_hu_jie_zhi",          #珊瑚戒指
                 ]
 
 # 强制扔，不管是不是极品
 trash_list_force_drop = [
-                "hei_se_shui_jing_jie_zhi",
-                "hei_tang_shou_zhuo",
-                "mo_gui_xiang_lian",
-                "mo_li_shou_zhuo",
-                "mei_li_jie_zhi",
-                "ku_lou_jie_zhi",
-                "ku_lou_tou_kui",
-                "xiang_mo",
-                "dao_de_jie_zhi",
-                "dao_shi_shou_zhuo",
-                "qing_xing_kui_jia_nan",
-                "qing_xing_kui_jia_nv",
-                "she_yan_jie_zhi",
-                "lan_se_shui_jing_jie_zhi",
-                "lan_fei_cui_xiang_lian",
-                "zhu_di",
-                "po_hun",
-                "zhen_zhu_jie_zhi",
-                "hai_hun",
-                "zhan_ma_dao",
-                "fang_da_jing",
-                "yan_yue",
-                "ban_yue_wan_dao",
-                "feng_huang_ming_zhu",
-                "ning_shuang",
-                "ling_feng",
-                "ba_huang",
-                "xiu_luo",
+                "hei_se_shui_jing_jie_zhi", #黑色水晶戒指
+                "hei_tang_shou_zhuo",       #黑檀手镯
+                "mo_gui_xiang_lian",        #魔鬼项链
+                "mo_li_shou_zhuo",          #魔力手镯
+                "mei_li_jie_zhi",           #魅力戒指
+                "ku_lou_jie_zhi",           #骷髅戒指
+                "ku_lou_tou_kui",           #骷髅头盔
+                "xiang_mo",                 #降魔
+                "dao_de_jie_zhi",           #道德戒指
+                "dao_shi_shou_zhuo",        #道士手镯
+                "qing_xing_kui_jia_nan",    #轻型盔甲（男）
+                "qing_xing_kui_jia_nv",     #轻型盔甲（女）
+                "she_yan_jie_zhi",          #蛇眼戒指
+                "lan_se_shui_jing_jie_zhi", #蓝色水晶戒指
+                "lan_fei_cui_xiang_lian",   #蓝翡翠项链
+                "zhu_di",                   #竹笛
+                "po_hun",                   #破魂
+                "zhen_zhu_jie_zhi",         #珍珠戒指
+                "hai_hun",                  #海魂
+                "zhan_ma_dao",              #斩马刀
+                "fang_da_jing",             #放大镜
+                "yan_yue",                  #偃月
+                "ban_yue_wan_dao",          #半月弯刀
+                "feng_huang_ming_zhu",      #凤凰明珠
+                "ning_shuang",              #凝霜
+                "ling_feng",                #凌风
+                "ba_huang",                 #八荒
+                "xiu_luo",                  #修罗
                 ]
 
 # 直接喝
 trash_list_drink = [
-                "qiang_xiao_mo_fa_yao",
-                "mo_fa_yao_zhong_liang",
-                "tai_yang_shui",
-                "jin_chuang_yao_zhong_liang",
-                "biao_yin",
+                "qiang_xiao_jin_chuang_yao",    #强效金疮药
+                "qiang_xiao_mo_fa_yao",         #强效魔法药
+                "mo_fa_yao_zhong_liang",        #魔法药中量
+                "tai_yang_shui",                #太阳水
+                "jin_chuang_yao_zhong_liang",   #金疮药中量
+                "biao_yin",                     #镖银
                 ]
 
-# ground_trashes_green_key_word = [
-#                 "hu_chi",
-#                 "shan_hu",
-#                 ]
 
 # 地上的垃圾名称（中文）
 ground_green_trash_list = [

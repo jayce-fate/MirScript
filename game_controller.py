@@ -742,18 +742,6 @@ def map_point_to_coordination(map_point):
     return target_coord
 
 
-# def is_trash(trash_name):
-#     trash = False
-#     keywords = settings.ground_trashes_green_key_word
-#     for idx in range(len(keywords)):
-#         keyword = keywords[idx]
-#         if keyword in trash_name:
-#             trash = True
-#             break
-#
-#     return trash
-
-
 def filter_trash_name(trash_name):
     trash_list = settings.ground_green_trash_list
 

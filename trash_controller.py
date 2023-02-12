@@ -70,6 +70,12 @@ def drop_trashes_loop():
         loop_drop_one_item(trash_name, force_drop = True)
 
     trash_list = settings.trash_list_drink
+    # 道士不扔强效魔法药
+    if globals.occupation == globals.Occupation.Taoist:
+        trash_list.remove("qiang_xiao_mo_fa_yao")
+    # 道士不扔强效金疮药
+    elif globals.occupation == globals.Occupation.Magician:
+        trash_list.remove("qiang_xiao_jin_chuang_yao")
     list_len = len(trash_list)
     for index in range(0, list_len):
         trash_name = trash_list[index]
