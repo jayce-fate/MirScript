@@ -115,7 +115,11 @@ def try_get_bag_space(space_need):
                 return True
 
             for idx in range(0, space_need - remain_capacity):
-                if not game_controller.drink_item("qiang_xiao_jin_chuang_yao"):
+                # 道士剩蓝，其他剩红
+                drink_item_name = "qiang_xiao_jin_chuang_yao"
+                if globals.occupation == globals.Occupation.Taoist:
+                    drink_item_name = "qiang_xiao_mo_fa_yao"
+                if not game_controller.drink_item(drink_item_name):
                     break
 
             time.sleep(0.5)

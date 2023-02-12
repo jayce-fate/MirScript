@@ -44,6 +44,8 @@ def start_get_exp():
             if 30 < my_lose_HP:
                 game_controller.cast_heal()
                 game_controller.cast_invisible()
+                if game_controller.got_MP_Insufficient_text():
+                    trash_controller.try_get_bag_space(1)
         # 法师血量低，可能背包满了，红喝不出来
         elif globals.occupation == globals.Occupation.Magician:
             if 90 < my_lose_HP:

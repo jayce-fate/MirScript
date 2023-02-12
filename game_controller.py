@@ -239,7 +239,8 @@ def read_current_exp():
             return float(current_exp)
     return None
 
-def got_exp_add_text():
+
+def read_tip_text():
     adb_controller.screenshot(settings.screenshot_path)
     # 颜色参数
     lower_color = [14,255,255]
@@ -249,35 +250,33 @@ def got_exp_add_text():
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    return resultss
+
+
+def tip_text_contains(key):
+    resultss = read_tip_text()
     for idx in range(len(resultss)):
         results = resultss[idx]
         for result in results:
             rec = result[1] #('43', 0.99934321641922)
             res = rec[0] #'43'
             print("text: {}".format(str(res)))
-            if "+" in res:
+            if key in res:
                 return True
     return False
+
+
+def got_exp_add_text():
+    return tip_text_contains("+")
+
 
 def got_bag_full_text():
-    adb_controller.screenshot(settings.screenshot_path)
-    # 颜色参数
-    lower_color = [14,255,255]
-    upper_color = [30,255,255]
+    return tip_text_contains("满")
 
-    match_scope = (100,350,675,1000)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
 
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
-    for idx in range(len(resultss)):
-        results = resultss[idx]
-        for result in results:
-            rec = result[1] #('43', 0.99934321641922)
-            res = rec[0] #'43'
-            print("text: {}".format(str(res)))
-            if "满" in res:
-                return True
-    return False
+def got_MP_Insufficient_text():
+    return tip_text_contains("MP不足")
+
 
 def read_map_name():
     # 等级颜色米色参数
