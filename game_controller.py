@@ -1200,8 +1200,9 @@ def get_my_health():
         for result in results:
             rec = result[1] #('43', 0.99934321641922)
             res = rec[0] #'43'
+            print("我的血量1: {}".format(str(res)))
             res = re.sub(u"([^\u0030-\u0039\u002f])", "", res)
-            print("我的血量: {}".format(str(res)))
+            print("我的血量2: {}".format(str(res)))
             if "/" in res:
                 splits = res.split('/')
                 if len(splits) == 2:
@@ -1211,7 +1212,7 @@ def get_my_health():
 
 def get_my_lose_HP():
     my_HP = get_my_health()
-    if my_HP != None:
+    if my_HP != None and len(my_HP) == 2:
         current_hp = int(my_HP[0])
         max_hp = int(my_HP[1])
         return max_hp - current_hp
