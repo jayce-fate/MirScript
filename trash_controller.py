@@ -15,7 +15,7 @@ import path_controller
 import move_controller
 
 def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
-    print("loop_drop_one_item:" + trash_name + str(is_green) + str(force_drop))
+    print("loop_drop_one_item:" + trash_name + ",isgreen:" + str(is_green) + ",force_drop:" + str(force_drop))
     if game_controller.select_item(trash_name):
         game_controller.click_drop()
         if force_drop:
@@ -29,7 +29,7 @@ def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
             if game_controller.is_ji_pin():
                 game_controller.click_cancel_drop()
                 adb_controller.screenshot(settings.screenshot_path)
-            elif trash_name == "技能书" and game_controller.is_zhen_xi():
+            elif trash_name == "ji_neng_shu" and game_controller.is_zhen_xi():
                 game_controller.click_cancel_drop()
                 adb_controller.screenshot(settings.screenshot_path)
             else:
@@ -72,10 +72,12 @@ def drop_trashes_loop():
     trash_list = settings.trash_list_drink
     # 道士不扔强效魔法药
     if globals.occupation == globals.Occupation.Taoist:
-        trash_list.remove("qiang_xiao_mo_fa_yao")
+        if "qiang_xiao_mo_fa_yao" in trash_list:
+            trash_list.remove("qiang_xiao_mo_fa_yao")
     # 道士不扔强效金疮药
     elif globals.occupation == globals.Occupation.Magician:
-        trash_list.remove("qiang_xiao_jin_chuang_yao")
+        if "qiang_xiao_jin_chuang_yao" in trash_list:
+            trash_list.remove("qiang_xiao_jin_chuang_yao")
     list_len = len(trash_list)
     for index in range(0, list_len):
         trash_name = trash_list[index]

@@ -23,6 +23,7 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
+trash_controller.loop_drop_one_item("ji_neng_shu")
 # move_controller.get_current_coordinate()
 # path_controller.set_map_data()
 # trash_controller.collect_ground_treasures()
