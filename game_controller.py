@@ -493,12 +493,12 @@ def click_finish_ya_biao():
     adb_controller.click(point)
 
 # 计算间距为一步的路径
-def to_each_step_path(path):
+def to_each_step_path(path, round_path = True):
     if len(path) < 1:
         return path
 
     #使得头尾相连
-    if path[-1] != path[0]:
+    if round_path and path[-1] != path[0]:
         path.append(path[0])
 
     path_len = len(path)

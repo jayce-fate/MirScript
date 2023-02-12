@@ -293,3 +293,49 @@ def get_current_coordinate_after_adjust():
     else:
         print("use expect current coordinate: {}".format(str(globals.expect_current_pos)))
         return globals.expect_current_pos
+
+
+# 使用地图寻路
+def navigate_to_point(target_pos, callback = None):
+    #消除系统确定消息框
+    game_controller.click_sure_btn()
+
+    game_controller.click_map()
+    time.sleep(1.0)
+    adb_controller.screenshot(settings.screenshot_path)
+    game_controller.click_map_aim()
+    game_controller.click_map_input()
+    game_controller.click_map_input()
+    game_controller.click_map_clear()
+    point_str = "{},{}".format(target_pos[0], target_pos[1])
+    adb_controller.input_text(point_str)
+    game_controller.click_map_edit_confirm()
+    game_controller.click_map_input_confirm()
+    game_controller.click_xun_lu()
+    game_controller.close_map()
+
+    while True:
+        time.sleep(1.0)
+        current_pos1 = get_current_coordinate()
+        print("current_pos1 {}".format(str(current_pos1)))
+        time.sleep(1.0)
+        current_pos2 = get_current_coordinate()
+        print("current_pos2 {}".format(str(current_pos2)))
+        far_from_target = abs(current_pos1[0] - target_pos[0]) > 5 or abs(current_pos1[1] - target_pos[1]) > 5
+        if far_from_target and current_pos1 == current_pos2:
+            print("far_from_target and current_pos1 == current_pos2")
+            navigate_to_point(target_pos)
+            break
+        elif not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos1:
+            print("not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos1")
+            path = [current_pos1, target_pos]
+            step_path = game_controller.to_each_step_path(path, False)
+            game_controller.move_by_path(step_path)
+        elif target_pos == current_pos1:
+            print("target_pos == current_pos2")
+            #消除系统确定消息框
+            game_controller.click_sure_btn()
+            adb_controller.screenshot(settings.screenshot_path)
+            if callback != None:
+                callback()
+            break

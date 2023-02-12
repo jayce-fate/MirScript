@@ -23,8 +23,9 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
+move_controller.navigate_to_point((338,338))
 # exp_controller.restart_routine()
-game_controller.read_lv_area_text()
+# game_controller.read_lv_area_text()
 # trash_controller.loop_drop_one_item("ji_neng_shu")
 # move_controller.get_current_coordinate()
 # path_controller.set_map_data()
