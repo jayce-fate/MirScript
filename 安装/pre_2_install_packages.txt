@@ -18,3 +18,8 @@ https://developer.android.com/studio/releases/platform-tools?hl=zh-cn
 
 5.numpy
 python -m pip install numpy==1.23.1
+
+6.多开
+https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2038
+"C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_1" --natpf1 "myadb,tcp,,8555,,5555
+"C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_2" --natpf1 "myadb,tcp,,8556,,5555

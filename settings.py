@@ -15,7 +15,8 @@ adb_path = r"C:\Program Files\platform-tools\adb.exe"
 # device_address = "emulator-5554"
 # device_address = "192.168.58.104:5555"
 # device_address = "127.0.0.1:62001"
-device_address = "127.0.0.1:7555"
+# device_address = "127.0.0.1:7555"
+device_address = "127.0.0.1:8555"
 
 # 包名
 package_name = "air.com.PaladinOfMarphaNew"

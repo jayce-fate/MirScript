@@ -953,6 +953,8 @@ def check_level():
             if globals.check_has_master_fail_remain > 0:
                 globals.check_has_master_fail_remain = globals.check_has_master_fail_remain - 1
                 print("达到29级，请先去拜师，再提示{}次将结束本程序".format(str(globals.read_coordinate_fail_remain)))
+                # 重新检测是否已拜师
+                globals.already_has_master = already_has_master()
             else:
                 print("达到29级，请先去拜师，练级结束")
                 return False
