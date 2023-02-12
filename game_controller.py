@@ -185,6 +185,23 @@ def read_lv_text():
         return int(result)
     return -1
 
+# Lv.xx
+def read_lv_area_text():
+    # 等级颜色米色参数
+    lower_color = [0,0,212]
+    upper_color = [179,255,255]
+
+    match_scope = (56,100,0,104)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    result = get_first_result(resultss)
+    if result != None:
+        print("等级区域文字: {}".format(str(result)))
+        return result
+    return ""
+
+
 def connection_lose():
     # adb_controller.screenshot(settings.screenshot_path)
     # 等级颜色米色参数
@@ -633,8 +650,7 @@ def reactive_pet():
         settings.screenshot_path,r"template_images/btn_close_pet_list.png",0.05,match_scope)
     if(match_loc != None):
         adb_controller.click(match_loc)
-
-    time.sleep(1)
+        time.sleep(1)
 
     match_scope = (38,88,448,521)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
@@ -657,20 +673,44 @@ def reactive_pet():
 
 
 def active_pet():
+    # 收起宠物列表（如有）
     match_scope = (144,175,359,386)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
-    success = wait_to_match_and_click(r"template_images/btn_close_pet_list.png", 0.05, 120, 1, match_scope)
-    if not success:
-        return False
+    match_loc = image_processor.match_template(settings.screenshot_path, r"template_images/btn_close_pet_list.png",0.05,match_scope)
+    if(match_loc != None):
+        adb_controller.click(match_loc)
+        time.sleep(1.0)
+        adb_controller.screenshot(settings.screenshot_path)
 
-    time.sleep(1)
-
+    # 激活宠物
     match_scope = (43,83,453,516)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
-    result = wait_to_match_and_click(r"template_images/btn_active_pet.png", 0.05, 60, 1, match_scope)
-    return result
+    match_loc = image_processor.match_template(settings.screenshot_path, r"template_images/btn_active_pet.png",0.05,match_scope)
+    if(match_loc != None):
+        adb_controller.click(match_loc)
+        return True
+
+    return False
+
+
+def wait_till_finish_login(max_time, step_time):
+    time_start = time.time()
+    while(True):
+        adb_controller.screenshot(settings.screenshot_path)
+        lv_area_text = read_lv_area_text()
+        if "Lv" in lv_area_text:
+            return True
+
+        if(time.time() - time_start > max_time):
+            print("Reach max_time but failed to get Lv (finish login)")
+            return False
+
+        time.sleep(step_time)
+
+    return False
+
 
 def open_bag():
     print("open_bag")

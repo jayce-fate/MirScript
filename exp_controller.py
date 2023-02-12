@@ -41,7 +41,7 @@ def start_get_exp():
         my_lose_HP = game_controller.get_my_lose_HP()
         # 道士，移动完，先判断血量隐身
         if globals.occupation == globals.Occupation.Taoist:
-            if 30 < my_lose_HP:
+            if 20 < my_lose_HP:
                 game_controller.cast_heal()
                 game_controller.cast_invisible()
                 if game_controller.got_MP_Insufficient_text():
@@ -112,9 +112,12 @@ def restart_routine(restart_emulator_adb = False):
                 adb_controller.restart_adb()
 
         game_controller.restart_game()
-        success = game_controller.active_pet()
+        success = game_controller.wait_till_finish_login(120, 1)
         if success:
-            start()
+            if game_controller.active_pet():
+                start()
+            else:
+                print('当前没有宠物，程序终止：道士重新召唤宝宝，自动挂等级，跑图，法师直接下线换道士')
         else:
             game_controller.restart_game()
     except Exception as e:

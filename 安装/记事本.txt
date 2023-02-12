@@ -1,5 +1,3 @@
-close pet list 按钮找不到
-
 需要判断职业，比如释放技能:
 not game_controller.is_pet_healthy()
 
