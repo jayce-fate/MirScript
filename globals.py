@@ -41,3 +41,12 @@ already_has_master = None
 
 # 当前职业
 occupation = Occupation.Default
+
+skill_fire_ball_pos = None
+skill_lighting_pos = None
+skill_shield_pos = None
+skill_heal_pos = None
+skill_defence_pos = None
+skill_invisible_pos = None
+skill_poison_pos = None
+skill_talisman_pos = None

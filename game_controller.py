@@ -1106,64 +1106,81 @@ def get_fire_ball_pos():
 
 def cast_fire_ball():
     print("cast_fire_ball....")
-
-    match_loc = get_fire_ball_pos()
-    if(match_loc != None):
-        adb_controller.click(match_loc)
+    if globals.skill_fire_ball_pos == None:
+        match_loc = get_fire_ball_pos()
+        if(match_loc != None):
+            globals.skill_fire_ball_pos = match_loc
+    adb_controller.click(globals.skill_fire_ball_pos)
 
 
 def cast_lighting():
     print("cast_lighting....")
-    match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/skill_lighting.png",0.05,get_skill_scope())
-    if(match_loc != None):
-        adb_controller.click(match_loc)
+    if globals.skill_lighting_pos == None:
+        match_loc = image_processor.match_template(
+            settings.screenshot_path,r"template_images/skill_lighting.png",0.05,get_skill_scope())
+        if(match_loc != None):
+            globals.skill_lighting_pos = match_loc
+    adb_controller.click(globals.skill_lighting_pos)
 
 
 def cast_shield():
-    match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/skill_shield.png",0.05,get_skill_scope())
-    if(match_loc != None):
-        adb_controller.click(match_loc)
+    if globals.skill_shield_pos == None:
+        match_loc = image_processor.match_template(
+            settings.screenshot_path,r"template_images/skill_shield.png",0.05,get_skill_scope())
+        if(match_loc != None):
+            globals.skill_shield_pos = match_loc
+    adb_controller.click(globals.skill_shield_pos)
 
 
 def cast_heal():
-    match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/skill_heal.png",0.05,get_skill_scope())
-    if(match_loc != None):
-        adb_controller.click(match_loc)
+    if globals.skill_heal_pos == None:
+        match_loc = image_processor.match_template(
+            settings.screenshot_path,r"template_images/skill_heal.png",0.05,get_skill_scope())
+        if(match_loc != None):
+            globals.skill_heal_pos = match_loc
+    adb_controller.click(globals.skill_heal_pos)
+
     # 技能后摇1秒
     time.sleep(1)
 
 
 def cast_defence():
-    match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/skill_defence.png",0.05,get_skill_scope())
-    if(match_loc != None):
-        adb_controller.click(match_loc)
+    if globals.skill_defence_pos == None:
+        match_loc = image_processor.match_template(
+            settings.screenshot_path,r"template_images/skill_defence.png",0.05,get_skill_scope())
+        if(match_loc != None):
+            globals.skill_defence_pos = match_loc
+    adb_controller.click(globals.skill_defence_pos)
+
     # 技能后摇1秒
     time.sleep(1)
 
 
 def cast_invisible():
-    match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/skill_invisible.png",0.05,get_skill_scope())
-    if(match_loc != None):
-        adb_controller.click(match_loc)
+    if globals.skill_invisible_pos == None:
+        match_loc = image_processor.match_template(
+            settings.screenshot_path,r"template_images/skill_invisible.png",0.05,get_skill_scope())
+        if(match_loc != None):
+            globals.skill_invisible_pos = match_loc
+    adb_controller.click(globals.skill_invisible_pos)
 
 
 def cast_poison():
-    match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/skill_poison.png",0.05,get_skill_scope())
-    if(match_loc != None):
-        adb_controller.click(match_loc)
+    if globals.skill_poison_pos == None:
+        match_loc = image_processor.match_template(
+            settings.screenshot_path,r"template_images/skill_poison.png",0.05,get_skill_scope())
+        if(match_loc != None):
+            globals.skill_poison_pos = match_loc
+    adb_controller.click(globals.skill_poison_pos)
 
 
 def cast_talisman():
-    match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/skill_talisman.png",0.05,get_skill_scope())
-    if(match_loc != None):
-        adb_controller.click(match_loc)
+    if globals.skill_talisman_pos == None:
+        match_loc = image_processor.match_template(
+            settings.screenshot_path,r"template_images/skill_talisman.png",0.05,get_skill_scope())
+        if(match_loc != None):
+            globals.skill_talisman_pos = match_loc
+    adb_controller.click(globals.skill_talisman_pos)
 
 
 def get_my_health():
