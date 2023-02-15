@@ -700,7 +700,7 @@ def wait_till_finish_login(max_time, step_time):
     while(True):
         adb_controller.screenshot(settings.screenshot_path)
         lv_area_text = read_lv_area_text()
-        if "Lv" in lv_area_text:
+        if "Lv" in lv_area_text or "LV" in lv_area_text:
             return True
 
         if(time.time() - time_start > max_time):
@@ -937,9 +937,10 @@ def check_exp_getting():
 
 def check_level():
     #检查等级，等级等于29且未拜师，停止练级
-    if globals.current_lvl <= 29:
+    if globals.current_lvl < 29:
         globals.current_lvl = read_lv_text()
 
+    # 首次读取是否已拜师
     if globals.already_has_master == None:
         if globals.current_lvl <= 29:
             globals.already_has_master = already_has_master()
@@ -950,6 +951,7 @@ def check_level():
         for index in range(0, 20):
             print("等级已达到{}级，请先去拜师!!!".format(str(globals.current_lvl)))
         if (globals.current_lvl == 29):
+            # 增加判断次数（容错）
             if globals.check_has_master_fail_remain > 0:
                 globals.check_has_master_fail_remain = globals.check_has_master_fail_remain - 1
                 print("达到29级，请先去拜师，再提示{}次将结束本程序".format(str(globals.read_coordinate_fail_remain)))
@@ -1265,3 +1267,10 @@ def click_confirm_batch_use():
                 adb_controller.click(center)
                 return True
     return False
+
+
+def cast_back_town():
+    match_loc = image_processor.match_template(
+        settings.screenshot_path,r"template_images/btn_back_town.png",0.05)
+    if(match_loc != None):
+        adb_controller.click(match_loc)

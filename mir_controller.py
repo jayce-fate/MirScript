@@ -23,7 +23,11 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-move_controller.navigate_to_point((338,338))
+move_controller.go_to_town()
+# game_controller.cast_back_town()
+# game_controller.cast_heal()
+# game_controller.cast_invisible()
+# move_controller.navigate_to_point((338,338))
 # exp_controller.restart_routine()
 # game_controller.read_lv_area_text()
 # trash_controller.loop_drop_one_item("ji_neng_shu")

@@ -339,3 +339,7 @@ def navigate_to_point(target_pos, callback = None):
             if callback != None:
                 callback()
             break
+
+def go_to_town():
+    game_controller.cast_back_town()
+    navigate_to_point((338,338))
