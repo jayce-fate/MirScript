@@ -153,30 +153,31 @@ def handle_bag_full():
             time.sleep(2)
 
 def collect_ground_treasures():
-    adb_controller.screenshot(settings.screenshot_path)
-    item_coords = game_controller.check_ground_items(need_screenshot = False)
-    item_count = len(item_coords)
-
     collect_count = 0
-    for idx in range(0, item_count):
-        print("捡绿色物品")
-        coord = item_coords[idx]
-        path = path_controller.find_path(globals.current_pos, coord)
-        if len(path) > 0:
-            move_controller.step_go_by_path(path)
-            collect_count = collect_count + 1
-            handle_bag_full()
-
+    # 先捡金币，防止捡绿色物品后有遮挡
     gold_coords = game_controller.check_ground_golds()
     while 0 < len(gold_coords):
         for idx in range(0, len(gold_coords)):
             print("捡金币")
             coord = gold_coords[idx]
             path = path_controller.find_path(globals.current_pos, coord)
-            move_controller.step_go_by_path(path)
-            collect_count = collect_count + 1
-            handle_bag_full()
+            if len(path) > 0:
+                move_controller.step_go_by_path(path)
+                collect_count = collect_count + 1
+                handle_bag_full()
         gold_coords = game_controller.check_ground_golds()
+
+    item_coords = game_controller.check_ground_items()
+    while 0 < len(item_coords):
+        for idx in range(0, len(item_coords)):
+            print("捡绿色物品")
+            coord = item_coords[idx]
+            path = path_controller.find_path(globals.current_pos, coord)
+            if len(path) > 0:
+                move_controller.step_go_by_path(path)
+                collect_count = collect_count + 1
+                handle_bag_full()
+        item_coords = game_controller.check_ground_items()
 
     print("collect_count：" + str(collect_count))
     return collect_count
