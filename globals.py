@@ -50,3 +50,4 @@ skill_defence_pos = None
 skill_invisible_pos = None
 skill_poison_pos = None
 skill_talisman_pos = None
+skill_back_town = None
