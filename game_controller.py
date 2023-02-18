@@ -359,9 +359,10 @@ def is_zhen_xi():
             return True
     return False
 
-def get_map_path():
+def get_map_path(map_name=None):
     adb_controller.screenshot(settings.screenshot_path)
-    map_name = read_map_name()
+    if map_name == None:
+        map_name = read_map_name()
     cave_path = []
     if map_name == "废矿东部":
         cave_path = settings.zombie_cave_path
@@ -1034,6 +1035,29 @@ def read_pet_HP():
     return None
 
 
+def get_pet_current_max_HP():
+    pet_HP = read_pet_HP()
+    if pet_HP != None:
+        current_hp = int(pet_HP[0])
+        max_hp = int(pet_HP[1])
+        return max_hp
+    return 0
+
+
+def get_pet_max_HP():
+    # 骷髅最大血量
+    pet_max_HP = 2400
+    if globals.occupation == globals.Occupation.Taoist:
+        if globals.current_lvl < 35:
+            pet_max_HP = 480
+        elif globals.current_lvl >= 35:
+            if not cast_dog():
+                pet_max_HP = 480
+    else:
+        pet_max_HP = 625
+
+    return pet_max_HP
+
 def is_pet_healthy():
     pet_HP = read_pet_HP()
     if pet_HP != None:
@@ -1095,6 +1119,8 @@ def set_occupation():
     else:
         globals.occupation = globals.Occupation.Taoist
 
+def set_level():
+    globals.current_lvl = read_lv_text()
 
 def get_skill_scope():
     match_scope = (200,936,1355,1662)
@@ -1193,6 +1219,28 @@ def cast_talisman():
             globals.skill_talisman_pos = match_loc
     if globals.skill_talisman_pos != None:
         adb_controller.click(globals.skill_talisman_pos)
+
+
+def cast_skeleton():
+    if globals.skill_skeleton_pos == None:
+        match_loc = image_processor.match_template(
+            settings.screenshot_path,r"template_images/skill_skeleton.png",0.05,get_skill_scope())
+        if(match_loc != None):
+            globals.skill_skeleton_pos = match_loc
+    if globals.skill_skeleton_pos != None:
+        adb_controller.click(globals.skill_skeleton_pos)
+
+
+def cast_dog():
+    if globals.skill_dog_pos == None:
+        match_loc = image_processor.match_template(
+            settings.screenshot_path,r"template_images/skill_dog.png",0.05,get_skill_scope())
+        if(match_loc != None):
+            globals.skill_dog_pos = match_loc
+    if globals.skill_dog_pos != None:
+        adb_controller.click(globals.skill_dog_pos)
+        return True
+    return False
 
 
 def get_my_health():

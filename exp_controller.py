@@ -16,16 +16,67 @@ import move_controller
 import trash_controller
 
 
+def wait_till_max_lvl_max():
+    print("wait_till_max_lvl_max")
+    game_controller.reactive_pet()
+    current_pet_max_HP = game_controller.get_pet_current_max_HP()
+    # 可以达到的最大血量
+    pet_max_HP = game_controller.get_pet_max_HP()
+    while current_pet_max_HP < pet_max_HP:
+        time.sleep(10)
+        current_pet_max_HP = game_controller.get_pet_current_max_HP()
+        pet_max_HP = game_controller.get_pet_max_HP()
+
+    print("pet HP reach Max")
+    go_back_town_and_fly()
+
+
+def go_back_town_and_fly():
+    # 回城
+    move_controller.navigate_to_point((338,338), fly_to_exp_map)
+
+def fly_to_exp_map():
+    print("fly_to_exp_map")
+
+
 def start_get_exp():
     print("开始练级")
     adb_controller.connect()
 
-    cave_path = game_controller.get_map_path()
+    #获取职业
+    game_controller.set_occupation()
+    #获取等级
+    game_controller.set_level()
+
+    if not game_controller.active_pet():
+        print('当前没有宠物')
+        if globals.occupation == globals.Occupation.Taoist:
+            print('道士重新召唤宝宝，自动挂等级，跑图')
+            game_controller.cast_dog()
+            game_controller.cast_skeleton()
+        elif globals.occupation == globals.Occupation.Magician:
+            print("法师直接下线换道士")
+            return
+
+    map_name = game_controller.read_map_name()
+    if map_name == "盟重土城":
+        print("当前位置，盟重土城")
+        if globals.occupation == globals.Occupation.Taoist:
+            # 当前等级最大血量
+            current_pet_max_HP = game_controller.get_pet_current_max_HP()
+            # 可以达到的最大血量
+            pet_max_HP = game_controller.get_pet_max_HP()
+            print("pet_max_HP: {}".format(str(pet_max_HP)))
+            if current_pet_max_HP < pet_max_HP:
+                move_controller.navigate_to_point((205,257), wait_till_max_lvl_max)
+            else:
+                go_back_town_and_fly()
+        return
+
+    cave_path = game_controller.get_map_path(map_name)
     if len(cave_path) == 0:
         print("程序结束")
         return
-
-    game_controller.set_occupation()
 
     path_controller.set_map_data()
 
@@ -123,10 +174,7 @@ def restart_routine(restart_emulator_adb = False):
         game_controller.restart_game()
         success = game_controller.wait_till_finish_login(120, 1)
         if success:
-            if game_controller.active_pet():
-                start()
-            else:
-                print('当前没有宠物，程序终止：道士重新召唤宝宝，自动挂等级，跑图，法师直接下线换道士')
+            start()
         else:
             game_controller.restart_game()
     except Exception as e:
@@ -139,9 +187,6 @@ def restart_routine(restart_emulator_adb = False):
             restart_routine(True)
         else:
             restart_routine()
-    else:
-        print('unknown exception')
-        restart_routine()
 
 
 def start():
@@ -161,6 +206,3 @@ def start():
             restart_routine(True)
         else:
             restart_routine()
-    else:
-        print('unknown exception')
-        restart_routine()

@@ -51,3 +51,5 @@ skill_invisible_pos = None
 skill_poison_pos = None
 skill_talisman_pos = None
 skill_back_town = None
+skill_skeleton_pos = None
+skill_dog_pos = None
