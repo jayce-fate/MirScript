@@ -297,6 +297,7 @@ def get_current_coordinate_after_adjust():
 
 # 使用地图寻路
 def navigate_to_point(target_pos, callback = None):
+    map_name = game_controller.read_map_name()
     #消除系统确定消息框
     game_controller.click_sure_btn()
 
@@ -316,21 +317,29 @@ def navigate_to_point(target_pos, callback = None):
 
     while True:
         time.sleep(1.0)
+        current_map_name = game_controller.read_map_name()
         current_pos1 = get_current_coordinate()
         print("current_pos1 {}".format(str(current_pos1)))
         time.sleep(1.0)
         current_pos2 = get_current_coordinate()
         print("current_pos2 {}".format(str(current_pos2)))
         far_from_target = abs(current_pos1[0] - target_pos[0]) > 5 or abs(current_pos1[1] - target_pos[1]) > 5
-        if far_from_target and current_pos1 == current_pos2:
+        if len(current_map_name) >= 2 and map_name != current_map_name:
+            if callback != None:
+                callback()
+            break
+        elif far_from_target and current_pos1 == current_pos2:
             print("far_from_target and current_pos1 == current_pos2")
-            navigate_to_point(target_pos)
+            navigate_to_point(target_pos, callback)
             break
         elif not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos1:
             print("not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos1")
             path = [current_pos1, target_pos]
             step_path = game_controller.to_each_step_path(path, False)
             game_controller.move_by_path(step_path)
+            if callback != None:
+                callback()
+            break
         elif target_pos == current_pos1:
             print("target_pos == current_pos2")
             #消除系统确定消息框

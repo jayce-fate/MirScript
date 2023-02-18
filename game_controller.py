@@ -644,18 +644,10 @@ def restart_game():
 def reactive_pet():
     adb_controller.screenshot(settings.screenshot_path)
 
-    match_scope = (144,175,359,386)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
-    match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/btn_close_pet_list.png",0.05,match_scope)
-    if(match_loc != None):
-        adb_controller.click(match_loc)
-        time.sleep(1)
+    collapse_pet_list()
 
     match_scope = (38,88,448,521)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
-
     match_loc = image_processor.match_template(
         settings.screenshot_path,r"template_images/btn_rest_pet.png",0.05,match_scope)
     if(match_loc != None):
@@ -673,21 +665,32 @@ def reactive_pet():
         adb_controller.click(match_loc)
 
 
-def active_pet():
-    # 收起宠物列表（如有）
-    match_scope = (144,175,359,386)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
+def collapse_pet_list():
+    # 法师收起宠物列表（如有）
+    if globals.occupation == globals.Occupation.Magician:
+        match_scope = (144,175,359,386)
+        match_scope = utils.convert_scope(match_scope, (1664, 936))
+        match_loc = image_processor.match_template(settings.screenshot_path, r"template_images/btn_close_pet_list.png",0.05,match_scope)
+        if(match_loc != None):
+            adb_controller.click(match_loc)
+            time.sleep(1.0)
+            adb_controller.screenshot(settings.screenshot_path)
 
-    match_loc = image_processor.match_template(settings.screenshot_path, r"template_images/btn_close_pet_list.png",0.05,match_scope)
+
+def active_pet():
+    collapse_pet_list()
+
+    #是否已激活
+    match_scope = (38,88,448,521)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+    match_loc = image_processor.match_template(
+        settings.screenshot_path,r"template_images/btn_rest_pet.png",0.05,match_scope)
     if(match_loc != None):
-        adb_controller.click(match_loc)
-        time.sleep(1.0)
-        adb_controller.screenshot(settings.screenshot_path)
+        return True
 
     # 激活宠物
     match_scope = (43,83,453,516)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
-
     match_loc = image_processor.match_template(settings.screenshot_path, r"template_images/btn_active_pet.png",0.05,match_scope)
     if(match_loc != None):
         adb_controller.click(match_loc)
@@ -1003,23 +1006,13 @@ def is_bag_full():
 
 
 def read_pet_HP():
-    # 收起宠物列表（如有）
     adb_controller.screenshot(settings.screenshot_path)
 
-    match_scope = (144,175,359,386)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
+    collapse_pet_list()
 
-    match_loc = image_processor.match_template(settings.screenshot_path, r"template_images/btn_close_pet_list.png",0.05,match_scope)
-    if(match_loc != None):
-        adb_controller.click(match_loc)
-        time.sleep(1.0)
-        adb_controller.screenshot(settings.screenshot_path)
-
-
+    # 获取宝宝血量
     match_scope = (132,160,400,580)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
-
-    # 识别血量
     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope)
     for idx in range(len(resultss)):
         results = resultss[idx]
@@ -1051,7 +1044,7 @@ def get_pet_max_HP():
         if globals.current_lvl < 35:
             pet_max_HP = 480
         elif globals.current_lvl >= 35:
-            if not cast_dog():
+            if globals.skill_dog_pos == None:
                 pet_max_HP = 480
     else:
         pet_max_HP = 625
@@ -1333,3 +1326,86 @@ def cast_back_town():
             globals.skill_back_town = match_loc
     if globals.skill_back_town != None:
         adb_controller.click(globals.skill_back_town)
+
+
+#点击屏幕，消除省电模式（不管有没有）
+def click_center_of_screen():
+    point = utils.convert_point((832, 468), (1664, 936))
+    adb_controller.click(point, 0.1)
+
+
+#点击盟重老兵
+def click_npc_meng_zhong_lao_bing():
+    # 坐标颜色绿色参数
+    lower_color = [35,43,46]
+    upper_color = [75,255,255]
+
+    match_scope = (0,936,0,1664)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+    masks = []
+    masks.append((0,34,440,1234)) #顶部滚动通知
+    masks.append((42,198,1354,1664)) #右上角地图
+    masks.append((796,936,625,1196)) #底部聊天窗口
+    masks = utils.convert_masks(masks, (1664, 936))
+
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color, masks = masks)
+    for idx in range(len(resultss)):
+        results = resultss[idx]
+        for result in results:
+            name_rate = result[1] #('43', 0.99934321641922)
+            name = name_rate[0] #'43'
+            if "老兵" in name:
+                print("result: {}".format(str(result)))
+                corners = result[0]
+                center = utils.get_center_of_corners(corners)
+                adb_controller.click(center)
+                return True
+    return False
+
+
+def click_yellow_text_chuan_song():
+    # 坐标颜色黄色参数
+    lower_color = [0,102,185]
+    upper_color = [29,253,255]
+
+    match_scope = (420,475,80,400)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    for idx in range(len(resultss)):
+        results = resultss[idx]
+        for result in results:
+            name_rate = result[1] #('43', 0.99934321641922)
+            name = name_rate[0] #'43'
+            if "传送" in name:
+                # print("result: {}".format(str(result)))
+                corners = result[0]
+                center = utils.get_center_of_corners(corners)
+                adb_controller.click(center)
+                return True
+    return False
+
+
+# 点击僵尸洞传送
+def click_transfer_zombie_cave():
+    # 米色参数
+    lower_color = [0,0,212]
+    upper_color = [179,255,255]
+
+    match_scope = (287,342,1124,1289)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    for idx in range(len(resultss)):
+        results = resultss[idx]
+        for result in results:
+            name_rate = result[1] #('43', 0.99934321641922)
+            name = name_rate[0] #'43'
+            if "废矿入口" in name:
+                # print("result: {}".format(str(result)))
+                corners = result[0]
+                center = utils.get_center_of_corners(corners)
+                adb_controller.click(center)
+                return True
+    return False

@@ -28,6 +28,9 @@ def wait_till_max_lvl_max():
         pet_max_HP = game_controller.get_pet_max_HP()
 
     print("pet HP reach Max")
+    #消除省电模式
+    game_controller.click_center_of_screen()
+    adb_controller.screenshot(settings.screenshot_path)
     go_back_town_and_fly()
 
 
@@ -37,12 +40,36 @@ def go_back_town_and_fly():
 
 def fly_to_exp_map():
     print("fly_to_exp_map")
+    adb_controller.screenshot(settings.screenshot_path)
+    game_controller.click_npc_meng_zhong_lao_bing()
+    time.sleep(1.0)
+    adb_controller.screenshot(settings.screenshot_path)
+    game_controller.click_yellow_text_chuan_song()
+    time.sleep(1.0)
+    adb_controller.screenshot(settings.screenshot_path)
+    if globals.current_lvl <= 35:
+        game_controller.click_transfer_zombie_cave()
+    else:
+        game_controller.click_transfer_zombie_cave()
+    time.sleep(1.0)
+    adb_controller.screenshot(settings.screenshot_path)
+    if globals.current_lvl <= 35:
+        go_to_east_waste_ore()
+    else:
+        go_to_east_waste_ore()
+
+
+# 去废矿东部
+def go_to_east_waste_ore():
+    move_controller.navigate_to_point((179,110), start)
 
 
 def start_get_exp():
     print("开始练级")
     adb_controller.connect()
-
+    #消除省电模式
+    game_controller.click_center_of_screen()
+    adb_controller.screenshot(settings.screenshot_path)
     #获取职业
     game_controller.set_occupation()
     #获取等级
@@ -51,12 +78,16 @@ def start_get_exp():
     if not game_controller.active_pet():
         print('当前没有宠物')
         if globals.occupation == globals.Occupation.Taoist:
-            print('道士重新召唤宝宝，自动挂等级，跑图')
+            print('道士重新召唤宝宝')
             game_controller.cast_dog()
             game_controller.cast_skeleton()
         elif globals.occupation == globals.Occupation.Magician:
             print("法师直接下线换道士")
             return
+    else:
+        if globals.occupation == globals.Occupation.Taoist:
+            print('虽然有宝宝了，再用一下召唤宝宝，为了初始化globals.skill_dog_pos')
+            game_controller.cast_dog()
 
     map_name = game_controller.read_map_name()
     if map_name == "盟重土城":
