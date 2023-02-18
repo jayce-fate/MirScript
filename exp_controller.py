@@ -72,12 +72,15 @@ def routine_lvl_one():
     game_controller.open_bag()
     time.sleep(0.5)
     game_controller.drink_item("bu_yi_nv")
+    game_controller.click_arrange_bag()
     game_controller.drink_item("wu_mu_jian")
     game_controller.click_left_return()
     game_controller.click_right_return()
     while game_controller.read_lv_text() < 7:
         game_controller.cast_attack()
         adb_controller.screenshot(settings.screenshot_path)
+    print("等级7")
+    game_controller.click_sure_btn()
 
 def start_get_exp():
     print("开始练级")
