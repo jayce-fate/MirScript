@@ -2,6 +2,7 @@ import os
 import time
 import re
 import cv2
+import random
 
 import adb_controller
 import image_processor
@@ -372,6 +373,10 @@ def get_map_path(map_name=None):
         cave_path = settings.ya_biao_path
     else:
         print("当前地图:{} 未设置挂机路径".format(map_name))
+
+    # 一半概率反向
+    if random.randint(0, 1) == 1:
+        cave_path.reverse()
     return cave_path
 
 
