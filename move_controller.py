@@ -324,7 +324,7 @@ def navigate_to_point(target_pos, callback = None):
         current_pos2 = get_current_coordinate()
         print("current_pos2 {}".format(str(current_pos2)))
         far_from_target = abs(current_pos1[0] - target_pos[0]) > 5 or abs(current_pos1[1] - target_pos[1]) > 5
-        if len(current_map_name) >= 2 and map_name != current_map_name:
+        if current_map_name!= None and len(current_map_name) >= 2 and map_name != current_map_name:
             if callback != None:
                 callback()
             break
