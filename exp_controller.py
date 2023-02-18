@@ -64,6 +64,21 @@ def go_to_east_waste_ore():
     move_controller.navigate_to_point((179,110), start)
 
 
+def routine_lvl_one():
+    if game_controller.click_msg_box("如何移动"):
+        time.sleep(15)
+        adb_controller.screenshot(settings.screenshot_path)
+        game_controller.click_msg_box("开始")
+    game_controller.open_bag()
+    time.sleep(0.5)
+    game_controller.drink_item("bu_yi_nv")
+    game_controller.drink_item("wu_mu_jian")
+    game_controller.click_left_return()
+    game_controller.click_right_return()
+    while game_controller.read_lv_text() < 7:
+        game_controller.cast_attack()
+        adb_controller.screenshot(settings.screenshot_path)
+
 def start_get_exp():
     print("开始练级")
     adb_controller.connect()
@@ -73,8 +88,10 @@ def start_get_exp():
     #获取职业
     game_controller.set_occupation()
     #获取等级
-    game_controller.set_level()
-
+    globals.current_lvl = game_controller.read_lv_text()
+    if globals.current_lvl < 7:
+        routine_lvl_one()
+        return
     if not game_controller.active_pet():
         print('当前没有宠物')
         if globals.occupation == globals.Occupation.Taoist:

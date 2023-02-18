@@ -53,6 +53,15 @@ def click(location, sleep_time = 0.001):
         time.sleep(sleep_time)
 
 
+# 双击操作
+def double_click(location, sleep_time = 0.001):
+    command = settings.adb_path + " -s " + settings.device_address + " shell input " + "\"tap " + str(location[0]) + " " + str(location[1]) + " & input tap " + str(location[0]) + " " + str(location[1]) + "\""
+    # print("command:\n", command)
+    os.system(command)
+    if sleep_time > 0:
+        time.sleep(sleep_time)
+
+
 # 截屏
 def screenshot(path):
     tmp_path = path + ".tmp"

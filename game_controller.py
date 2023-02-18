@@ -183,7 +183,9 @@ def read_lv_text():
     result = get_first_result(resultss)
     if result != None:
         print("当前等级: {}".format(str(result)))
-        return int(result)
+        digit_array = re.findall(r'\d+', result)
+        globals.current_lvl = int(digit_array[0])
+        return globals.current_lvl
     return -1
 
 # Lv.xx
@@ -908,16 +910,17 @@ def drink_item(item_name):
     match_loc = image_processor.match_template(
         settings.screenshot_path,item_template,0.05)
     if(match_loc != None):
-        adb_controller.click(match_loc, 0)
-        #除了网易mumu，所有双击无效，改为批量使用
-        if settings.device_address == "emulator-5554" or settings.device_address == "127.0.0.1:7555":
-            adb_controller.click(match_loc, 0)
-            adb_controller.click(match_loc, 0)
-        else:
-            time.sleep(0.5)
-            if click_menu_batch_use():
-                time.sleep(0.5)
-                click_confirm_batch_use()
+        adb_controller.double_click(match_loc)
+        # adb_controller.click(match_loc, 0)
+        # #除了网易mumu，所有双击无效，改为批量使用
+        # if settings.device_address == "emulator-5554":
+        #     adb_controller.click(match_loc, 0)
+        #     adb_controller.click(match_loc, 0)
+        # else:
+        #     time.sleep(0.5)
+        #     if click_menu_batch_use():
+        #         time.sleep(0.5)
+        #         click_confirm_batch_use()
         return True
     return False
 
@@ -1117,8 +1120,6 @@ def set_occupation():
     else:
         globals.occupation = globals.Occupation.Taoist
 
-def set_level():
-    globals.current_lvl = read_lv_text()
 
 def get_skill_scope():
     match_scope = (200,936,1355,1662)
@@ -1130,6 +1131,17 @@ def get_fire_ball_pos():
     match_loc = image_processor.match_template(
         settings.screenshot_path,r"template_images/skill_fire_ball.png",0.05,get_skill_scope())
     return match_loc
+
+
+def cast_attack():
+    print("cast_attack....")
+    if globals.skill_attack_pos == None:
+        match_loc = image_processor.match_template(
+            settings.screenshot_path,r"template_images/skill_attack.png",0.05,get_skill_scope())
+        if(match_loc != None):
+            globals.skill_attack_pos = match_loc
+    if globals.skill_attack_pos != None:
+        adb_controller.click(globals.skill_attack_pos)
 
 
 def cast_fire_ball():
@@ -1408,6 +1420,30 @@ def click_transfer_zombie_cave():
             name_rate = result[1] #('43', 0.99934321641922)
             name = name_rate[0] #'43'
             if "废矿入口" in name:
+                # print("result: {}".format(str(result)))
+                corners = result[0]
+                center = utils.get_center_of_corners(corners)
+                adb_controller.click(center)
+                return True
+    return False
+
+
+# 消除如何移动提示
+def click_msg_box(text):
+    # 坐标颜色绿色参数
+    lower_color = [35,43,46]
+    upper_color = [75,255,255]
+
+    match_scope = (583,651,673,985)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    for idx in range(len(resultss)):
+        results = resultss[idx]
+        for result in results:
+            name_rate = result[1] #('43', 0.99934321641922)
+            name = name_rate[0] #'43'
+            if text == name:
                 # print("result: {}".format(str(result)))
                 corners = result[0]
                 center = utils.get_center_of_corners(corners)

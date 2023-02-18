@@ -23,7 +23,8 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-exp_controller.fly_to_exp_map()
+# game_controller.drink_item("wu_mu_jian")
+# exp_controller.fly_to_exp_map()
 # image_processor.show_hsv_tool("temp_screenshot/screenshot_debug.png")
 # exp_controller.fly_to_exp_map()
 # move_controller.go_to_town()
