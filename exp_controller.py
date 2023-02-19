@@ -65,10 +65,10 @@ def go_to_east_waste_ore():
 
 
 def routine_lvl_one():
-    if game_controller.click_msg_box("如何移动"):
+    if game_controller.click_msg_box("如何移动", True):
         time.sleep(15)
         adb_controller.screenshot(settings.screenshot_path)
-        game_controller.click_msg_box("开始")
+        game_controller.click_msg_box("开始", True)
     game_controller.open_bag()
     time.sleep(0.5)
     game_controller.drink_item("bu_yi_nv")
@@ -82,6 +82,63 @@ def routine_lvl_one():
     print("等级7")
     game_controller.click_sure_btn()
 
+
+def routine_lvl_seven():
+    if globals.current_lvl == 7:
+        game_controller.open_bag()
+        time.sleep(0.5)
+        game_controller.drink_item("jun_xiang")
+        game_controller.click_arrange_bag()
+        game_controller.drink_item("ji_neng_shu")
+        game_controller.click_arrange_bag()
+        game_controller.drink_item("tie_jian")
+        game_controller.click_arrange_bag()
+        if game_controller.drink_item("bo_li_jie_zhi"):
+            game_controller.click_arrange_bag()
+            game_controller.drink_item("bo_li_jie_zhi")
+
+        game_controller.click_left_return()
+        game_controller.click_right_return()
+
+    adb_controller.screenshot(settings.screenshot_path)
+    game_controller.set_occupation()
+
+    while game_controller.read_lv_text() < 15:
+        if globals.occupation == globals.Occupation.Taoist:
+            game_controller.cast_attack()
+        elif globals.occupation == globals.Occupation.Magician:
+            game_controller.cast_fire_ball()
+        adb_controller.screenshot(settings.screenshot_path)
+    print("等级15")
+    time.sleep(30)
+    adb_controller.screenshot(settings.screenshot_path)
+    game_controller.click_msg_box("知道了")
+    routine_lvl_fifteen()
+
+
+def routine_lvl_fifteen():
+    if globals.current_lvl == 15:
+        game_controller.open_bag()
+        time.sleep(0.5)
+        game_controller.drink_item("jun_xiang")
+        game_controller.click_arrange_bag()
+        game_controller.batch_drink_item("ji_neng_shu")
+            game_controller.click_arrange_bag()
+        game_controller.drink_item("ban_yue_wan_dao")
+        game_controller.click_arrange_bag()
+        game_controller.drink_item("da_shou_zhuo")
+        game_controller.click_arrange_bag()
+        game_controller.drink_item("zhen_zhu_jie_zhi")
+        game_controller.click_arrange_bag()
+        if game_controller.drink_item("qing_xing_kui_jia_nv"):
+            game_controller.click_arrange_bag()
+        else:
+            game_controller.drink_item("qing_xing_kui_jia_nan")
+            game_controller.click_arrange_bag()
+        game_controller.click_left_return()
+        game_controller.click_right_return()
+
+
 def start_get_exp():
     print("开始练级")
     adb_controller.connect()
@@ -94,6 +151,12 @@ def start_get_exp():
     globals.current_lvl = game_controller.read_lv_text()
     if globals.current_lvl < 7:
         routine_lvl_one()
+        return
+    elif globals.current_lvl < 15:
+        routine_lvl_seven()
+        return
+    elif globals.current_lvl < 20:
+        routine_lvl_fifteen()
         return
     if not game_controller.active_pet():
         print('当前没有宠物')

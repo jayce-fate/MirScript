@@ -23,7 +23,9 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-game_controller.click_sure_btn()
+# game_controller.batch_drink_item("mo_fa_yao_zhong_liang")
+# game_controller.click_msg_box("知道了")
+# game_controller.click_sure_btn()
 # game_controller.drink_item("wu_mu_jian")
 # exp_controller.fly_to_exp_map()
 # image_processor.show_hsv_tool("temp_screenshot/screenshot_debug.png")

@@ -911,18 +911,23 @@ def drink_item(item_name):
         settings.screenshot_path,item_template,0.05)
     if(match_loc != None):
         adb_controller.double_click(match_loc)
-        # adb_controller.click(match_loc, 0)
-        # #除了网易mumu，所有双击无效，改为批量使用
-        # if settings.device_address == "emulator-5554":
-        #     adb_controller.click(match_loc, 0)
-        #     adb_controller.click(match_loc, 0)
-        # else:
-        #     time.sleep(0.5)
-        #     if click_menu_batch_use():
-        #         time.sleep(0.5)
-        #         click_confirm_batch_use()
         return True
     return False
+
+
+def batch_drink_item(item_name):
+    print("batch_drink:", item_name)
+    adb_controller.screenshot(settings.screenshot_path)
+    item_template = "template_images/items/{}.png".format(str(item_name))
+    match_locs = image_processor.multiple_match_template(
+        settings.screenshot_path,item_template,0.05)
+    for idx in range(0, len(match_locs)):
+        match_loc = match_locs[idx]
+        adb_controller.double_click(match_loc)
+    if(len(match_locs) != 0):
+        return True
+    return False
+
 
 def check_monster_reachable():
     monster_list = get_monster_list()
@@ -1429,10 +1434,14 @@ def click_transfer_zombie_cave():
 
 
 # 消除如何移动提示
-def click_msg_box(text):
-    # 坐标颜色绿色参数
-    lower_color = [35,43,46]
-    upper_color = [75,255,255]
+def click_msg_box(text, is_green=False):
+    # 米色
+    lower_color = [0,0,212]
+    upper_color = [179,255,255]
+    # 绿色
+    if is_green:
+        lower_color = [35,43,46]
+        upper_color = [75,255,255]
 
     match_scope = (583,651,673,985)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
