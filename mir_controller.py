@@ -23,6 +23,16 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
+game_controller.click_transfer_cave("骷髅洞")
+# exp_controller.fly_to_exp_map()
+# item_list = {
+#   "超级金创药": 6,
+# }
+# trash_controller.buy_items(item_list)
+# game_controller.click_right_menu("商店")
+# time.sleep(1)
+# adb_controller.screenshot(settings.screenshot_path)
+# game_controller.click_left_menu("绑金")
 # game_controller.batch_drink_item("mo_fa_yao_zhong_liang")
 # game_controller.click_msg_box("知道了")
 # game_controller.click_sure_btn()

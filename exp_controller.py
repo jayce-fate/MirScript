@@ -35,28 +35,78 @@ def wait_till_max_lvl_max():
 
 
 def go_back_town_and_fly():
+    print("go_back_town_and_fly")
     # 回城
     move_controller.navigate_to_point((338,338), fly_to_exp_map)
 
 def fly_to_exp_map():
     print("fly_to_exp_map")
+    #补给
+    #如果<29且是道士检查是否学习隐身术，否者买一本
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.click_npc_meng_zhong_lao_bing()
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
-    game_controller.click_yellow_text_chuan_song()
+    game_controller.click_yellow_menu("传送")
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
-    if globals.current_lvl <= 35:
-        game_controller.click_transfer_zombie_cave()
+    if globals.current_lvl < 17:
+        game_controller.click_transfer_cave("骷髅洞")
+    elif globals.current_lvl <= 35:
+        game_controller.click_transfer_cave("废矿入口")
     else:
-        game_controller.click_transfer_zombie_cave()
+        game_controller.click_transfer_cave("废矿入口")
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
-    if globals.current_lvl <= 35:
+    if globals.current_lvl < 17:
+        get_exp_by_random_fly()
+    elif globals.current_lvl <= 35:
         go_to_east_waste_ore()
     else:
         go_to_east_waste_ore()
+
+
+def get_exp_by_random_fly():
+    print("get_exp_by_random_fly")
+
+    #吃栗子
+    game_controller.open_bag()
+    time.sleep(0.5)
+    game_controller.drink_item("zhong_se_li_zi")
+    game_controller.click_left_return()
+    game_controller.click_right_return()
+
+    no_more_random_fly = 0
+    while True:
+        adb_controller.screenshot(settings.screenshot_path)
+        if not game_controller.template_exist("btn_close_target"):
+            game_controller.cast_poison()
+            game_controller.cast_talisman()
+            adb_controller.screenshot(settings.screenshot_path)
+            if not game_controller.template_exist("btn_close_target"):
+                pos_before_fly = move_controller.get_current_coordinate()
+                game_controller.cast_random_fly()
+                game_controller.cast_poison()
+                game_controller.cast_talisman()
+                pos_after_fly = move_controller.get_current_coordinate()
+                if pos_before_fly == pos_after_fly:
+                    no_more_random_fly = no_more_random_fly + 1
+                if no_more_random_fly >= 2:
+                    game_controller.click_sure_btn()
+                    print("学习召唤骷髅")
+                    learn_skill_skeleton()
+                    adb_controller.screenshot(settings.screenshot_path)
+                    game_controller.cast_back_town()
+                    time.sleep(2.0)
+                    go_back_town_and_fly()
+                    break
+
+def learn_skill_skeleton():
+    game_controller.open_bag()
+    time.sleep(0.5)
+    game_controller.batch_drink_item("ji_neng_shu")
+    game_controller.click_left_return()
+    game_controller.click_right_return()
 
 
 # 去废矿东部
@@ -87,7 +137,7 @@ def routine_lvl_seven():
         game_controller.open_bag()
         time.sleep(0.5)
         game_controller.drink_item("jun_xiang")
-        game_controller.drink_item("ji_neng_shu")
+        game_controller.batch_drink_item("ji_neng_shu")
         game_controller.drink_item("tie_jian")
         game_controller.batch_drink_item("bo_li_jie_zhi")
 
@@ -112,18 +162,61 @@ def routine_lvl_seven():
 
 def routine_lvl_fifteen():
     if globals.current_lvl == 15:
+        # 穿装备，学技能
         game_controller.open_bag()
         time.sleep(0.5)
         game_controller.drink_item("jun_xiang")
         game_controller.batch_drink_item("ji_neng_shu")
-        game_controller.drink_item("ban_yue_wan_dao")
-        game_controller.drink_item("da_shou_zhuo")
-        game_controller.drink_item("zhen_zhu_jie_zhi")
+        if globals.occupation == globals.Occupation.Taoist:
+            game_controller.drink_item("ban_yue_wan_dao")
+            game_controller.drink_item("da_shou_zhuo")
+            game_controller.drink_item("zhen_zhu_jie_zhi")
         if not game_controller.drink_item("qing_xing_kui_jia_nv"):
             game_controller.drink_item("qing_xing_kui_jia_nan")
+        #丢垃圾
         trash_controller.drop_binding_trashes(False)
         game_controller.click_left_return()
         game_controller.click_right_return()
+
+        go_back_town_and_get_subsidy()
+        if game_controller.get_bag_remain_capacity() > 32:
+            buy_supplies()
+
+        fly_to_exp_map()
+
+
+def go_back_town_and_get_subsidy():
+    # 回城
+    move_controller.navigate_to_point((338,338), get_subsidy)
+
+
+def get_subsidy():
+    #领取低保
+    adb_controller.screenshot(settings.screenshot_path)
+    game_controller.click_npc_meng_zhong_lao_bing()
+    time.sleep(1.0)
+    adb_controller.screenshot(settings.screenshot_path)
+    game_controller.wipe_down_npc_dialog_menu()
+    adb_controller.screenshot(settings.screenshot_path)
+    game_controller.click_yellow_menu("领取低保")
+    game_controller.click_left_return()
+
+
+def buy_supplies():
+    item_list = {
+      "超级魔法药": 6,
+      "超级金疮药": 6,
+      "随机传送卷包": 6,
+      "地牢逃脱卷": 1,
+      "棕色栗子": 1,
+      "黄色药粉(中)": 2,
+      "灰色药粉(中)": 2,
+      "护身符(大)": 4,
+    }
+    trash_controller.buy_items(item_list, False)
+
+    game_controller.click_left_return()
+    game_controller.click_right_return()
 
 
 def start_get_exp():
@@ -134,6 +227,8 @@ def start_get_exp():
     adb_controller.screenshot(settings.screenshot_path)
     #获取职业
     game_controller.set_occupation()
+    #地图名称
+    map_name = game_controller.read_map_name()
     #获取等级
     globals.current_lvl = game_controller.read_lv_text()
     if globals.current_lvl < 7:
@@ -142,8 +237,11 @@ def start_get_exp():
     elif globals.current_lvl < 15:
         routine_lvl_seven()
         return
-    elif globals.current_lvl < 20:
-        routine_lvl_fifteen()
+    elif globals.current_lvl < 17:
+        if map_name == "盟重土城":
+            routine_lvl_fifteen()
+        elif map_name == "洞1层": #骷髅两个字不识别
+            get_exp_by_random_fly()
         return
     if not game_controller.active_pet():
         print('当前没有宠物')
@@ -159,7 +257,6 @@ def start_get_exp():
             print('虽然有宝宝了，再用一下召唤宝宝，为了初始化globals.skill_dog_pos')
             game_controller.cast_dog()
 
-    map_name = game_controller.read_map_name()
     if map_name == "盟重土城":
         print("当前位置，盟重土城")
         if globals.occupation == globals.Occupation.Taoist:
@@ -169,10 +266,12 @@ def start_get_exp():
             pet_max_HP = game_controller.get_pet_max_HP()
             print("pet_max_HP: {}".format(str(pet_max_HP)))
             if current_pet_max_HP < pet_max_HP:
-                move_controller.navigate_to_point((205,257), wait_till_max_lvl_max)
+                move_controller.navigate_to_point((200,278), wait_till_max_lvl_max)
             else:
                 go_back_town_and_fly()
         return
+    elif map_name == "洞1层": #骷髅两个字不识别
+        get_exp_by_random_fly()
 
     cave_path = game_controller.get_map_path(map_name)
     if len(cave_path) == 0:

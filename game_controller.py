@@ -744,9 +744,6 @@ def click_confirm_drop():
     point = utils.convert_point((938, 616), (1664, 936))
     adb_controller.click(point)
 
-def click_arrange_bag():
-    point = utils.convert_point((1590, 714), (1664, 936))
-    adb_controller.click(point)
 
 def click_cancel_select():
     point = utils.convert_point((1080, 840), (1664, 936))
@@ -1009,19 +1006,13 @@ def is_monster_nearby():
         return True
 
 
-def is_bag_full():
+def get_bag_remain_capacity():
     open_bag()
     time.sleep(0.5)
-
-    is_bag_full = False
     result = read_bag_remain_capacity()
-    if result < 6:
-        is_bag_full = True
-
     click_left_return()
     click_right_return()
-
-    return is_bag_full
+    return result
 
 
 def read_pet_HP():
@@ -1231,6 +1222,9 @@ def cast_poison():
     if globals.skill_poison_pos != None:
         adb_controller.click(globals.skill_poison_pos)
 
+    # 技能后摇1秒
+    time.sleep(1)
+
 
 def cast_talisman():
     if globals.skill_talisman_pos == None:
@@ -1356,6 +1350,16 @@ def cast_back_town():
         adb_controller.click(globals.skill_back_town)
 
 
+def cast_random_fly():
+    if globals.skill_random_fly == None:
+        match_loc = image_processor.match_template(
+            settings.screenshot_path,r"template_images/btn_random_fly.png",0.05,get_skill_scope())
+        if(match_loc != None):
+            globals.skill_random_fly = match_loc
+    if globals.skill_random_fly != None:
+        adb_controller.click(globals.skill_random_fly)
+
+
 #点击屏幕，消除省电模式（不管有没有）
 def click_center_of_screen():
     point = utils.convert_point((832, 468), (1664, 936))
@@ -1392,12 +1396,12 @@ def click_npc_meng_zhong_lao_bing():
     return False
 
 
-def click_yellow_text_chuan_song():
+def click_yellow_menu(text):
     # 坐标颜色黄色参数
     lower_color = [0,102,185]
     upper_color = [29,253,255]
 
-    match_scope = (420,475,80,400)
+    match_scope = (62,788,72,718)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
@@ -1406,8 +1410,8 @@ def click_yellow_text_chuan_song():
         for result in results:
             name_rate = result[1] #('43', 0.99934321641922)
             name = name_rate[0] #'43'
-            if "传送" in name:
-                # print("result: {}".format(str(result)))
+            # print("name: {}".format(str(name)))
+            if text in name:
                 corners = result[0]
                 center = utils.get_center_of_corners(corners)
                 adb_controller.click(center)
@@ -1415,13 +1419,13 @@ def click_yellow_text_chuan_song():
     return False
 
 
-# 点击僵尸洞传送
-def click_transfer_zombie_cave():
+# 点击洞穴传送
+def click_transfer_cave(cave_name):
     # 米色参数
     lower_color = [0,0,212]
     upper_color = [179,255,255]
 
-    match_scope = (287,342,1124,1289)
+    match_scope = (284,608,966,1618)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
@@ -1430,7 +1434,11 @@ def click_transfer_zombie_cave():
         for result in results:
             name_rate = result[1] #('43', 0.99934321641922)
             name = name_rate[0] #'43'
-            if "废矿入口" in name:
+            # print("name: {}".format(str(name)))
+            # 骷髅两个字识别不出来
+            if cave_name == "骷髅洞":
+                cave_name = "洞"
+            if cave_name == name:
                 # print("result: {}".format(str(result)))
                 corners = result[0]
                 center = utils.get_center_of_corners(corners)
@@ -1464,4 +1472,84 @@ def click_msg_box(text, is_green=False):
                 center = utils.get_center_of_corners(corners)
                 adb_controller.click(center)
                 return True
+    return False
+
+
+# 点击右侧菜单
+def click_menu(text, match_scope):
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope)
+    for idx in range(len(resultss)):
+        results = resultss[idx]
+        for result in results:
+            name_rate = result[1] #('43', 0.99934321641922)
+            name = name_rate[0] #'43'
+            # print("name: {}".format(str(name)))
+            if text in name:
+                corners = result[0]
+                center = utils.get_center_of_corners(corners)
+                adb_controller.click(center)
+                return True
+    return False
+
+# 点击右侧菜单（商店、仓库、寄售、更多、出售、整理）
+def click_right_menu(text):
+    match_scope = (146,760,1542,1632)
+    return click_menu(text, match_scope)
+
+# 点击左侧菜单（药品、杂货、服装、武器、首饰、书籍、绑C、绑金）
+def click_left_menu(text):
+    match_scope = (38,660,22,138)
+    return click_menu(text, match_scope)
+
+# 点击商品菜单
+def click_item_menu(text):
+    match_scope = (36,688,180,428)
+    return click_menu(text, match_scope)
+
+# 点击购买
+def click_btn_buy():
+    match_scope = (798,864,426,546)
+    return click_menu("购买", match_scope)
+
+
+def read_current_page():
+    match_scope = (698,756,322,532)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope)
+    for idx in range(len(resultss)):
+        results = resultss[idx]
+        for result in results:
+            rec = result[1] #('43', 0.99934321641922)
+            res = rec[0] #'43'
+            print("page: {}".format(str(res)))
+            if "/" in res:
+                splits = res.split('/')
+                if len(splits) == 2:
+                    return splits
+    return None
+
+
+def click_btn(btn_name):
+    path = "{}{}.png".format("template_images/", btn_name)
+    match_loc = image_processor.match_template(
+        settings.screenshot_path, path, 0.05)
+    if(match_loc != None):
+        adb_controller.click(match_loc)
+        return True
+    return False
+
+
+def wipe_down_npc_dialog_menu():
+    pos = (680, 500)
+    adb_controller.swipe((pos[0], pos[1] + 80), (pos[0], pos[1] - 80), 200)
+
+
+def template_exist(template_name):
+    path = "{}{}.png".format("template_images/", template_name)
+    match_loc = image_processor.match_template(
+        settings.screenshot_path, path, 0.05)
+    if(match_loc != None):
+        return True
     return False

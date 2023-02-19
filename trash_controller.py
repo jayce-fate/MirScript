@@ -90,7 +90,7 @@ def drop_trashes(neen_open_close_bag = True):
         time.sleep(0.5)
 
     game_controller.wipe_down_bag()
-    game_controller.click_arrange_bag()
+    game_controller.click_right_menu("整理")
     time.sleep(2.0)
     drop_trashes_loop()
 
@@ -198,3 +198,42 @@ def collect_ground_treasures():
 
     print("collect_count：" + str(collect_count))
     return collect_count
+
+
+def perform_buy(item_list):
+    for key, value in item_list.items():
+        print(key, '->', value)
+        if game_controller.click_item_menu(key):
+            for idx in range(value):
+                game_controller.click_btn_buy()
+
+
+def buy_items(item_list, neen_open_close_bag = True):
+    if neen_open_close_bag:
+        game_controller.open_bag()
+        time.sleep(0.5)
+
+    adb_controller.screenshot(settings.screenshot_path)
+    game_controller.click_right_menu("商店")
+    time.sleep(0.5)
+    adb_controller.screenshot(settings.screenshot_path)
+    game_controller.click_left_menu("绑金")
+    adb_controller.screenshot(settings.screenshot_path)
+
+    perform_buy(item_list)
+    current_page = game_controller.read_current_page()
+    if current_page != None:
+        current_index = int(current_page[0])
+        max_index = int(current_page[1])
+        if current_index == 1:
+            game_controller.click_btn("btn_page_right")
+        else:
+            game_controller.click_btn("btn_page_left")
+        time.sleep(0.5)
+
+    adb_controller.screenshot(settings.screenshot_path)
+    perform_buy(item_list)
+
+    if neen_open_close_bag:
+        game_controller.click_left_return()
+        game_controller.click_right_return()
