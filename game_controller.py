@@ -748,6 +748,10 @@ def click_arrange_bag():
     point = utils.convert_point((1590, 714), (1664, 936))
     adb_controller.click(point)
 
+def click_cancel_select():
+    point = utils.convert_point((1080, 840), (1664, 936))
+    adb_controller.click(point)
+
 def click_left_return():
     print("click_left_return")
     point = utils.convert_point((59, 872), (1664, 936))
@@ -911,6 +915,7 @@ def drink_item(item_name):
         settings.screenshot_path,item_template,0.05)
     if(match_loc != None):
         adb_controller.double_click(match_loc)
+        click_cancel_select()
         return True
     return False
 
@@ -925,6 +930,7 @@ def batch_drink_item(item_name):
         match_loc = match_locs[idx]
         adb_controller.double_click(match_loc)
     if(len(match_locs) != 0):
+        click_cancel_select()
         return True
     return False
 

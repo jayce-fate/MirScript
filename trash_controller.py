@@ -99,6 +99,23 @@ def drop_trashes(neen_open_close_bag = True):
         game_controller.click_right_return()
 
 
+def drop_binding_trashes(neen_open_close_bag = True):
+    if neen_open_close_bag:
+        game_controller.open_bag()
+        time.sleep(0.5)
+
+    trash_list = settings.binding_trash_list
+    list_len = len(trash_list)
+    for index in range(0, list_len):
+        trash_name = trash_list[index]
+        print("trash_name: {}".format(str(trash_name)))
+        loop_drop_one_item(trash_name, force_drop = True)
+
+    if neen_open_close_bag:
+        game_controller.click_left_return()
+        game_controller.click_right_return()
+
+
 def try_get_bag_space(space_need):
     if space_need > 0:
         game_controller.open_bag()

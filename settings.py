@@ -154,3 +154,13 @@ ground_green_trash_list = [
                 "白色虎齿项链",
                 "珊瑚戒指",
                 ]
+
+# 绑定的垃圾
+binding_trash_list = [
+                "tie_jian",                 #铁剑
+                "qing_xing_kui_jia_nan",    #轻型盔甲男
+                "qing_xing_kui_jia_nv",     #轻型盔甲女
+                "wu_mu_jian",               #乌木剑
+                "bu_yi_nv",                 #布衣女
+                "bo_li_jie_zhi",            #玻璃戒指
+                ]

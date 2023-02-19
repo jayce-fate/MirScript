@@ -72,7 +72,6 @@ def routine_lvl_one():
     game_controller.open_bag()
     time.sleep(0.5)
     game_controller.drink_item("bu_yi_nv")
-    game_controller.click_arrange_bag()
     game_controller.drink_item("wu_mu_jian")
     game_controller.click_left_return()
     game_controller.click_right_return()
@@ -88,14 +87,9 @@ def routine_lvl_seven():
         game_controller.open_bag()
         time.sleep(0.5)
         game_controller.drink_item("jun_xiang")
-        game_controller.click_arrange_bag()
         game_controller.drink_item("ji_neng_shu")
-        game_controller.click_arrange_bag()
         game_controller.drink_item("tie_jian")
-        game_controller.click_arrange_bag()
-        if game_controller.drink_item("bo_li_jie_zhi"):
-            game_controller.click_arrange_bag()
-            game_controller.drink_item("bo_li_jie_zhi")
+        game_controller.batch_drink_item("bo_li_jie_zhi")
 
         game_controller.click_left_return()
         game_controller.click_right_return()
@@ -121,20 +115,13 @@ def routine_lvl_fifteen():
         game_controller.open_bag()
         time.sleep(0.5)
         game_controller.drink_item("jun_xiang")
-        game_controller.click_arrange_bag()
         game_controller.batch_drink_item("ji_neng_shu")
-            game_controller.click_arrange_bag()
         game_controller.drink_item("ban_yue_wan_dao")
-        game_controller.click_arrange_bag()
         game_controller.drink_item("da_shou_zhuo")
-        game_controller.click_arrange_bag()
         game_controller.drink_item("zhen_zhu_jie_zhi")
-        game_controller.click_arrange_bag()
-        if game_controller.drink_item("qing_xing_kui_jia_nv"):
-            game_controller.click_arrange_bag()
-        else:
+        if not game_controller.drink_item("qing_xing_kui_jia_nv"):
             game_controller.drink_item("qing_xing_kui_jia_nan")
-            game_controller.click_arrange_bag()
+        trash_controller.drop_binding_trashes(False)
         game_controller.click_left_return()
         game_controller.click_right_return()
 
