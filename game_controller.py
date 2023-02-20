@@ -394,6 +394,8 @@ def click_sure_btn():
     if(match_loc != None):
         print("检测到弹框确定按钮，自动关闭...." + str(match_loc))
         adb_controller.click(match_loc)
+        return True
+    return False
 
 
 def click_scope(scope):
@@ -1031,7 +1033,7 @@ def read_pet_HP():
             res = rec[0] #'43'
             res = re.sub(u"([^\u0030-\u0039\u002f])", "", res)
             print("宝宝血量: {}".format(str(res)))
-            if res == "480480" or res == "4807480":
+            if res == "480480" or res == "4807480" or res == "1480480" or res == "14801480" or res == "4804801":
                 res = "480/480"
             elif res == "24002400" or res == "240072400":
                 res = "2400/2400"
@@ -1557,3 +1559,11 @@ def template_exist(template_name):
     if(match_loc != None):
         return True
     return False
+
+
+def open_bag_and_drink(item_name):
+    open_bag()
+    time.sleep(0.5)
+    drink_item(item_name)
+    click_left_return()
+    click_right_return()

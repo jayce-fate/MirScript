@@ -41,9 +41,13 @@ def go_back_town_and_fly():
 
 def fly_to_exp_map():
     print("fly_to_exp_map")
+    while game_controller.click_sure_btn():
+        adb_controller.screenshot(settings.screenshot_path)
+
     #补给
+    buy_supplies()
+
     #如果<29且是道士检查是否学习隐身术，否者买一本
-    adb_controller.screenshot(settings.screenshot_path)
     game_controller.click_npc_meng_zhong_lao_bing()
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
@@ -56,25 +60,25 @@ def fly_to_exp_map():
         game_controller.click_transfer_cave("废矿入口")
     else:
         game_controller.click_transfer_cave("废矿入口")
-    time.sleep(1.0)
+    time.sleep(2.0)
     adb_controller.screenshot(settings.screenshot_path)
+    map_name = game_controller.read_map_name()
     if globals.current_lvl < 17:
-        get_exp_by_random_fly()
+        if map_name == "洞1层":
+            get_exp_by_random_fly()
     elif globals.current_lvl <= 35:
-        go_to_east_waste_ore()
+        if map_name == "比奇矿区":
+            go_to_east_waste_ore()
     else:
-        go_to_east_waste_ore()
+        if map_name == "比奇矿区":
+            go_to_east_waste_ore()
 
 
 def get_exp_by_random_fly():
     print("get_exp_by_random_fly")
 
     #吃栗子
-    game_controller.open_bag()
-    time.sleep(0.5)
-    game_controller.drink_item("zhong_se_li_zi")
-    game_controller.click_left_return()
-    game_controller.click_right_return()
+    game_controller.open_bag_and_drink("zhong_se_li_zi")
 
     no_more_random_fly = 0
     while True:
@@ -94,27 +98,23 @@ def get_exp_by_random_fly():
                 if no_more_random_fly >= 2:
                     game_controller.click_sure_btn()
                     print("学习召唤骷髅")
-                    learn_skill_skeleton()
+                    adb_controller.screenshot(settings.screenshot_path)
+                    game_controller.open_bag_and_drink("ji_neng_shu")
                     adb_controller.screenshot(settings.screenshot_path)
                     game_controller.cast_back_town()
                     time.sleep(2.0)
                     go_back_town_and_fly()
                     break
 
-def learn_skill_skeleton():
-    game_controller.open_bag()
-    time.sleep(0.5)
-    game_controller.batch_drink_item("ji_neng_shu")
-    game_controller.click_left_return()
-    game_controller.click_right_return()
-
 
 # 去废矿东部
 def go_to_east_waste_ore():
+    print("go_to_east_waste_ore")
     move_controller.navigate_to_point((179,110), start)
 
 
 def routine_lvl_one():
+    print("routine_lvl_one")
     if game_controller.click_msg_box("如何移动", True):
         time.sleep(15)
         adb_controller.screenshot(settings.screenshot_path)
@@ -129,10 +129,12 @@ def routine_lvl_one():
         game_controller.cast_attack()
         adb_controller.screenshot(settings.screenshot_path)
     print("等级7")
-    game_controller.click_sure_btn()
+    while game_controller.click_sure_btn():
+        adb_controller.screenshot(settings.screenshot_path)
 
 
 def routine_lvl_seven():
+    print("routine_lvl_seven")
     if globals.current_lvl == 7:
         game_controller.open_bag()
         time.sleep(0.5)
@@ -161,7 +163,11 @@ def routine_lvl_seven():
 
 
 def routine_lvl_fifteen():
-    if globals.current_lvl == 15:
+    print("routine_lvl_fifteen")
+    while game_controller.click_sure_btn():
+        adb_controller.screenshot(settings.screenshot_path)
+
+    if globals.current_lvl == 15 and game_controller.get_bag_remain_capacity() > 32:
         # 穿装备，学技能
         game_controller.open_bag()
         time.sleep(0.5)
@@ -178,19 +184,22 @@ def routine_lvl_fifteen():
         game_controller.click_left_return()
         game_controller.click_right_return()
 
-        go_back_town_and_get_subsidy()
-        if game_controller.get_bag_remain_capacity() > 32:
-            buy_supplies()
+    go_back_town_and_get_subsidy()
+    buy_supplies()
 
-        fly_to_exp_map()
+    fly_to_exp_map()
 
 
 def go_back_town_and_get_subsidy():
+    print("go_back_town_and_get_subsidy")
     # 回城
     move_controller.navigate_to_point((338,338), get_subsidy)
 
 
 def get_subsidy():
+    print("get_subsidy")
+    while game_controller.click_sure_btn():
+        adb_controller.screenshot(settings.screenshot_path)
     #领取低保
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.click_npc_meng_zhong_lao_bing()
@@ -203,20 +212,22 @@ def get_subsidy():
 
 
 def buy_supplies():
-    item_list = {
-      "超级魔法药": 6,
-      "超级金疮药": 6,
-      "随机传送卷包": 6,
-      "地牢逃脱卷": 1,
-      "棕色栗子": 1,
-      "黄色药粉(中)": 2,
-      "灰色药粉(中)": 2,
-      "护身符(大)": 4,
-    }
-    trash_controller.buy_items(item_list, False)
+    print("buy_supplies")
+    while game_controller.click_sure_btn():
+        adb_controller.screenshot(settings.screenshot_path)
 
-    game_controller.click_left_return()
-    game_controller.click_right_return()
+    if game_controller.get_bag_remain_capacity() > 32:
+        item_list = {
+          "超级魔法药": 6,
+          "超级金疮药": 3,
+          "随机传送卷包": 9,
+          "地牢逃脱卷": 1,
+          "棕色栗子": 1,
+          "黄色药粉(中)": 2,
+          "灰色药粉(中)": 2,
+          "护身符(大)": 4,
+        }
+        trash_controller.buy_items(item_list)
 
 
 def start_get_exp():
@@ -272,6 +283,10 @@ def start_get_exp():
         return
     elif map_name == "洞1层": #骷髅两个字不识别
         get_exp_by_random_fly()
+        return
+    elif map_name == "比奇矿区":
+        go_to_east_waste_ore()
+        return
 
     cave_path = game_controller.get_map_path(map_name)
     if len(cave_path) == 0:

@@ -23,7 +23,8 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-game_controller.click_transfer_cave("骷髅洞")
+exp_controller.learn_skill()
+# game_controller.click_transfer_cave("骷髅洞")
 # exp_controller.fly_to_exp_map()
 # item_list = {
 #   "超级金创药": 6,
