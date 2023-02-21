@@ -18,7 +18,8 @@ adb_path = "adb"
 # device_address = "127.0.0.1:62001"
 # device_address = "127.0.0.1:7555"
 # device_address = "127.0.0.1:8555"
-device_address = "127.0.0.1:8556"
+# device_address = "127.0.0.1:8556"
+device_address = "127.0.0.1:8559"
 
 # 包名
 package_name = "air.com.PaladinOfMarphaNew"

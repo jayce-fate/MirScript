@@ -41,13 +41,24 @@ def go_back_town_and_fly():
 
 def fly_to_exp_map():
     print("fly_to_exp_map")
+    adb_controller.screenshot(settings.screenshot_path)
     while game_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
     #补给
     buy_supplies()
+    adb_controller.screenshot(settings.screenshot_path)
 
-    #如果<29且是道士检查是否学习隐身术，否者买一本
+    #道士检查是否学习隐身术，否者买一本
+    if globals.occupation == globals.Occupation.Taoist and globals.current_lvl >= 20 and globals.current_lvl <= 25:
+        if not game_controller.cast_invisible():
+            item_list = {
+              "隐身术": 1,
+            }
+            trash_controller.buy_books(item_list)
+            adb_controller.screenshot(settings.screenshot_path)
+            game_controller.open_bag_and_drink("ji_neng_shu")
+
     game_controller.click_npc_meng_zhong_lao_bing()
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
@@ -60,7 +71,10 @@ def fly_to_exp_map():
         game_controller.click_transfer_cave("废矿入口")
     else:
         game_controller.click_transfer_cave("废矿入口")
-    time.sleep(2.0)
+
+    adb_controller.screenshot(settings.screenshot_path)
+    game_controller.click_btn_confirm_transform()
+    time.sleep(3.0)
     adb_controller.screenshot(settings.screenshot_path)
     map_name = game_controller.read_map_name()
     if globals.current_lvl < 17:
@@ -183,6 +197,7 @@ def routine_lvl_fifteen():
         trash_controller.drop_binding_trashes(False)
         game_controller.click_left_return()
         game_controller.click_right_return()
+        time.sleep(1.0)
 
     go_back_town_and_get_subsidy()
     buy_supplies()
@@ -213,6 +228,7 @@ def get_subsidy():
 
 def buy_supplies():
     print("buy_supplies")
+    adb_controller.screenshot(settings.screenshot_path)
     while game_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
@@ -228,7 +244,6 @@ def buy_supplies():
           "护身符(大)": 4,
         }
         trash_controller.buy_items(item_list)
-
 
 def start_get_exp():
     print("开始练级")

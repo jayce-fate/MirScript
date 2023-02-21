@@ -25,3 +25,4 @@ https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2038
 "C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_2" --natpf1 "myadb,tcp,,8556,,5555
 "C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_3" --natpf1 "myadb,tcp,,8557,,5555
 "C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_4" --natpf1 "myadb,tcp,,8558,,5555
+"C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_2_1" --natpf1 "myadb,tcp,,8559,,5555

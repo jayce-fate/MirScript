@@ -23,7 +23,7 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-exp_controller.learn_skill()
+game_controller.click_npc_meng_zhong_lao_bing()
 # game_controller.click_transfer_cave("骷髅洞")
 # exp_controller.fly_to_exp_map()
 # item_list = {

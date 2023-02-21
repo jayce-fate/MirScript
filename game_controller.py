@@ -1217,7 +1217,8 @@ def cast_invisible():
             globals.skill_invisible_pos = match_loc
     if globals.skill_invisible_pos != None:
         adb_controller.click(globals.skill_invisible_pos)
-
+        return True
+    return False
 
 def cast_poison():
     if globals.skill_poison_pos == None:
@@ -1374,6 +1375,8 @@ def click_center_of_screen():
 
 #点击盟重老兵
 def click_npc_meng_zhong_lao_bing():
+    print("click_npc_meng_zhong_lao_bing")
+    adb_controller.screenshot(settings.screenshot_path)
     # 坐标颜色绿色参数
     lower_color = [35,43,46]
     upper_color = [75,255,255]
@@ -1393,6 +1396,7 @@ def click_npc_meng_zhong_lao_bing():
         for result in results:
             name_rate = result[1] #('43', 0.99934321641922)
             name = name_rate[0] #'43'
+            print("name: {}".format(str(name)))
             if "老兵" in name:
                 print("result: {}".format(str(result)))
                 corners = result[0]
@@ -1491,7 +1495,7 @@ def click_menu(text, match_scope):
         for result in results:
             name_rate = result[1] #('43', 0.99934321641922)
             name = name_rate[0] #'43'
-            # print("name: {}".format(str(name)))
+            print("name: {}".format(str(name)))
             if text in name:
                 corners = result[0]
                 center = utils.get_center_of_corners(corners)
@@ -1518,6 +1522,12 @@ def click_item_menu(text):
 def click_btn_buy():
     match_scope = (798,864,426,546)
     return click_menu("购买", match_scope)
+
+
+# 点击“依然传送”
+def click_btn_confirm_transform():
+    match_scope = (582,650,908,1166)
+    return click_menu("依然传送", match_scope)
 
 
 def read_current_page():
