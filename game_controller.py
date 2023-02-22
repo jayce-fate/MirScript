@@ -1034,11 +1034,16 @@ def read_pet_HP():
             rec = result[1] #('43', 0.99934321641922)
             res = rec[0] #'43'
             res = re.sub(u"([^\u0030-\u0039\u002f])", "", res)
-            print("宝宝血量: {}".format(str(res)))
-            if res == "480480" or res == "4807480" or res == "1480480" or res == "14801480" or res == "4804801":
-                res = "480/480"
-            elif res == "24002400" or res == "240072400":
-                res = "2400/2400"
+            print("宝宝血量原始: {}".format(str(res)))
+            if "2400" in res:
+                tmp = res.replace("2400", "")
+                if "2400" in tmp:
+                    res = "2400/2400"
+            elif "480" in res:
+                tmp = res.replace("480", "")
+                if "480" in tmp:
+                    res = "480/480"
+            print("宝宝血量修正后: {}".format(str(res)))
             if "/" in res:
                 splits = res.split('/')
                 if len(splits) == 2:
