@@ -29,7 +29,9 @@ def wait_till_max_lvl_max():
 
     print("pet HP reach Max")
     #消除省电模式
-    game_controller.click_center_of_screen()
+    if game_controller.is_save_power_mode():
+        game_controller.click_center_of_screen()
+
     adb_controller.screenshot(settings.screenshot_path)
     go_back_town_and_fly()
 
@@ -251,7 +253,9 @@ def start_get_exp():
     print("开始练级")
     adb_controller.connect()
     #消除省电模式
-    game_controller.click_center_of_screen()
+    if game_controller.is_save_power_mode():
+        game_controller.click_center_of_screen()
+
     adb_controller.screenshot(settings.screenshot_path)
     #获取职业
     game_controller.set_occupation()

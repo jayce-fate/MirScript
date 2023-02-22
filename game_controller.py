@@ -1584,3 +1584,22 @@ def open_bag_and_drink(item_name):
     drink_item(item_name)
     click_left_return()
     click_right_return()
+
+
+def is_save_power_mode():
+    adb_controller.screenshot(settings.screenshot_path)
+
+    match_scope = (440,500,560,1110)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope)
+    for idx in range(len(resultss)):
+        results = resultss[idx]
+        for result in results:
+            rec = result[1] #('43', 0.99934321641922)
+            res = rec[0] #'43'
+            if res != None:
+                print("省电文字: {}".format(str(res)))
+                if "省电" in res:
+                    return True
+
+    return False
