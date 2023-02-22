@@ -182,9 +182,11 @@ def read_lv_text():
     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
     result = get_first_result(resultss)
     if result != None:
-        print("当前等级: {}".format(str(result)))
+        print("当前等级1: {}".format(str(result)))
+        result = result.replace('.', ''); # 去掉小数点
         digit_array = re.findall(r'\d+', result)
         globals.current_lvl = int(digit_array[0])
+        print("globals.current_lvl: {}".format(str(globals.current_lvl)))
         return globals.current_lvl
     return -1
 

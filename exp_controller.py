@@ -117,7 +117,7 @@ def get_exp_by_random_fly():
                     adb_controller.screenshot(settings.screenshot_path)
                     game_controller.cast_back_town()
                     time.sleep(2.0)
-                    go_back_town_and_fly()
+                    start()
                     break
 
 
@@ -146,12 +146,14 @@ def routine_lvl_one():
     while game_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
+    routine_lvl_seven()
+
 
 def routine_lvl_seven():
     print("routine_lvl_seven")
     if globals.current_lvl == 7:
         game_controller.open_bag()
-        time.sleep(0.5)
+        time.sleep(1.0)
         game_controller.drink_item("jun_xiang")
         game_controller.batch_drink_item("ji_neng_shu")
         game_controller.drink_item("tie_jian")

@@ -218,6 +218,7 @@ def buy_items(item_list, neen_open_close_bag = True):
     time.sleep(0.5)
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.click_left_menu("绑金")
+    time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
 
     perform_buy(item_list)
@@ -236,6 +237,7 @@ def buy_items(item_list, neen_open_close_bag = True):
 
     if neen_open_close_bag:
         game_controller.click_left_return()
+        game_controller.click_left_return()
         game_controller.click_right_return()
 
 
@@ -249,6 +251,7 @@ def buy_books(item_list, neen_open_close_bag = True):
     time.sleep(0.5)
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.click_left_menu("书籍")
+    time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
 
     perform_buy(item_list)
