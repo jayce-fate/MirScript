@@ -296,15 +296,17 @@ def start_get_exp():
             print('虽然有宝宝了，再用一下召唤宝宝，为了初始化globals.skill_dog_pos')
             game_controller.cast_dog()
 
-    if map_name == "盟重土城":
+    if "盟重" in map_name:
         print("当前位置，盟重土城")
         if globals.occupation == globals.Occupation.Taoist:
             # 当前等级最大血量
             current_pet_max_HP = game_controller.get_pet_current_max_HP()
             # 可以达到的最大血量
             pet_max_HP = game_controller.get_pet_max_HP()
+            print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
             print("pet_max_HP: {}".format(str(pet_max_HP)))
-            if current_pet_max_HP < pet_max_HP:
+            if current_pet_max_HP != pet_max_HP:
+                print("current_pet_max_HP != pet_max_HP")
                 move_controller.navigate_to_point((200,278), wait_till_max_lvl_max)
             else:
                 go_back_town_and_fly()
@@ -406,20 +408,23 @@ def restart_routine(restart_emulator_adb = False):
     try:
         print("重启游戏")
 
-        if restart_emulator_adb:
-            adb_controller.restart_emulator()
-            time.sleep(30)
-
-            # mumu才重启adb
-            if settings.device_address == "emulator-5554":
-                adb_controller.restart_adb()
+        # win 下目前看不用重启模拟器和adb
+        # if restart_emulator_adb:
+        #     adb_controller.restart_emulator()
+        #     time.sleep(30)
+        #
+        #     # mumu才重启adb
+        #     if settings.device_address == "emulator-5554":
+        #         adb_controller.restart_adb()
 
         game_controller.restart_game()
         success = game_controller.wait_till_finish_login(120, 1)
         if success:
+            print("click login btn success")
             start()
         else:
-            game_controller.restart_game()
+            print("click login btn failed")
+            game_controller.restart_routine()
     except Exception as e:
         print('exception:', e)
         reason = e.args[0]

@@ -609,48 +609,38 @@ def move_by_path(path):
         globals.expect_current_pos = (to_pos[0], to_pos[1])
 
 
-def wait_till_match_any(template_path,threshold,max_time,step_time,scope = None):
-    print("Start to wait till match screenshot by any "+str(template_path)+" for up to "+str(max_time)+" seconds  ....")
+def wait_to_match_and_click(match_text,threshold,max_time,step_time,match_scope = None):
+    print("Start to wait till match text by "+str(match_text)+" for up to "+str(max_time)+" seconds  ....")
     time_start = time.time()
-    match_loc = None
+    click_success = False
     while(True):
-        adb_controller.screenshot(settings.screenshot_path)
-        match_loc = image_processor.match_template(
-            settings.screenshot_path,template_path,threshold,scope = scope)
-        if(match_loc != None):
-            return match_loc
+        if click_menu(match_text, match_scope):
+            click_success = True
+            break
         if(time.time() - time_start > max_time):
             print("Reach max_time but failed to match")
-            return None
+            break
         time.sleep(step_time)
-    return None
-
-
-def wait_to_match_and_click(template_path,threshold,max_time,step_time,scope = None):
-    match_loc = wait_till_match_any(template_path,threshold,max_time,step_time,scope = scope)
-    if(match_loc == None):
-        print("Cannot find "+str(template_path))
-        return False
-    adb_controller.click(match_loc)
-    return True
+    return click_success
 
 
 def restart_game():
+    print("restart_game")
     adb_controller.stop_app()
     adb_controller.start_app()
 
     #消除系统确定消息框
     click_sure_btn()
 
-    match_scope = (706,779,737,930)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
-    success = wait_to_match_and_click(r"template_images/btn_login.png",0.05,60,1,match_scope)
+    match_scope = (694,788,724,940)
+    success = wait_to_match_and_click("登录",0.05,60,1,match_scope)
     if not success:
         if settings.device_address == "127.0.0.1:62001":
             exp_controller.restart_routine(True)
         else:
             restart_game()
+    else:
+        print("重启成功")
 
 def reactive_pet():
     adb_controller.screenshot(settings.screenshot_path)
@@ -712,19 +702,21 @@ def active_pet():
 
 def wait_till_finish_login(max_time, step_time):
     time_start = time.time()
+    finish_login = False
     while(True):
         adb_controller.screenshot(settings.screenshot_path)
         lv_area_text = read_lv_area_text()
         if "Lv" in lv_area_text or "LV" in lv_area_text:
-            return True
+            finish_login = True
+            break
 
         if(time.time() - time_start > max_time):
             print("Reach max_time but failed to get Lv (finish login)")
-            return False
+            break
 
         time.sleep(step_time)
 
-    return False
+    return finish_login
 
 
 def open_bag():
@@ -1499,6 +1491,7 @@ def click_msg_box(text, is_green=False):
 
 # 点击右侧菜单
 def click_menu(text, match_scope):
+    adb_controller.screenshot(settings.screenshot_path)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope)
@@ -1540,6 +1533,12 @@ def click_btn_buy():
 def click_btn_confirm_transform():
     match_scope = (582,650,908,1166)
     return click_menu("依然传送", match_scope)
+
+
+# 点击“登录”
+def click_btn_login():
+    match_scope = (694,788,724,940)
+    return click_menu("登录", match_scope)
 
 
 def read_current_page():
