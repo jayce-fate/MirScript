@@ -44,7 +44,7 @@ go_back_check_time = 60
 move_bag_capacity_time = 600
 
 # 读取当前坐标失败，尝试重新读取最大次数
-read_coordinate_fail_limit = 30
+read_coordinate_fail_limit = 10
 
 # 最大尝试移动次数
 move_try_limit = 5

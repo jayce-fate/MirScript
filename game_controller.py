@@ -1036,11 +1036,11 @@ def read_pet_HP():
             res = re.sub(u"([^\u0030-\u0039\u002f])", "", res)
             print("宝宝血量原始: {}".format(str(res)))
             if "2400" in res:
-                tmp = res.replace("2400", "")
+                tmp = res.replace("2400", "", 1)
                 if "2400" in tmp:
                     res = "2400/2400"
             elif "480" in res:
-                tmp = res.replace("480", "")
+                tmp = res.replace("480", "", 1)
                 if "480" in tmp:
                     res = "480/480"
             print("宝宝血量修正后: {}".format(str(res)))
@@ -1364,14 +1364,19 @@ def cast_back_town():
         adb_controller.click(globals.skill_back_town)
 
 
-def cast_random_fly():
+# do_click==False,只检测存在，不点击
+def cast_random_fly(do_click=True):
     if globals.skill_random_fly == None:
         match_loc = image_processor.match_template(
             settings.screenshot_path,r"template_images/btn_random_fly.png",0.05,get_skill_scope())
         if(match_loc != None):
             globals.skill_random_fly = match_loc
     if globals.skill_random_fly != None:
-        adb_controller.click(globals.skill_random_fly)
+        if do_click:
+            adb_controller.click(globals.skill_random_fly)
+        return True
+    return False
+
 
 
 #点击屏幕，消除省电模式（不管有没有）
