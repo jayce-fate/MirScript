@@ -74,7 +74,6 @@ def fly_to_exp_map():
     else:
         game_controller.click_transfer_cave("废矿入口")
 
-    adb_controller.screenshot(settings.screenshot_path)
     game_controller.click_btn_confirm_transform()
     time.sleep(3.0)
     adb_controller.screenshot(settings.screenshot_path)
