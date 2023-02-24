@@ -157,6 +157,7 @@ def routine_lvl_one():
         game_controller.cast_attack()
         adb_controller.screenshot(settings.screenshot_path)
     print("等级7")
+    time.sleep(2.0)
     while game_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
@@ -251,7 +252,7 @@ def buy_supplies():
     if game_controller.get_bag_remain_capacity() > 32:
         item_list = {
           "超级魔法药": 6,
-          "超级金疮药": 3,
+          "超级金创药": 3,
           "随机传送卷包": 9,
           "地牢逃脱卷": 1,
           "棕色栗子": 1,
@@ -440,7 +441,7 @@ def restart_routine(restart_emulator_adb = False):
             start()
         else:
             print("click login btn failed")
-            game_controller.restart_routine()
+            restart_routine()
     except Exception as e:
         print('exception:', e)
         reason = e.args[0]

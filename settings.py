@@ -141,11 +141,11 @@ trash_list_force_drop = [
 
 # 直接喝
 trash_list_drink = [
-                "qiang_xiao_jin_chuang_yao",    #强效金疮药
+                "qiang_xiao_jin_chuang_yao",    #强效金创药
                 "qiang_xiao_mo_fa_yao",         #强效魔法药
                 "mo_fa_yao_zhong_liang",        #魔法药中量
                 "tai_yang_shui",                #太阳水
-                "jin_chuang_yao_zhong_liang",   #金疮药中量
+                "jin_chuang_yao_zhong_liang",   #金创药中量
                 "biao_yin",                     #镖银
                 ]
 

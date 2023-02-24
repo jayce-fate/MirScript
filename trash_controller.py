@@ -74,7 +74,7 @@ def drop_trashes_loop():
     if globals.occupation == globals.Occupation.Taoist:
         if "qiang_xiao_mo_fa_yao" in trash_list:
             trash_list.remove("qiang_xiao_mo_fa_yao")
-    # 道士不扔强效金疮药
+    # 道士不扔强效金创药
     elif globals.occupation == globals.Occupation.Magician:
         if "qiang_xiao_jin_chuang_yao" in trash_list:
             trash_list.remove("qiang_xiao_jin_chuang_yao")

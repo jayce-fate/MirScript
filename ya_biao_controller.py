@@ -98,6 +98,10 @@ def go_to_lu_lao_ban():
     current_path_index = cave_path.index(next_pos)
 
     while True:
+        # 消除提示框
+        while game_controller.click_sure_btn():
+            adb_controller.screenshot(settings.screenshot_path)
+
         path = path_controller.find_path(globals.current_pos, next_pos)
         move_controller.step_go_by_path(path)
 
