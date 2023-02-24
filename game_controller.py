@@ -1411,6 +1411,7 @@ def click_npc_meng_zhong_lao_bing():
 
 
 def click_yellow_menu(text):
+    print("click_yellow_menu: {}".format(str(text)))
     # 坐标颜色黄色参数
     lower_color = [0,102,185]
     upper_color = [29,253,255]
@@ -1435,6 +1436,7 @@ def click_yellow_menu(text):
 
 # 点击洞穴传送
 def click_transfer_cave(cave_name):
+    print("click_transfer_cave: {}".format(str(cave_name)))
     # 米色参数
     lower_color = [0,0,212]
     upper_color = [179,255,255]
@@ -1448,7 +1450,7 @@ def click_transfer_cave(cave_name):
         for result in results:
             name_rate = result[1] #('43', 0.99934321641922)
             name = name_rate[0] #'43'
-            # print("name: {}".format(str(name)))
+            print("cave name: {}".format(str(name)))
             # 骷髅两个字识别不出来
             if cave_name == "骷髅洞":
                 cave_name = "洞"
@@ -1569,6 +1571,7 @@ def click_btn(btn_name):
 
 
 def wipe_down_npc_dialog_menu():
+    print("wipe_down_npc_dialog_menu")
     pos = (680, 500)
     adb_controller.swipe((pos[0], pos[1] + 80), (pos[0], pos[1] - 80), 200)
 

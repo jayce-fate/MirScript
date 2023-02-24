@@ -81,12 +81,18 @@ def fly_to_exp_map():
     if globals.current_lvl < 17:
         if map_name == "洞1层":
             get_exp_by_random_fly()
-    elif globals.current_lvl <= 35:
+        else:
+            start()
+    elif globals.current_lvl < 35:
         if map_name == "比奇矿区":
             go_to_east_waste_ore()
+        else:
+            start()
     else:
         if map_name == "比奇矿区":
             go_to_east_waste_ore()
+        else:
+            start()
 
 
 def get_exp_by_random_fly():
