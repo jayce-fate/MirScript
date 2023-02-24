@@ -19,11 +19,17 @@ import trash_controller
 def wait_till_max_lvl_max():
     print("wait_till_max_lvl_max")
     game_controller.reactive_pet()
+    # 当前等级最大血量
     current_pet_max_HP = game_controller.get_pet_current_max_HP()
     # 可以达到的最大血量
     pet_max_HP = game_controller.get_pet_max_HP()
-    while current_pet_max_HP < pet_max_HP:
+    print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
+    print("pet_max_HP: {}".format(str(pet_max_HP)))
+    while current_pet_max_HP != pet_max_HP:
         time.sleep(10)
+        # 消除确认框，比如游戏断开，活动提醒
+        while game_controller.click_sure_btn():
+            adb_controller.screenshot(settings.screenshot_path)
         current_pet_max_HP = game_controller.get_pet_current_max_HP()
         pet_max_HP = game_controller.get_pet_max_HP()
 
@@ -31,8 +37,8 @@ def wait_till_max_lvl_max():
     #消除省电模式
     if game_controller.is_save_power_mode():
         game_controller.click_center_of_screen()
+        adb_controller.screenshot(settings.screenshot_path)
 
-    adb_controller.screenshot(settings.screenshot_path)
     go_back_town_and_fly()
 
 
@@ -117,7 +123,8 @@ def get_exp_by_random_fly():
                 if pos_before_fly == pos_after_fly:
                     no_more_random_fly = no_more_random_fly + 1
                 if no_more_random_fly >= 2:
-                    game_controller.click_sure_btn()
+                    while game_controller.click_sure_btn():
+                        adb_controller.screenshot(settings.screenshot_path)
                     print("学习召唤骷髅")
                     adb_controller.screenshot(settings.screenshot_path)
                     game_controller.open_bag_and_drink("ji_neng_shu")
@@ -356,7 +363,8 @@ def start_get_exp():
                 trash_controller.try_get_bag_space(1)
 
         #消除系统确定消息框
-        game_controller.click_sure_btn()
+        while game_controller.click_sure_btn():
+            adb_controller.screenshot(settings.screenshot_path)
         #检测断开消息框
         if game_controller.connection_lose():
             print("断开")
