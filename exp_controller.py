@@ -325,7 +325,10 @@ def start_get_exp():
 
     cave_path = game_controller.get_map_path(map_name)
     if len(cave_path) == 0:
-        print("程序结束")
+        print("地图数据为空，回城重来")
+        game_controller.cast_back_town()
+        time.sleep(3.0)
+        start()
         return
 
     path_controller.set_map_data()
