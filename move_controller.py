@@ -297,11 +297,11 @@ def get_current_coordinate_after_adjust():
 
 # 使用地图寻路
 def navigate_to_point(target_pos, callback = None):
-    map_name = game_controller.read_map_name()
     #消除系统确定消息框
     while game_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
+    map_name = game_controller.read_map_name()
     game_controller.click_map()
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
@@ -351,6 +351,8 @@ def navigate_to_point(target_pos, callback = None):
                 callback()
             break
 
-def go_to_town():
+def go_back_town_and_stay():
     game_controller.cast_back_town()
+    time.sleep(3.0)
+    adb_controller.screenshot(settings.screenshot_path)
     navigate_to_point((338,338))

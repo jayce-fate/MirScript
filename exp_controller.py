@@ -463,8 +463,8 @@ def start():
             restart_routine()
         elif reason == "NeedGetMaster":
             print("到达必须拜师等级，停止程序")
-            # 回城
-            move_controller.go_to_town()
+            # 回城站着
+            move_controller.go_back_town_and_stay()
         elif "NoneType" in reason:
             print("adb 可能断开")
             restart_routine(True)
