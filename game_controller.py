@@ -824,6 +824,12 @@ def is_contains_chinese(strs):
 def check_ground_items(need_screenshot = True):
     if need_screenshot:
         adb_controller.screenshot(settings.screenshot_path)
+
+    #地图名称,如果是"盟重土城"，就重启，防止认为npc是绿色物品，死循环
+    map_name = game_controller.read_map_name()
+    if map_name == "盟重土城":
+        raise Exception("RESTART")
+
     coords = []
     # 底色绿色文字物品
     lower_color = [35,43,46]
