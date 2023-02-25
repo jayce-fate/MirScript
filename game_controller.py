@@ -706,7 +706,7 @@ def wait_till_finish_login(max_time, step_time):
     while(True):
         adb_controller.screenshot(settings.screenshot_path)
         lv_area_text = read_lv_area_text()
-        if "Lv" in lv_area_text or "LV" in lv_area_text or "v." in lv_area_text:
+        if "Lv" in lv_area_text or "LV" in lv_area_text or "v." in lv_area_text or "V." in lv_area_text:
             finish_login = True
             break
 

@@ -251,7 +251,7 @@ def buy_supplies():
 
     if game_controller.get_bag_remain_capacity() > 32:
         item_list = {
-          "超级魔法药": 6,
+          "超级魔法药": 7,
           "超级金创药": 3,
           "随机传送卷包": 9,
           "地牢逃脱卷": 1,
