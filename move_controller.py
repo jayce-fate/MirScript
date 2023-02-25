@@ -53,9 +53,10 @@ def step_go_by_path(step_path):
                     step_path = path_controller.find_path(globals.current_pos, target_pos)
                     if len(step_path) == 0:
                         print("未找{}到{}的路径, 重置地图数据".format(str(globals.current_pos), str(target_pos)))
-                        path_controller.set_map_data()
-                        block_point_cache = []
-                        step_path = path_controller.find_path(globals.current_pos, target_pos)
+                        # path_controller.set_map_data()
+                        # block_point_cache = []
+                        # step_path = path_controller.find_path(globals.current_pos, target_pos)
+                        raise Exception("RESTART")
                 else:
                     block_point_cache.append(next_pos)
 
@@ -97,10 +98,11 @@ def go_to_next_point(cave_path):
 
     if len(path) == 0:
         print("未找{}到{}的路径, 重置地图数据".format(str(globals.current_pos), str(target_pos)))
-        path_controller.set_map_data()
-        global block_point_cache
-        block_point_cache = []
-        path = path_controller.find_path(globals.current_pos, target_pos)
+        # path_controller.set_map_data()
+        # global block_point_cache
+        # block_point_cache = []
+        # path = path_controller.find_path(globals.current_pos, target_pos)
+        raise Exception("RESTART")
 
     step_go_by_path(path)
 
@@ -127,10 +129,11 @@ def go_to_previous_point(cave_path):
 
     if len(path) == 0:
         print("未找{}到{}的路径, 重置地图数据".format(str(globals.current_pos), str(target_pos)))
-        path_controller.set_map_data()
-        global block_point_cache
-        block_point_cache = []
-        path = path_controller.find_path(globals.current_pos, target_pos)
+        # path_controller.set_map_data()
+        # global block_point_cache
+        # block_point_cache = []
+        # path = path_controller.find_path(globals.current_pos, target_pos)
+        raise Exception("RESTART")
 
     step_go_by_path(path)
 
