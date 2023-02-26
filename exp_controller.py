@@ -138,7 +138,7 @@ def get_exp_by_random_fly():
 # 去废矿东部
 def go_to_east_waste_ore():
     print("go_to_east_waste_ore")
-    move_controller.navigate_to_point((179,110), start)
+    move_controller.navigate_to_point((179,110), start, game_controller.cast_invisible)
 
 
 def routine_lvl_one():
