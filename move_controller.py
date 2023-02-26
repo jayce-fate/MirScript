@@ -14,6 +14,7 @@ import adb_controller
 import game_controller
 import path_controller
 import skill_controller
+import btn_controller
 
 block_point_cache = []
 
@@ -394,22 +395,22 @@ def get_current_coordinate_after_adjust():
 # 使用地图寻路
 def navigate_to_point(target_pos, callback = None, callback1 = None):
     #消除系统确定消息框
-    while game_controller.click_sure_btn():
+    while btn_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
     map_name = game_controller.read_map_name()
-    game_controller.click_map()
+    btn_controller.click_map()
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
-    game_controller.click_map_aim()
-    game_controller.click_map_input()
-    game_controller.click_map_input()
-    game_controller.click_map_clear()
+    btn_controller.click_map_aim()
+    btn_controller.click_map_input()
+    btn_controller.click_map_input()
+    btn_controller.click_map_clear()
     point_str = "{},{}".format(target_pos[0], target_pos[1])
     adb_controller.input_text(point_str)
-    game_controller.click_map_edit_confirm()
-    game_controller.click_map_input_confirm()
-    game_controller.click_xun_lu()
+    btn_controller.click_map_edit_confirm()
+    btn_controller.click_map_input_confirm()
+    btn_controller.click_xun_lu()
     game_controller.close_map()
 
     while True:
@@ -444,7 +445,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
         elif target_pos == current_pos1:
             print("target_pos == current_pos2")
             #消除系统确定消息框
-            while game_controller.click_sure_btn():
+            while btn_controller.click_sure_btn():
                 adb_controller.screenshot(settings.screenshot_path)
             adb_controller.screenshot(settings.screenshot_path)
             if callback1 != None:

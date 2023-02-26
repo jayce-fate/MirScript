@@ -17,6 +17,7 @@ import exp_controller
 import ya_biao_controller
 import trash_controller
 import skill_controller
+import btn_controller
 import utils
 
 # ******************************************
@@ -24,27 +25,27 @@ import utils
 # ******************************************
 adb_controller.connect()
 # adb_controller.screenshot(settings.screenshot_path)
-while game_controller.click_sure_btn():
+while btn_controller.click_sure_btn():
     adb_controller.screenshot(settings.screenshot_path)
-# game_controller.click_btn_login()
+# btn_controller.click_btn_login()
 # exp_controller.restart_routine()
 # if game_controller.is_save_power_mode():
 #     print("省电")
 # game_controller.read_pet_HP()
-# game_controller.click_npc_meng_zhong_lao_bing()
-# game_controller.click_transfer_cave("骷髅洞")
+# btn_controller.click_npc_meng_zhong_lao_bing()
+# btn_controller.click_transfer_cave("骷髅洞")
 # exp_controller.fly_to_exp_map()
 # item_list = {
 #   "超级金创药": 6,
 # }
 # trash_controller.buy_items(item_list)
-# game_controller.click_right_menu("商店")
+# btn_controller.click_right_menu("商店")
 # time.sleep(1)
 # adb_controller.screenshot(settings.screenshot_path)
-# game_controller.click_left_menu("绑金")
+# btn_controller.click_left_menu("绑金")
 # game_controller.batch_drink_item("mo_fa_yao_zhong_liang")
-# game_controller.click_msg_box("知道了")
-# game_controller.click_sure_btn()
+# btn_controller.click_msg_box("知道了")
+# btn_controller.click_sure_btn()
 # game_controller.drink_item("wu_mu_jian")
 # exp_controller.fly_to_exp_map()
 # image_processor.show_hsv_tool("temp_screenshot/screenshot_debug.png")
@@ -66,7 +67,7 @@ while game_controller.click_sure_btn():
 # adb_controller.input_text("100,100")
 # trash_controller.drop_trashes()
 # game_controller.drink_item("qiang_xiao_jin_chuang_yao")
-# game_controller.click_confirm_batch_use()
+# btn_controller.click_confirm_batch_use()
 # image_processor.show_hsv_tool("template_images/skill_all1.png")
 # skill_controller.cast_shield()
 # game_controller.set_occupation()
@@ -75,8 +76,8 @@ while game_controller.click_sure_btn():
 # exp_controller.restart_routine(True)
 # adb_controller.restart_emulator()
 # exp_controller.restart_routine(True)
-# game_controller.click_npc_lu_lao_ban()
-# game_controller.click_finish_ya_biao()
+# btn_controller.click_npc_lu_lao_ban()
+# btn_controller.click_finish_ya_biao()
 
 # trash_controller.try_get_bag_space(2)
 
@@ -129,7 +130,7 @@ while game_controller.click_sure_btn():
 # adb_controller.start_app()
 
 # adb_controller.screenshot(settings.screenshot_path)
-# game_controller.click_npc_wen_biao_tou()
+# btn_controller.click_npc_wen_biao_tou()
 
 # path_controller.set_map_data("盟重土城")
 # ya_biao_controller.go_to_lu_lao_ban()

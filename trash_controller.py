@@ -13,13 +13,14 @@ import adb_controller
 import game_controller
 import path_controller
 import move_controller
+import btn_controller
 
 def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
     print("loop_drop_one_item:" + trash_name + ",isgreen:" + str(is_green) + ",force_drop:" + str(force_drop))
     if game_controller.select_item(trash_name):
-        game_controller.click_drop()
+        btn_controller.click_drop()
         if force_drop:
-            game_controller.click_confirm_drop()
+            btn_controller.click_confirm_drop()
             # print("click_confirm_drop")
             adb_controller.screenshot(settings.screenshot_path)
             loop_drop_one_item(trash_name, is_green, force_drop)
@@ -27,14 +28,14 @@ def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
             time.sleep(0.1)
             adb_controller.screenshot(settings.screenshot_path)
             if game_controller.is_ji_pin():
-                game_controller.click_cancel_drop()
+                btn_controller.click_cancel_drop()
                 adb_controller.screenshot(settings.screenshot_path)
             elif trash_name == "ji_neng_shu" and game_controller.is_zhen_xi():
-                game_controller.click_cancel_drop()
+                btn_controller.click_cancel_drop()
                 adb_controller.screenshot(settings.screenshot_path)
             else:
                 if is_green:
-                    game_controller.click_confirm_drop()
+                    btn_controller.click_confirm_drop()
                     adb_controller.screenshot(settings.screenshot_path)
                 loop_drop_one_item(trash_name, is_green, force_drop)
 
@@ -90,13 +91,13 @@ def drop_trashes(neen_open_close_bag = True):
         time.sleep(0.5)
 
     game_controller.wipe_down_bag()
-    game_controller.click_right_menu("整理")
+    btn_controller.click_right_menu("整理")
     time.sleep(2.0)
     drop_trashes_loop()
 
     if neen_open_close_bag:
-        game_controller.click_left_return()
-        game_controller.click_right_return()
+        btn_controller.click_left_return()
+        btn_controller.click_right_return()
 
 
 def drop_binding_trashes(neen_open_close_bag = True):
@@ -112,8 +113,8 @@ def drop_binding_trashes(neen_open_close_bag = True):
         loop_drop_one_item(trash_name, force_drop = True)
 
     if neen_open_close_bag:
-        game_controller.click_left_return()
-        game_controller.click_right_return()
+        btn_controller.click_left_return()
+        btn_controller.click_right_return()
 
 
 def try_get_bag_space(space_need):
@@ -122,15 +123,15 @@ def try_get_bag_space(space_need):
         time.sleep(0.5)
         remain_capacity = game_controller.read_bag_remain_capacity()
         if space_need <= remain_capacity:
-            game_controller.click_left_return()
-            game_controller.click_right_return()
+            btn_controller.click_left_return()
+            btn_controller.click_right_return()
             return True
         else:
             drop_trashes(neen_open_close_bag = False)
             remain_capacity = game_controller.read_bag_remain_capacity()
             if space_need <= remain_capacity:
-                game_controller.click_left_return()
-                game_controller.click_right_return()
+                btn_controller.click_left_return()
+                btn_controller.click_right_return()
                 return True
 
             for idx in range(0, space_need - remain_capacity):
@@ -144,8 +145,8 @@ def try_get_bag_space(space_need):
             time.sleep(0.5)
             remain_capacity = game_controller.read_bag_remain_capacity()
             if space_need <= remain_capacity:
-                game_controller.click_left_return()
-                game_controller.click_right_return()
+                btn_controller.click_left_return()
+                btn_controller.click_right_return()
                 return True
 
             for idx in range(0, space_need - remain_capacity):
@@ -154,12 +155,12 @@ def try_get_bag_space(space_need):
 
             remain_capacity = game_controller.read_bag_remain_capacity()
             if space_need <= remain_capacity:
-                game_controller.click_left_return()
-                game_controller.click_right_return()
+                btn_controller.click_left_return()
+                btn_controller.click_right_return()
                 return True
 
-        game_controller.click_left_return()
-        game_controller.click_right_return()
+        btn_controller.click_left_return()
+        btn_controller.click_right_return()
 
     return False
 
@@ -203,9 +204,9 @@ def collect_ground_treasures():
 def perform_buy(item_list):
     for key, value in item_list.items():
         print(key, '->', value)
-        if game_controller.click_item_menu(key):
+        if btn_controller.click_item_menu(key):
             for idx in range(value):
-                game_controller.click_btn_buy()
+                btn_controller.click_btn_buy()
 
 
 def buy_items(item_list, neen_open_close_bag = True):
@@ -213,9 +214,9 @@ def buy_items(item_list, neen_open_close_bag = True):
         game_controller.open_bag()
         time.sleep(0.5)
 
-    game_controller.click_right_menu("商店")
+    btn_controller.click_right_menu("商店")
     time.sleep(0.5)
-    game_controller.click_left_menu("绑金")
+    btn_controller.click_left_menu("绑金")
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
 
@@ -225,18 +226,18 @@ def buy_items(item_list, neen_open_close_bag = True):
         current_index = int(current_page[0])
         max_index = int(current_page[1])
         if current_index == 1:
-            game_controller.click_btn("btn_page_right")
+            btn_controller.click_btn("btn_page_right")
         else:
-            game_controller.click_btn("btn_page_left")
+            btn_controller.click_btn("btn_page_left")
         time.sleep(0.5)
 
     adb_controller.screenshot(settings.screenshot_path)
     perform_buy(item_list)
 
     if neen_open_close_bag:
-        game_controller.click_left_return()
-        game_controller.click_left_return()
-        game_controller.click_right_return()
+        btn_controller.click_left_return()
+        btn_controller.click_left_return()
+        btn_controller.click_right_return()
 
 
 def buy_books(item_list, neen_open_close_bag = True):
@@ -244,9 +245,9 @@ def buy_books(item_list, neen_open_close_bag = True):
         game_controller.open_bag()
         time.sleep(0.5)
 
-    game_controller.click_right_menu("商店")
+    btn_controller.click_right_menu("商店")
     time.sleep(0.5)
-    game_controller.click_left_menu("书籍")
+    btn_controller.click_left_menu("书籍")
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
 
@@ -256,15 +257,15 @@ def buy_books(item_list, neen_open_close_bag = True):
         current_index = int(current_page[0])
         max_index = int(current_page[1])
         if current_index == 1:
-            game_controller.click_btn("btn_page_right")
+            btn_controller.click_btn("btn_page_right")
         else:
-            game_controller.click_btn("btn_page_left")
+            btn_controller.click_btn("btn_page_left")
         time.sleep(0.5)
 
     adb_controller.screenshot(settings.screenshot_path)
     perform_buy(item_list)
 
     if neen_open_close_bag:
-        game_controller.click_left_return()
-        game_controller.click_left_return()
-        game_controller.click_right_return()
+        btn_controller.click_left_return()
+        btn_controller.click_left_return()
+        btn_controller.click_right_return()

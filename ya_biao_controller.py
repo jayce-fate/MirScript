@@ -13,6 +13,7 @@ import adb_controller
 import game_controller
 import path_controller
 import move_controller
+import btn_controller
 
 
 def start_ya_biao():
@@ -26,22 +27,22 @@ def start_ya_biao():
 
 def go_to_wen_biao_tou():
     #消除系统确定消息框
-    while game_controller.click_sure_btn():
+    while btn_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
     target_pos = (439, 206)
-    game_controller.click_map()
+    btn_controller.click_map()
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
-    game_controller.click_map_aim()
-    game_controller.click_map_input()
-    game_controller.click_map_input()
-    game_controller.click_map_clear()
+    btn_controller.click_map_aim()
+    btn_controller.click_map_input()
+    btn_controller.click_map_input()
+    btn_controller.click_map_clear()
     point_str = "{},{}".format(target_pos[0], target_pos[1])
     adb_controller.input_text(point_str)
-    game_controller.click_map_edit_confirm()
-    game_controller.click_map_input_confirm()
-    game_controller.click_xun_lu()
+    btn_controller.click_map_edit_confirm()
+    btn_controller.click_map_input_confirm()
+    btn_controller.click_xun_lu()
     game_controller.close_map()
 
     while True:
@@ -59,16 +60,16 @@ def go_to_wen_biao_tou():
         elif not far_from_target and current_pos1 == current_pos2:
             print("not far_from_target and current_pos1 == current_pos2")
             #消除系统确定消息框
-            while game_controller.click_sure_btn():
+            while btn_controller.click_sure_btn():
                 adb_controller.screenshot(settings.screenshot_path)
             adb_controller.screenshot(settings.screenshot_path)
-            if game_controller.click_npc_wen_biao_tou():
+            if btn_controller.click_npc_wen_biao_tou():
                 break
             time.sleep(0.1)
 
     #改为点击固定点
     adb_controller.screenshot(settings.screenshot_path)
-    game_controller.click_accept_ya_biao()
+    btn_controller.click_accept_ya_biao()
 
 def go_to_lu_lao_ban():
     cave_path = settings.ya_biao_full_path
@@ -99,7 +100,7 @@ def go_to_lu_lao_ban():
 
     while True:
         # 消除提示框
-        while game_controller.click_sure_btn():
+        while btn_controller.click_sure_btn():
             adb_controller.screenshot(settings.screenshot_path)
 
         path = path_controller.find_path(globals.current_pos, next_pos)
@@ -120,9 +121,9 @@ def go_to_lu_lao_ban():
 
     #交付
     adb_controller.screenshot(settings.screenshot_path)
-    game_controller.click_npc_lu_lao_ban()
+    btn_controller.click_npc_lu_lao_ban()
     time.sleep(1.0)
-    game_controller.click_finish_ya_biao()
+    btn_controller.click_finish_ya_biao()
 
 
 def should_wait_until_double_time():

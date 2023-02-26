@@ -8,6 +8,7 @@ import settings
 import game_controller
 import adb_controller
 import image_processor
+import btn_controller
 
 current_map_data = []
 
@@ -291,7 +292,7 @@ def generate_map_data(amend_points = None):
     if amend_points != None:
         cave_path = amend_points
 
-    game_controller.click_map()
+    btn_controller.click_map()
     time.sleep(1.0)
 
     start_scope = 0
@@ -306,14 +307,14 @@ def generate_map_data(amend_points = None):
                     if y_idx < base_point[1] - start_scope or base_point[1] + start_scope < y_idx:
                         point = (x_idx, y_idx)
                         if not point in current_data_list and not point in checked_point_list:
-                            game_controller.click_map_aim()
-                            game_controller.click_map_input()
-                            game_controller.click_map_input()
-                            game_controller.click_map_clear()
+                            btn_controller.click_map_aim()
+                            btn_controller.click_map_input()
+                            btn_controller.click_map_input()
+                            btn_controller.click_map_clear()
                             point_str = "{},{}".format(point[0], point[1])
                             adb_controller.input_text(point_str)
-                            game_controller.click_map_edit_confirm()
-                            game_controller.click_map_input_confirm()
+                            btn_controller.click_map_edit_confirm()
+                            btn_controller.click_map_input_confirm()
                             time.sleep(0.2)
                             adb_controller.screenshot(settings.screenshot_path)
                             match_loc = image_processor.match_template(

@@ -15,6 +15,7 @@ import path_controller
 import move_controller
 import trash_controller
 import skill_controller
+import btn_controller
 
 
 def wait_till_max_lvl_max():
@@ -29,7 +30,7 @@ def wait_till_max_lvl_max():
     while current_pet_max_HP != pet_max_HP:
         time.sleep(10)
         # 消除确认框，比如游戏断开，活动提醒
-        while game_controller.click_sure_btn():
+        while btn_controller.click_sure_btn():
             adb_controller.screenshot(settings.screenshot_path)
         current_pet_max_HP = game_controller.get_pet_current_max_HP()
         pet_max_HP = game_controller.get_pet_max_HP()
@@ -37,7 +38,7 @@ def wait_till_max_lvl_max():
     print("pet HP reach Max")
     #消除省电模式
     if game_controller.is_save_power_mode():
-        game_controller.click_center_of_screen()
+        btn_controller.click_center_of_screen()
         adb_controller.screenshot(settings.screenshot_path)
 
     go_back_town_and_fly()
@@ -51,7 +52,7 @@ def go_back_town_and_fly():
 def fly_to_exp_map():
     print("fly_to_exp_map")
     adb_controller.screenshot(settings.screenshot_path)
-    while game_controller.click_sure_btn():
+    while btn_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
     #补给
@@ -68,20 +69,20 @@ def fly_to_exp_map():
             adb_controller.screenshot(settings.screenshot_path)
             game_controller.open_bag_and_drink("ji_neng_shu")
 
-    game_controller.click_npc_meng_zhong_lao_bing()
+    btn_controller.click_npc_meng_zhong_lao_bing()
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
-    game_controller.click_yellow_menu("传送")
+    btn_controller.click_yellow_menu("传送")
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
     if globals.current_lvl < 17:
-        game_controller.click_transfer_cave("骷髅洞")
+        btn_controller.click_transfer_cave("骷髅洞")
     elif globals.current_lvl <= 35:
-        game_controller.click_transfer_cave("废矿入口")
+        btn_controller.click_transfer_cave("废矿入口")
     else:
-        game_controller.click_transfer_cave("废矿入口")
+        btn_controller.click_transfer_cave("废矿入口")
 
-    game_controller.click_btn_confirm_transform()
+    btn_controller.click_btn_confirm_transform()
     time.sleep(3.0)
     adb_controller.screenshot(settings.screenshot_path)
     map_name = game_controller.read_map_name()
@@ -124,7 +125,7 @@ def get_exp_by_random_fly():
                 if pos_before_fly == pos_after_fly:
                     no_more_random_fly = no_more_random_fly + 1
                 if no_more_random_fly >= 2:
-                    while game_controller.click_sure_btn():
+                    while btn_controller.click_sure_btn():
                         adb_controller.screenshot(settings.screenshot_path)
                     print("学习召唤骷髅")
                     adb_controller.screenshot(settings.screenshot_path)
@@ -144,22 +145,22 @@ def go_to_east_waste_ore():
 
 def routine_lvl_one():
     print("routine_lvl_one")
-    if game_controller.click_msg_box("如何移动", True):
+    if btn_controller.click_msg_box("如何移动", True):
         time.sleep(15)
         adb_controller.screenshot(settings.screenshot_path)
-        game_controller.click_msg_box("开始", True)
+        btn_controller.click_msg_box("开始", True)
     game_controller.open_bag()
     time.sleep(0.5)
     game_controller.drink_item("bu_yi_nv")
     game_controller.drink_item("wu_mu_jian")
-    game_controller.click_left_return()
-    game_controller.click_right_return()
+    btn_controller.click_left_return()
+    btn_controller.click_right_return()
     while game_controller.read_lv_text() < 7:
         skill_controller.cast_attack()
         adb_controller.screenshot(settings.screenshot_path)
     print("等级7")
     time.sleep(3.0)
-    while game_controller.click_sure_btn():
+    while btn_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
     routine_lvl_seven()
@@ -175,8 +176,8 @@ def routine_lvl_seven():
         game_controller.drink_item("tie_jian")
         game_controller.batch_drink_item("bo_li_jie_zhi")
 
-        game_controller.click_left_return()
-        game_controller.click_right_return()
+        btn_controller.click_left_return()
+        btn_controller.click_right_return()
 
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.set_occupation()
@@ -190,13 +191,13 @@ def routine_lvl_seven():
     print("等级15")
     time.sleep(30)
     adb_controller.screenshot(settings.screenshot_path)
-    game_controller.click_msg_box("知道了")
+    btn_controller.click_msg_box("知道了")
     routine_lvl_fifteen()
 
 
 def routine_lvl_fifteen():
     print("routine_lvl_fifteen")
-    while game_controller.click_sure_btn():
+    while btn_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
     if globals.current_lvl == 15 and game_controller.get_bag_remain_capacity() > 32:
@@ -213,8 +214,8 @@ def routine_lvl_fifteen():
             game_controller.drink_item("qing_xing_kui_jia_nan")
         #丢垃圾
         trash_controller.drop_binding_trashes(False)
-        game_controller.click_left_return()
-        game_controller.click_right_return()
+        btn_controller.click_left_return()
+        btn_controller.click_right_return()
         time.sleep(1.0)
 
     go_back_town_and_get_subsidy()
@@ -231,23 +232,23 @@ def go_back_town_and_get_subsidy():
 
 def get_subsidy():
     print("get_subsidy")
-    while game_controller.click_sure_btn():
+    while btn_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
     #领取低保
     adb_controller.screenshot(settings.screenshot_path)
-    game_controller.click_npc_meng_zhong_lao_bing()
+    btn_controller.click_npc_meng_zhong_lao_bing()
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.wipe_down_npc_dialog_menu()
     adb_controller.screenshot(settings.screenshot_path)
-    game_controller.click_yellow_menu("领取低保")
-    game_controller.click_left_return()
+    btn_controller.click_yellow_menu("领取低保")
+    btn_controller.click_left_return()
 
 
 def buy_supplies():
     print("buy_supplies")
     adb_controller.screenshot(settings.screenshot_path)
-    while game_controller.click_sure_btn():
+    while btn_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
     if game_controller.get_bag_remain_capacity() > 32:
@@ -268,7 +269,7 @@ def start_get_exp():
     adb_controller.connect()
     #消除省电模式
     if game_controller.is_save_power_mode():
-        game_controller.click_center_of_screen()
+        btn_controller.click_center_of_screen()
 
     adb_controller.screenshot(settings.screenshot_path)
     #获取职业
@@ -365,7 +366,7 @@ def start_get_exp():
                 trash_controller.try_get_bag_space(1)
 
         #消除系统确定消息框
-        while game_controller.click_sure_btn():
+        while btn_controller.click_sure_btn():
             adb_controller.screenshot(settings.screenshot_path)
         #检测断开消息框
         if game_controller.connection_lose():
