@@ -14,6 +14,7 @@ import game_controller
 import path_controller
 import move_controller
 import trash_controller
+import skill_controller
 
 
 def wait_till_max_lvl_max():
@@ -59,7 +60,7 @@ def fly_to_exp_map():
 
     #道士检查是否学习隐身术，否者买一本
     if globals.occupation == globals.Occupation.Taoist and globals.current_lvl >= 20 and globals.current_lvl <= 25:
-        if not game_controller.cast_invisible():
+        if not skill_controller.cast_invisible():
             item_list = {
               "隐身术": 1,
             }
@@ -111,14 +112,14 @@ def get_exp_by_random_fly():
     while True:
         adb_controller.screenshot(settings.screenshot_path)
         if not game_controller.template_exist("btn_close_target"):
-            game_controller.cast_poison()
-            game_controller.cast_talisman()
+            skill_controller.cast_poison()
+            skill_controller.cast_talisman()
             adb_controller.screenshot(settings.screenshot_path)
             if not game_controller.template_exist("btn_close_target"):
                 pos_before_fly = move_controller.get_current_coordinate()
-                game_controller.cast_random_fly()
-                game_controller.cast_poison()
-                game_controller.cast_talisman()
+                skill_controller.cast_random_fly()
+                skill_controller.cast_poison()
+                skill_controller.cast_talisman()
                 pos_after_fly = move_controller.get_current_coordinate()
                 if pos_before_fly == pos_after_fly:
                     no_more_random_fly = no_more_random_fly + 1
@@ -129,7 +130,7 @@ def get_exp_by_random_fly():
                     adb_controller.screenshot(settings.screenshot_path)
                     game_controller.open_bag_and_drink("ji_neng_shu")
                     adb_controller.screenshot(settings.screenshot_path)
-                    game_controller.cast_back_town()
+                    skill_controller.cast_back_town()
                     time.sleep(2.0)
                     start()
                     break
@@ -138,7 +139,7 @@ def get_exp_by_random_fly():
 # 去废矿东部
 def go_to_east_waste_ore():
     print("go_to_east_waste_ore")
-    move_controller.navigate_to_point((179,110), start, game_controller.cast_invisible)
+    move_controller.navigate_to_point((179,110), start, skill_controller.cast_invisible)
 
 
 def routine_lvl_one():
@@ -154,7 +155,7 @@ def routine_lvl_one():
     game_controller.click_left_return()
     game_controller.click_right_return()
     while game_controller.read_lv_text() < 7:
-        game_controller.cast_attack()
+        skill_controller.cast_attack()
         adb_controller.screenshot(settings.screenshot_path)
     print("等级7")
     time.sleep(3.0)
@@ -182,9 +183,9 @@ def routine_lvl_seven():
 
     while game_controller.read_lv_text() < 15:
         if globals.occupation == globals.Occupation.Taoist:
-            game_controller.cast_attack()
+            skill_controller.cast_attack()
         elif globals.occupation == globals.Occupation.Magician:
-            game_controller.cast_fire_ball()
+            skill_controller.cast_fire_ball()
         adb_controller.screenshot(settings.screenshot_path)
     print("等级15")
     time.sleep(30)
@@ -278,7 +279,7 @@ def start_get_exp():
     globals.current_lvl = game_controller.read_lv_text()
     if globals.current_lvl < 15:
         #检测是否设置随机和回城
-        if not game_controller.cast_random_fly(False):
+        if not skill_controller.cast_random_fly(False):
             for index in range(30):
                 print("技能未设置随机和回城快捷键")
             print("程序结束")
@@ -299,15 +300,15 @@ def start_get_exp():
         print('当前没有宠物')
         if globals.occupation == globals.Occupation.Taoist:
             print('道士重新召唤宝宝')
-            if not game_controller.cast_dog():
-                game_controller.cast_skeleton()
+            if not skill_controller.cast_dog():
+                skill_controller.cast_skeleton()
         elif globals.occupation == globals.Occupation.Magician:
             print("法师直接下线换道士")
             return
     else:
         if globals.occupation == globals.Occupation.Taoist:
             print('虽然有宝宝了，再用一下召唤宝宝，为了初始化globals.skill_dog_pos')
-            game_controller.cast_dog()
+            skill_controller.cast_dog()
 
     if "盟重" in map_name:
         print("当前位置，盟重土城")
@@ -334,7 +335,7 @@ def start_get_exp():
     cave_path = game_controller.get_map_path(map_name)
     if len(cave_path) == 0:
         print("地图数据为空，回城重来")
-        game_controller.cast_back_town()
+        skill_controller.cast_back_town()
         time.sleep(3.0)
         start()
         return
@@ -354,8 +355,8 @@ def start_get_exp():
         # 道士，移动完，先判断血量隐身
         if globals.occupation == globals.Occupation.Taoist:
             if 20 < my_lose_HP:
-                game_controller.cast_heal()
-                game_controller.cast_invisible()
+                skill_controller.cast_heal()
+                skill_controller.cast_invisible()
                 if game_controller.got_MP_Insufficient_text():
                     trash_controller.try_get_bag_space(1)
         # 法师血量低，可能背包满了，红喝不出来
@@ -382,25 +383,25 @@ def start_get_exp():
             if game_controller.select_boss():
                 # 攻击boss
                 if globals.occupation == globals.Occupation.Taoist:
-                    game_controller.cast_poison()
-                    game_controller.cast_defence()
-                    game_controller.cast_heal()
-                    game_controller.cast_talisman()
+                    skill_controller.cast_poison()
+                    skill_controller.cast_defence()
+                    skill_controller.cast_heal()
+                    skill_controller.cast_talisman()
                 elif globals.occupation == globals.Occupation.Magician:
-                    game_controller.cast_shield()
-                    game_controller.cast_lighting()
+                    skill_controller.cast_shield()
+                    skill_controller.cast_lighting()
             else:
                 if time.time() - last_go_back_time > settings.go_back_check_time:
                     # 往回跑，试图召回宠物
                     game_controller.reactive_pet()
                     if globals.occupation == globals.Occupation.Taoist:
-                        game_controller.cast_invisible()
+                        skill_controller.cast_invisible()
                     elif globals.occupation == globals.Occupation.Magician:
-                        game_controller.cast_shield()
+                        skill_controller.cast_shield()
                     move_controller.go_to_previous_point(cave_path)
                     # 移动结束接隐身
                     if globals.occupation == globals.Occupation.Taoist:
-                        game_controller.cast_invisible()
+                        skill_controller.cast_invisible()
                     game_controller.reactive_pet()
                     last_go_back_time = time.time()
 
@@ -415,7 +416,7 @@ def start_get_exp():
                     move_controller.go_to_next_point(cave_path)
                     # 移动结束接隐身
                     if globals.occupation == globals.Occupation.Taoist:
-                        game_controller.cast_invisible()
+                        skill_controller.cast_invisible()
                     last_move_time = time.time()
         else:
             print("经验没增加")
@@ -423,13 +424,13 @@ def start_get_exp():
             move_controller.go_to_next_point(cave_path)
             # 移动结束接隐身
             if globals.occupation == globals.Occupation.Taoist:
-                game_controller.cast_invisible()
+                skill_controller.cast_invisible()
             last_move_time = time.time()
             while not game_controller.is_monster_nearby():
                 move_controller.go_to_next_point(cave_path)
                 # 移动结束接隐身
                 if globals.occupation == globals.Occupation.Taoist:
-                    game_controller.cast_invisible()
+                    skill_controller.cast_invisible()
                 last_move_time = time.time()
 
 

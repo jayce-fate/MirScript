@@ -16,6 +16,7 @@ import move_controller
 import exp_controller
 import ya_biao_controller
 import trash_controller
+import skill_controller
 import utils
 
 # ******************************************
@@ -49,9 +50,9 @@ while game_controller.click_sure_btn():
 # image_processor.show_hsv_tool("temp_screenshot/screenshot_debug.png")
 # exp_controller.fly_to_exp_map()
 # move_controller.go_to_town()
-# game_controller.cast_back_town()
-# game_controller.cast_heal()
-# game_controller.cast_invisible()
+# skill_controller.cast_back_town()
+# skill_controller.cast_heal()
+# skill_controller.cast_invisible()
 # move_controller.navigate_to_point((338,338))
 # exp_controller.restart_routine()
 # game_controller.read_lv_area_text()
@@ -59,15 +60,15 @@ while game_controller.click_sure_btn():
 # move_controller.get_current_coordinate()
 # path_controller.set_map_data()
 # trash_controller.collect_ground_treasures()
-# game_controller.cast_defence()
-# game_controller.cast_heal()
-# game_controller.cast_invisible()
+# skill_controller.cast_defence()
+# skill_controller.cast_heal()
+# skill_controller.cast_invisible()
 # adb_controller.input_text("100,100")
 # trash_controller.drop_trashes()
 # game_controller.drink_item("qiang_xiao_jin_chuang_yao")
 # game_controller.click_confirm_batch_use()
 # image_processor.show_hsv_tool("template_images/skill_all1.png")
-# game_controller.cast_shield()
+# skill_controller.cast_shield()
 # game_controller.set_occupation()
 # print("occupation = ", globals.occupation)
 
@@ -106,7 +107,7 @@ while game_controller.click_sure_btn():
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.show_scope()
 
-# game_controller.cast_shield()
+# skill_controller.cast_shield()
 
 # cave_path = [(480,308), (491,337)]
 # cave_path = game_controller.to_each_step_path(cave_path)

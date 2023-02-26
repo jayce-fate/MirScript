@@ -12,6 +12,7 @@ import image_processor
 import adb_controller
 import game_controller
 import path_controller
+import skill_controller
 
 block_point_cache = []
 
@@ -40,7 +41,7 @@ def step_go_by_path(step_path):
                     break
 
             # print("step_path:{}".format(str(step_path)))
-            if len(last_step_path) >= 2 and last_step_path[0] == step_path[0]:
+            if len(last_step_path) >= 2 and len(step_path) > 0 and last_step_path[0] == step_path[0]:
                 next_pos = step_path[1]
                 target_pos = step_path[-1]
                 global block_point_cache
@@ -362,7 +363,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
             break
 
 def go_back_town_and_stay():
-    game_controller.cast_back_town()
+    skill_controller.cast_back_town()
     time.sleep(3.0)
     adb_controller.screenshot(settings.screenshot_path)
     navigate_to_point((338,338))
