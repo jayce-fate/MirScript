@@ -36,6 +36,8 @@ def step_go_by_path(step_path):
                 step_path = step_path[index_of_current_pos:]
             else:
                 step_path = path_controller.find_path(globals.current_pos, target_pos)
+                if len(step_path) > 2 * settings.one_time_move_distance:
+                    break
 
             # print("step_path:{}".format(str(step_path)))
             if len(last_step_path) >= 2 and last_step_path[0] == step_path[0]:
@@ -78,8 +80,7 @@ def step_go_by_path(step_path):
 
 def go_to_next_point(cave_path):
     # print("go_to_next_point")
-    if globals.current_pos == (0, 0):
-        get_current_coordinate()
+    globals.current_pos = get_current_coordinate()
 
     path_len = len(cave_path)
 
