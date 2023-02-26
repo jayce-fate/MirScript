@@ -151,8 +151,8 @@ def routine_lvl_one():
         btn_controller.click_msg_box("开始", True)
     game_controller.open_bag()
     time.sleep(0.5)
-    game_controller.drink_item("bu_yi_nv")
-    game_controller.drink_item("wu_mu_jian")
+    trash_controller.drink_item("bu_yi_nv")
+    trash_controller.drink_item("wu_mu_jian")
     btn_controller.click_left_return()
     btn_controller.click_right_return()
     while game_controller.read_lv_text() < 7:
@@ -171,10 +171,10 @@ def routine_lvl_seven():
     if globals.current_lvl == 7:
         game_controller.open_bag()
         time.sleep(1.0)
-        game_controller.drink_item("jun_xiang")
-        game_controller.batch_drink_item("ji_neng_shu")
-        game_controller.drink_item("tie_jian")
-        game_controller.batch_drink_item("bo_li_jie_zhi")
+        trash_controller.drink_item("jun_xiang")
+        trash_controller.batch_drink_item("ji_neng_shu")
+        trash_controller.drink_item("tie_jian")
+        trash_controller.batch_drink_item("bo_li_jie_zhi")
 
         btn_controller.click_left_return()
         btn_controller.click_right_return()
@@ -204,14 +204,14 @@ def routine_lvl_fifteen():
         # 穿装备，学技能
         game_controller.open_bag()
         time.sleep(0.5)
-        game_controller.drink_item("jun_xiang")
-        game_controller.batch_drink_item("ji_neng_shu")
+        trash_controller.drink_item("jun_xiang")
+        trash_controller.batch_drink_item("ji_neng_shu")
         if globals.occupation == globals.Occupation.Taoist:
-            game_controller.drink_item("ban_yue_wan_dao")
-            game_controller.drink_item("da_shou_zhuo")
-            game_controller.drink_item("zhen_zhu_jie_zhi")
-        if not game_controller.drink_item("qing_xing_kui_jia_nv"):
-            game_controller.drink_item("qing_xing_kui_jia_nan")
+            trash_controller.drink_item("ban_yue_wan_dao")
+            trash_controller.drink_item("da_shou_zhuo")
+            trash_controller.drink_item("zhen_zhu_jie_zhi")
+        if not trash_controller.drink_item("qing_xing_kui_jia_nv"):
+            trash_controller.drink_item("qing_xing_kui_jia_nan")
         #丢垃圾
         trash_controller.drop_binding_trashes(False)
         btn_controller.click_left_return()
