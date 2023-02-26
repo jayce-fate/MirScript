@@ -16,6 +16,9 @@ import path_controller
 import skill_controller
 import btn_controller
 
+walk_swip_time = 200
+run_swip_time = 550
+
 block_point_cache = []
 
 def get_joystick_pos():

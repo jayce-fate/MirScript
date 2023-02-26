@@ -7,12 +7,10 @@ import random
 import adb_controller
 import skill_controller
 import image_processor
+import btn_controller
 import settings
 import globals
 import utils
-
-walk_swip_time = 200
-run_swip_time = 550
 
 def get_first_result(resultss):
     for idx in range(len(resultss)):
