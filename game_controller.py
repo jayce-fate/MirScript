@@ -14,49 +14,6 @@ import utils
 walk_swip_time = 200
 run_swip_time = 550
 
-def get_joystick_pos():
-    return utils.convert_point((275, 500), (1664, 936))
-
-def one_step_walk_left():
-    print("往左走一步....")
-    joystick_pos = get_joystick_pos()
-    adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1]), (joystick_pos[0] - 25, joystick_pos[1]), walk_swip_time)
-
-def one_step_walk_right():
-    print("往右走一步....")
-    joystick_pos = get_joystick_pos()
-    adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1]), (joystick_pos[0] + 25, joystick_pos[1]), walk_swip_time)
-
-def one_step_walk_up():
-    print("往上走一步....")
-    joystick_pos = get_joystick_pos()
-    adb_controller.swipe((joystick_pos[0], joystick_pos[1] + 25), (joystick_pos[0], joystick_pos[1] - 25), walk_swip_time)
-
-def one_step_walk_down():
-    print("往下走一步....")
-    joystick_pos = get_joystick_pos()
-    adb_controller.swipe((joystick_pos[0], joystick_pos[1] - 25), (joystick_pos[0], joystick_pos[1] + 25), walk_swip_time)
-
-def one_step_walk_left_up():
-    print("往左上走一步....")
-    joystick_pos = get_joystick_pos()
-    adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1] + 25), (joystick_pos[0] - 25, joystick_pos[1] - 25), walk_swip_time)
-
-def one_step_walk_right_up():
-    print("往右上走一步....")
-    joystick_pos = get_joystick_pos()
-    adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1] + 25), (joystick_pos[0] + 25, joystick_pos[1] - 25), walk_swip_time)
-
-def one_step_walk_left_down():
-    print("往左下走一步....")
-    joystick_pos = get_joystick_pos()
-    adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1] - 25), (joystick_pos[0] - 25, joystick_pos[1] + 25), walk_swip_time)
-
-def one_step_walk_right_down():
-    print("往右下走一步....")
-    joystick_pos = get_joystick_pos()
-    adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1] - 25), (joystick_pos[0] + 25, joystick_pos[1] + 25), walk_swip_time)
-
 def get_first_result(resultss):
     for idx in range(len(resultss)):
         results = resultss[idx]
@@ -562,52 +519,6 @@ def to_each_step_path(path, round_path = True):
     # for index in range(0, len(step_path)):
     #     print(step_path[index])
     return step_path
-
-
-def move_by_path(path):
-    # print("move_by_path:{}".format(str(path)))
-    move_path = path.copy()
-    if move_path == None:
-        return
-
-    path_length = len(move_path)
-    if path_length < 2:
-        return
-
-    from_pos = move_path[0]
-    to_pos = move_path[1]
-
-    print("初始位置: {}".format(str(from_pos)))
-    print("目标位置: {}".format(str(to_pos)))
-
-    move_x = to_pos[0] - from_pos[0]
-    move_y = to_pos[1] - from_pos[1]
-
-    print("to_pos: {}".format(str(to_pos)))
-    print("move_path[1]: {}".format(str(move_path[1])))
-    if move_x > 0 and move_y > 0:
-        one_step_walk_right_down()
-    elif move_x > 0 and move_y < 0:
-        one_step_walk_right_up()
-    elif move_x < 0 and move_y > 0:
-        one_step_walk_left_down()
-    elif move_x < 0 and move_y < 0:
-        one_step_walk_left_up()
-    elif move_x > 0 and move_y == 0:
-        one_step_walk_right()
-    elif move_x < 0 and move_y == 0:
-        one_step_walk_left()
-    elif move_x == 0 and move_y > 0:
-        one_step_walk_down()
-    elif move_x == 0 and move_y < 0:
-        one_step_walk_up()
-
-    del(move_path[0])
-
-    if len(move_path) >= 2:
-        move_by_path(move_path)
-    else:
-        globals.expect_current_pos = (to_pos[0], to_pos[1])
 
 
 def wait_to_match_and_click(match_text,threshold,max_time,step_time,match_scope = None):

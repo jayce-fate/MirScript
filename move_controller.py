@@ -6,6 +6,7 @@ import random
 import numpy
 import datetime
 
+import utils
 import globals
 import settings
 import image_processor
@@ -15,6 +16,96 @@ import path_controller
 import skill_controller
 
 block_point_cache = []
+
+def get_joystick_pos():
+    return utils.convert_point((275, 500), (1664, 936))
+
+def one_step_walk_left():
+    print("往左走一步....")
+    joystick_pos = get_joystick_pos()
+    adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1]), (joystick_pos[0] - 25, joystick_pos[1]), walk_swip_time)
+
+def one_step_walk_right():
+    print("往右走一步....")
+    joystick_pos = get_joystick_pos()
+    adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1]), (joystick_pos[0] + 25, joystick_pos[1]), walk_swip_time)
+
+def one_step_walk_up():
+    print("往上走一步....")
+    joystick_pos = get_joystick_pos()
+    adb_controller.swipe((joystick_pos[0], joystick_pos[1] + 25), (joystick_pos[0], joystick_pos[1] - 25), walk_swip_time)
+
+def one_step_walk_down():
+    print("往下走一步....")
+    joystick_pos = get_joystick_pos()
+    adb_controller.swipe((joystick_pos[0], joystick_pos[1] - 25), (joystick_pos[0], joystick_pos[1] + 25), walk_swip_time)
+
+def one_step_walk_left_up():
+    print("往左上走一步....")
+    joystick_pos = get_joystick_pos()
+    adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1] + 25), (joystick_pos[0] - 25, joystick_pos[1] - 25), walk_swip_time)
+
+def one_step_walk_right_up():
+    print("往右上走一步....")
+    joystick_pos = get_joystick_pos()
+    adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1] + 25), (joystick_pos[0] + 25, joystick_pos[1] - 25), walk_swip_time)
+
+def one_step_walk_left_down():
+    print("往左下走一步....")
+    joystick_pos = get_joystick_pos()
+    adb_controller.swipe((joystick_pos[0] + 25, joystick_pos[1] - 25), (joystick_pos[0] - 25, joystick_pos[1] + 25), walk_swip_time)
+
+def one_step_walk_right_down():
+    print("往右下走一步....")
+    joystick_pos = get_joystick_pos()
+    adb_controller.swipe((joystick_pos[0] - 25, joystick_pos[1] - 25), (joystick_pos[0] + 25, joystick_pos[1] + 25), walk_swip_time)
+
+
+def move_by_path(path):
+    # print("move_by_path:{}".format(str(path)))
+    move_path = path.copy()
+    if move_path == None:
+        return
+
+    path_length = len(move_path)
+    if path_length < 2:
+        return
+
+    from_pos = move_path[0]
+    to_pos = move_path[1]
+
+    print("初始位置: {}".format(str(from_pos)))
+    print("目标位置: {}".format(str(to_pos)))
+
+    move_x = to_pos[0] - from_pos[0]
+    move_y = to_pos[1] - from_pos[1]
+
+    print("to_pos: {}".format(str(to_pos)))
+    print("move_path[1]: {}".format(str(move_path[1])))
+    if move_x > 0 and move_y > 0:
+        one_step_walk_right_down()
+    elif move_x > 0 and move_y < 0:
+        one_step_walk_right_up()
+    elif move_x < 0 and move_y > 0:
+        one_step_walk_left_down()
+    elif move_x < 0 and move_y < 0:
+        one_step_walk_left_up()
+    elif move_x > 0 and move_y == 0:
+        one_step_walk_right()
+    elif move_x < 0 and move_y == 0:
+        one_step_walk_left()
+    elif move_x == 0 and move_y > 0:
+        one_step_walk_down()
+    elif move_x == 0 and move_y < 0:
+        one_step_walk_up()
+
+    del(move_path[0])
+
+    if len(move_path) >= 2:
+        move_by_path(move_path)
+    else:
+        globals.expect_current_pos = (to_pos[0], to_pos[1])
+
 
 # 单步路径移动
 def step_go_by_path(step_path):
@@ -63,7 +154,7 @@ def step_go_by_path(step_path):
                 else:
                     block_point_cache.append(next_pos)
 
-            game_controller.move_by_path(step_path)
+            move_by_path(step_path)
 
             last_step_path = step_path
 
@@ -221,77 +312,77 @@ def get_current_coordinate_after_adjust():
     if globals.expect_current_pos[0] == 0 and globals.expect_current_pos[1] == 0:
         adjust_count = globals.adjust_count % 16
         if adjust_count == 0:
-            game_controller.one_step_walk_left()
+            one_step_walk_left()
         elif adjust_count == 1:
-            game_controller.one_step_walk_left_up()
+            one_step_walk_left_up()
         elif adjust_count == 2:
-            game_controller.one_step_walk_up()
+            one_step_walk_up()
         elif adjust_count == 3:
-            game_controller.one_step_walk_right_up()
+            one_step_walk_right_up()
         elif adjust_count == 4:
-            game_controller.one_step_walk_right()
+            one_step_walk_right()
         elif adjust_count == 5:
-            game_controller.one_step_walk_right_down()
+            one_step_walk_right_down()
         elif adjust_count == 6:
-            game_controller.one_step_walk_down()
+            one_step_walk_down()
         elif adjust_count == 7:
-            game_controller.one_step_walk_left_down()
+            one_step_walk_left_down()
         elif adjust_count == 8:
-            game_controller.one_step_walk_left()
-            game_controller.one_step_walk_left()
+            one_step_walk_left()
+            one_step_walk_left()
         elif adjust_count == 9:
-            game_controller.one_step_walk_left_up()
-            game_controller.one_step_walk_left_up()
+            one_step_walk_left_up()
+            one_step_walk_left_up()
         elif adjust_count == 10:
-            game_controller.one_step_walk_up()
-            game_controller.one_step_walk_up()
+            one_step_walk_up()
+            one_step_walk_up()
         elif adjust_count == 11:
-            game_controller.one_step_walk_right_up()
-            game_controller.one_step_walk_right_up()
+            one_step_walk_right_up()
+            one_step_walk_right_up()
         elif adjust_count == 12:
-            game_controller.one_step_walk_right()
-            game_controller.one_step_walk_right()
+            one_step_walk_right()
+            one_step_walk_right()
         elif adjust_count == 13:
-            game_controller.one_step_walk_right_down()
-            game_controller.one_step_walk_right_down()
+            one_step_walk_right_down()
+            one_step_walk_right_down()
         elif adjust_count == 14:
-            game_controller.one_step_walk_down()
-            game_controller.one_step_walk_down()
+            one_step_walk_down()
+            one_step_walk_down()
         elif adjust_count == 15:
-            game_controller.one_step_walk_left_down()
-            game_controller.one_step_walk_left_down()
+            one_step_walk_left_down()
+            one_step_walk_left_down()
         elif adjust_count == 16:
-            game_controller.one_step_walk_left()
-            game_controller.one_step_walk_left()
-            game_controller.one_step_walk_left()
+            one_step_walk_left()
+            one_step_walk_left()
+            one_step_walk_left()
         elif adjust_count == 17:
-            game_controller.one_step_walk_left_up()
-            game_controller.one_step_walk_left_up()
-            game_controller.one_step_walk_left_up()
+            one_step_walk_left_up()
+            one_step_walk_left_up()
+            one_step_walk_left_up()
         elif adjust_count == 18:
-            game_controller.one_step_walk_up()
-            game_controller.one_step_walk_up()
-            game_controller.one_step_walk_up()
+            one_step_walk_up()
+            one_step_walk_up()
+            one_step_walk_up()
         elif adjust_count == 19:
-            game_controller.one_step_walk_right_up()
-            game_controller.one_step_walk_right_up()
-            game_controller.one_step_walk_right_up()
+            one_step_walk_right_up()
+            one_step_walk_right_up()
+            one_step_walk_right_up()
         elif adjust_count == 20:
-            game_controller.one_step_walk_right()
-            game_controller.one_step_walk_right()
-            game_controller.one_step_walk_right()
+            one_step_walk_right()
+            one_step_walk_right()
+            one_step_walk_right()
         elif adjust_count == 21:
-            game_controller.one_step_walk_right_down()
-            game_controller.one_step_walk_right_down()
-            game_controller.one_step_walk_right_down()
+            one_step_walk_right_down()
+            one_step_walk_right_down()
+            one_step_walk_right_down()
         elif adjust_count == 22:
-            game_controller.one_step_walk_down()
-            game_controller.one_step_walk_down()
-            game_controller.one_step_walk_down()
+            one_step_walk_down()
+            one_step_walk_down()
+            one_step_walk_down()
         elif adjust_count == 23:
-            game_controller.one_step_walk_left_down()
-            game_controller.one_step_walk_left_down()
-            game_controller.one_step_walk_left_down()
+            one_step_walk_left_down()
+            one_step_walk_left_down()
+            one_step_walk_left_down()
 
         globals.adjust_count = adjust_count + 1
         return get_current_coordinate()
@@ -344,7 +435,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
             print("not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos1")
             path = [current_pos1, target_pos]
             step_path = game_controller.to_each_step_path(path, False)
-            game_controller.move_by_path(step_path)
+            move_by_path(step_path)
             if callback1 != None:
                 callback1()
             if callback != None:
