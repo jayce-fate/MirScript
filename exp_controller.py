@@ -398,6 +398,9 @@ def start_get_exp():
                     elif globals.occupation == globals.Occupation.Magician:
                         game_controller.cast_shield()
                     move_controller.go_to_previous_point(cave_path)
+                    # 移动结束接隐身
+                    if globals.occupation == globals.Occupation.Taoist:
+                        game_controller.cast_invisible()
                     game_controller.reactive_pet()
                     last_go_back_time = time.time()
 
@@ -410,14 +413,23 @@ def start_get_exp():
                 while not game_controller.is_monster_nearby():
                     print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
                     move_controller.go_to_next_point(cave_path)
+                    # 移动结束接隐身
+                    if globals.occupation == globals.Occupation.Taoist:
+                        game_controller.cast_invisible()
                     last_move_time = time.time()
         else:
             print("经验没增加")
             #移动到下一个点
             move_controller.go_to_next_point(cave_path)
+            # 移动结束接隐身
+            if globals.occupation == globals.Occupation.Taoist:
+                game_controller.cast_invisible()
             last_move_time = time.time()
             while not game_controller.is_monster_nearby():
                 move_controller.go_to_next_point(cave_path)
+                # 移动结束接隐身
+                if globals.occupation == globals.Occupation.Taoist:
+                    game_controller.cast_invisible()
                 last_move_time = time.time()
 
 
