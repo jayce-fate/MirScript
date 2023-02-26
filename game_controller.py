@@ -392,7 +392,7 @@ def click_sure_btn():
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
     match_loc = image_processor.match_template(
-        settings.screenshot_path, r"template_images/btn_sure.png", 0.05, match_scope)
+        settings.screenshot_path, r"template_images/btn_sure.png", 0.15, match_scope)
     if(match_loc != None):
         print("检测到弹框确定按钮，自动关闭...." + str(match_loc))
         adb_controller.click(match_loc)
@@ -1266,6 +1266,8 @@ def cast_dog():
             globals.skill_dog_pos = match_loc
     if globals.skill_dog_pos != None:
         adb_controller.click(globals.skill_dog_pos)
+        # 技能后摇1秒
+        time.sleep(1)
         return True
     return False
 

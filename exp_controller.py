@@ -157,7 +157,7 @@ def routine_lvl_one():
         game_controller.cast_attack()
         adb_controller.screenshot(settings.screenshot_path)
     print("等级7")
-    time.sleep(2.0)
+    time.sleep(3.0)
     while game_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
@@ -299,8 +299,8 @@ def start_get_exp():
         print('当前没有宠物')
         if globals.occupation == globals.Occupation.Taoist:
             print('道士重新召唤宝宝')
-            game_controller.cast_dog()
-            game_controller.cast_skeleton()
+            if not game_controller.cast_dog():
+                game_controller.cast_skeleton()
         elif globals.occupation == globals.Occupation.Magician:
             print("法师直接下线换道士")
             return
