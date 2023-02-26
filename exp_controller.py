@@ -8,6 +8,7 @@ import datetime
 
 import globals
 import settings
+import utils
 import image_processor
 import adb_controller
 import game_controller
