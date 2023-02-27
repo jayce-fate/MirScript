@@ -24,9 +24,10 @@ import utils
 # test
 # ******************************************
 adb_controller.connect()
-# adb_controller.screenshot(settings.screenshot_path)
-while btn_controller.click_sure_btn():
-    adb_controller.screenshot(settings.screenshot_path)
+adb_controller.screenshot(settings.screenshot_path)
+trash_controller.sell_trashes()
+# while btn_controller.click_sure_btn():
+#     adb_controller.screenshot(settings.screenshot_path)
 # btn_controller.click_btn_login()
 # exp_controller.restart_routine()
 # if game_controller.is_save_power_mode():

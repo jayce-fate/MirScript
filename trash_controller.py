@@ -400,3 +400,28 @@ def batch_drink_item(item_name):
         btn_controller.click_cancel_select()
         return True
     return False
+
+
+def sell_trashes(neen_open_close_bag = True):
+    if neen_open_close_bag:
+        game_controller.open_bag()
+        time.sleep(0.5)
+
+    btn_controller.click_right_menu("更多")
+    time.sleep(0.5)
+    adb_controller.screenshot(settings.screenshot_path)
+
+    btn_controller.click_sell_all()
+    time.sleep(0.5)
+    adb_controller.screenshot(settings.screenshot_path)
+
+    btn_controller.click_confirm()
+    time.sleep(0.5)
+    adb_controller.screenshot(settings.screenshot_path)
+
+    btn_controller.click_yes()
+    btn_controller.click_right_menu("整理")
+
+    if neen_open_close_bag:
+        btn_controller.click_left_return()
+        btn_controller.click_right_return()

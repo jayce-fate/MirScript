@@ -232,6 +232,21 @@ def click_btn_buy():
     return click_menu("购买", match_scope)
 
 
+def click_sell_all():
+    match_scope = (456,516,1380,1540)
+    return click_menu("出售", match_scope)
+
+
+def click_confirm():
+    match_scope = (582,650,908,1166)
+    return click_menu("确定", match_scope)
+
+
+def click_yes():
+    match_scope = (582,650,908,1166)
+    return click_menu("是", match_scope)
+
+
 # 点击“依然传送”
 def click_btn_confirm_transform():
     match_scope = (582,650,908,1166)
