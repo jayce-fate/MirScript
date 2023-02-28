@@ -28,6 +28,12 @@ def wait_till_max_lvl_max():
     pet_max_HP = game_controller.get_pet_max_HP()
     print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
     print("pet_max_HP: {}".format(str(pet_max_HP)))
+    if current_pet_max_HP == 0:
+        if globals.occupation == globals.Occupation.Taoist:
+            print('current_pet_max_HP == 0,道士重新召唤宝宝')
+            if not skill_controller.cast_dog():
+                skill_controller.cast_skeleton()
+                skill_controller.cast_skeleton()
     while current_pet_max_HP != pet_max_HP:
         time.sleep(10)
         # 消除确认框，比如游戏断开，活动提醒
@@ -259,8 +265,8 @@ def buy_supplies():
           "随机传送卷包": 9,
           "地牢逃脱卷": 1,
           "棕色栗子": 1,
-          "黄色药粉(中)": 2,
-          "灰色药粉(中)": 2,
+          "黄色药粉(中)": 1,
+          "灰色药粉(中)": 1,
           "护身符(大)": 4,
         }
         trash_controller.buy_items(item_list)
@@ -303,6 +309,7 @@ def start_get_exp():
         if globals.occupation == globals.Occupation.Taoist:
             print('道士重新召唤宝宝')
             if not skill_controller.cast_dog():
+                skill_controller.cast_skeleton()
                 skill_controller.cast_skeleton()
         elif globals.occupation == globals.Occupation.Magician:
             print("法师直接下线换道士")

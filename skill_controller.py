@@ -135,6 +135,7 @@ def cast_skeleton():
             globals.skill_skeleton_pos = match_loc
     if globals.skill_skeleton_pos != None:
         adb_controller.click(globals.skill_skeleton_pos)
+        time.sleep(1)
 
 
 def cast_dog():
@@ -154,7 +155,7 @@ def cast_dog():
 def cast_back_town():
     if globals.skill_back_town == None:
         match_loc = image_processor.match_template(
-            settings.screenshot_path,r"template_images/btn_back_town.png",0.05,skill_controller.get_skill_scope())
+            settings.screenshot_path,r"template_images/btn_back_town.png",0.05,get_skill_scope())
         if(match_loc != None):
             globals.skill_back_town = match_loc
     if globals.skill_back_town != None:
@@ -165,7 +166,7 @@ def cast_back_town():
 def cast_random_fly(do_click=True):
     if globals.skill_random_fly == None:
         match_loc = image_processor.match_template(
-            settings.screenshot_path,r"template_images/btn_random_fly.png",0.05,skill_controller.get_skill_scope())
+            settings.screenshot_path,r"template_images/btn_random_fly.png",0.05,get_skill_scope())
         if(match_loc != None):
             globals.skill_random_fly = match_loc
     if globals.skill_random_fly != None:

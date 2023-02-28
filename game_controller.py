@@ -8,6 +8,7 @@ import adb_controller
 import skill_controller
 import image_processor
 import btn_controller
+import trash_controller
 import settings
 import globals
 import utils
