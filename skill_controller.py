@@ -135,7 +135,10 @@ def cast_skeleton():
             globals.skill_skeleton_pos = match_loc
     if globals.skill_skeleton_pos != None:
         adb_controller.click(globals.skill_skeleton_pos)
+        # 技能后摇1秒
         time.sleep(1)
+        return True
+    return False
 
 
 def cast_dog():

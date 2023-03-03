@@ -806,10 +806,13 @@ def template_exist(template_name):
     return False
 
 
-def open_bag_and_drink(item_name):
+def open_bag_and_drink(item_name, batch=False):
     open_bag()
     time.sleep(0.5)
-    trash_controller.drink_item(item_name)
+    if batch:
+        trash_controller.batch_drink(item_name)
+    else:
+        trash_controller.drink_item(item_name)
     btn_controller.click_left_return()
     btn_controller.click_right_return()
 

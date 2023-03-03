@@ -425,3 +425,28 @@ def sell_trashes(neen_open_close_bag = True):
     if neen_open_close_bag:
         btn_controller.click_left_return()
         btn_controller.click_right_return()
+
+
+def count_trashes(neen_open_close_bag = False):
+    if neen_open_close_bag:
+        game_controller.open_bag()
+        time.sleep(0.5)
+
+    item_list = {
+        "hu_shen_fu_da": 0,
+        "huang_se_yao_fen_zhong": 0,
+        "hui_se_yao_fen_zhong": 0,
+        "chao_ji_jin_chuang_yao": 0,
+        "chao_ji_mo_fa_yao": 0,
+        "sui_ji_chuan_song_juan_bao": 0,
+        "sui_ji_chuan_song_juan": 0,
+        "di_lao_tao_tuo_juan": 0,
+        "hui_cheng_juan": 0,
+    }
+
+    for key, value in item_list.items():
+        print(key, '->', value)
+
+    if neen_open_close_bag:
+        btn_controller.click_left_return()
+        btn_controller.click_right_return()

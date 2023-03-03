@@ -18,6 +18,17 @@ import trash_controller
 import skill_controller
 import btn_controller
 
+def summon_pet():
+    print('道士重新召唤宝宝')
+    if globals.current_lvl >= 35:
+        if not skill_controller.cast_dog():
+            skill_controller.cast_skeleton()
+            skill_controller.cast_skeleton()
+    else:
+        if not skill_controller.cast_skeleton():
+            print("学习召唤骷髅")
+            game_controller.open_bag_and_drink("ji_neng_shu", batch=True)
+            skill_controller.cast_skeleton()
 
 def wait_till_max_lvl_max():
     print("wait_till_max_lvl_max")
@@ -29,11 +40,9 @@ def wait_till_max_lvl_max():
     print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
     print("pet_max_HP: {}".format(str(pet_max_HP)))
     if current_pet_max_HP == 0:
+        print("current_pet_max_HP == 0")
         if globals.occupation == globals.Occupation.Taoist:
-            print('current_pet_max_HP == 0,道士重新召唤宝宝')
-            if not skill_controller.cast_dog():
-                skill_controller.cast_skeleton()
-                skill_controller.cast_skeleton()
+            summon_pet()
     while current_pet_max_HP != pet_max_HP:
         time.sleep(10)
         # 消除确认框，比如游戏断开，活动提醒
@@ -74,7 +83,7 @@ def fly_to_exp_map():
             }
             trash_controller.buy_books(item_list)
             adb_controller.screenshot(settings.screenshot_path)
-            game_controller.open_bag_and_drink("ji_neng_shu")
+            game_controller.open_bag_and_drink("ji_neng_shu", batch=True)
 
     btn_controller.click_npc_meng_zhong_lao_bing()
     time.sleep(1.0)
@@ -136,7 +145,7 @@ def get_exp_by_random_fly():
                         adb_controller.screenshot(settings.screenshot_path)
                     print("学习召唤骷髅")
                     adb_controller.screenshot(settings.screenshot_path)
-                    game_controller.open_bag_and_drink("ji_neng_shu")
+                    game_controller.open_bag_and_drink("ji_neng_shu", batch=True)
                     adb_controller.screenshot(settings.screenshot_path)
                     skill_controller.cast_back_town()
                     time.sleep(2.0)
@@ -258,6 +267,9 @@ def buy_supplies():
     while btn_controller.click_sure_btn():
         adb_controller.screenshot(settings.screenshot_path)
 
+    item_list = {
+      "地牢逃脱卷": 1,
+    }
     if game_controller.get_bag_remain_capacity() > 32:
         item_list = {
           "超级魔法药": 7,
@@ -269,7 +281,14 @@ def buy_supplies():
           "灰色药粉(中)": 1,
           "护身符(大)": 4,
         }
-        trash_controller.buy_items(item_list)
+        if globals.current_lvl >= 19:
+            item_list = {
+              "超级魔法药": 12,
+              "地牢逃脱卷": 1,
+              "护身符(大)": 12,
+            }
+
+    trash_controller.buy_items(item_list)
 
 def start_get_exp():
     print("开始练级")
@@ -307,17 +326,14 @@ def start_get_exp():
     if not game_controller.active_pet():
         print('当前没有宠物')
         if globals.occupation == globals.Occupation.Taoist:
-            print('道士重新召唤宝宝')
-            if not skill_controller.cast_dog():
-                skill_controller.cast_skeleton()
-                skill_controller.cast_skeleton()
+            summon_pet()
         elif globals.occupation == globals.Occupation.Magician:
             print("法师直接下线换道士")
             return
     else:
         if globals.occupation == globals.Occupation.Taoist:
-            print('虽然有宝宝了，再用一下召唤宝宝，为了初始化globals.skill_dog_pos')
-            skill_controller.cast_dog()
+            print('虽然有宝宝了，再用一下召唤宝宝，为了初始化globals.skill_xxx_pos')
+            summon_pet()
 
     if "盟重" in map_name:
         print("当前位置，盟重土城")
