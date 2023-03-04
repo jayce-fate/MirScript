@@ -91,7 +91,7 @@ def drop_trashes(neen_open_close_bag = True):
         game_controller.open_bag()
         time.sleep(0.5)
 
-    game_controller.wipe_down_bag()
+    game_controller.wipe_up_bag()
     btn_controller.click_right_menu("整理")
     time.sleep(2.0)
     drop_trashes_loop()

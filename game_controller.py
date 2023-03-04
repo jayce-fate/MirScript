@@ -511,6 +511,9 @@ def wipe_down_bag():
     pos = (1000, 500)
     adb_controller.swipe((pos[0], pos[1] + 50), (pos[0], pos[1] - 50), 200)
 
+def wipe_up_bag():
+    pos = (1000, 500)
+    adb_controller.swipe((pos[0], pos[1] - 50), (pos[0], pos[1] + 50), 200)
 
 def select_item(item_name):
     item_template = "template_images/items/{}.png".format(str(item_name))

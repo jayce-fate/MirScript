@@ -25,7 +25,10 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-trash_controller.sell_trashes()
+# game_controller.open_bag()
+# game_controller.wipe_up_bag()
+# adb_controller.screenshot(settings.screenshot_path)
+# trash_controller.sell_trashes()
 # while btn_controller.click_sure_btn():
 #     adb_controller.screenshot(settings.screenshot_path)
 # btn_controller.click_btn_login()

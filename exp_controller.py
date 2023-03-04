@@ -166,6 +166,7 @@ def routine_lvl_one():
         adb_controller.screenshot(settings.screenshot_path)
         btn_controller.click_msg_box("开始", True)
     game_controller.open_bag()
+    game_controller.wipe_up_bag()
     time.sleep(0.5)
     trash_controller.drink_item("bu_yi_nv")
     trash_controller.drink_item("wu_mu_jian")
