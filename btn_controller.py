@@ -388,9 +388,15 @@ def wait_to_match_and_click(match_text,threshold,max_time,step_time,match_scope 
         time.sleep(step_time)
     return click_success
 
-
+#丢弃
 def click_drop():
     point = utils.convert_point((1310, 840), (1664, 936))
+    adb_controller.click(point)
+
+#存仓
+def click_in_warehouse():
+    print('存仓')
+    point = utils.convert_point((1444, 840), (1664, 936))
     adb_controller.click(point)
 
 def click_cancel_drop():

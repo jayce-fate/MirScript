@@ -83,3 +83,36 @@ def is_all_chinese(strs):
         if not '\u4e00' <= _char <= '\u9fa5':
             return False
     return True
+
+
+def get_item_pos_of_index(item_index):
+    left_top_point = convert_point((990, 178), (1664, 936))
+    right_bottom_point = convert_point((1470, 750), (1664, 936))
+    cell_width = (right_bottom_point[0] - left_top_point[0]) / 5 #96
+    cell_height = (right_bottom_point[1] - left_top_point[1]) / 6 #96
+    row = int(item_index / 6)
+    column = item_index % 6
+    item_pos = (left_top_point[0] + cell_width * column, left_top_point[1] + cell_height * row)
+    return item_pos
+
+def index_of_item_in_bag(item_pos):
+    index = -1
+    left_top_point = convert_point((990, 178), (1664, 936))
+    right_bottom_point = convert_point((1470, 750), (1664, 936))
+    cell_width = (right_bottom_point[0] - left_top_point[0]) / 5 #96
+    cell_height = (right_bottom_point[1] - left_top_point[1]) / 6 #96
+
+    cell_leftest = left_top_point[0] - cell_width / 2
+    cell_toppest = left_top_point[1] - cell_height / 2
+    for row in range(7):
+        for column in range(6):
+            cell_left = cell_leftest + cell_width * column
+            cell_right = cell_left + cell_width
+            cell_top = cell_toppest + cell_height * row
+            cell_bottom = cell_top + cell_height
+
+            if cell_left < item_pos[0] and item_pos[0] < cell_right and cell_top < item_pos[1] and item_pos[1] < cell_bottom:
+                index = row * 6 + column
+                return index
+
+    return index

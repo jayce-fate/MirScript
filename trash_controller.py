@@ -402,51 +402,87 @@ def batch_drink_item(item_name):
     return False
 
 
-def sell_trashes(neen_open_close_bag = True):
+#获取补给缺少数量清单
+def get_supply_shortage_list(buy_list, neen_open_close_bag = True):
     if neen_open_close_bag:
         game_controller.open_bag()
-        time.sleep(0.5)
+        game_controller.wipe_up_bag()
 
     btn_controller.click_right_menu("更多")
-    time.sleep(0.5)
     adb_controller.screenshot(settings.screenshot_path)
-
     btn_controller.click_sell_all()
-    time.sleep(0.5)
     adb_controller.screenshot(settings.screenshot_path)
-
     btn_controller.click_confirm()
-    time.sleep(0.5)
     adb_controller.screenshot(settings.screenshot_path)
-
     btn_controller.click_yes()
     btn_controller.click_right_menu("整理")
+
+    shortage_list = count_trashes(buy_list)
 
     if neen_open_close_bag:
         btn_controller.click_left_return()
         btn_controller.click_right_return()
 
+    return shortage_list
 
-def count_trashes(neen_open_close_bag = False):
+def count_trash(item_name):
+    # print("count_trash:", item_name)
+    item_template = "template_images/items/{}.png".format(str(item_name))
+    match_locs = image_processor.multiple_match_template(
+        settings.screenshot_path,item_template,0.05)
+
+    item_indexs = []
+    for idx in range(0, len(match_locs)):
+        match_loc = match_locs[idx]
+        # print("match_loc:", match_loc[0], match_loc[1])
+        index = utils.index_of_item_in_bag(match_loc)
+        if not index in item_indexs:
+            item_indexs.append(index)
+            # print("index:", index)
+
+    return item_indexs
+
+def count_trashes(buy_list, neen_open_close_bag = False):
     if neen_open_close_bag:
         game_controller.open_bag()
-        time.sleep(0.5)
 
+    # buy_list to item_list
     item_list = {
         "hu_shen_fu_da": 0,
         "huang_se_yao_fen_zhong": 0,
         "hui_se_yao_fen_zhong": 0,
+        "qiang_xiao_jin_chuang_yao": 0,
+        "qiang_xiao_mo_fa_yao": 0,
         "chao_ji_jin_chuang_yao": 0,
         "chao_ji_mo_fa_yao": 0,
         "sui_ji_chuan_song_juan_bao": 0,
         "sui_ji_chuan_song_juan": 0,
         "di_lao_tao_tuo_juan": 0,
         "hui_cheng_juan": 0,
+        "zhong_se_li_zi": 0,
+        "kong_wei": 0,
     }
 
+    supply_indexs = []
+    adb_controller.screenshot(settings.screenshot_path)
     for key, value in item_list.items():
-        print(key, '->', value)
+        item_indexs = count_trash(key)
+        item_list[key] = len(item_indexs)
+        print(key, '->', item_list[key])
+        for item_index in item_indexs:
+            if not item_index in supply_indexs:
+                supply_indexs.append(item_index)
+
+    for idx in range(42):
+        if not idx in supply_indexs:
+            print('宝贝坐标：', idx)
+            item_pos = utils.get_item_pos_of_index(idx)
+            print('item_pos：', str(item_pos))
+            adb_controller.click(item_pos)
+            btn_controller.click_in_warehouse()
 
     if neen_open_close_bag:
         btn_controller.click_left_return()
         btn_controller.click_right_return()
+
+    return item_list

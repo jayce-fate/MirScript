@@ -508,12 +508,12 @@ def open_bag():
     adb_controller.click(point)
 
 def wipe_down_bag():
-    pos = (1000, 500)
-    adb_controller.swipe((pos[0], pos[1] + 50), (pos[0], pos[1] - 50), 200)
+    pos = utils.convert_point((956, 520), (1664, 936))
+    adb_controller.swipe((pos[0], pos[1] + 50), (pos[0], pos[1] - 50), 400)
 
 def wipe_up_bag():
-    pos = (1000, 500)
-    adb_controller.swipe((pos[0], pos[1] - 50), (pos[0], pos[1] + 50), 200)
+    pos = utils.convert_point((956, 520), (1664, 936))
+    adb_controller.swipe((pos[0], pos[1] - 50), (pos[0], pos[1] + 50), 400)
 
 def select_item(item_name):
     item_template = "template_images/items/{}.png".format(str(item_name))
