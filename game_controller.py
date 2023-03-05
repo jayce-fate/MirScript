@@ -813,7 +813,7 @@ def open_bag_and_drink(item_name, batch=False):
     open_bag()
     time.sleep(0.5)
     if batch:
-        trash_controller.batch_drink(item_name)
+        trash_controller.batch_drink_item(item_name)
     else:
         trash_controller.drink_item(item_name)
     btn_controller.click_left_return()

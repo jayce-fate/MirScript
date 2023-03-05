@@ -182,4 +182,9 @@ item_name_dict = {
     "回城卷": "hui_cheng_juan",
     "棕色栗子": "zhong_se_li_zi",
     "空位": "kong_wei",
+    "技能书": "ji_neng_shu",
+    "军饷": "jun_xiang",
+    "魔法药小量": "mo_fa_yao_xiao_liang",
+    "魔法药中包": "mo_fa_yao_zhong_bao",
+    "金创药小量": "jin_chuang_yao_xiao_liang",
 }

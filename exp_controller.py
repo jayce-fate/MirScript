@@ -236,8 +236,6 @@ def routine_lvl_fifteen():
         time.sleep(1.0)
 
     go_back_town_and_get_subsidy()
-    buy_supplies()
-
     fly_to_exp_map()
 
 
@@ -280,6 +278,12 @@ def buy_supplies():
           "黄色药粉(中)": 1,
           "灰色药粉(中)": 1,
           "护身符(大)": 4,
+          "技能书": 0,
+          "回城卷": 0,
+          "魔法药小量": 0,
+          "魔法药中包": 0,
+          "金创药小量": 0,
+          "军饷": 0,
         }
     else:
         item_list = {
