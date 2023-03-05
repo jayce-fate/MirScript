@@ -187,7 +187,8 @@ def routine_lvl_seven():
     print("routine_lvl_seven")
     if globals.current_lvl == 7:
         game_controller.open_bag()
-        time.sleep(1.0)
+        game_controller.wipe_up_bag()
+        time.sleep(0.5)
         trash_controller.drink_item("jun_xiang")
         trash_controller.batch_drink_item("ji_neng_shu")
         trash_controller.drink_item("tie_jian")
@@ -220,6 +221,7 @@ def routine_lvl_fifteen():
     if globals.current_lvl == 15 and game_controller.get_bag_remain_capacity() > 32:
         # 穿装备，学技能
         game_controller.open_bag()
+        game_controller.wipe_up_bag()
         time.sleep(0.5)
         trash_controller.drink_item("jun_xiang")
         trash_controller.batch_drink_item("ji_neng_shu")
@@ -285,10 +287,20 @@ def buy_supplies():
           "金创药小量": 0,
           "军饷": 0,
         }
+    elif globals.current_lvl < 22:
+        item_list = {
+            "护身符(大)": 12,
+            "超级魔法药": 12,
+            "超级金创药": 3,
+            "地牢逃脱卷": 1,
+            "随机传送卷": 3,
+            "棕色栗子": 1,
+        }
     else:
         item_list = {
             "护身符(大)": 12,
             "超级魔法药": 12,
+            "超级金创药": 1,
             "地牢逃脱卷": 1,
             "随机传送卷": 3,
             "棕色栗子": 1,

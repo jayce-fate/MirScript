@@ -63,12 +63,15 @@ def double_click(location, sleep_time = 0.001):
 
 
 # 截屏
-def screenshot(path):
+def screenshot(path, back_up_extension=None):
     tmp_path = path + ".tmp"
     command = "\"" + settings.adb_path + "\"" + " -s " + settings.device_address + " exec-out screencap -p > " + tmp_path
     # print("command:\n", command)
     os.system(command)
     shutil.move(tmp_path, path)
+    if back_up_extension != None:
+        destination = path + back_up_extension
+        shutil.copyfile(path, destination)
     time.sleep(0.001)
 
 # restart adb-server

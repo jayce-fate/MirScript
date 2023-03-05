@@ -811,6 +811,7 @@ def template_exist(template_name):
 
 def open_bag_and_drink(item_name, batch=False):
     open_bag()
+    wipe_up_bag()
     time.sleep(0.5)
     if batch:
         trash_controller.batch_drink_item(item_name)

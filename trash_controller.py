@@ -204,10 +204,11 @@ def collect_ground_treasures():
 
 def perform_buy(item_list):
     for key, value in item_list.items():
-        print(key, '->', value)
-        if btn_controller.click_item_menu(key):
-            for idx in range(value):
-                btn_controller.click_btn_buy()
+        print('buy:', key, '->', value)
+        if value > 0:
+            if btn_controller.click_item_menu(key):
+                for idx in range(value):
+                    btn_controller.click_btn_buy()
 
 
 def buy_items(item_list, neen_not_open_but_close_bag = True):
@@ -385,7 +386,13 @@ def drink_item(item_name):
 
 def batch_drink_item(item_name):
     print("batch_drink_item:", item_name)
-    adb_controller.screenshot(settings.screenshot_path)
+    #debug
+    if item_name == 'ji_neng_shu':
+        globals.debug_times = globals.debug_times + 1
+        extension = ".ji_neng_shu{}".format(str(globals.debug_times))
+        adb_controller.screenshot(settings.screenshot_path, extension)
+    else:
+        adb_controller.screenshot(settings.screenshot_path)
     item_template = "template_images/items/{}.png".format(str(item_name))
     match_locs = image_processor.multiple_match_template(
         settings.screenshot_path,item_template,0.05)
@@ -443,6 +450,8 @@ def get_supply_shortage_list(buy_list, neen_open_but_not_close_bag = True):
 
     #出售技能书
     batch_sell_item('ji_neng_shu')
+    #出售白色虎齿项链
+    batch_sell_item('bai_se_hu_chi_xiang_lian')
 
     shortage_list = count_trashes(buy_list)
     return shortage_list

@@ -55,3 +55,6 @@ skill_back_town = None
 skill_random_fly = None
 skill_skeleton_pos = None
 skill_dog_pos = None
+
+# 当前等级
+debug_times = 0
