@@ -25,6 +25,7 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
+# btn_controller.click_right_menu('出售')
 item_list = {
     "护身符(大)": 12,
     "超级魔法药": 12,

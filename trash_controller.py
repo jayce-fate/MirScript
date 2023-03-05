@@ -384,19 +384,46 @@ def drink_item(item_name):
 
 
 def batch_drink_item(item_name):
-    print("batch_drink:", item_name)
+    print("batch_drink_item:", item_name)
     adb_controller.screenshot(settings.screenshot_path)
     item_template = "template_images/items/{}.png".format(str(item_name))
     match_locs = image_processor.multiple_match_template(
         settings.screenshot_path,item_template,0.05)
+
+    item_indexs = []
     for idx in range(0, len(match_locs)):
         match_loc = match_locs[idx]
-        adb_controller.double_click(match_loc)
-    if(len(match_locs) != 0):
+        index = utils.index_of_item_in_bag(match_loc)
+        if not index in item_indexs:
+            item_indexs.append(index)
+            adb_controller.double_click(match_loc)
+
+    if(len(item_indexs) != 0):
         btn_controller.click_cancel_select()
         return True
     return False
 
+def batch_sell_item(item_name):
+    print("batch_sell_item:", item_name)
+    adb_controller.screenshot(settings.screenshot_path)
+    item_template = "template_images/items/{}.png".format(str(item_name))
+    match_locs = image_processor.multiple_match_template(
+        settings.screenshot_path,item_template,0.05)
+
+    item_indexs = []
+    for idx in range(0, len(match_locs)):
+        match_loc = match_locs[idx]
+        index = utils.index_of_item_in_bag(match_loc)
+        if not index in item_indexs:
+            item_indexs.append(index)
+            adb_controller.click(match_loc)
+            btn_controller.click_right_menu('出售')
+            btn_controller.click_yes()
+
+    if(len(item_indexs) != 0):
+        btn_controller.click_cancel_select()
+        return True
+    return False
 
 #获取补给缺少数量清单
 def get_supply_shortage_list(buy_list, neen_open_but_not_close_bag = True):
@@ -413,6 +440,9 @@ def get_supply_shortage_list(buy_list, neen_open_but_not_close_bag = True):
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_yes()
     btn_controller.click_right_menu("整理")
+
+    #出售技能书
+    batch_sell_item('ji_neng_shu')
 
     shortage_list = count_trashes(buy_list)
     return shortage_list
