@@ -269,9 +269,8 @@ def buy_supplies():
         adb_controller.screenshot(settings.screenshot_path)
 
     item_list = {
-      "地牢逃脱卷": 1,
     }
-    if game_controller.get_bag_remain_capacity() > 32:
+    if globals.current_lvl < 17:
         item_list = {
           "超级魔法药": 7,
           "超级金创药": 3,
@@ -282,14 +281,17 @@ def buy_supplies():
           "灰色药粉(中)": 1,
           "护身符(大)": 4,
         }
-        if globals.current_lvl >= 19:
-            item_list = {
-              "超级魔法药": 12,
-              "地牢逃脱卷": 1,
-              "护身符(大)": 12,
-            }
+    else:
+        item_list = {
+            "护身符(大)": 12,
+            "超级魔法药": 12,
+            "地牢逃脱卷": 1,
+            "随机传送卷": 3,
+            "棕色栗子": 1,
+        }
 
-    trash_controller.buy_items(item_list)
+    shortage_list = trash_controller.get_supply_shortage_list(item_list)
+    trash_controller.buy_items(shortage_list)
 
 def start_get_exp():
     print("开始练级")

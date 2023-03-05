@@ -166,3 +166,20 @@ binding_trash_list = [
                 "bo_li_jie_zhi",            #玻璃戒指
                 "you_xia_gong_lve",         #游侠攻略
                 ]
+
+
+item_name_dict = {
+    "护身符(大)": "hu_shen_fu_da",
+    "黄色药粉(中)": "huang_se_yao_fen_zhong",
+    "灰色药粉(中)": "hui_se_yao_fen_zhong",
+    "强效金创药": "qiang_xiao_jin_chuang_yao",
+    "强效魔法药": "qiang_xiao_mo_fa_yao",
+    "超级金创药": "chao_ji_jin_chuang_yao",
+    "超级魔法药": "chao_ji_mo_fa_yao",
+    "随机传送卷包": "sui_ji_chuan_song_juan_bao",
+    "随机传送卷": "sui_ji_chuan_song_juan",
+    "地牢逃脱卷": "di_lao_tao_tuo_juan",
+    "回城卷": "hui_cheng_juan",
+    "棕色栗子": "zhong_se_li_zi",
+    "空位": "kong_wei",
+}

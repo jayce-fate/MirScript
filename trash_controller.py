@@ -210,11 +210,7 @@ def perform_buy(item_list):
                 btn_controller.click_btn_buy()
 
 
-def buy_items(item_list, neen_open_close_bag = True):
-    if neen_open_close_bag:
-        game_controller.open_bag()
-        time.sleep(0.5)
-
+def buy_items(item_list, neen_not_open_but_close_bag = True):
     btn_controller.click_right_menu("商店")
     time.sleep(0.5)
     btn_controller.click_left_menu("绑金")
@@ -235,7 +231,7 @@ def buy_items(item_list, neen_open_close_bag = True):
     adb_controller.screenshot(settings.screenshot_path)
     perform_buy(item_list)
 
-    if neen_open_close_bag:
+    if neen_not_open_but_close_bag:
         btn_controller.click_left_return()
         btn_controller.click_left_return()
         btn_controller.click_right_return()
@@ -403,11 +399,12 @@ def batch_drink_item(item_name):
 
 
 #获取补给缺少数量清单
-def get_supply_shortage_list(buy_list, neen_open_close_bag = True):
-    if neen_open_close_bag:
+def get_supply_shortage_list(buy_list, neen_open_but_not_close_bag = True):
+    if neen_open_but_not_close_bag:
         game_controller.open_bag()
         game_controller.wipe_up_bag()
 
+    #一键出售
     btn_controller.click_right_menu("更多")
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_sell_all()
@@ -418,11 +415,6 @@ def get_supply_shortage_list(buy_list, neen_open_close_bag = True):
     btn_controller.click_right_menu("整理")
 
     shortage_list = count_trashes(buy_list)
-
-    if neen_open_close_bag:
-        btn_controller.click_left_return()
-        btn_controller.click_right_return()
-
     return shortage_list
 
 def count_trash(item_name):
@@ -442,32 +434,22 @@ def count_trash(item_name):
 
     return item_indexs
 
-def count_trashes(buy_list, neen_open_close_bag = False):
-    if neen_open_close_bag:
-        game_controller.open_bag()
-
-    # buy_list to item_list
-    item_list = {
-        "hu_shen_fu_da": 0,
-        "huang_se_yao_fen_zhong": 0,
-        "hui_se_yao_fen_zhong": 0,
-        "qiang_xiao_jin_chuang_yao": 0,
-        "qiang_xiao_mo_fa_yao": 0,
-        "chao_ji_jin_chuang_yao": 0,
-        "chao_ji_mo_fa_yao": 0,
-        "sui_ji_chuan_song_juan_bao": 0,
-        "sui_ji_chuan_song_juan": 0,
-        "di_lao_tao_tuo_juan": 0,
-        "hui_cheng_juan": 0,
-        "zhong_se_li_zi": 0,
-        "kong_wei": 0,
-    }
-
+def count_trashes(item_list):
     supply_indexs = []
+
+    #添加空位(为了把其他物品存仓)
+    item_list['空位'] = 0
+    #为了不存仓
+    if not '强效金创药' in item_list:
+        item_list['强效金创药'] = 0
+    if not '强效魔法药' in item_list:
+        item_list['强效魔法药'] = 0
+
     adb_controller.screenshot(settings.screenshot_path)
     for key, value in item_list.items():
-        item_indexs = count_trash(key)
-        item_list[key] = len(item_indexs)
+        item_name = settings.item_name_dict[key]
+        item_indexs = count_trash(item_name)
+        item_list[key] = item_list[key] - len(item_indexs)
         print(key, '->', item_list[key])
         for item_index in item_indexs:
             if not item_index in supply_indexs:
@@ -481,8 +463,6 @@ def count_trashes(buy_list, neen_open_close_bag = False):
             adb_controller.click(item_pos)
             btn_controller.click_in_warehouse()
 
-    if neen_open_close_bag:
-        btn_controller.click_left_return()
-        btn_controller.click_right_return()
-
+    #去掉空位
+    item_list.pop('空位', None)
     return item_list

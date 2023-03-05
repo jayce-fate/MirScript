@@ -25,7 +25,16 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-trash_controller.count_trashes()
+item_list = {
+    "护身符(大)": 12,
+    "超级魔法药": 12,
+    "地牢逃脱卷": 1,
+    "随机传送卷": 3,
+    "棕色栗子": 1,
+}
+shortage_list = trash_controller.get_supply_shortage_list(item_list)
+trash_controller.buy_items(shortage_list)
+# trash_controller.count_trashes()
 # trash_controller.sell_trashes()
 # while btn_controller.click_sure_btn():
 #     adb_controller.screenshot(settings.screenshot_path)
