@@ -25,7 +25,8 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-trash_controller.batch_drink_item('jin_chuang_yao_zhong_liang')
+globals.current_lvl = 30
+trash_controller.batch_drink_item('ji_neng_shu')
 # btn_controller.click_right_menu('出售')
 # item_list = {
 #     "护身符(大)": 12,

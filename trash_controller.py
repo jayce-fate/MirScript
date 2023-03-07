@@ -387,15 +387,23 @@ def drink_item(item_name):
 def batch_drink_item(item_name):
     print("batch_drink_item:", item_name)
     #debug
-    if item_name == 'ji_neng_shu':
+    if item_name == 'ji_neng_shu' and globals.current_lvl >= 17:
         globals.debug_times = globals.debug_times + 1
-        extension = ".ji_neng_shu{}".format(str(globals.debug_times))
-        adb_controller.screenshot(settings.screenshot_path, extension)
+        prefix = "ji_neng_shu{}".format(str(globals.debug_times))
+        adb_controller.screenshot(settings.screenshot_path, prefix)
     else:
         adb_controller.screenshot(settings.screenshot_path)
     item_template = "template_images/items/{}.png".format(str(item_name))
     match_locs = image_processor.multiple_match_template(
         settings.screenshot_path,item_template,0.05)
+
+    if item_name == 'ji_neng_shu' and globals.current_lvl >= 17:
+        file_name = "temp_screenshot/ji_neng_shu{}_log.txt".format(str(globals.debug_times))
+        file = open(file_name,'w')
+        file.write("match_locs:\n")
+        for item in match_locs:
+        	file.write(str(item)+"\n")
+        file.close()
 
     item_indexs = []
     for idx in range(0, len(match_locs)):
@@ -404,6 +412,14 @@ def batch_drink_item(item_name):
         if not index in item_indexs:
             item_indexs.append(index)
             adb_controller.double_click(match_loc)
+            if item_name == 'ji_neng_shu' and globals.current_lvl >= 17:
+                file_name = "temp_screenshot/ji_neng_shu{}_log.txt".format(str(globals.debug_times))
+                file = open(file_name,'a')
+                file.write("index:\n")
+                file.write(str(index)+"\n")
+                file.write("double click match_loc:\n")
+                file.write(str(match_loc)+"\n")
+                file.close()
 
     if(len(item_indexs) != 0):
         btn_controller.click_cancel_select()
