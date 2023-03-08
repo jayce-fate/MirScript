@@ -25,8 +25,9 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-globals.current_lvl = 7
-exp_controller.routine_lvl_seven()
+print(settings.device_address)
+# globals.current_lvl = 7
+# exp_controller.routine_lvl_seven()
 # globals.current_lvl = 30
 # trash_controller.batch_drink_item('ji_neng_shu')
 # btn_controller.click_right_menu('出售')

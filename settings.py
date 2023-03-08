@@ -4,6 +4,7 @@
 # 获取UserId
 # win: adb shell ps | findstr air.com.PaladinOfMarphaNew
 # mac: adb shell ps | grep air.com.PaladinOfMarphaNew
+import caches.user as user
 
 # adb.exe 的路径，模拟器安装路径下的bin文件夹里面有
 # adb_path = "/Applications/NemuPlayer.app/Contents/MacOS/adb"
@@ -19,7 +20,8 @@ adb_path = "adb"
 # device_address = "127.0.0.1:7555"
 # device_address = "127.0.0.1:8555"
 # device_address = "127.0.0.1:8556"
-device_address = "127.0.0.1:8559"
+# device_address = "127.0.0.1:8559"
+device_address = user.device_address
 
 # 包名
 package_name = "air.com.PaladinOfMarphaNew"
