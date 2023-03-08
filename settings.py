@@ -163,6 +163,7 @@ binding_trash_list = [
                 "qing_xing_kui_jia_nv",     #轻型盔甲女
                 "wu_mu_jian",               #乌木剑
                 "bu_yi_nv",                 #布衣女
+                "bu_yi_nan",                #布衣男
                 "bo_li_jie_zhi",            #玻璃戒指
                 "you_xia_gong_lve",         #游侠攻略
                 ]
@@ -183,6 +184,7 @@ item_name_dict = {
     "棕色栗子": "zhong_se_li_zi",
     "空位": "kong_wei",
     "技能书": "ji_neng_shu",
+    "技能书激活": "ji_neng_shu_active",
     "军饷": "jun_xiang",
     "魔法药小量": "mo_fa_yao_xiao_liang",
     "魔法药中包": "mo_fa_yao_zhong_bao",

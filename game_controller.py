@@ -811,6 +811,7 @@ def template_exist(template_name):
 
 def open_bag_and_drink(item_name, batch=False):
     open_bag()
+    btn_controller.click_right_menu("整理")
     wipe_up_bag()
     time.sleep(0.5)
     if batch:

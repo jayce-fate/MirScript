@@ -168,6 +168,7 @@ def routine_lvl_one():
     game_controller.open_bag()
     game_controller.wipe_up_bag()
     time.sleep(0.5)
+    trash_controller.drink_item("bu_yi_nan")
     trash_controller.drink_item("bu_yi_nv")
     trash_controller.drink_item("wu_mu_jian")
     btn_controller.click_left_return()
@@ -187,6 +188,7 @@ def routine_lvl_seven():
     print("routine_lvl_seven")
     if globals.current_lvl == 7:
         game_controller.open_bag()
+        btn_controller.click_right_menu("整理")
         game_controller.wipe_up_bag()
         time.sleep(0.5)
         trash_controller.drink_item("jun_xiang")
@@ -221,6 +223,7 @@ def routine_lvl_fifteen():
     if globals.current_lvl == 15 and game_controller.get_bag_remain_capacity() > 32:
         # 穿装备，学技能
         game_controller.open_bag()
+        btn_controller.click_right_menu("整理")
         game_controller.wipe_up_bag()
         time.sleep(0.5)
         trash_controller.drink_item("jun_xiang")
@@ -229,8 +232,9 @@ def routine_lvl_fifteen():
             trash_controller.drink_item("ban_yue_wan_dao")
             trash_controller.drink_item("da_shou_zhuo")
             trash_controller.drink_item("zhen_zhu_jie_zhi")
-        if not trash_controller.drink_item("qing_xing_kui_jia_nv"):
-            trash_controller.drink_item("qing_xing_kui_jia_nan")
+        #穿衣服
+        trash_controller.drink_item("qing_xing_kui_jia_nv")
+        trash_controller.drink_item("qing_xing_kui_jia_nan")
         #丢垃圾
         trash_controller.drop_binding_trashes(False)
         btn_controller.click_left_return()
@@ -281,6 +285,7 @@ def buy_supplies():
           "灰色药粉(中)": 1,
           "护身符(大)": 4,
           "技能书": 0,
+          "技能书激活": 0,
           "回城卷": 0,
           "魔法药小量": 0,
           "魔法药中包": 0,
