@@ -68,10 +68,10 @@ def screenshot(path, back_up_prefix=None):
     command = "\"" + settings.adb_path + "\"" + " -s " + settings.device_address + " exec-out screencap -p > " + tmp_path
     # print("command:\n", command)
     os.system(command)
-    shutil.move(tmp_path, path)
     if back_up_prefix != None:
         file_name = "temp_screenshot/{}.png".format(back_up_prefix)
         shutil.copyfile(path, file_name)
+    shutil.move(tmp_path, path)
     time.sleep(0.001)
 
 # restart adb-server

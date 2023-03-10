@@ -192,6 +192,7 @@ def routine_lvl_seven():
         game_controller.wipe_up_bag()
         time.sleep(0.5)
         trash_controller.drink_item("jun_xiang")
+        time.sleep(4.0)
         trash_controller.batch_drink_item("ji_neng_shu")
         trash_controller.drink_item("tie_jian")
         trash_controller.batch_drink_item("bo_li_jie_zhi")
@@ -227,6 +228,7 @@ def routine_lvl_fifteen():
         game_controller.wipe_up_bag()
         time.sleep(0.5)
         trash_controller.drink_item("jun_xiang")
+        time.sleep(4.0)
         trash_controller.batch_drink_item("ji_neng_shu")
         if globals.occupation == globals.Occupation.Taoist:
             trash_controller.drink_item("ban_yue_wan_dao")
@@ -300,6 +302,7 @@ def buy_supplies():
             "地牢逃脱卷": 1,
             "随机传送卷": 3,
             "棕色栗子": 1,
+            "回城卷": 0,
         }
     else:
         item_list = {
@@ -309,6 +312,7 @@ def buy_supplies():
             "地牢逃脱卷": 1,
             "随机传送卷": 3,
             "棕色栗子": 1,
+            "回城卷": 0,
         }
 
     shortage_list = trash_controller.get_supply_shortage_list(item_list)
