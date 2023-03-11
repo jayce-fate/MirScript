@@ -759,7 +759,8 @@ def get_my_health():
             rec = result[1] #('43', 0.99934321641922)
             res = rec[0] #'43'
             print("我的血量1: {}".format(str(res)))
-            res = re.sub(u"([^\u0030-\u0039\u002f])", "", res)
+            # res = re.sub(u"([^\u0030-\u0039\u002f])", "", res)
+            res = re.sub("[^0-9/]", "", res)
             print("我的血量2: {}".format(str(res)))
             if "/" in res:
                 splits = res.split('/')
