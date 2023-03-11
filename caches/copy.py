@@ -34,10 +34,12 @@ for src_file in src_list:
         src_file_path = src_path.joinpath(src_file)
         isdir = os.path.isdir(src_file_path)
         for dst_dir_path in dst_dir_list:
+            dst_file_path = dst_dir_path.joinpath(src_file)
             if isdir:
-                dst_file_path = dst_dir_path.joinpath(src_file)
                 if os.path.exists(dst_file_path):
                     shutil.rmtree(dst_file_path)
                 shutil.copytree(src_file_path, dst_file_path)
             else:
+                if os.path.exists(dst_file_path):
+                    os.remove(dst_file_path)
                 shutil.copy(src_file_path, dst_dir_path)
