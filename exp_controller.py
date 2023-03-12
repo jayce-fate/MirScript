@@ -278,7 +278,7 @@ def buy_supplies():
     }
     if globals.current_lvl < 17:
         item_list = {
-          "超级魔法药": 7,
+          "超级魔法药": 8,
           "超级金创药": 3,
           "随机传送卷包": 9,
           "地牢逃脱卷": 1,
