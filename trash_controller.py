@@ -212,6 +212,23 @@ def perform_buy(item_list, shop_item_list):
                 btn_controller.click_btn_buy()
 
 
+def buy_loop_every_page(item_list, all_page_item_list):
+    current_total_page = game_controller.read_current_page()
+    if current_total_page != None:
+        current_page = int(current_total_page[0])
+        max_page = int(current_total_page[1])
+
+        for idx in range(max_page):
+            current_page_index = current_page - 1 + idx
+            page_index = current_page_index % max_page
+            perform_buy(item_list, all_page_item_list[page_index])
+            if current_page_index != max_page - 1:
+                btn_controller.click_btn("btn_page_right")
+            else:
+                btn_controller.click_btn("btn_page_left_most")
+            time.sleep(0.5)
+
+
 def buy_items(item_list, neen_not_open_but_close_bag = True):
     btn_controller.click_right_menu("商店")
     time.sleep(0.5)
@@ -219,24 +236,7 @@ def buy_items(item_list, neen_not_open_but_close_bag = True):
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
 
-    current_page = game_controller.read_current_page()
-    if current_page != None:
-        current_index = int(current_page[0])
-        max_index = int(current_page[1])
-
-        perform_buy(item_list, settings.bind_gold_item_list[current_index - 1])
-
-        # 翻页
-        if current_index == 1:
-            btn_controller.click_btn("btn_page_right")
-            current_index = 2;
-        else:
-            btn_controller.click_btn("btn_page_left")
-            current_index = 1;
-        time.sleep(0.5)
-
-        adb_controller.screenshot(settings.screenshot_path)
-        perform_buy(item_list, settings.bind_gold_item_list[current_index - 1])
+    buy_loop_every_page(item_list, settings.bind_gold_item_list)
 
     if neen_not_open_but_close_bag:
         btn_controller.click_left_return()
@@ -255,24 +255,7 @@ def buy_books(item_list, neen_open_close_bag = True):
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
 
-    current_page = game_controller.read_current_page()
-    if current_page != None:
-        current_index = int(current_page[0])
-        max_index = int(current_page[1])
-
-        perform_buy(item_list, settings.book_item_list[current_index - 1])
-
-        # 翻页
-        if current_index == 1:
-            btn_controller.click_btn("btn_page_right")
-            current_index = 2;
-        else:
-            btn_controller.click_btn("btn_page_left")
-            current_index = 1;
-        time.sleep(0.5)
-
-        adb_controller.screenshot(settings.screenshot_path)
-        perform_buy(item_list, settings.book_item_list[current_index - 1])
+    buy_loop_every_page(item_list, settings.book_item_list)
 
     if neen_open_close_bag:
         btn_controller.click_left_return()

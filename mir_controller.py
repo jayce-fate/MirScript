@@ -34,16 +34,9 @@ item_list = {
   "黄色药粉(中)": 1,
   "灰色药粉(中)": 1,
   "护身符(大)": 1,
-  "技能书": 1,
-  "技能书激活": 1,
-  "回城卷": 1,
-  "魔法药小量": 1,
   "魔法药中包": 1,
-  "金创药小量": 1,
-  "军饷": 1,
 }
-shortage_list = trash_controller.get_supply_shortage_list(item_list)
-trash_controller.buy_items(shortage_list)
+trash_controller.buy_items(item_list)
 # btn_controller.click_item_menu_at_index(9)
 # game_controller.get_my_health()
 # game_controller.open_bag()
