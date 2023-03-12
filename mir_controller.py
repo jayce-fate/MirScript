@@ -25,7 +25,27 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-game_controller.get_my_health()
+item_list = {
+  "超级魔法药": 1,
+  "超级金创药": 1,
+  "随机传送卷包": 1,
+  "地牢逃脱卷": 1,
+  "棕色栗子": 1,
+  "黄色药粉(中)": 1,
+  "灰色药粉(中)": 1,
+  "护身符(大)": 1,
+  "技能书": 1,
+  "技能书激活": 1,
+  "回城卷": 1,
+  "魔法药小量": 1,
+  "魔法药中包": 1,
+  "金创药小量": 1,
+  "军饷": 1,
+}
+shortage_list = trash_controller.get_supply_shortage_list(item_list)
+trash_controller.buy_items(shortage_list)
+# btn_controller.click_item_menu_at_index(9)
+# game_controller.get_my_health()
 # game_controller.open_bag()
 # btn_controller.click_right_menu("整理")
 # game_controller.wipe_up_bag()

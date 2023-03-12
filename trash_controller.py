@@ -202,13 +202,14 @@ def collect_ground_treasures():
     return collect_count
 
 
-def perform_buy(item_list):
+def perform_buy(item_list, shop_item_list):
     for key, value in item_list.items():
         print('buy:', key, '->', value)
-        if value > 0:
-            if btn_controller.click_item_menu(key):
-                for idx in range(value):
-                    btn_controller.click_btn_buy()
+        if key in shop_item_list and value > 0:
+            index = shop_item_list.index(key)
+            btn_controller.click_item_menu_at_index(index)
+            for idx in range(value):
+                btn_controller.click_btn_buy()
 
 
 def buy_items(item_list, neen_not_open_but_close_bag = True):
@@ -218,19 +219,24 @@ def buy_items(item_list, neen_not_open_but_close_bag = True):
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
 
-    perform_buy(item_list)
     current_page = game_controller.read_current_page()
     if current_page != None:
         current_index = int(current_page[0])
         max_index = int(current_page[1])
+
+        perform_buy(item_list, settings.bind_gold_item_list[current_index - 1])
+
+        # 翻页
         if current_index == 1:
             btn_controller.click_btn("btn_page_right")
+            current_index = 2;
         else:
             btn_controller.click_btn("btn_page_left")
+            current_index = 1;
         time.sleep(0.5)
 
-    adb_controller.screenshot(settings.screenshot_path)
-    perform_buy(item_list)
+        adb_controller.screenshot(settings.screenshot_path)
+        perform_buy(item_list, settings.bind_gold_item_list[current_index - 1])
 
     if neen_not_open_but_close_bag:
         btn_controller.click_left_return()
@@ -249,19 +255,24 @@ def buy_books(item_list, neen_open_close_bag = True):
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
 
-    perform_buy(item_list)
     current_page = game_controller.read_current_page()
     if current_page != None:
         current_index = int(current_page[0])
         max_index = int(current_page[1])
+
+        perform_buy(item_list, settings.book_item_list[current_index - 1])
+
+        # 翻页
         if current_index == 1:
             btn_controller.click_btn("btn_page_right")
+            current_index = 2;
         else:
             btn_controller.click_btn("btn_page_left")
+            current_index = 1;
         time.sleep(0.5)
 
-    adb_controller.screenshot(settings.screenshot_path)
-    perform_buy(item_list)
+        adb_controller.screenshot(settings.screenshot_path)
+        perform_buy(item_list, settings.book_item_list[current_index - 1])
 
     if neen_open_close_bag:
         btn_controller.click_left_return()

@@ -226,6 +226,16 @@ def click_item_menu(text):
     match_scope = (36,688,180,428)
     return click_menu(text, match_scope)
 
+# 点击商品菜单
+def click_item_menu_at_index(index):
+    match_scope = (36,688,180,428)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+    x = match_scope[2] + (match_scope[3] - match_scope[2]) * 0.5
+    each_height = (match_scope[1] - match_scope[0]) / 10
+    y = 36 + each_height * 0.5 + each_height * index
+    item_center = (x, y)
+    adb_controller.click(item_center)
+
 # 点击购买
 def click_btn_buy():
     match_scope = (798,864,426,546)
