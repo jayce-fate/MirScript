@@ -238,8 +238,10 @@ def click_item_menu_at_index(index):
 
 # 点击购买
 def click_btn_buy():
-    match_scope = (798,864,426,546)
-    return click_menu("购买", match_scope)
+    # match_scope = (798,864,426,546)
+    # return click_menu("购买", match_scope)
+    point = utils.convert_point((492, 832), (1664, 936))
+    adb_controller.click(point)
 
 
 def click_sell_all():
