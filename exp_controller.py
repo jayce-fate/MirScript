@@ -45,9 +45,7 @@ def wait_till_max_lvl_max():
             summon_pet()
     while current_pet_max_HP != pet_max_HP:
         time.sleep(10)
-        # 消除确认框，比如游戏断开，活动提醒
-        while btn_controller.click_sure_btn():
-            adb_controller.screenshot(settings.screenshot_path)
+        game_controller.dismissSureDialog(False)
         current_pet_max_HP = game_controller.get_pet_current_max_HP()
         pet_max_HP = game_controller.get_pet_max_HP()
 
@@ -67,9 +65,7 @@ def go_back_town_and_fly():
 
 def fly_to_exp_map():
     print("fly_to_exp_map")
-    adb_controller.screenshot(settings.screenshot_path)
-    while btn_controller.click_sure_btn():
-        adb_controller.screenshot(settings.screenshot_path)
+    game_controller.dismissSureDialog()
 
     #补给
     buy_supplies()
@@ -141,8 +137,7 @@ def get_exp_by_random_fly():
                 if pos_before_fly == pos_after_fly:
                     no_more_random_fly = no_more_random_fly + 1
                 if no_more_random_fly >= 2:
-                    while btn_controller.click_sure_btn():
-                        adb_controller.screenshot(settings.screenshot_path)
+                    game_controller.dismissSureDialog()
                     print("学习召唤骷髅")
                     adb_controller.screenshot(settings.screenshot_path)
                     game_controller.open_bag_and_drink("ji_neng_shu", batch=True)
@@ -174,12 +169,13 @@ def routine_lvl_one():
     btn_controller.click_left_return()
     btn_controller.click_right_return()
     while game_controller.read_lv_text() < 7:
-        skill_controller.cast_attack()
-        adb_controller.screenshot(settings.screenshot_path)
+        for index in range(30):
+            skill_controller.cast_attack()
+        if not game_controller.dismissSureDialog():
+            adb_controller.screenshot(settings.screenshot_path)
     print("等级7")
     time.sleep(3.0)
-    while btn_controller.click_sure_btn():
-        adb_controller.screenshot(settings.screenshot_path)
+    game_controller.dismissSureDialog()
 
     routine_lvl_seven()
 
@@ -218,8 +214,7 @@ def routine_lvl_seven():
 
 def routine_lvl_fifteen():
     print("routine_lvl_fifteen")
-    while btn_controller.click_sure_btn():
-        adb_controller.screenshot(settings.screenshot_path)
+    game_controller.dismissSureDialog()
 
     if globals.current_lvl == 15 and game_controller.get_bag_remain_capacity() > 32:
         # 穿装备，学技能
@@ -255,8 +250,7 @@ def go_back_town_and_get_subsidy():
 
 def get_subsidy():
     print("get_subsidy")
-    while btn_controller.click_sure_btn():
-        adb_controller.screenshot(settings.screenshot_path)
+    game_controller.dismissSureDialog()
     #领取低保
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_npc_meng_zhong_lao_bing()
@@ -271,8 +265,7 @@ def get_subsidy():
 def buy_supplies():
     print("buy_supplies")
     adb_controller.screenshot(settings.screenshot_path)
-    while btn_controller.click_sure_btn():
-        adb_controller.screenshot(settings.screenshot_path)
+    game_controller.dismissSureDialog()
 
     item_list = {
     }
@@ -416,9 +409,7 @@ def start_get_exp():
             if 90 < my_lose_HP:
                 trash_controller.try_get_bag_space(1)
 
-        #消除系统确定消息框
-        while btn_controller.click_sure_btn():
-            adb_controller.screenshot(settings.screenshot_path)
+        game_controller.dismissSureDialog(False)
         #检测断开消息框
         if game_controller.connection_lose():
             print("断开")

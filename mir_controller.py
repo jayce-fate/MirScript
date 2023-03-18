@@ -25,18 +25,19 @@ import utils
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-item_list = {
-  "超级魔法药": 1,
-  "超级金创药": 1,
-  "随机传送卷包": 1,
-  "地牢逃脱卷": 1,
-  "棕色栗子": 1,
-  "黄色药粉(中)": 1,
-  "灰色药粉(中)": 1,
-  "护身符(大)": 1,
-  "魔法药中包": 1,
-}
-trash_controller.buy_items(item_list)
+game_controller.read_character_name()
+# item_list = {
+#   "超级魔法药": 1,
+#   "超级金创药": 1,
+#   "随机传送卷包": 1,
+#   "地牢逃脱卷": 1,
+#   "棕色栗子": 1,
+#   "黄色药粉(中)": 1,
+#   "灰色药粉(中)": 1,
+#   "护身符(大)": 1,
+#   "魔法药中包": 1,
+# }
+# trash_controller.buy_items(item_list)
 # btn_controller.click_item_menu_at_index(9)
 # game_controller.get_my_health()
 # game_controller.open_bag()

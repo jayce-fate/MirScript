@@ -283,6 +283,7 @@ def click_sure_btn():
     if(match_loc != None):
         print("检测到弹框确定按钮，自动关闭...." + str(match_loc))
         adb_controller.click(match_loc)
+        adb_controller.screenshot(settings.screenshot_path)
         return True
     return False
 

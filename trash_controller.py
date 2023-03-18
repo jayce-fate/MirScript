@@ -176,7 +176,7 @@ def collect_ground_treasures():
     # 先捡金币，防止捡绿色物品后有遮挡
     gold_coords = check_ground_golds()
     while 0 < len(gold_coords):
-        btn_controller.click_sure_btn()
+        game_controller.dismissSureDialog(False)
         for idx in range(0, len(gold_coords)):
             print("捡金币")
             coord = gold_coords[idx]
@@ -189,7 +189,7 @@ def collect_ground_treasures():
 
     item_coords = check_ground_items()
     while 0 < len(item_coords):
-        btn_controller.click_sure_btn()
+        game_controller.dismissSureDialog(False)
         for idx in range(0, len(item_coords)):
             print("捡绿色物品")
             coord = item_coords[idx]

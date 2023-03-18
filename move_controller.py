@@ -388,8 +388,7 @@ def get_current_coordinate_after_adjust():
 # 使用地图寻路
 def navigate_to_point(target_pos, callback = None, callback1 = None):
     #消除系统确定消息框
-    while btn_controller.click_sure_btn():
-        adb_controller.screenshot(settings.screenshot_path)
+    game_controller.dismissSureDialog()
 
     map_name = game_controller.read_map_name()
     btn_controller.click_map()
@@ -437,9 +436,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
             break
         elif target_pos == current_pos1:
             print("target_pos == current_pos2")
-            #消除系统确定消息框
-            while btn_controller.click_sure_btn():
-                adb_controller.screenshot(settings.screenshot_path)
+            game_controller.dismissSureDialog()
             adb_controller.screenshot(settings.screenshot_path)
             if callback1 != None:
                 callback1()

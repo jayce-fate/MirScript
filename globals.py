@@ -58,3 +58,6 @@ skill_dog_pos = None
 
 # 当前等级
 debug_times = 0
+
+#上次检查确认提示框时间
+last_check_sure_dialog_time = 0

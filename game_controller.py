@@ -412,8 +412,7 @@ def restart_game():
     adb_controller.stop_app()
     adb_controller.start_app()
 
-    #消除系统确定消息框
-    btn_controller.click_sure_btn()
+    dismissSureDialog()
 
     match_scope = (694,788,724,940)
     success = btn_controller.wait_to_match_and_click("登录",0.05,60,1,match_scope)
@@ -839,4 +838,14 @@ def is_save_power_mode():
                 if "省电" in res:
                     return True
 
+    return False
+
+# 消除确认框，比如游戏断开，活动提醒
+def dismissSureDialog(directly=True):
+    current_time = time.time()
+    if directly or current_time - globals.last_check_sure_dialog_time > 60:
+        globals.last_check_sure_dialog_time = current_time
+        while btn_controller.click_sure_btn():
+            print("消除确认提示框")
+            return True
     return False

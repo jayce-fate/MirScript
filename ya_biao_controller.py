@@ -27,9 +27,7 @@ def start_ya_biao():
 
 
 def go_to_wen_biao_tou():
-    #消除系统确定消息框
-    while btn_controller.click_sure_btn():
-        adb_controller.screenshot(settings.screenshot_path)
+    game_controller.dismissSureDialog()
 
     target_pos = (439, 206)
     btn_controller.click_map()
@@ -60,9 +58,7 @@ def go_to_wen_biao_tou():
             break
         elif not far_from_target and current_pos1 == current_pos2:
             print("not far_from_target and current_pos1 == current_pos2")
-            #消除系统确定消息框
-            while btn_controller.click_sure_btn():
-                adb_controller.screenshot(settings.screenshot_path)
+            game_controller.dismissSureDialog(False)
             adb_controller.screenshot(settings.screenshot_path)
             if btn_controller.click_npc_wen_biao_tou():
                 break
@@ -100,9 +96,7 @@ def go_to_lu_lao_ban():
     current_path_index = cave_path.index(next_pos)
 
     while True:
-        # 消除提示框
-        while btn_controller.click_sure_btn():
-            adb_controller.screenshot(settings.screenshot_path)
+        game_controller.dismissSureDialog(False)
 
         path = path_controller.find_path(globals.current_pos, next_pos)
         move_controller.step_go_by_path(path)
