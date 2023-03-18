@@ -366,7 +366,9 @@ def start_get_exp():
             print("pet_max_HP: {}".format(str(pet_max_HP)))
             if current_pet_max_HP != pet_max_HP:
                 print("current_pet_max_HP != pet_max_HP")
-                move_controller.navigate_to_point((200,278), wait_till_max_lvl_max)
+                sheep_yard_pos = (random.randint(186,228),random.randint(255,295))
+                print("sheep_yard_pos: {}".format(str(sheep_yard_pos)))
+                move_controller.navigate_to_point(sheep_yard_pos, wait_till_max_lvl_max)
             else:
                 go_back_town_and_fly()
         return
