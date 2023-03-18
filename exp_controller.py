@@ -337,8 +337,7 @@ def start_get_exp():
         if not skill_controller.cast_random_fly(False):
             for index in range(30):
                 print("技能未设置随机和回城快捷键")
-            print("程序结束")
-            return
+            raise Exception("RESTART")
     if globals.current_lvl < 7:
         routine_lvl_one()
         return
