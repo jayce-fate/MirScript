@@ -153,6 +153,11 @@ def go_to_east_waste_ore():
     print("go_to_east_waste_ore")
     move_controller.navigate_to_point((179,110), start, skill_controller.cast_invisible)
 
+def do_some_attack():
+    for index in range(30):
+        skill_controller.cast_attack()
+    if not game_controller.dismissSureDialog():
+        adb_controller.screenshot(settings.screenshot_path)
 
 def routine_lvl_one():
     print("routine_lvl_one")
@@ -169,10 +174,7 @@ def routine_lvl_one():
     btn_controller.click_left_return()
     btn_controller.click_right_return()
     while game_controller.read_lv_text() < 7:
-        for index in range(30):
-            skill_controller.cast_attack()
-        if not game_controller.dismissSureDialog():
-            adb_controller.screenshot(settings.screenshot_path)
+        do_some_attack()
     print("等级7")
     time.sleep(3.0)
     game_controller.dismissSureDialog()
@@ -201,7 +203,7 @@ def routine_lvl_seven():
 
     while game_controller.read_lv_text() < 15:
         if globals.occupation == globals.Occupation.Taoist:
-            skill_controller.cast_attack()
+            do_some_attack()
         elif globals.occupation == globals.Occupation.Magician:
             skill_controller.cast_fire_ball()
         adb_controller.screenshot(settings.screenshot_path)
