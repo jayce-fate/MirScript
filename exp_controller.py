@@ -174,8 +174,13 @@ def routine_lvl_one():
     trash_controller.drink_item("wu_mu_jian")
     btn_controller.click_left_return()
     btn_controller.click_right_return()
-    while game_controller.read_lv_text() < 7:
+    lv_text = game_controller.read_lv_text()
+    while lv_text < 7:
         do_some_attack()
+        lv_text = game_controller.read_lv_text()
+        #以防断线游戏被关闭
+        if lv_text < 1:
+            raise Exception("RESTART")
     print("等级7")
     time.sleep(3.0)
     game_controller.dismissSureDialog()
@@ -202,12 +207,17 @@ def routine_lvl_seven():
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.set_occupation()
 
-    while game_controller.read_lv_text() < 15:
+    lv_text = game_controller.read_lv_text()
+    while lv_text < 15:
         if globals.occupation == globals.Occupation.Taoist:
             do_some_attack()
         elif globals.occupation == globals.Occupation.Magician:
             skill_controller.cast_fire_ball()
-        adb_controller.screenshot(settings.screenshot_path)
+            adb_controller.screenshot(settings.screenshot_path)
+        lv_text = game_controller.read_lv_text()
+        #以防断线游戏被关闭
+        if lv_text < 1:
+            raise Exception("RESTART")
     print("等级15")
     time.sleep(30)
     adb_controller.screenshot(settings.screenshot_path)
