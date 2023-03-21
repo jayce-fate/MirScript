@@ -123,6 +123,8 @@ def cast_talisman():
             settings.screenshot_path,r"template_images/skill_talisman.png",0.05,get_skill_scope())
         if(match_loc != None):
             globals.skill_talisman_pos = match_loc
+        else:
+            game_controller.open_bag_and_drink("ji_neng_shu", batch=True)
     if globals.skill_talisman_pos != None:
         adb_controller.click(globals.skill_talisman_pos)
 
