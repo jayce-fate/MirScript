@@ -19,13 +19,15 @@ import trash_controller
 import skill_controller
 import btn_controller
 import utils
+import user_controller
 
 # ******************************************
 # test
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-game_controller.read_character_name()
+user_controller.init_user()
+# game_controller.read_character_name()
 # item_list = {
 #   "超级魔法药": 1,
 #   "超级金创药": 1,

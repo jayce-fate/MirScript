@@ -15,6 +15,7 @@ import game_controller
 import path_controller
 import move_controller
 import btn_controller
+import exp_controller
 
 
 def start_ya_biao():
@@ -119,6 +120,7 @@ def go_to_lu_lao_ban():
     btn_controller.click_npc_lu_lao_ban()
     time.sleep(1.0)
     btn_controller.click_finish_ya_biao()
+    exp_controller.start()
 
 
 def should_wait_until_double_time():

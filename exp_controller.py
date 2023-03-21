@@ -17,6 +17,7 @@ import move_controller
 import trash_controller
 import skill_controller
 import btn_controller
+import user_controller
 
 def summon_pet():
     print('道士重新召唤宝宝')
@@ -321,6 +322,8 @@ def start_get_exp():
         btn_controller.click_center_of_screen()
 
     adb_controller.screenshot(settings.screenshot_path)
+    #初始化用户数据
+    user_controller.init_user()
     #获取职业
     game_controller.set_occupation()
     #地图名称

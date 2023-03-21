@@ -164,6 +164,22 @@ def read_lv_area_text():
     return ""
 
 
+def read_character_name():
+    # 颜色米色
+    lower_color = [0,0,212]
+    upper_color = [179,255,255]
+
+    match_scope = (0,56,0,300)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    result = get_first_result(resultss)
+    if result != None:
+        print("角色名: {}".format(str(result)))
+        return result
+    return ""
+
+
 def connection_lose():
     # adb_controller.screenshot(settings.screenshot_path)
     # 等级颜色米色参数
