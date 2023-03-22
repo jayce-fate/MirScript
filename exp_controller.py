@@ -338,14 +338,22 @@ def start_get_exp():
     game_controller.set_occupation()
     #地图名称
     map_name = game_controller.read_map_name()
+
     #获取等级
-    globals.current_lvl = game_controller.read_lv_text()
+    count = 0
+    while globals.current_lvl <= 0 and count < 3:
+        game_controller.read_lv_text()
+        count = count + 1
+    if globals.current_lvl <= 0:
+        raise Exception("RESTART")
+
     if globals.current_lvl < 15:
         #检测是否设置随机和回城
         if not skill_controller.cast_random_fly(False):
             for index in range(30):
                 print("技能未设置随机和回城快捷键")
             raise Exception("RESTART")
+
     if globals.current_lvl < 7:
         routine_lvl_one()
         return

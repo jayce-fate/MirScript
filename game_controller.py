@@ -142,9 +142,11 @@ def read_lv_text():
         print("当前等级1: {}".format(str(result)))
         result = result.replace('.', ''); # 去掉小数点
         digit_array = re.findall(r'\d+', result)
-        globals.current_lvl = int(digit_array[0])
-        print("globals.current_lvl: {}".format(str(globals.current_lvl)))
-        return globals.current_lvl
+        if len(digit_array) > 0:
+            globals.current_lvl = int(digit_array[0])
+            print("globals.current_lvl: {}".format(str(globals.current_lvl)))
+            return globals.current_lvl
+
     return -1
 
 # Lv.xx
