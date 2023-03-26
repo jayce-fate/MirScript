@@ -402,6 +402,15 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
     adb_controller.input_text(point_str)
     btn_controller.click_map_edit_confirm()
     btn_controller.click_map_input_confirm()
+
+    #判断目标是否可达
+    time.sleep(0.2)
+    adb_controller.screenshot(settings.screenshot_path)
+    match_loc = image_processor.match_template(
+        settings.screenshot_path,r"template_images/map_point_indicate.png",0.1)
+    if match_loc == None:
+        raise Exception("RESTART")
+
     btn_controller.click_xun_lu()
     game_controller.close_map()
 
