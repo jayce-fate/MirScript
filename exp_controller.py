@@ -219,14 +219,16 @@ def routine_lvl_seven():
         if lv_text < 1:
             raise Exception("RESTART")
     print("等级15")
-    time.sleep(30)
-    adb_controller.screenshot(settings.screenshot_path)
-    btn_controller.click_msg_box("知道了")
+    time.sleep(35)
+
     routine_lvl_fifteen()
 
 
 def routine_lvl_fifteen():
     print("routine_lvl_fifteen")
+    adb_controller.screenshot(settings.screenshot_path)
+    btn_controller.click_msg_box("知道了")
+
     game_controller.dismissSureDialog()
 
     if globals.current_lvl == 15 and game_controller.get_bag_remain_capacity() > 32:
