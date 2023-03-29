@@ -49,6 +49,10 @@ def wait_till_max_lvl_max():
         game_controller.dismissSureDialog(False)
         current_pet_max_HP = game_controller.get_pet_current_max_HP()
         pet_max_HP = game_controller.get_pet_max_HP()
+        print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
+        print("pet_max_HP: {}".format(str(pet_max_HP)))
+        if current_pet_max_HP == 0:
+            raise Exception("RESTART")
 
     print("pet HP reach Max")
     #消除省电模式
