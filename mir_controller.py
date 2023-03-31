@@ -26,7 +26,8 @@ import user_controller
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-user_controller.init_user()
+print("character.name = ", user_controller.get_character_name())
+
 # game_controller.read_character_name()
 # item_list = {
 #   "超级魔法药": 1,

@@ -143,11 +143,11 @@ def read_lv_text():
         result = result.replace('.', ''); # 去掉小数点
         digit_array = re.findall(r'\d+', result)
         if len(digit_array) > 0:
-            globals.current_lvl = int(digit_array[0])
-            print("globals.current_lvl: {}".format(str(globals.current_lvl)))
-            return globals.current_lvl
+            current_lvl = int(digit_array[0])
+            print("current_lvl: {}".format(str(current_lvl)))
+            return current_lvl
 
-    return -1
+    return None
 
 # Lv.xx
 def read_lv_area_text():
@@ -179,7 +179,7 @@ def read_character_name():
     if result != None:
         print("角色名: {}".format(str(result)))
         return result
-    return ""
+    return None
 
 
 def connection_lose():
@@ -585,20 +585,21 @@ def check_exp_getting():
 
 def check_level():
     #检查等级，等级等于29且未拜师，停止练级
-    if globals.current_lvl < 29:
-        globals.current_lvl = read_lv_text()
+    if user_controller.get_character_level() < 29:
+        current_lvl = read_lv_text()
+        user_controller.set_character_level(current_lvl)
 
     # 首次读取是否已拜师
     if globals.already_has_master == None:
-        if globals.current_lvl <= 29:
+        if user_controller.get_character_level() <= 29:
             globals.already_has_master = already_has_master()
         else:
             globals.already_has_master = True
 
-    if (globals.current_lvl >= 26 and globals.current_lvl <= 29) and (not globals.already_has_master):
+    if (user_controller.get_character_level() >= 26 and user_controller.get_character_level() <= 29) and (not globals.already_has_master):
         for index in range(0, 20):
-            print("等级已达到{}级，请先去拜师!!!".format(str(globals.current_lvl)))
-        if (globals.current_lvl == 29):
+            print("等级已达到{}级，请先去拜师!!!".format(str(user_controller.get_character_level())))
+        if (user_controller.get_character_level() == 29):
             # 增加判断次数（容错）
             if globals.check_has_master_fail_remain > 0:
                 globals.check_has_master_fail_remain = globals.check_has_master_fail_remain - 1
@@ -688,9 +689,9 @@ def get_pet_max_HP():
     # 骷髅最大血量
     pet_max_HP = 2400
     if globals.occupation == globals.Occupation.Taoist:
-        if globals.current_lvl < 35:
+        if glouser_controller.get_character_level() < 35:
             pet_max_HP = 480
-        elif globals.current_lvl >= 35:
+        elif user_controller.get_character_level() >= 35:
             if globals.skill_dog_pos == None:
                 pet_max_HP = 480
     else:

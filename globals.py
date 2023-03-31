@@ -34,7 +34,7 @@ check_has_master_fail_remain = settings.check_has_master_fail_limit
 resolution = None
 
 # 当前等级
-current_lvl = 0
+# current_lvl = 0
 
 # 是否拜师
 already_has_master = None

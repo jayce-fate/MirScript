@@ -21,7 +21,7 @@ import user_controller
 
 def summon_pet():
     print('道士重新召唤宝宝')
-    if globals.current_lvl >= 35:
+    if user_controller.get_character_level() >= 35:
         if not skill_controller.cast_dog():
             skill_controller.cast_skeleton()
             skill_controller.cast_skeleton()
@@ -77,7 +77,7 @@ def fly_to_exp_map():
     adb_controller.screenshot(settings.screenshot_path)
 
     #道士检查是否学习隐身术，否者买一本
-    if globals.occupation == globals.Occupation.Taoist and globals.current_lvl >= 20 and globals.current_lvl <= 25:
+    if globals.occupation == globals.Occupation.Taoist and user_controller.get_character_level() >= 20 and user_controller.get_character_level() <= 25:
         if not skill_controller.cast_invisible():
             item_list = {
               "隐身术": 1,
@@ -92,9 +92,9 @@ def fly_to_exp_map():
     btn_controller.click_yellow_menu("传送")
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
-    if globals.current_lvl < 17:
+    if user_controller.get_character_level() < 17:
         btn_controller.click_transfer_cave("骷髅洞")
-    elif globals.current_lvl <= 35:
+    elif user_controller.get_character_level() <= 35:
         btn_controller.click_transfer_cave("废矿入口")
     else:
         btn_controller.click_transfer_cave("废矿入口")
@@ -103,12 +103,12 @@ def fly_to_exp_map():
     time.sleep(3.0)
     adb_controller.screenshot(settings.screenshot_path)
     map_name = game_controller.read_map_name()
-    if globals.current_lvl < 17:
+    if user_controller.get_character_level() < 17:
         if map_name == "洞1层":
             get_exp_by_random_fly()
         else:
             start()
-    elif globals.current_lvl < 35:
+    elif user_controller.get_character_level() < 35:
         if map_name == "比奇矿区":
             go_to_east_waste_ore()
         else:
@@ -194,7 +194,7 @@ def routine_lvl_one():
 
 def routine_lvl_seven():
     print("routine_lvl_seven")
-    if globals.current_lvl == 7:
+    if user_controller.get_character_level() == 7:
         game_controller.open_bag()
         btn_controller.click_right_menu("整理")
         game_controller.wipe_up_bag()
@@ -235,7 +235,7 @@ def routine_lvl_fifteen():
 
     game_controller.dismissSureDialog()
 
-    if globals.current_lvl == 15 and game_controller.get_bag_remain_capacity() > 32:
+    if user_controller.get_character_level() == 15 and game_controller.get_bag_remain_capacity() > 32:
         # 穿装备，学技能
         game_controller.open_bag()
         btn_controller.click_right_menu("整理")
@@ -288,7 +288,7 @@ def buy_supplies():
 
     item_list = {
     }
-    if globals.current_lvl < 17:
+    if user_controller.get_character_level() < 17:
         item_list = {
           "超级魔法药": 8,
           "超级金创药": 3,
@@ -306,7 +306,7 @@ def buy_supplies():
           "金创药小量": 0,
           "军饷": 0,
         }
-    elif globals.current_lvl < 22:
+    elif user_controller.get_character_level() < 22:
         item_list = {
             "护身符(大)": 12,
             "超级魔法药": 12,
@@ -338,8 +338,6 @@ def start_get_exp():
         btn_controller.click_center_of_screen()
 
     adb_controller.screenshot(settings.screenshot_path)
-    #初始化用户数据
-    user_controller.init_user()
     #获取职业
     game_controller.set_occupation()
     #地图名称
@@ -347,26 +345,26 @@ def start_get_exp():
 
     #获取等级
     count = 0
-    while globals.current_lvl <= 0 and count < 3:
+    while user_controller.get_character_level() <= 0 and count < 3:
         game_controller.read_lv_text()
         count = count + 1
-    if globals.current_lvl <= 0:
+    if user_controller.get_character_level() <= 0:
         raise Exception("RESTART")
 
-    if globals.current_lvl < 15:
+    if user_controller.get_character_level() < 15:
         #检测是否设置随机和回城
         if not skill_controller.cast_random_fly(False):
             for index in range(30):
                 print("技能未设置随机和回城快捷键")
             raise Exception("RESTART")
 
-    if globals.current_lvl < 7:
+    if user_controller.get_character_level() < 7:
         routine_lvl_one()
         return
-    elif globals.current_lvl < 15:
+    elif user_controller.get_character_level() < 15:
         routine_lvl_seven()
         return
-    elif globals.current_lvl < 17:
+    elif user_controller.get_character_level() < 17:
         if map_name == "盟重土城":
             routine_lvl_fifteen()
         elif map_name == "洞1层": #骷髅两个字不识别
