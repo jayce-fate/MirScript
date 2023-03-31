@@ -12,6 +12,7 @@ import trash_controller
 import settings
 import globals
 import utils
+import user_controller
 
 def get_first_result(resultss):
     for idx in range(len(resultss)):
@@ -696,7 +697,7 @@ def get_pet_max_HP():
     # 骷髅最大血量
     pet_max_HP = 2400
     if globals.occupation == globals.Occupation.Taoist:
-        if glouser_controller.get_character_level() < 35:
+        if user_controller.get_character_level() < 35:
             pet_max_HP = 480
         elif user_controller.get_character_level() >= 35:
             if globals.skill_dog_pos == None:
