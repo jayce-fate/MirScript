@@ -668,6 +668,13 @@ def read_pet_HP():
                 tmp = res.replace("480", "", 1)
                 if "480" in tmp:
                     res = "480/480"
+            elif len(res) == 7:
+                digit1 = res[0:3]
+                digit2 = res[4:7]
+                print("digit1 = ", digit1)
+                print("digit2 = ", digit2)
+                if digit1 == digit2:
+                    res = digit1 + "/" + digit2
             print("宝宝血量修正后: {}".format(str(res)))
             if "/" in res:
                 splits = res.split('/')
