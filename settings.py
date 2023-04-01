@@ -54,7 +54,7 @@ move_try_limit = 5
 one_time_move_distance = 5
 
 # 检测未拜师最大尝试次数（容错）
-check_has_master_fail_limit = 10
+check_has_master_fail_limit = 3
 
 ########### 练级路径 ###########
 # 僵尸洞二层路径

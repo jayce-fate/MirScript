@@ -178,6 +178,7 @@ def read_character_name():
     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
     result = get_first_result(resultss)
     if result != None:
+        result = re.sub("[^a-zA-Z0-9\u4e00-\u9fa5]", '', result)
         print("角色名: {}".format(str(result)))
         return result
     return None
@@ -212,7 +213,7 @@ def already_has_master():
     result = get_first_result(resultss)
     if result != None:
         print("我的名字: {}".format(str(result)))
-        if "徒" in result or "弟" in result or "[" in result or "]" in result:
+        if "徒" in result or "弟" in result or ("[" in result and "]" in result):
             print("当前已拜师")
             return True
     print("当前未拜师")
@@ -586,30 +587,22 @@ def check_exp_getting():
 
 def check_level():
     #检查等级，等级等于29且未拜师，停止练级
-    if user_controller.get_character_level() < 29:
-        current_lvl = read_lv_text()
-        user_controller.set_character_level(current_lvl)
+    my_level = user_controller.get_character_level(refresh=True)
+    has_master = user_controller.get_character_has_master()
 
-    # 首次读取是否已拜师
-    if globals.already_has_master == None:
-        if user_controller.get_character_level() <= 29:
-            globals.already_has_master = already_has_master()
-        else:
-            globals.already_has_master = True
-
-    if (user_controller.get_character_level() >= 26 and user_controller.get_character_level() <= 29) and (not globals.already_has_master):
+    if (my_level == 29) and (not has_master):
         for index in range(0, 20):
-            print("等级已达到{}级，请先去拜师!!!".format(str(user_controller.get_character_level())))
-        if (user_controller.get_character_level() == 29):
-            # 增加判断次数（容错）
-            if globals.check_has_master_fail_remain > 0:
-                globals.check_has_master_fail_remain = globals.check_has_master_fail_remain - 1
-                print("达到29级，请先去拜师，再提示{}次将结束本程序".format(str(globals.read_coordinate_fail_remain)))
-                # 重新检测是否已拜师
-                globals.already_has_master = already_has_master()
-            else:
-                print("达到29级，请先去拜师，练级结束")
-                return False
+            print("等级已达到{}级，请先去拜师!!!".format(str(my_level)))
+
+        # 增加判断次数（容错）
+        if globals.check_has_master_fail_remain > 0:
+            globals.check_has_master_fail_remain = globals.check_has_master_fail_remain - 1
+            print("达到29级，请先去拜师，再提示{}次将结束本程序".format(str(globals.read_coordinate_fail_remain)))
+            # 重新检测是否已拜师
+            has_master = user_controller.get_character_has_master(refresh=True)
+        else:
+            print("达到29级，请先去拜师，练级结束")
+            return False
     return True
 
 
@@ -672,6 +665,13 @@ def read_pet_HP():
             elif len(res) == 7:
                 digit1 = res[0:3]
                 digit2 = res[4:7]
+                print("digit1 = ", digit1)
+                print("digit2 = ", digit2)
+                if digit1 <= digit2:
+                    res = digit1 + "/" + digit2
+            elif len(res) == 6:
+                digit1 = res[0:3]
+                digit2 = res[3:6]
                 print("digit1 = ", digit1)
                 print("digit2 = ", digit2)
                 if digit1 == digit2:

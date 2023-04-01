@@ -29,24 +29,44 @@ def get_character_name():
             raise Exception("RESTART")
     return character.name
 
-def get_character_level():
+def get_character_level(refresh=False):
     print('get_character_level')
     if character.level == None:
         read_character_data()
-        if character.level == None:
-            character.level = game_controller.read_lv_text()
-            if character.level == None:
-                raise Exception("RESTART")
-            else:
+
+    if refresh or character.level == None:
+        level = game_controller.read_lv_text()
+        if level != None:
+            if character.level == None or character.level < level:
+                character.level = level
                 write_character_data()
+        else:
+            # 非刷新，获取不到等级，重启
+            if not refresh:
+                raise Exception("RESTART")
+
     return character.level
 
-def set_character_level(level):
-    print('set_character_level')
-    if level != None:
-        if character.level == None or character.level < level:
-            character.level = level
+def get_character_has_master(refresh=False):
+    print('get_character_has_master')
+    # 20级能拜师了么？
+    if character.level < 20 or character.level >= 35:
+        return False
+
+    if character.has_master == None:
+        read_character_data()
+
+    if character.has_master == None or refresh:
+        has_master = game_controller.already_has_master()
+        if has_master != False:
+            character.has_master = has_master
             write_character_data()
+        else:
+            # 获取不到拜师，重启
+            if character.has_master == None:
+                raise Exception("RESTART")
+
+    return character.has_master
 
 def get_character_file_path():
     print('get_character_file_path')
@@ -64,6 +84,7 @@ def write_character_data():
     dictionary = {
         "name": character.name,
         "level": character.level,
+        "has_master": character.has_master,
     }
     with open(character_file, "w") as outfile:
         json.dump(dictionary, outfile)
@@ -82,5 +103,9 @@ def read_character_data():
         json_object = json.load(openfile)
 
     print(json_object)
-    character.name = json_object['name']
-    character.level = json_object['level']
+    if "name" in json_object:
+        character.name = json_object['name']
+    if "level" in json_object:
+        character.level = json_object['level']
+    if "has_master" in json_object:
+        character.has_master = json_object['has_master']

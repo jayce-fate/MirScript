@@ -44,6 +44,8 @@ def wait_till_max_lvl_max():
         print("current_pet_max_HP == 0")
         if globals.occupation == globals.Occupation.Taoist:
             summon_pet()
+
+    read_pet_current_max_HP_retry_times = 60
     while current_pet_max_HP != pet_max_HP:
         time.sleep(10)
         game_controller.dismissSureDialog(False)
@@ -52,7 +54,10 @@ def wait_till_max_lvl_max():
         print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
         print("pet_max_HP: {}".format(str(pet_max_HP)))
         if current_pet_max_HP == 0:
-            raise Exception("RESTART")
+            print("read_pet_current_max_HP_retry_times: {}".format(str(read_pet_current_max_HP_retry_times)))
+            read_pet_current_max_HP_retry_times = read_pet_current_max_HP_retry_times - 1
+            if read_pet_current_max_HP_retry_times <= 0:
+                raise Exception("RESTART")
 
     print("pet HP reach Max")
     #消除省电模式
@@ -178,10 +183,10 @@ def routine_lvl_one():
     trash_controller.drink_item("wu_mu_jian")
     btn_controller.click_left_return()
     btn_controller.click_right_return()
-    lv_text = game_controller.read_lv_text()
+    lv_text = user_controller.get_character_level(refresh=True)
     while lv_text < 7:
         do_some_attack()
-        lv_text = game_controller.read_lv_text()
+        lv_text = user_controller.get_character_level(refresh=True)
         #以防断线游戏被关闭
         if lv_text < 1:
             raise Exception("RESTART")
@@ -211,14 +216,14 @@ def routine_lvl_seven():
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.set_occupation()
 
-    lv_text = game_controller.read_lv_text()
+    lv_text = user_controller.get_character_level(refresh=True)
     while lv_text < 15:
         if globals.occupation == globals.Occupation.Taoist:
             do_some_attack()
         elif globals.occupation == globals.Occupation.Magician:
             skill_controller.cast_fire_ball()
             adb_controller.screenshot(settings.screenshot_path)
-        lv_text = game_controller.read_lv_text()
+        lv_text = user_controller.get_character_level(refresh=True)
         #以防断线游戏被关闭
         if lv_text < 1:
             raise Exception("RESTART")
@@ -345,8 +350,7 @@ def start_get_exp():
 
     #获取等级
     count = 0
-    while user_controller.get_character_level() <= 0 and count < 3:
-        game_controller.read_lv_text()
+    while user_controller.get_character_level(refresh=True) <= 0 and count < 3:
         count = count + 1
     if user_controller.get_character_level() <= 0:
         raise Exception("RESTART")

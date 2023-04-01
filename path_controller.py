@@ -319,7 +319,7 @@ def generate_map_data(amend_points = None):
                             time.sleep(0.2)
                             adb_controller.screenshot(settings.screenshot_path)
                             match_loc = image_processor.match_template(
-                                settings.screenshot_path,r"template_images/map_point_indicate.png",0.1)
+                                settings.screenshot_path,r"template_images/map_point_indicate.png",0.2)
                             if(match_loc != None):
                                 current_data_list.append(point)
                                 write_map_data(map_data_path, current_data_list)

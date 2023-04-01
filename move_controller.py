@@ -407,7 +407,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
     time.sleep(0.2)
     adb_controller.screenshot(settings.screenshot_path)
     match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/map_point_indicate.png",0.1)
+        settings.screenshot_path,r"template_images/map_point_indicate.png",0.2)
     if match_loc == None:
         raise Exception("RESTART")
 

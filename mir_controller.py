@@ -26,15 +26,9 @@ import user_controller
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-print("character.name = ", user_controller.get_character_name())
-res = "4307430"
-if len(res) == 7:
-    digit1 = res[0:3]
-    digit2 = res[4:7]
-    print("digit1 = ", digit1)
-    print("digit2 = ", digit2)
-    if digit1 == digit2:
-        print("digit1 = digit2")
+str2 = '<p>,<o>p3大傻逼啊1assd：//'
+res2 = re.sub("[^a-zA-Z0-9\u4e00-\u9fa5]", '', str2)
+print(res2)
 
 # game_controller.read_character_name()
 # item_list = {
