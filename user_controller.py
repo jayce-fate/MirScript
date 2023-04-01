@@ -25,7 +25,7 @@ def get_character_name():
     print('get_character_name')
     if character.name == None:
         character.name = game_controller.read_character_name()
-        if character.name == None:
+        if character.name == None or len(character.name) <= 1:
             raise Exception("RESTART")
     return character.name
 

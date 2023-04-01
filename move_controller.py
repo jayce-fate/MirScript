@@ -406,9 +406,11 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
     #判断目标是否可达
     time.sleep(0.2)
     adb_controller.screenshot(settings.screenshot_path)
+
+    #不可达检测
     match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/map_point_indicate.png",0.2)
-    if match_loc == None:
+        settings.screenshot_path,r"template_images/map_point_indicate_unreachable.png",0.2)
+    if match_loc != None:
         raise Exception("RESTART")
 
     btn_controller.click_xun_lu()
