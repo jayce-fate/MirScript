@@ -4,3 +4,5 @@ name = None
 level = None
 #是否拜师
 has_master = None
+# 当前职业
+occupation = None

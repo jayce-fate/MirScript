@@ -1,11 +1,4 @@
 import settings
-from enum import Enum
-
-class Occupation(Enum):
-    Default = 0
-    Magician = 1
-    Taoist = 2
-    Warrior = 3
 
 ########### 全局变量 ###########
 
@@ -33,9 +26,6 @@ check_has_master_fail_remain = settings.check_has_master_fail_limit
 #屏幕（截图）尺寸
 resolution = None
 
-# 当前职业
-occupation = Occupation.Default
-
 skill_attack_pos = None
 skill_fire_ball_pos = None
 skill_lighting_pos = None
@@ -50,7 +40,7 @@ skill_random_fly = None
 skill_skeleton_pos = None
 skill_dog_pos = None
 
-# 当前等级
+# debug次数序号
 debug_times = 0
 
 #上次检查确认提示框时间

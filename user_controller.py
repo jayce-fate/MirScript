@@ -20,6 +20,7 @@ import trash_controller
 import skill_controller
 import btn_controller
 import character
+import enums
 
 def get_character_name():
     print('get_character_name')
@@ -68,6 +69,23 @@ def get_character_has_master(refresh=False):
 
     return character.has_master
 
+def get_character_occupation(refresh=False):
+    print('get_character_occupation')
+    if character.occupation == None:
+        read_character_data()
+
+    if refresh or character.occupation == None:
+        occupation = game_controller.get_occupation()
+        if occupation != None:
+            character.occupation = occupation
+            write_character_data()
+        else:
+            # 非刷新，获取不到等级，重启
+            if not refresh:
+                raise Exception("RESTART")
+
+    return character.occupation
+
 def get_character_file_path():
     print('get_character_file_path')
 
@@ -85,6 +103,7 @@ def write_character_data():
         "name": character.name,
         "level": character.level,
         "has_master": character.has_master,
+        "occupation": character.occupation,
     }
     with open(character_file, "w") as outfile:
         json.dump(dictionary, outfile)
@@ -109,3 +128,5 @@ def read_character_data():
         character.level = json_object['level']
     if "has_master" in json_object:
         character.has_master = json_object['has_master']
+    if "occupation" in json_object:
+        character.occupation = json_object['occupation']

@@ -15,6 +15,7 @@ import game_controller
 import path_controller
 import move_controller
 import btn_controller
+import enums
 
 def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
     print("loop_drop_one_item:" + trash_name + ",isgreen:" + str(is_green) + ",force_drop:" + str(force_drop))
@@ -73,11 +74,11 @@ def drop_trashes_loop():
 
     trash_list = settings.trash_list_drink
     # 道士不扔强效魔法药
-    if globals.occupation == globals.Occupation.Taoist:
+    if user_controller.get_character_occupation() == enums.Occupation.Taoist:
         if "qiang_xiao_mo_fa_yao" in trash_list:
             trash_list.remove("qiang_xiao_mo_fa_yao")
     # 道士不扔强效金创药
-    elif globals.occupation == globals.Occupation.Magician:
+    elif user_controller.get_character_occupation() == enums.Occupation.Magician:
         if "qiang_xiao_jin_chuang_yao" in trash_list:
             trash_list.remove("qiang_xiao_jin_chuang_yao")
     list_len = len(trash_list)
@@ -138,7 +139,7 @@ def try_get_bag_space(space_need):
             for idx in range(0, space_need - remain_capacity):
                 # 道士剩蓝，其他剩红
                 drink_item_name = "qiang_xiao_jin_chuang_yao"
-                if globals.occupation == globals.Occupation.Taoist:
+                if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                     drink_item_name = "qiang_xiao_mo_fa_yao"
                 if not drink_item(drink_item_name):
                     break

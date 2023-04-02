@@ -18,6 +18,7 @@ import trash_controller
 import skill_controller
 import btn_controller
 import user_controller
+import enums
 
 def summon_pet():
     print('道士重新召唤宝宝')
@@ -42,7 +43,7 @@ def wait_till_max_lvl_max():
     print("pet_max_HP: {}".format(str(pet_max_HP)))
     if current_pet_max_HP == 0:
         print("current_pet_max_HP == 0")
-        if globals.occupation == globals.Occupation.Taoist:
+        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
             summon_pet()
 
     read_pet_current_max_HP_retry_times = 60
@@ -82,7 +83,7 @@ def fly_to_exp_map():
     adb_controller.screenshot(settings.screenshot_path)
 
     #道士检查是否学习隐身术，否者买一本
-    if globals.occupation == globals.Occupation.Taoist and user_controller.get_character_level() >= 20 and user_controller.get_character_level() <= 25:
+    if user_controller.get_character_occupation() == enums.Occupation.Taoist and user_controller.get_character_level() >= 20 and user_controller.get_character_level() <= 25:
         if not skill_controller.cast_invisible():
             item_list = {
               "隐身术": 1,
@@ -214,13 +215,12 @@ def routine_lvl_seven():
         btn_controller.click_right_return()
 
     adb_controller.screenshot(settings.screenshot_path)
-    game_controller.set_occupation()
 
     lv_text = user_controller.get_character_level(refresh=True)
     while lv_text < 15:
-        if globals.occupation == globals.Occupation.Taoist:
+        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
             do_some_attack()
-        elif globals.occupation == globals.Occupation.Magician:
+        elif user_controller.get_character_occupation() == enums.Occupation.Magician:
             skill_controller.cast_fire_ball()
             adb_controller.screenshot(settings.screenshot_path)
         lv_text = user_controller.get_character_level(refresh=True)
@@ -249,7 +249,7 @@ def routine_lvl_fifteen():
         trash_controller.drink_item("jun_xiang")
         time.sleep(4.0)
         trash_controller.batch_drink_item("ji_neng_shu")
-        if globals.occupation == globals.Occupation.Taoist:
+        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
             trash_controller.drink_item("ban_yue_wan_dao")
             trash_controller.drink_item("da_shou_zhuo")
             trash_controller.drink_item("zhen_zhu_jie_zhi")
@@ -343,8 +343,6 @@ def start_get_exp():
         btn_controller.click_center_of_screen()
 
     adb_controller.screenshot(settings.screenshot_path)
-    #获取职业
-    game_controller.set_occupation()
     #地图名称
     map_name = game_controller.read_map_name()
 
@@ -376,19 +374,19 @@ def start_get_exp():
         return
     if not game_controller.active_pet():
         print('当前没有宠物')
-        if globals.occupation == globals.Occupation.Taoist:
+        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
             summon_pet()
-        elif globals.occupation == globals.Occupation.Magician:
+        elif user_controller.get_character_occupation() == enums.Occupation.Magician:
             print("法师直接下线换道士")
             return
     else:
-        if globals.occupation == globals.Occupation.Taoist:
+        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
             print('虽然有宝宝了，再用一下召唤宝宝，为了初始化globals.skill_xxx_pos')
             summon_pet()
 
     if "盟重" in map_name:
         print("当前位置，盟重土城")
-        if globals.occupation == globals.Occupation.Taoist:
+        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
             # 当前等级最大血量
             current_pet_max_HP = game_controller.get_pet_current_max_HP()
             # 可以达到的最大血量
@@ -431,14 +429,14 @@ def start_get_exp():
         #检查血量
         my_lose_HP = game_controller.get_my_lose_HP()
         # 道士，移动完，先判断血量隐身
-        if globals.occupation == globals.Occupation.Taoist:
+        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
             if 20 < my_lose_HP:
                 skill_controller.cast_heal()
                 skill_controller.cast_invisible()
                 if game_controller.got_MP_Insufficient_text():
                     trash_controller.try_get_bag_space(1)
         # 法师血量低，可能背包满了，红喝不出来
-        elif globals.occupation == globals.Occupation.Magician:
+        elif user_controller.get_character_occupation() == enums.Occupation.Magician:
             if 90 < my_lose_HP:
                 trash_controller.try_get_bag_space(1)
 
@@ -458,25 +456,25 @@ def start_get_exp():
         if not game_controller.is_pet_healthy():
             if game_controller.select_boss():
                 # 攻击boss
-                if globals.occupation == globals.Occupation.Taoist:
+                if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                     skill_controller.cast_poison()
                     skill_controller.cast_defence()
                     skill_controller.cast_heal()
                     skill_controller.cast_talisman()
-                elif globals.occupation == globals.Occupation.Magician:
+                elif user_controller.get_character_occupation() == enums.Occupation.Magician:
                     skill_controller.cast_shield()
                     skill_controller.cast_lighting()
             else:
                 if time.time() - last_go_back_time > settings.go_back_check_time:
                     # 往回跑，试图召回宠物
                     game_controller.reactive_pet()
-                    if globals.occupation == globals.Occupation.Taoist:
+                    if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                         skill_controller.cast_invisible()
-                    elif globals.occupation == globals.Occupation.Magician:
+                    elif user_controller.get_character_occupation() == enums.Occupation.Magician:
                         skill_controller.cast_shield()
                     move_controller.go_to_previous_point(cave_path)
                     # 移动结束接隐身
-                    if globals.occupation == globals.Occupation.Taoist:
+                    if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                         skill_controller.cast_invisible()
                     game_controller.reactive_pet()
                     last_go_back_time = time.time()
@@ -491,7 +489,7 @@ def start_get_exp():
                     print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
                     move_controller.go_to_next_point(cave_path)
                     # 移动结束接隐身
-                    if globals.occupation == globals.Occupation.Taoist:
+                    if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                         skill_controller.cast_invisible()
                     last_move_time = time.time()
         else:
@@ -499,13 +497,13 @@ def start_get_exp():
             #移动到下一个点
             move_controller.go_to_next_point(cave_path)
             # 移动结束接隐身
-            if globals.occupation == globals.Occupation.Taoist:
+            if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                 skill_controller.cast_invisible()
             last_move_time = time.time()
             while not game_controller.is_monster_nearby():
                 move_controller.go_to_next_point(cave_path)
                 # 移动结束接隐身
-                if globals.occupation == globals.Occupation.Taoist:
+                if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                     skill_controller.cast_invisible()
                 last_move_time = time.time()
 

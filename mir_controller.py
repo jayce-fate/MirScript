@@ -26,9 +26,12 @@ import user_controller
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-str2 = '<p>,<o>p3大傻逼啊1assd：//'
-res2 = re.sub("[^a-zA-Z0-9\u4e00-\u9fa5]", '', str2)
-print(res2)
+occupation = game_controller.get_occupation()
+print(occupation)
+print(int(occupation))
+# str2 = '<p>,<o>p3大傻逼啊1assd：//'
+# res2 = re.sub("[^a-zA-Z0-9\u4e00-\u9fa5]", '', str2)
+# print(res2)
 
 # game_controller.read_character_name()
 # item_list = {
@@ -113,8 +116,6 @@ print(res2)
 # btn_controller.click_confirm_batch_use()
 # image_processor.show_hsv_tool("template_images/skill_all1.png")
 # skill_controller.cast_shield()
-# game_controller.set_occupation()
-# print("occupation = ", globals.occupation)
 
 # exp_controller.restart_routine(True)
 # adb_controller.restart_emulator()

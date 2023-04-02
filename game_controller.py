@@ -13,6 +13,7 @@ import settings
 import globals
 import utils
 import user_controller
+import enums
 
 def get_first_result(resultss):
     for idx in range(len(resultss)):
@@ -470,7 +471,7 @@ def reactive_pet():
 
 def collapse_pet_list():
     # 法师收起宠物列表（如有）
-    if globals.occupation == globals.Occupation.Magician:
+    if user_controller.get_character_occupation() == enums.Occupation.Magician:
         match_scope = (144,175,359,386)
         match_scope = utils.convert_scope(match_scope, (1664, 936))
         match_loc = image_processor.match_template(settings.screenshot_path, r"template_images/btn_close_pet_list.png",0.05,match_scope)
@@ -572,7 +573,7 @@ def check_monster_reachable():
 
 def check_exp_getting():
     check_times = 5;
-    if globals.occupation == globals.Occupation.Taoist:
+    if user_controller.get_character_occupation() == enums.Occupation.Taoist:
         check_times = 5
     for index in range(0, check_times):
         if got_exp_add_text():
@@ -696,7 +697,7 @@ def get_pet_current_max_HP():
 def get_pet_max_HP():
     # 骷髅最大血量
     pet_max_HP = 2400
-    if globals.occupation == globals.Occupation.Taoist:
+    if user_controller.get_character_occupation() == enums.Occupation.Taoist:
         if user_controller.get_character_level() < 35:
             pet_max_HP = 480
         elif user_controller.get_character_level() >= 35:
@@ -761,12 +762,14 @@ def select_boss():
     close_target_list()
     return boss_selected
 
-def set_occupation():
+def get_occupation():
     match_loc = skill_controller.get_fire_ball_pos()
+    occupation = None
     if(match_loc != None):
-        globals.occupation = globals.Occupation.Magician
+        occupation = enums.Occupation.Magician
     else:
-        globals.occupation = globals.Occupation.Taoist
+        occupation = enums.Occupation.Taoist
+    return occupation
 
 
 def get_my_health():
