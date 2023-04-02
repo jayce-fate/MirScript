@@ -138,5 +138,36 @@ def should_wait_until_double_time():
         return False
 
 
+def restart_routine():
+    try:
+        print("重启游戏")
+        game_controller.restart_game()
+        success = game_controller.wait_till_finish_login(120, 1)
+        if success:
+            print("click login btn success")
+            start()
+        else:
+            print("click login btn failed")
+            restart_routine()
+    except Exception as e:
+        print('exception:', e)
+        reason = e.args[0]
+        if reason == "RESTART":
+            restart_routine()
+        elif "NoneType" in reason:
+            restart_routine()
+        else:
+            restart_routine()
+
 def start():
-    start_ya_biao()
+    try:
+        start_ya_biao()
+    except Exception as e:
+        print('exception:', e)
+        reason = e.args[0]
+        if reason == "RESTART":
+            restart_routine()
+        elif "NoneType" in reason:
+            restart_routine()
+        else:
+            restart_routine()
