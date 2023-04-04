@@ -30,7 +30,7 @@ def start_ya_biao():
 def go_to_wen_biao_tou():
     game_controller.dismissSureDialog()
 
-    target_pos = (439, 206)
+    target_pos = (441, 206)
     btn_controller.click_map()
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
