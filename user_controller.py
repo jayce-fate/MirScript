@@ -38,7 +38,7 @@ def get_character_level(refresh=False):
 
     if refresh or character.level == None:
         level = game_controller.read_lv_text()
-        if level != None:
+        if level != None and level <= 52:
             if character.level == None or character.level < level:
                 character.level = level
                 write_character_data()

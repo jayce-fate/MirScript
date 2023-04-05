@@ -16,6 +16,7 @@ import path_controller
 import move_controller
 import btn_controller
 import enums
+import user_controller
 
 def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
     print("loop_drop_one_item:" + trash_name + ",isgreen:" + str(is_green) + ",force_drop:" + str(force_drop))
