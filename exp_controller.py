@@ -58,6 +58,7 @@ def wait_till_max_lvl_max():
             print("read_pet_current_max_HP_retry_times: {}".format(str(read_pet_current_max_HP_retry_times)))
             read_pet_current_max_HP_retry_times = read_pet_current_max_HP_retry_times - 1
             if read_pet_current_max_HP_retry_times <= 0:
+                print("read_pet_current_max_HP_retry_times <= 0")
                 raise Exception("RESTART")
 
     print("pet HP reach Max")
@@ -190,6 +191,7 @@ def routine_lvl_one():
         lv_text = user_controller.get_character_level(refresh=True)
         #以防断线游戏被关闭
         if lv_text < 1:
+            print("lv_text < 1")
             raise Exception("RESTART")
     print("等级7")
     time.sleep(3.0)
@@ -226,6 +228,7 @@ def routine_lvl_seven():
         lv_text = user_controller.get_character_level(refresh=True)
         #以防断线游戏被关闭
         if lv_text < 1:
+            print("lv_text < 1")
             raise Exception("RESTART")
     print("等级15")
     time.sleep(35)
@@ -351,6 +354,7 @@ def start_get_exp():
     while user_controller.get_character_level(refresh=True) <= 0 and count < 3:
         count = count + 1
     if user_controller.get_character_level() <= 0:
+        print("user_controller.get_character_level() <= 0")
         raise Exception("RESTART")
 
     if user_controller.get_character_level() < 15:
@@ -358,6 +362,7 @@ def start_get_exp():
         if not skill_controller.cast_random_fly(False):
             for index in range(30):
                 print("技能未设置随机和回城快捷键")
+            print("not skill_controller.cast_random_fly(False)")
             raise Exception("RESTART")
 
     if user_controller.get_character_level() < 7:
@@ -443,7 +448,7 @@ def start_get_exp():
         game_controller.dismissSureDialog(False)
         #检测断开消息框
         if game_controller.connection_lose():
-            print("断开")
+            print("game_controller.connection_lose(), 断开")
             raise Exception("RESTART")
 
         if not game_controller.check_level():

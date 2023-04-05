@@ -151,6 +151,7 @@ def find_path(start, end):
 
     # 地图已切换
     if start[0] > map_width or end[0] > map_width or start[1] > map_height or end[1] > map_height:
+        print("start[0] > map_width or end[0] > map_width or start[1] > map_height or end[1] > map_height")
         raise Exception("RESTART")
 
     paths = [[start]]

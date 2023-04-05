@@ -27,6 +27,7 @@ def get_character_name():
     if character.name == None:
         character.name = game_controller.read_character_name()
         if character.name == None or len(character.name) <= 1:
+            print("character.name == None or len(character.name) <= 1")
             raise Exception("RESTART")
     return character.name
 
@@ -44,6 +45,7 @@ def get_character_level(refresh=False):
         else:
             # 非刷新，获取不到等级，重启
             if not refresh:
+                print("level == None and not refresh")
                 raise Exception("RESTART")
 
     return character.level
@@ -59,13 +61,8 @@ def get_character_has_master(refresh=False):
 
     if character.has_master == None or refresh:
         has_master = game_controller.already_has_master()
-        if has_master != False:
-            character.has_master = has_master
-            write_character_data()
-        else:
-            # 获取不到拜师，重启
-            if character.has_master == None:
-                raise Exception("RESTART")
+        character.has_master = has_master
+        write_character_data()
 
     return character.has_master
 
@@ -82,6 +79,7 @@ def get_character_occupation(refresh=False):
         else:
             # 非刷新，获取不到等级，重启
             if not refresh:
+                print("occupation != None and not refresh")
                 raise Exception("RESTART")
 
     return character.occupation

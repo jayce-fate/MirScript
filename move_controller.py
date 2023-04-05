@@ -163,7 +163,7 @@ def step_go_by_path(step_path):
         else:
             #检测断开消息框
             if game_controller.connection_lose():
-                print("断开")
+                print("game_controller.connection_lose(), 断开")
                 raise Exception("RESTART")
 
             # 达到最大尝试次数，放弃，返回
@@ -277,7 +277,7 @@ def get_current_coordinate():
             time.sleep(1.0)
             return get_current_coordinate()
         else:
-            print("已达最大重试次数，尝试重启游戏")
+            print("globals.read_coordinate_fail_remain<=0, 已达最大重试次数，尝试重启游戏")
             raise Exception("RESTART")
 
     if len(coordinate) != 2:
@@ -298,7 +298,7 @@ def get_current_coordinate():
                 time.sleep(1.0)
                 return get_current_coordinate()
             else:
-                print("已达最大重试次数，尝试重启游戏")
+                print("globals.read_coordinate_fail_remain<=0, 已达最大重试次数，尝试重启游戏")
                 raise Exception("RESTART")
 
 
@@ -411,6 +411,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
     match_loc = image_processor.match_template(
         settings.screenshot_path,r"template_images/map_point_indicate_unreachable.png",0.2)
     if match_loc != None:
+        print("找到map_point_indicate_unreachable，位置不可达，重启")
         raise Exception("RESTART")
 
     btn_controller.click_xun_lu()
