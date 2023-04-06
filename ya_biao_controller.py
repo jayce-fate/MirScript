@@ -25,7 +25,19 @@ def start_ya_biao():
 
     path_controller.set_map_data("盟重土城")
     go_to_wen_biao_tou()
-    go_to_lu_lao_ban()
+
+    #改为点击固定点
+    adb_controller.screenshot(settings.screenshot_path)
+    btn_controller.click_accept_ya_biao()
+    time.sleep(0.5)
+    if game_controller.get_already_ya_biao_text():
+        print("already ya biao")
+        user_controller.set_ya_biao_time()
+        print("开始练级")
+        exp_controller.start()
+    else:
+        print("not yet ya biao")
+        go_to_lu_lao_ban()
 
 
 def go_to_wen_biao_tou():
@@ -65,10 +77,6 @@ def go_to_wen_biao_tou():
             if btn_controller.click_npc_wen_biao_tou():
                 break
             time.sleep(0.1)
-
-    #改为点击固定点
-    adb_controller.screenshot(settings.screenshot_path)
-    btn_controller.click_accept_ya_biao()
 
 def go_to_lu_lao_ban():
     cave_path = settings.ya_biao_full_path
@@ -117,6 +125,7 @@ def go_to_lu_lao_ban():
     time.sleep(1.0)
     btn_controller.click_finish_ya_biao()
 
+    user_controller.set_ya_biao_time()
     print("开始练级")
     exp_controller.start()
 
@@ -160,7 +169,6 @@ def restart_routine():
 def start():
     try:
         start_ya_biao()
-        user_controller.set_ya_biao_time()
     except Exception as e:
         print('exception:', e)
         reason = e.args[0]

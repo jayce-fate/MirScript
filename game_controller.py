@@ -278,6 +278,8 @@ def got_bag_full_text():
 def got_MP_Insufficient_text():
     return tip_text_contains("MP不足")
 
+def get_already_ya_biao_text():
+    return tip_text_contains("每天只能")
 
 def read_map_name():
     # 等级颜色米色参数

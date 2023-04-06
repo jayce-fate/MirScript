@@ -153,13 +153,15 @@ def can_ya_biao():
 
     now = datetime.now()
     hour = int(now.strftime("%H"))
-    if 4 <= hour and hour <= 7:
-        if character.ya_biao_time == None:
-            return True
-        else:
-            time_string = get_ya_biao_time()
-            if character.ya_biao_time != time_string:
+    if (4 <= hour and hour <= 7):
+        level = get_character_level()
+        if level >= 28:
+            if character.ya_biao_time == None:
                 return True
+            else:
+                time_string = get_ya_biao_time()
+                if character.ya_biao_time != time_string:
+                    return True
 
     return False
 
