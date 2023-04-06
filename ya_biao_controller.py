@@ -73,28 +73,17 @@ def go_to_lu_lao_ban():
     cave_path = settings.ya_biao_full_path
     cave_path_length = len(cave_path)
     if cave_path_length == 0:
-        print("程序结束")
+        print("cave_path_length == 0, 程序结束")
         return
 
+    # 刷新globals.current_pos
     move_controller.get_current_coordinate()
-    # # 先去路径开始点
-    # path = path_controller.find_path(globals.current_pos, cave_path[0])
-    # move_controller.step_go_by_path(path)
-    # # 再沿固定路径去陆老板
-    # move_controller.step_go_by_path(cave_path)
-
-
-    # 直接搜索寻路去陆老板
-    # for idx in range(1, 5):
-    #     index = int(cave_path_length / 4 * idx)
-    #     if index >= cave_path_length:
-    #         index = cave_path_length - 1
-    #     path = path_controller.find_path(globals.current_pos, cave_path[index])
-    #     move_controller.step_go_by_path(path)
 
     # 先去最近点
     next_pos = move_controller.get_nearest_pos(cave_path)
+    print("next_pos: {}".format(str(next_pos)))
     current_path_index = cave_path.index(next_pos)
+    print("current_path_index: {}".format(str(current_path_index)))
 
     while True:
         game_controller.dismissSureDialog(False)
@@ -103,23 +92,31 @@ def go_to_lu_lao_ban():
         move_controller.step_go_by_path(path)
 
         if current_path_index == cave_path_length - 1:
+            print("current_path_index == cave_path_length - 1")
             break
 
         current_path_index = current_path_index + int(cave_path_length / 4)
         if current_path_index >= cave_path_length:
+            print("current_path_index >= cave_path_length")
             current_path_index = cave_path_length - 1
+            print("current_path_index: {}".format(str(current_path_index)))
         next_pos = cave_path[current_path_index]
+        print("next_pos: {}".format(str(next_pos)))
 
 
     # 等双倍时间
+    print("等双倍时间")
     while should_wait_until_double_time():
         time.sleep(10)
 
     #交付
+    print("交付")
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_npc_lu_lao_ban()
     time.sleep(1.0)
     btn_controller.click_finish_ya_biao()
+
+    print("开始练级")
     exp_controller.start()
 
 
