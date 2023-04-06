@@ -75,6 +75,12 @@ def go_back_town_and_fly():
     # 回城
     move_controller.navigate_to_point((338,338), fly_to_exp_map)
 
+def go_back_town_and_restart():
+    print("go_back_town_and_restart")
+    skill_controller.cast_back_town()
+    time.sleep(2.0)
+    start()
+
 def fly_to_exp_map():
     print("fly_to_exp_map")
     game_controller.dismissSureDialog()
@@ -162,9 +168,7 @@ def get_exp_by_random_fly():
                     adb_controller.screenshot(settings.screenshot_path)
                     game_controller.open_bag_and_drink("ji_neng_shu", batch=True)
                     adb_controller.screenshot(settings.screenshot_path)
-                    skill_controller.cast_back_town()
-                    time.sleep(2.0)
-                    start()
+                    go_back_town_and_restart()
                     break
 
 
@@ -480,6 +484,10 @@ def start_get_exp():
 
         if trash_controller.collect_ground_treasures() > 0:
             continue
+
+        #判断是否可以领取经验
+        if user_controller.can_get_exp_subsidy():
+            go_back_town_and_restart()
 
         #检查宝宝血量是否健康
         if not game_controller.is_pet_healthy():
