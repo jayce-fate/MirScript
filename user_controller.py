@@ -4,7 +4,8 @@ import re
 import cv2
 import random
 import numpy
-import datetime
+from datetime import datetime
+from datetime import timedelta
 import json
 from pathlib import Path
 
@@ -84,6 +85,36 @@ def get_character_occupation(refresh=False):
 
     return character.occupation
 
+# 是否已经领取低保
+def can_get_subsidy():
+    print('can_get_subsidy')
+    if character.subsidy_time == None:
+        read_character_data()
+
+    if character.subsidy_time != None:
+        time_string = get_subsidy_time()
+        if character.subsidy_time == time_string:
+            return False
+    return True
+
+def get_subsidy_time():
+    print('set_subsidy_time')
+    now = datetime.now()
+    hour = now.strftime("%H")
+    print("hour:", hour)
+    time_string = now.strftime("%Y-%m-%d")
+    print("time_string:", time_string)
+    if str(hour) < 6:
+        yesterday = now - timedelta(days = 1)
+        time_string = yesterday.strftime("%Y-%m-%d")
+    print("time_string:", time_string)
+    return time_string
+
+def set_subsidy_time():
+    time_string = get_subsidy_time()
+    character.subsidy_time = time_string
+    write_character_data()
+
 def get_character_file_path():
     print('get_character_file_path')
 
@@ -102,6 +133,7 @@ def write_character_data():
         "level": character.level,
         "has_master": character.has_master,
         "occupation": character.occupation,
+        "subsidy_time": character.subsidy_time,
     }
     with open(character_file, "w") as outfile:
         json.dump(dictionary, outfile)
@@ -128,3 +160,5 @@ def read_character_data():
         character.has_master = json_object['has_master']
     if "occupation" in json_object:
         character.occupation = json_object['occupation']
+    if "subsidy_time" in json_object:
+        character.subsidy_time = json_object['subsidy_time']

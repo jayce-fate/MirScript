@@ -4,7 +4,7 @@ import re
 import cv2
 import random
 import numpy
-import datetime
+from datetime import datetime
 
 import globals
 import settings
@@ -122,11 +122,11 @@ def go_to_lu_lao_ban():
 
 def should_wait_until_double_time():
     # 范围时间
-    time_min = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '19:00', '%Y-%m-%d%H:%M')
-    time_max = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '20:01', '%Y-%m-%d%H:%M')
+    time_min = datetime.strptime(str(datetime.now().date()) + '19:00', '%Y-%m-%d%H:%M')
+    time_max = datetime.strptime(str(datetime.now().date()) + '20:01', '%Y-%m-%d%H:%M')
 
     # 当前时间
-    current_time = datetime.datetime.now()
+    current_time = datetime.now()
 
     # 判断当前时间是否在范围时间内
     if current_time > time_min and current_time < time_max:

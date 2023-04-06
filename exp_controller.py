@@ -4,7 +4,7 @@ import re
 import cv2
 import random
 import numpy
-import datetime
+from datetime import datetime
 
 import globals
 import settings
@@ -78,6 +78,10 @@ def go_back_town_and_fly():
 def fly_to_exp_map():
     print("fly_to_exp_map")
     game_controller.dismissSureDialog()
+
+    #领取低保
+    if user_controller.can_get_subsidy():
+        get_subsidy()
 
     #补给
     buy_supplies()
@@ -265,14 +269,13 @@ def routine_lvl_fifteen():
         btn_controller.click_right_return()
         time.sleep(1.0)
 
-    go_back_town_and_get_subsidy()
-    fly_to_exp_map()
+    go_back_town_and_fly()
 
 
-def go_back_town_and_get_subsidy():
-    print("go_back_town_and_get_subsidy")
-    # 回城
-    move_controller.navigate_to_point((338,338), get_subsidy)
+# def go_back_town_and_get_subsidy():
+#     print("go_back_town_and_get_subsidy")
+#     # 回城
+#     move_controller.navigate_to_point((338,338), get_subsidy)
 
 
 def get_subsidy():
@@ -287,6 +290,8 @@ def get_subsidy():
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_yellow_menu("领取低保")
     btn_controller.click_left_return()
+
+    user_controller.set_subsidy_time()
 
 
 def buy_supplies():

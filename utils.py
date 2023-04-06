@@ -4,7 +4,7 @@ import re
 import cv2
 import random
 import numpy
-import datetime
+from datetime import datetime
 
 import globals
 import settings
