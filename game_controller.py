@@ -182,6 +182,7 @@ def read_character_name():
         result = re.sub("[^a-zA-Z0-9\u4e00-\u9fa5]", '', result)
         print("角色名: {}".format(str(result)))
         return result
+    print("result == None")
     return None
 
 

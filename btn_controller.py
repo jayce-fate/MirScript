@@ -115,7 +115,7 @@ def click_yellow_menu(text):
         for result in results:
             name_rate = result[1] #('43', 0.99934321641922)
             name = name_rate[0] #'43'
-            # print("name: {}".format(str(name)))
+            print("name: {}".format(str(name)))
             if text in name:
                 corners = result[0]
                 center = utils.get_center_of_corners(corners)

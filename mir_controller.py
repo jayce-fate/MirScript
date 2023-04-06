@@ -27,6 +27,10 @@ import user_controller
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
+user_controller.get_character_name()
+exp_controller.get_subsidy()
+exp_controller.get_exp_subsidy()
+
 # name = game_controller.read_character_name()
 # print(name)
 # occupation = game_controller.get_occupation()

@@ -8,3 +8,5 @@ has_master = None
 occupation = None
 #领取低保时间
 subsidy_time = None
+#领取经验时间
+exp_subsidy_time = None

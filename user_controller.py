@@ -104,7 +104,7 @@ def get_subsidy_time():
     print("hour:", hour)
     time_string = now.strftime("%Y-%m-%d")
     print("time_string:", time_string)
-    if str(hour) < 6:
+    if int(hour) < 6:
         yesterday = now - timedelta(days = 1)
         time_string = yesterday.strftime("%Y-%m-%d")
     print("time_string:", time_string)
@@ -113,6 +113,36 @@ def get_subsidy_time():
 def set_subsidy_time():
     time_string = get_subsidy_time()
     character.subsidy_time = time_string
+    write_character_data()
+
+# 是否已经领取经验
+def can_get_exp_subsidy():
+    print('can_get_exp_subsidy')
+    if character.exp_subsidy_time == None:
+        read_character_data()
+
+    now = datetime.now()
+    hour = now.strftime("%H")
+    if str(hour) >= 18:
+        if character.exp_subsidy_time == None:
+            return True
+        else:
+            time_string = get_exp_subsidy_time()
+            if character.exp_subsidy_time != time_string:
+                return True
+
+    return False
+
+def get_exp_subsidy_time():
+    print('get_exp_subsidy_time')
+    now = datetime.now()
+    time_string = now.strftime("%Y-%m-%d")
+    print("time_string:", time_string)
+    return time_string
+
+def set_exp_subsidy_time():
+    time_string = get_exp_subsidy_time()
+    character.exp_subsidy_time = time_string
     write_character_data()
 
 def get_character_file_path():
@@ -134,6 +164,7 @@ def write_character_data():
         "has_master": character.has_master,
         "occupation": character.occupation,
         "subsidy_time": character.subsidy_time,
+        "exp_subsidy_time": character.exp_subsidy_time,
     }
     with open(character_file, "w") as outfile:
         json.dump(dictionary, outfile)
@@ -162,3 +193,5 @@ def read_character_data():
         character.occupation = json_object['occupation']
     if "subsidy_time" in json_object:
         character.subsidy_time = json_object['subsidy_time']
+    if "exp_subsidy_time" in json_object:
+        character.exp_subsidy_time = json_object['exp_subsidy_time']

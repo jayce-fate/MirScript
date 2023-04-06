@@ -83,6 +83,10 @@ def fly_to_exp_map():
     if user_controller.can_get_subsidy():
         get_subsidy()
 
+    #领取经验
+    if user_controller.can_get_exp_subsidy():
+        get_exp_subsidy()
+
     #补给
     buy_supplies()
     adb_controller.screenshot(settings.screenshot_path)
@@ -277,11 +281,11 @@ def routine_lvl_fifteen():
 #     # 回城
 #     move_controller.navigate_to_point((338,338), get_subsidy)
 
-
+#领取低保
 def get_subsidy():
     print("get_subsidy")
     game_controller.dismissSureDialog()
-    #领取低保
+
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_npc_meng_zhong_lao_bing()
     time.sleep(1.0)
@@ -293,6 +297,21 @@ def get_subsidy():
 
     user_controller.set_subsidy_time()
 
+def get_exp_subsidy():
+    print("get_yesterday_exp_subsidy")
+    game_controller.dismissSureDialog()
+
+    adb_controller.screenshot(settings.screenshot_path)
+    btn_controller.click_npc_meng_zhong_lao_bing()
+    time.sleep(1.0)
+    adb_controller.screenshot(settings.screenshot_path)
+    btn_controller.click_yellow_menu("纯手动练级补助")
+    time.sleep(1.0)
+    adb_controller.screenshot(settings.screenshot_path)
+    btn_controller.click_yellow_menu("马上领取")
+    btn_controller.click_left_return()
+
+    user_controller.set_exp_subsidy_time()
 
 def buy_supplies():
     print("buy_supplies")
