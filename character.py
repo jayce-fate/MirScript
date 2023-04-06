@@ -10,3 +10,5 @@ occupation = None
 subsidy_time = None
 #领取经验时间
 exp_subsidy_time = None
+#押镖时间
+ya_biao_time = None

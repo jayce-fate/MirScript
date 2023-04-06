@@ -122,8 +122,8 @@ def can_get_exp_subsidy():
         read_character_data()
 
     now = datetime.now()
-    hour = now.strftime("%H")
-    if str(hour) >= 18:
+    hour = int(now.strftime("%H"))
+    if hour >= 18:
         if character.exp_subsidy_time == None:
             return True
         else:
@@ -143,6 +143,42 @@ def get_exp_subsidy_time():
 def set_exp_subsidy_time():
     time_string = get_exp_subsidy_time()
     character.exp_subsidy_time = time_string
+    write_character_data()
+
+# 是否可以押镖
+def can_ya_biao():
+    print('can_ya_biao')
+    if character.ya_biao_time == None:
+        read_character_data()
+
+    now = datetime.now()
+    hour = int(now.strftime("%H"))
+    if 4 <= hour and hour <= 7:
+        if character.ya_biao_time == None:
+            return True
+        else:
+            time_string = get_ya_biao_time()
+            if character.ya_biao_time != time_string:
+                return True
+
+    return False
+
+def get_ya_biao_time():
+    print('get_ya_biao_time')
+    now = datetime.now()
+    hour = now.strftime("%H")
+    print("hour:", hour)
+    time_string = now.strftime("%Y-%m-%d")
+    print("time_string:", time_string)
+    if int(hour) < 6:
+        yesterday = now - timedelta(days = 1)
+        time_string = yesterday.strftime("%Y-%m-%d")
+    print("time_string:", time_string)
+    return time_string
+
+def set_ya_biao_time():
+    time_string = get_ya_biao_time()
+    character.ya_biao_time = time_string
     write_character_data()
 
 def get_character_file_path():
@@ -165,6 +201,7 @@ def write_character_data():
         "occupation": character.occupation,
         "subsidy_time": character.subsidy_time,
         "exp_subsidy_time": character.exp_subsidy_time,
+        "ya_biao_time": character.ya_biao_time,
     }
     with open(character_file, "w") as outfile:
         json.dump(dictionary, outfile)
@@ -195,3 +232,5 @@ def read_character_data():
         character.subsidy_time = json_object['subsidy_time']
     if "exp_subsidy_time" in json_object:
         character.exp_subsidy_time = json_object['exp_subsidy_time']
+    if "ya_biao_time" in json_object:
+        character.ya_biao_time = json_object['ya_biao_time']

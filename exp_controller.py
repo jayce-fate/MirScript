@@ -19,6 +19,7 @@ import skill_controller
 import btn_controller
 import user_controller
 import enums
+import ya_biao_controller
 
 def summon_pet():
     print('道士重新召唤宝宝')
@@ -419,6 +420,12 @@ def start_get_exp():
 
     if "盟重" in map_name:
         print("当前位置，盟重土城")
+
+        #判断是否可以押镖
+        if user_controller.can_ya_biao():
+            ya_biao_controller.start()
+            return
+
         if user_controller.get_character_occupation() == enums.Occupation.Taoist:
             # 当前等级最大血量
             current_pet_max_HP = game_controller.get_pet_current_max_HP()
@@ -487,6 +494,10 @@ def start_get_exp():
 
         #判断是否可以领取经验
         if user_controller.can_get_exp_subsidy():
+            go_back_town_and_restart()
+
+        #判断是否可以押镖
+        if user_controller.can_ya_biao():
             go_back_town_and_restart()
 
         #检查宝宝血量是否健康

@@ -16,6 +16,7 @@ import path_controller
 import move_controller
 import btn_controller
 import exp_controller
+import user_controller
 
 
 def start_ya_biao():
@@ -159,6 +160,7 @@ def restart_routine():
 def start():
     try:
         start_ya_biao()
+        user_controller.set_ya_biao_time()
     except Exception as e:
         print('exception:', e)
         reason = e.args[0]
