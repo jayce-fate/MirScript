@@ -25,20 +25,7 @@ def start_ya_biao():
 
     path_controller.set_map_data("盟重土城")
     go_to_wen_biao_tou()
-
-    #改为点击固定点
-    adb_controller.screenshot(settings.screenshot_path)
-    btn_controller.click_accept_ya_biao()
-    time.sleep(0.5)
-    if game_controller.get_already_ya_biao_text():
-        print("already ya biao")
-        user_controller.set_ya_biao_time()
-        print("开始练级")
-        exp_controller.start()
-    else:
-        print("not yet ya biao")
-        go_to_lu_lao_ban()
-
+    # go_to_lu_lao_ban()
 
 def go_to_wen_biao_tou():
     game_controller.dismissSureDialog()
@@ -77,6 +64,19 @@ def go_to_wen_biao_tou():
             if btn_controller.click_npc_wen_biao_tou():
                 break
             time.sleep(0.1)
+
+    #改为点击固定点
+    adb_controller.screenshot(settings.screenshot_path)
+    btn_controller.click_accept_ya_biao()
+    time.sleep(0.5)
+    if game_controller.get_already_ya_biao_text():
+        print("already ya biao")
+        user_controller.set_ya_biao_time()
+        print("开始练级")
+        exp_controller.start()
+    else:
+        print("not yet ya biao")
+        go_to_lu_lao_ban()
 
 def go_to_lu_lao_ban():
     cave_path = settings.ya_biao_full_path
@@ -121,7 +121,10 @@ def go_to_lu_lao_ban():
     #交付
     print("交付")
     adb_controller.screenshot(settings.screenshot_path)
-    btn_controller.click_npc_lu_lao_ban()
+    if not btn_controller.click_npc_lu_lao_ban():
+        path = path_controller.find_path(move_controller.get_current_coordinate(), cave_path[cave_path_length - 1])
+        move_controller.step_go_by_path(path)
+        btn_controller.click_npc_lu_lao_ban()
     time.sleep(1.0)
     btn_controller.click_finish_ya_biao()
 

@@ -114,6 +114,7 @@ def move_by_path(path):
 # 单步路径移动
 def step_go_by_path(step_path):
     if len(step_path) == 0:
+        print("len(step_path) == 0")
         return
     print("step_go_by_path: {}".format(str(step_path)))
     # 目标坐标
