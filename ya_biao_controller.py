@@ -121,17 +121,24 @@ def go_to_lu_lao_ban():
     #交付
     print("交付")
     adb_controller.screenshot(settings.screenshot_path)
+    success = False
     if not btn_controller.click_npc_lu_lao_ban():
         path = path_controller.find_path(move_controller.get_current_coordinate(), cave_path[cave_path_length - 1])
         move_controller.step_go_by_path(path)
-        btn_controller.click_npc_lu_lao_ban()
-    time.sleep(1.0)
-    btn_controller.click_finish_ya_biao()
+        if btn_controller.click_npc_lu_lao_ban():
+            success = True
+    else:
+        success = True
 
-    user_controller.set_ya_biao_time()
-    print("开始练级")
-    exp_controller.start()
+    if success:
+        time.sleep(1.0)
+        btn_controller.click_finish_ya_biao()
 
+        user_controller.set_ya_biao_time()
+        print("开始练级")
+        exp_controller.start()
+    else:
+        print("交付失败，程序结束")
 
 def should_wait_until_double_time():
     # 范围时间
