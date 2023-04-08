@@ -87,18 +87,18 @@ def get_character_occupation(refresh=False):
 
 # 是否已经领取低保
 def can_get_subsidy():
-    print('can_get_subsidy')
     if character.subsidy_time == None:
         read_character_data()
 
     if character.subsidy_time != None:
         time_string = get_subsidy_time()
         if character.subsidy_time == time_string:
+            print('already get subsidy')
             return False
+    print('can get subsidy')
     return True
 
 def get_subsidy_time():
-    print('set_subsidy_time')
     now = datetime.now()
     hour = now.strftime("%H")
     print("hour:", hour)
@@ -111,13 +111,13 @@ def get_subsidy_time():
     return time_string
 
 def set_subsidy_time():
+    print('set_subsidy_time')
     time_string = get_subsidy_time()
     character.subsidy_time = time_string
     write_character_data()
 
 # 是否已经领取经验
 def can_get_exp_subsidy():
-    print('can_get_exp_subsidy')
     if character.exp_subsidy_time == None:
         read_character_data()
 
@@ -125,12 +125,15 @@ def can_get_exp_subsidy():
     hour = int(now.strftime("%H"))
     if hour >= 18:
         if character.exp_subsidy_time == None:
+            print('can get exp subsidy')
             return True
         else:
             time_string = get_exp_subsidy_time()
             if character.exp_subsidy_time != time_string:
+                print('can get exp subsidy')
                 return True
 
+    print('can not get exp subsidy')
     return False
 
 def get_exp_subsidy_time():

@@ -297,10 +297,9 @@ def get_subsidy():
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.wipe_down_npc_dialog_menu()
     adb_controller.screenshot(settings.screenshot_path)
-    btn_controller.click_yellow_menu("领取低保")
+    if btn_controller.click_yellow_menu("领取低保"):
+        user_controller.set_subsidy_time()
     btn_controller.click_left_return()
-
-    user_controller.set_subsidy_time()
 
 def get_exp_subsidy():
     print("get_yesterday_exp_subsidy")
@@ -313,10 +312,9 @@ def get_exp_subsidy():
     btn_controller.click_yellow_menu("纯手动练级补助")
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
-    btn_controller.click_yellow_menu("马上领取")
+    if btn_controller.click_yellow_menu("马上领取"):
+        user_controller.set_exp_subsidy_time()
     btn_controller.click_left_return()
-
-    user_controller.set_exp_subsidy_time()
 
 def buy_supplies():
     print("buy_supplies")
