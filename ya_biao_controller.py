@@ -85,6 +85,10 @@ def go_to_lu_lao_ban():
         print("cave_path_length == 0, 程序结束")
         return
 
+    # 转换为单步路径
+    step_path = game_controller.to_each_step_path(cave_path, False)
+    step_path_len = len(step_path)
+
     # 刷新globals.current_pos
     move_controller.get_current_coordinate()
 
@@ -98,13 +102,30 @@ def go_to_lu_lao_ban():
         game_controller.dismissSureDialog(False)
 
         path = path_controller.find_path(globals.current_pos, next_pos)
-        move_controller.step_go_by_path(path)
+        if len(path) == 0:
+            print("len(path) == 0")
+            current_pos = move_controller.get_current_coordinate()
+            print("current_pos: {}".format(str(current_pos)))
+            # 最近点
+            nearest_pos = step_path[0]
+            for index in range(0, step_path_len):
+                position = step_path[index]
+                current_pow = pow((position[0] - current_pos[0]), 2) + pow((position[1] - current_pos[1]), 2)
+                nearest_pow = pow((nearest_pos[0] - current_pos[0]), 2) + pow((nearest_pos[1] - current_pos[1]), 2)
+                if current_pow < nearest_pow:
+                    nearest_pos = position
+
+            print("nearest_pos: {}".format(str(nearest_pos)))
+            path = game_controller.to_each_step_path([current_pos, nearest_pos], False)
+            move_controller.move_by_path(path)
+        else:
+            move_controller.step_go_by_path(path)
 
         if current_path_index == cave_path_length - 1:
             print("current_path_index == cave_path_length - 1")
             break
 
-        current_path_index = current_path_index + int(cave_path_length / 4)
+        current_path_index = current_path_index + int(cave_path_length / 8)
         if current_path_index >= cave_path_length:
             print("current_path_index >= cave_path_length")
             current_path_index = cave_path_length - 1
@@ -121,24 +142,16 @@ def go_to_lu_lao_ban():
     #交付
     print("交付")
     adb_controller.screenshot(settings.screenshot_path)
-    success = False
     if not btn_controller.click_npc_lu_lao_ban():
-        path = path_controller.find_path(move_controller.get_current_coordinate(), cave_path[cave_path_length - 1])
-        move_controller.step_go_by_path(path)
-        if btn_controller.click_npc_lu_lao_ban():
-            success = True
+        print("not btn_controller.click_npc_lu_lao_ban()")
+        go_to_lu_lao_ban()
     else:
-        success = True
-
-    if success:
         time.sleep(1.0)
         btn_controller.click_finish_ya_biao()
 
         user_controller.set_ya_biao_time()
         print("开始练级")
         exp_controller.start()
-    else:
-        print("交付失败，程序结束")
 
 def should_wait_until_double_time():
     # 范围时间
