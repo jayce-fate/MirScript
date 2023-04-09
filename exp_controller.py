@@ -176,7 +176,7 @@ def get_exp_by_random_fly():
 # 去废矿东部
 def go_to_east_waste_ore():
     print("go_to_east_waste_ore")
-    move_controller.navigate_to_point((179,110), start, skill_controller.cast_invisible)
+    move_controller.navigate_to_point((179,110), start, skill_controller.cast_invisible, skill_controller.cast_random_fly)
 
 def do_some_attack():
     start_exp = game_controller.read_current_exp()

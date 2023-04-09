@@ -407,7 +407,7 @@ def get_current_coordinate_after_adjust():
 
 
 # 使用地图寻路
-def navigate_to_point(target_pos, callback = None, callback1 = None):
+def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 = None):
     #消除系统确定消息框
     game_controller.dismissSureDialog()
 
@@ -447,7 +447,9 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
         current_pos2 = get_current_coordinate()
         print("current_pos2 {}".format(str(current_pos2)))
         far_from_target = abs(current_pos1[0] - target_pos[0]) > 5 or abs(current_pos1[1] - target_pos[1]) > 5
-        if current_map_name!= None and len(current_map_name) >= 2 and map_name != current_map_name:
+        if current_map_name != None and len(current_map_name) >= 2 and map_name != current_map_name:
+            if callback2 != None:
+                callback2()
             if callback1 != None:
                 callback1()
             if callback != None:
@@ -462,6 +464,8 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
             path = [current_pos1, target_pos]
             step_path = path_controller.to_each_step_path(path, False)
             move_by_path(step_path)
+            if callback2 != None:
+                callback2()
             if callback1 != None:
                 callback1()
             if callback != None:
@@ -471,6 +475,8 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
             print("target_pos == current_pos2")
             game_controller.dismissSureDialog()
             adb_controller.screenshot(settings.screenshot_path)
+            if callback2 != None:
+                callback2()
             if callback1 != None:
                 callback1()
             if callback != None:
