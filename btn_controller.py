@@ -181,7 +181,7 @@ def click_msg_box(text, is_green=False):
     return False
 
 
-# 点击右侧菜单
+# 点击菜单
 def click_menu(text, match_scope):
     adb_controller.screenshot(settings.screenshot_path)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
@@ -225,6 +225,14 @@ def click_left_menu(text):
 def click_item_menu(text):
     match_scope = (36,688,180,428)
     return click_menu(text, match_scope)
+
+def click_setting():
+    match_scope = (888,936,80,174)
+    return click_menu("设置", match_scope)
+
+def click_skill_setting():
+    match_scope = (404,474,1522,1638)
+    return click_menu("技能", match_scope)
 
 # 点击商品菜单
 def click_item_menu_at_index(index):

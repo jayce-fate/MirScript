@@ -190,6 +190,33 @@ def routine_lvl_one():
         time.sleep(15)
         adb_controller.screenshot(settings.screenshot_path)
         btn_controller.click_msg_box("开始", True)
+
+    #设置随机，回城，药水快捷键
+    if btn_controller.click_setting():
+        time.sleep(1.0)
+        btn_controller.click_skill_setting()
+        time.sleep(0.5)
+        #
+        adb_controller.click(utils.convert_point((1408, 256), (1664, 936)))
+        adb_controller.click(utils.convert_point((192, 78), (1664, 936)))
+        #
+        adb_controller.click(utils.convert_point((1506, 256), (1664, 936)))
+        adb_controller.click(utils.convert_point((192, 184), (1664, 936)))
+        #
+        adb_controller.click(utils.convert_point((1610, 256), (1664, 936)))
+        adb_controller.click(utils.convert_point((192, 290), (1664, 936)))
+        #
+        adb_controller.click(utils.convert_point((1408, 364), (1664, 936)))
+        adb_controller.click(utils.convert_point((192, 390), (1664, 936)))
+        #
+        adb_controller.click(utils.convert_point((1506, 364), (1664, 936)))
+        adb_controller.click(utils.convert_point((192, 500), (1664, 936)))
+        #
+        adb_controller.click(utils.convert_point((1610, 364), (1664, 936)))
+        adb_controller.click(utils.convert_point((192, 602), (1664, 936)))
+    btn_controller.click_left_return()
+
+    #穿装备
     game_controller.open_bag()
     game_controller.wipe_up_bag()
     time.sleep(0.5)
