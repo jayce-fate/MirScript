@@ -236,7 +236,7 @@ def read_current_exp():
         digit_array = re.findall(r'\d+\.?\d*', result)
         for index in range(0,len(digit_array)):
             current_exp = digit_array[index]
-            # print("当前经验: {}".format(str(current_exp)))
+            print("当前经验: {}".format(str(current_exp)))
             return float(current_exp)
     return None
 

@@ -179,10 +179,15 @@ def go_to_east_waste_ore():
     move_controller.navigate_to_point((179,110), start, skill_controller.cast_invisible)
 
 def do_some_attack():
+    start_exp = game_controller.read_current_exp()
     for index in range(30):
         skill_controller.cast_attack()
     if not game_controller.dismissSureDialog():
         adb_controller.screenshot(settings.screenshot_path)
+    end_exp = game_controller.read_current_exp()
+    #防止呆住攻击不生效
+    if start_exp == end_exp:
+        move_controller.random_move_one_step()
 
 def routine_lvl_one():
     print("routine_lvl_one")

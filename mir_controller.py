@@ -28,6 +28,7 @@ import user_controller
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
 
+move_controller.random_move_one_step()
 # path_controller.set_map_data("盟重土城")
 # path = path_controller.find_path((824,631), (838,641))
 # print("path = ", str(path))

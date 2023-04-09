@@ -111,6 +111,26 @@ def move_by_path(path):
         globals.expect_current_pos = (to_pos[0], to_pos[1])
 
 
+def random_move_one_step():
+    move_x = random.randint(-1, 1)
+    move_y = random.randint(-1, 1)
+    if move_x > 0 and move_y > 0:
+        one_step_walk_right_down()
+    elif move_x > 0 and move_y < 0:
+        one_step_walk_right_up()
+    elif move_x < 0 and move_y > 0:
+        one_step_walk_left_down()
+    elif move_x < 0 and move_y < 0:
+        one_step_walk_left_up()
+    elif move_x > 0 and move_y == 0:
+        one_step_walk_right()
+    elif move_x < 0 and move_y == 0:
+        one_step_walk_left()
+    elif move_x == 0 and move_y > 0:
+        one_step_walk_down()
+    elif move_x == 0 and move_y < 0:
+        one_step_walk_up()
+
 # 单步路径移动
 def step_go_by_path(step_path):
     if len(step_path) == 0:
