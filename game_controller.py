@@ -588,7 +588,7 @@ def check_exp_getting():
     print("exp not adding")
     return False
 
-
+# 21-29级可拜师
 def check_level():
     #检查等级，等级等于29且未拜师，停止练级
     my_level = user_controller.get_character_level(refresh=True)
