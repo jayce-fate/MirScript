@@ -21,14 +21,18 @@ import skill_controller
 import btn_controller
 import utils
 import user_controller
+import character
 
 # ******************************************
 # test
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-
-move_controller.random_move_one_step()
+character.name = "雷电将军"
+character.level = 1
+game_controller.restart_game()
+# game_controller.select_character("雷电将军", 37)
+# move_controller.random_move_one_step()
 # path_controller.set_map_data("盟重土城")
 # path = path_controller.find_path((824,631), (838,641))
 # print("path = ", str(path))
@@ -168,14 +172,6 @@ move_controller.random_move_one_step()
 # game_controller.show_scope()
 
 # skill_controller.cast_shield()
-
-# cave_path = [(480,308), (491,337)]
-# cave_path = game_controller.to_each_step_path(cave_path)
-# path_controller.generate_map_data(cave_path)
-#
-# cave_path = [(680,513), (709,539)]
-# cave_path = game_controller.to_each_step_path(cave_path)
-# path_controller.generate_map_data(cave_path)
 
 # path_controller.generate_map_data([(110,92),(92,108),(114,136),(162,177),(166,128),(49,93),(40,54),(47,39)])
 # game_controller.close_map()

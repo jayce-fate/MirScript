@@ -86,7 +86,7 @@ def go_to_lu_lao_ban():
         return
 
     # 转换为单步路径
-    step_path = game_controller.to_each_step_path(cave_path, False)
+    step_path = path_controller.to_each_step_path(cave_path, False)
     step_path_len = len(step_path)
 
     # 刷新globals.current_pos
@@ -116,7 +116,7 @@ def go_to_lu_lao_ban():
                     nearest_pos = position
 
             print("nearest_pos: {}".format(str(nearest_pos)))
-            path = game_controller.to_each_step_path([current_pos, nearest_pos], False)
+            path = path_controller.to_each_step_path([current_pos, nearest_pos], False)
             move_controller.move_by_path(path)
         else:
             move_controller.step_go_by_path(path)

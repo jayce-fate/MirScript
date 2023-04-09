@@ -371,65 +371,35 @@ def close_map():
     if(match_loc != None):
         adb_controller.click(match_loc)
 
+def get_text_match_point(text, match_scope):
+    adb_controller.screenshot(settings.screenshot_path)
 
-# 计算间距为一步的路径
-def to_each_step_path(path, round_path = True):
-    if len(path) < 1:
-        return path
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope)
+    for idx in range(len(resultss)):
+        results = resultss[idx]
+        for result in results:
+            name_rate = result[1] #('43', 0.99934321641922)
+            name = name_rate[0] #'43'
+            print("name: {}".format(str(name)))
+            if text in name:
+                corners = result[0]
+                center = utils.get_center_of_corners(corners)
+                return center
+    return None
 
-    #使得头尾相连
-    if round_path and path[-1] != path[0]:
-        path.append(path[0])
-
-    path_len = len(path)
-    step_path = []
-    step_path.append(path[0])
-    for index in range(1, path_len):
-        from_pos =  path[index - 1]
-        to_pos =  path[index]
-        # print(from_point)
-        move_x = to_pos[0] - from_pos[0]
-        move_y = to_pos[1] - from_pos[1]
-
-        abs_move_x = abs(move_x)
-        abs_move_y = abs(move_y)
-
-        # 斜方向移动步数
-        oblique_move_count = abs_move_x
-        # 总移动步数
-        total_move_count = abs_move_y
-        if abs_move_x != 0 and abs_move_y != 0:
-            if abs_move_y < abs_move_x:
-                oblique_move_count = abs_move_y
-                total_move_count = abs_move_x
-        elif abs_move_x == 0:
-            oblique_move_count = abs_move_y
-            total_move_count = abs_move_y
-        elif abs_move_y == 0:
-            oblique_move_count = abs_move_x
-            total_move_count = abs_move_x
-
-        one_step_x = 0
-        if abs_move_x != 0:
-            one_step_x = (int)(move_x / abs_move_x)
-        one_step_y = 0
-        if abs_move_y != 0:
-            one_step_y = (int)(move_y / abs_move_y)
-        for i in range(0, total_move_count):
-            if i < oblique_move_count:
-                mid_pos = (from_pos[0] + one_step_x * (i + 1), from_pos[1] + one_step_y * (i + 1))
-                step_path.append(mid_pos)
-            elif abs_move_y < abs_move_x:
-                mid_pos = (from_pos[0] + one_step_x * (i + 1), from_pos[1] + one_step_y * oblique_move_count)
-                step_path.append(mid_pos)
-            elif abs_move_y > abs_move_x:
-                mid_pos = (from_pos[0] + one_step_x * oblique_move_count, from_pos[1] + one_step_y * (i + 1))
-                step_path.append(mid_pos)
-
-    # for index in range(0, len(step_path)):
-    #     print(step_path[index])
-    return step_path
-
+def wait_till_match(match_text,max_time,step_time,match_scope = None):
+    print("Start to wait till match text: "+str(match_text)+", for up to "+str(max_time)+" seconds  ....")
+    time_start = time.time()
+    match_loc = None
+    while(True):
+        match_loc = get_text_match_point(match_text, match_scope)
+        if match_loc != None:
+            break
+        if(time.time() - time_start > max_time):
+            print("Reach max_time but failed to match")
+            break
+        time.sleep(step_time)
+    return match_loc
 
 def restart_game():
     print("restart_game")
@@ -441,11 +411,24 @@ def restart_game():
     match_scope = (694,788,724,940)
     success = btn_controller.wait_to_match_and_click("登录",0.05,60,1,match_scope)
     if not success:
-        if settings.device_address == "127.0.0.1:62001":
-            exp_controller.restart_routine(True)
-        else:
-            restart_game()
+        restart_game()
     else:
+        print("选服点击登录成功")
+
+    match_scope = (664,748,692,968)
+    success = btn_controller.wait_to_match_and_click("登录",0.05,60,1,match_scope)
+    if not success:
+        restart_game()
+    else:
+        print("账号点击登录成功")
+
+    match_scope = utils.convert_scope((854,936,696,968), (1664, 936))
+    match_loc = wait_till_match("开始游戏",60,1,match_scope)
+    if match_loc == None:
+        restart_game()
+    else:
+        select_character(user_controller.get_character_name(), user_controller.get_character_level())
+        adb_controller.click(match_loc)
         print("重启成功")
 
 def reactive_pet():
@@ -882,3 +865,58 @@ def dismissSureDialog(directly=True):
             print("消除确认提示框")
             return True
     return False
+
+def read_text(scope):
+    match_scope = scope
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope)
+    result = get_first_result(resultss)
+    if result != None:
+        print("result: {}".format(str(result)))
+    return result
+
+def select_character(name, level):
+    print("name: {}".format(str(name)))
+    print("level: {}".format(str(level)))
+    left_point = utils.convert_point((276, 468), (1664, 936))
+    mid_point = utils.convert_point((832, 468), (1664, 936))
+    right_point = utils.convert_point((1388, 468), (1664, 936))
+
+    if name != None and len(name) != 0:
+        left_name = read_text((90,150,50,400))
+        if left_name == name:
+            adb_controller.click(left_point)
+            return
+
+        mid_name = read_text((90,150,582,940))
+        if mid_name == name:
+            adb_controller.click(mid_point)
+            return
+
+        right_name = read_text((90,150,1116,1478))
+        if right_name == name:
+            adb_controller.click(right_point)
+            return
+
+    if level != None and level != 0:
+        left_level = read_text((90,150,400,522))
+        left_level = re.sub("[^0-9]", '', left_level)
+        print("left_level: {}".format(str(left_level)))
+        if left_level == str(level):
+            adb_controller.click(left_point)
+            return
+
+        mid_level = read_text((90,150,940,1072))
+        mid_level = re.sub("[^0-9]", '', mid_level)
+        print("mid_level: {}".format(str(mid_level)))
+        if mid_level == str(level):
+            adb_controller.click(mid_point)
+            return
+
+        right_level = read_text((90,150,1478,1628))
+        right_level = re.sub("[^0-9]", '', right_level)
+        print("right_level: {}".format(str(right_level)))
+        if right_level == str(level):
+            adb_controller.click(right_point)
+            return

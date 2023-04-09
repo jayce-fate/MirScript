@@ -279,7 +279,7 @@ def generate_map_data(amend_points = None):
         print("len(cave_path) == 0")
         return
     # 转换为单步路径
-    cave_path = game_controller.to_each_step_path(cave_path)
+    cave_path = to_each_step_path(cave_path)
 
     # if os.path.exists(map_data_path):
     data_list = read_map_data(map_data_path)
@@ -328,3 +328,62 @@ def generate_map_data(amend_points = None):
                             if not point in checked_point_list:
                                 checked_point_list.append(point)
                                 write_map_data(map_data_cache_path, checked_point_list)
+
+
+# 计算间距为一步的路径
+def to_each_step_path(path, round_path = True):
+    if len(path) < 1:
+        return path
+
+    #使得头尾相连
+    if round_path and path[-1] != path[0]:
+        path.append(path[0])
+
+    path_len = len(path)
+    step_path = []
+    step_path.append(path[0])
+    for index in range(1, path_len):
+        from_pos =  path[index - 1]
+        to_pos =  path[index]
+        # print(from_point)
+        move_x = to_pos[0] - from_pos[0]
+        move_y = to_pos[1] - from_pos[1]
+
+        abs_move_x = abs(move_x)
+        abs_move_y = abs(move_y)
+
+        # 斜方向移动步数
+        oblique_move_count = abs_move_x
+        # 总移动步数
+        total_move_count = abs_move_y
+        if abs_move_x != 0 and abs_move_y != 0:
+            if abs_move_y < abs_move_x:
+                oblique_move_count = abs_move_y
+                total_move_count = abs_move_x
+        elif abs_move_x == 0:
+            oblique_move_count = abs_move_y
+            total_move_count = abs_move_y
+        elif abs_move_y == 0:
+            oblique_move_count = abs_move_x
+            total_move_count = abs_move_x
+
+        one_step_x = 0
+        if abs_move_x != 0:
+            one_step_x = (int)(move_x / abs_move_x)
+        one_step_y = 0
+        if abs_move_y != 0:
+            one_step_y = (int)(move_y / abs_move_y)
+        for i in range(0, total_move_count):
+            if i < oblique_move_count:
+                mid_pos = (from_pos[0] + one_step_x * (i + 1), from_pos[1] + one_step_y * (i + 1))
+                step_path.append(mid_pos)
+            elif abs_move_y < abs_move_x:
+                mid_pos = (from_pos[0] + one_step_x * (i + 1), from_pos[1] + one_step_y * oblique_move_count)
+                step_path.append(mid_pos)
+            elif abs_move_y > abs_move_x:
+                mid_pos = (from_pos[0] + one_step_x * oblique_move_count, from_pos[1] + one_step_y * (i + 1))
+                step_path.append(mid_pos)
+
+    # for index in range(0, len(step_path)):
+    #     print(step_path[index])
+    return step_path

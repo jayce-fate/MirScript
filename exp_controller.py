@@ -492,7 +492,7 @@ def start_get_exp():
     path_controller.set_map_data()
 
     # 转换为单步路径
-    cave_path = game_controller.to_each_step_path(cave_path)
+    cave_path = path_controller.to_each_step_path(cave_path)
 
     nearest_pos = move_controller.get_nearest_pos(cave_path)
     globals.current_path_index = cave_path.index(nearest_pos)
@@ -592,15 +592,6 @@ def start_get_exp():
 def restart_routine(restart_emulator_adb = False):
     try:
         print("重启游戏")
-
-        # win 下目前看不用重启模拟器和adb
-        # if restart_emulator_adb:
-        #     adb_controller.restart_emulator()
-        #     time.sleep(30)
-        #
-        #     # mumu才重启adb
-        #     if settings.device_address == "emulator-5554":
-        #         adb_controller.restart_adb()
 
         game_controller.restart_game()
         success = game_controller.wait_till_finish_login(120, 1)

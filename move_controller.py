@@ -460,7 +460,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None):
         elif not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos1:
             print("not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos1")
             path = [current_pos1, target_pos]
-            step_path = game_controller.to_each_step_path(path, False)
+            step_path = path_controller.to_each_step_path(path, False)
             move_by_path(step_path)
             if callback1 != None:
                 callback1()
