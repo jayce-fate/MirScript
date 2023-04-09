@@ -261,6 +261,9 @@ def click_confirm():
     match_scope = (582,650,908,1166)
     return click_menu("确定", match_scope)
 
+def click_no():
+    match_scope = (582,650,490,754)
+    return click_menu("否", match_scope)
 
 def click_yes():
     match_scope = (582,650,908,1166)

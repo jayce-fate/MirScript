@@ -28,9 +28,10 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-character.name = "雷电将军"
-character.level = 1
-game_controller.restart_game()
+trash_controller.batch_sell_item('bai_se_hu_chi_xiang_lian', force = False)
+# character.name = "雷电将军"
+# character.level = 1
+# game_controller.restart_game()
 # game_controller.select_character("雷电将军", 37)
 # move_controller.random_move_one_step()
 # path_controller.set_map_data("盟重土城")

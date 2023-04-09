@@ -427,7 +427,7 @@ def batch_drink_item(item_name):
         return True
     return False
 
-def batch_sell_item(item_name):
+def batch_sell_item(item_name, force = False):
     print("batch_sell_item:", item_name)
     adb_controller.screenshot(settings.screenshot_path)
     item_template = "template_images/items/{}.png".format(str(item_name))
@@ -442,7 +442,10 @@ def batch_sell_item(item_name):
             item_indexs.append(index)
             adb_controller.click(match_loc)
             btn_controller.click_right_menu('出售')
-            btn_controller.click_yes()
+            if force:
+                btn_controller.click_yes()
+            else:
+                btn_controller.click_no()
 
     if(len(item_indexs) != 0):
         btn_controller.click_cancel_select()
@@ -465,10 +468,10 @@ def get_supply_shortage_list(buy_list, neen_open_but_not_close_bag = True):
     btn_controller.click_yes()
     btn_controller.click_right_menu("整理")
 
-    #出售技能书
-    batch_sell_item('ji_neng_shu')
-    #出售白色虎齿项链
-    batch_sell_item('bai_se_hu_chi_xiang_lian')
+    #出售技能书（极品也卖）
+    batch_sell_item('ji_neng_shu', force = True)
+    #出售白色虎齿项链（极品不卖）
+    batch_sell_item('bai_se_hu_chi_xiang_lian', force = False)
 
     shortage_list = count_trashes(buy_list)
     return shortage_list

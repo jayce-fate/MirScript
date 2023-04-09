@@ -101,6 +101,8 @@ trash_list_white = [
                 "jian_gu_shou_tao",     #坚固手套
                 "ji_neng_shu",          #技能书
                 "si_sheng_shou_tao",    #死神手套
+                "hei_tang_shou_zhuo",   #黑檀手镯
+                "dao_shi_shou_zhuo",    #道士手镯
                 ]
 
 # 极品不扔，非极品扔，需要二次确认
@@ -112,7 +114,6 @@ trash_list_green = [
 # 强制扔，不管是不是极品
 trash_list_force_drop = [
                 "hei_se_shui_jing_jie_zhi", #黑色水晶戒指
-                "hei_tang_shou_zhuo",       #黑檀手镯
                 "mo_gui_xiang_lian",        #魔鬼项链
                 "mo_li_shou_zhuo",          #魔力手镯
                 "mei_li_jie_zhi",           #魅力戒指
@@ -120,7 +121,6 @@ trash_list_force_drop = [
                 "ku_lou_tou_kui",           #骷髅头盔
                 "xiang_mo",                 #降魔
                 "dao_de_jie_zhi",           #道德戒指
-                "dao_shi_shou_zhuo",        #道士手镯
                 "qing_xing_kui_jia_nan",    #轻型盔甲（男）
                 "qing_xing_kui_jia_nv",     #轻型盔甲（女）
                 "she_yan_jie_zhi",          #蛇眼戒指
