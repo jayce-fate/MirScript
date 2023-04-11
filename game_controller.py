@@ -412,6 +412,7 @@ def restart_game():
     success = btn_controller.wait_to_match_and_click("登录",0.05,60,1,match_scope)
     if not success:
         restart_game()
+        return
     else:
         print("选服点击登录成功")
 
@@ -419,6 +420,7 @@ def restart_game():
     success = btn_controller.wait_to_match_and_click("登录",0.05,120,1,match_scope)
     if not success:
         restart_game()
+        return
     else:
         print("账号点击登录成功")
 
@@ -426,6 +428,7 @@ def restart_game():
     match_loc = wait_till_match("开始游戏",60,1,match_scope)
     if match_loc == None:
         restart_game()
+        return
     else:
         select_character(user_controller.get_character_name(), user_controller.get_character_level())
         adb_controller.click(match_loc)

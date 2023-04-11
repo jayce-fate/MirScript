@@ -594,7 +594,7 @@ def restart_routine(restart_emulator_adb = False):
         print("重启游戏")
 
         game_controller.restart_game()
-        success = game_controller.wait_till_finish_login(120, 1)
+        success = game_controller.wait_till_finish_login(240, 1)
         if success:
             print("click login btn success")
             start()
