@@ -98,12 +98,14 @@ def go_to_lu_lao_ban():
     current_path_index = cave_path.index(next_pos)
     print("current_path_index: {}".format(str(current_path_index)))
 
+    fail_count = 0
     while True:
         game_controller.dismissSureDialog(False)
 
         path = path_controller.find_path(globals.current_pos, next_pos)
         if len(path) == 0:
             print("len(path) == 0")
+            fail_count = fail_count + 1
             current_pos = move_controller.get_current_coordinate()
             print("current_pos: {}".format(str(current_pos)))
             # 最近点
@@ -118,6 +120,15 @@ def go_to_lu_lao_ban():
             print("nearest_pos: {}".format(str(nearest_pos)))
             path = path_controller.to_each_step_path([current_pos, nearest_pos], False)
             move_controller.move_by_path(path)
+
+            current_pos = move_controller.get_current_coordinate()
+            if nearest_pos[0] != current_pos[0] or nearest_pos[1] != current_pos[1]:
+                move_controller.navigate_to_point(nearest_pos)
+
+            if fail_count > 10:
+                print("开始练级")
+                exp_controller.start()
+                return
         else:
             move_controller.step_go_by_path(path)
 
