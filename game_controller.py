@@ -432,6 +432,13 @@ def restart_game():
     else:
         select_character(user_controller.get_character_name(), user_controller.get_character_level())
         adb_controller.click(match_loc)
+
+        # 频繁登录此处会被阻止登录，需要继续点击"开始游戏"
+        match_loc = wait_till_match("开始游戏",2,1,match_scope)
+        while match_loc != None:
+            adb_controller.click(match_loc)
+            match_loc = wait_till_match("开始游戏",2,1,match_scope)
+
         print("重启成功")
 
 def reactive_pet():

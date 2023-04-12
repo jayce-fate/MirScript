@@ -123,7 +123,8 @@ def go_to_lu_lao_ban():
 
             current_pos = move_controller.get_current_coordinate()
             if nearest_pos[0] != current_pos[0] or nearest_pos[1] != current_pos[1]:
-                move_controller.navigate_to_point(nearest_pos)
+                if abs(nearest_pos[0] - current_pos[0]) >= 3 or abs(nearest_pos[1] - current_pos[1]) >= 3:
+                    move_controller.navigate_to_point(nearest_pos)
 
             if fail_count > 10:
                 print("开始练级")
