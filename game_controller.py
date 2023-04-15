@@ -869,12 +869,13 @@ def is_save_power_mode():
 # 消除确认框，比如游戏断开，活动提醒
 def dismissSureDialog(directly=True):
     current_time = time.time()
+    do_click = False
     if directly or current_time - globals.last_check_sure_dialog_time > 60:
         globals.last_check_sure_dialog_time = current_time
         while btn_controller.click_sure_btn():
             print("消除确认提示框")
-            return True
-    return False
+            do_click = True
+    return do_click
 
 def read_text(scope):
     match_scope = scope
