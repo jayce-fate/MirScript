@@ -119,7 +119,7 @@ def fly_to_exp_map():
     elif user_controller.get_character_level() <= 35:
         btn_controller.click_transfer_cave("废矿入口")
     else:
-        btn_controller.click_transfer_cave("废矿入口")
+        btn_controller.click_transfer_cave("死亡山谷")
 
     btn_controller.click_btn_confirm_transform()
     time.sleep(3.0)
@@ -138,6 +138,10 @@ def fly_to_exp_map():
     else:
         if map_name == "比奇矿区":
             go_to_east_waste_ore()
+        elif "地" in map_name and "一层东" in map_name:
+            go_to_dark_area()
+        elif map_name == "黑暗地带":
+            go_to_between_life_and_dead()
         else:
             start()
 
@@ -176,7 +180,17 @@ def get_exp_by_random_fly():
 # 去废矿东部
 def go_to_east_waste_ore():
     print("go_to_east_waste_ore")
-    move_controller.navigate_to_point((179,110), start, skill_controller.cast_invisible, skill_controller.cast_random_fly)
+    move_controller.navigate_to_point((179,110), start, skill_controller.cast_random_fly, skill_controller.cast_invisible)
+
+# 去黑暗地带
+def go_to_dark_area():
+    print("go_to_dark_area")
+    move_controller.navigate_to_point((149,55), go_between_life_and_dead, skill_controller.cast_random_fly, skill_controller.cast_invisible)
+
+# 去生死之间
+def go_to_between_life_and_dead():
+    print("go_to_between_life_and_dead")
+    move_controller.navigate_to_point((202,187), start, skill_controller.cast_random_fly, skill_controller.cast_invisible)
 
 def do_some_attack():
     start_exp = game_controller.read_current_exp()
@@ -480,6 +494,12 @@ def start_get_exp():
         return
     elif map_name == "比奇矿区":
         go_to_east_waste_ore()
+        return
+    elif "地" in map_name and "一层东" in map_name:
+        go_to_dark_area()
+        return
+    elif map_name == "黑暗地带":
+        go_to_between_life_and_dead()
         return
 
     cave_path = game_controller.get_map_path(map_name)
