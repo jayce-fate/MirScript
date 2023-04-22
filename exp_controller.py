@@ -116,7 +116,7 @@ def fly_to_exp_map():
     adb_controller.screenshot(settings.screenshot_path)
     if user_controller.get_character_level() < 17:
         btn_controller.click_transfer_cave("骷髅洞")
-    elif user_controller.get_character_level() <= 35:
+    elif user_controller.get_character_level() < 35:
         btn_controller.click_transfer_cave("废矿入口")
     else:
         btn_controller.click_transfer_cave("死亡山谷")
@@ -138,7 +138,7 @@ def fly_to_exp_map():
     else:
         if map_name == "比奇矿区":
             go_to_east_waste_ore()
-        elif "地" in map_name and "一层东" in map_name:
+        elif "地" in map_name and "层东" in map_name:
             go_to_dark_area()
         elif map_name == "黑暗地带":
             go_to_between_life_and_dead()
@@ -185,7 +185,7 @@ def go_to_east_waste_ore():
 # 去黑暗地带
 def go_to_dark_area():
     print("go_to_dark_area")
-    move_controller.navigate_to_point((149,55), go_between_life_and_dead, skill_controller.cast_random_fly, skill_controller.cast_invisible)
+    move_controller.navigate_to_point((149,55), go_to_between_life_and_dead, skill_controller.cast_random_fly, skill_controller.cast_invisible)
 
 # 去生死之间
 def go_to_between_life_and_dead():
@@ -405,7 +405,7 @@ def buy_supplies():
         item_list = {
             "护身符(大)": 12,
             "超级魔法药": 12,
-            "超级金创药": 1,
+            "超级金创药": 3,
             "地牢逃脱卷": 1,
             "随机传送卷": 3,
             "棕色栗子": 1,
@@ -495,12 +495,15 @@ def start_get_exp():
     elif map_name == "比奇矿区":
         go_to_east_waste_ore()
         return
-    elif "地" in map_name and "一层东" in map_name:
+    elif "地" in map_name and "层东" in map_name:
         go_to_dark_area()
         return
     elif map_name == "黑暗地带":
         go_to_between_life_and_dead()
         return
+    elif map_name == "生死之间":
+        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
+            settings.one_time_move_distance = 4
 
     cave_path = game_controller.get_map_path(map_name)
     if len(cave_path) == 0:
@@ -520,6 +523,7 @@ def start_get_exp():
     last_move_time = 0
     last_go_back_time = 0
     while(True):
+        do_self_protect()
         #检查血量
         my_lose_HP = game_controller.get_my_lose_HP()
         # 道士，移动完，先判断血量隐身
@@ -540,12 +544,15 @@ def start_get_exp():
             print("game_controller.connection_lose(), 断开")
             raise Exception("RESTART")
 
+        do_self_protect()
         if not game_controller.check_level():
             raise Exception("NeedGetMaster")
 
+        do_self_protect()
         if trash_controller.collect_ground_treasures() > 0:
             continue
 
+        do_self_protect()
         #判断是否可以领取经验
         if user_controller.can_get_exp_subsidy():
             go_back_town_and_restart()
@@ -584,6 +591,7 @@ def start_get_exp():
             time.sleep(5.0)
             continue
 
+        do_self_protect(5)
         if game_controller.check_exp_getting():
             print("经验有增加")
             if time.time() - last_move_time > settings.move_check_time:
@@ -609,6 +617,9 @@ def start_get_exp():
                     skill_controller.cast_invisible()
                 last_move_time = time.time()
 
+def do_self_protect(wait_time = 0):
+    if user_controller.get_character_occupation() == enums.Occupation.Taoist:
+        skill_controller.cast_invisible(wait_time)
 
 def restart_routine(restart_emulator_adb = False):
     try:

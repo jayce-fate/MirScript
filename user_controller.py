@@ -33,7 +33,7 @@ def get_character_name():
     return character.name
 
 def get_character_level(refresh=False):
-    print('get_character_level')
+    # print('get_character_level')
     if character.level == None:
         read_character_data()
 
@@ -68,7 +68,7 @@ def get_character_has_master(refresh=False):
     return character.has_master
 
 def get_character_occupation(refresh=False):
-    print('get_character_occupation')
+    # print('get_character_occupation')
     if character.occupation == None:
         read_character_data()
 
@@ -133,7 +133,7 @@ def can_get_exp_subsidy():
                 print('can get exp subsidy')
                 return True
 
-    print('can not get exp subsidy')
+    # print('can not get exp subsidy')
     return False
 
 def get_exp_subsidy_time():
@@ -150,7 +150,7 @@ def set_exp_subsidy_time():
 
 # 是否可以押镖
 def can_ya_biao():
-    print('can_ya_biao')
+    # print('can_ya_biao')
     if character.ya_biao_time == None:
         read_character_data()
 

@@ -92,16 +92,17 @@ def cast_defence():
     # 技能后摇1秒
     time.sleep(1)
 
-
-def cast_invisible():
-    if globals.skill_invisible_pos == None:
-        match_loc = image_processor.match_template(
-            settings.screenshot_path,r"template_images/skill_invisible.png",0.05,get_skill_scope())
-        if(match_loc != None):
-            globals.skill_invisible_pos = match_loc
-    if globals.skill_invisible_pos != None:
-        adb_controller.click(globals.skill_invisible_pos)
-        return True
+def cast_invisible(wait_time = 0):
+    if time.time() - globals.skill_invisible_time >= 25 - wait_time:
+        if globals.skill_invisible_pos == None:
+            match_loc = image_processor.match_template(
+                settings.screenshot_path,r"template_images/skill_invisible.png",0.05,get_skill_scope())
+            if(match_loc != None):
+                globals.skill_invisible_pos = match_loc
+        if globals.skill_invisible_pos != None:
+            adb_controller.click(globals.skill_invisible_pos)
+            globals.skill_invisible_time = time.time()
+            return True
     return False
 
 def cast_poison():

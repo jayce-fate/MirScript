@@ -293,6 +293,8 @@ def read_map_name():
     result = get_first_result(resultss)
     if result != None:
         print("地图名称: {}".format(str(result)))
+        if result == "地军一层东" or "县东" in result or result == "层东":
+            result = "地牢一层东"
         return result
     return None
 
@@ -583,6 +585,11 @@ def check_exp_getting():
 
 # 21-29级可拜师
 def check_level():
+    # 超过29级则不需要检查等级
+    my_level = user_controller.get_character_level(refresh=False)
+    if my_level > 29:
+        return True
+
     #检查等级，等级等于29且未拜师，停止练级
     my_level = user_controller.get_character_level(refresh=True)
     has_master = user_controller.get_character_has_master()
@@ -650,7 +657,7 @@ def read_pet_HP():
             rec = result[1] #('43', 0.99934321641922)
             res = rec[0] #'43'
             res = re.sub(u"([^\u0030-\u0039\u002f])", "", res)
-            print("宝宝血量原始: {}".format(str(res)))
+            # print("宝宝血量原始: {}".format(str(res)))
             if "2400" in res:
                 tmp = res.replace("2400", "", 1)
                 if "2400" in tmp:
@@ -783,7 +790,7 @@ def get_my_health():
         for result in results:
             rec = result[1] #('43', 0.99934321641922)
             res = rec[0] #'43'
-            print("我的血量1: {}".format(str(res)))
+            # print("我的血量1: {}".format(str(res)))
             # res = re.sub(u"([^\u0030-\u0039\u002f])", "", res)
             res = re.sub("[^0-9/]", "", res)
             print("我的血量2: {}".format(str(res)))
@@ -912,21 +919,21 @@ def select_character(name, level):
 
     if level != None and level != 0:
         left_level = read_text((90,150,400,522))
-        left_level = re.sub("[^0-9]", '', left_level)
+        left_level = re.sub("[^0-9]", '', str(left_level))
         print("left_level: {}".format(str(left_level)))
         if left_level == str(level):
             adb_controller.click(left_point)
             return
 
         mid_level = read_text((90,150,940,1072))
-        mid_level = re.sub("[^0-9]", '', mid_level)
+        mid_level = re.sub("[^0-9]", '', str(mid_level))
         print("mid_level: {}".format(str(mid_level)))
         if mid_level == str(level):
             adb_controller.click(mid_point)
             return
 
         right_level = read_text((90,150,1478,1628))
-        right_level = re.sub("[^0-9]", '', right_level)
+        right_level = re.sub("[^0-9]", '', str(right_level))
         print("right_level: {}".format(str(right_level)))
         if right_level == str(level):
             adb_controller.click(right_point)

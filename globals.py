@@ -40,6 +40,8 @@ skill_random_fly = None
 skill_skeleton_pos = None
 skill_dog_pos = None
 
+skill_invisible_time = 0
+
 # debug次数序号
 debug_times = 0
 

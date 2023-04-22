@@ -4,6 +4,8 @@ import re
 import cv2
 import random
 import numpy
+import _thread
+import enums
 from datetime import datetime
 
 import utils
@@ -15,6 +17,7 @@ import game_controller
 import path_controller
 import skill_controller
 import btn_controller
+import user_controller
 
 walk_swip_time = 200
 run_swip_time = 550
@@ -405,6 +408,22 @@ def get_current_coordinate_after_adjust():
         print("use expect current coordinate: {}".format(str(globals.expect_current_pos)))
         return globals.expect_current_pos
 
+def protect_routine():
+    if user_controller.get_character_level() >= 23:
+        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
+            # 自动寻路卡死使用技能无效，走两步来破解
+            # one_step_walk_down()
+            # one_step_walk_up()
+            skill_controller.cast_invisible()
+            invisible_time = time.time()
+            skill_controller.cast_heal()
+            game_controller.reactive_pet()
+            while game_controller.check_exp_getting():
+                print("经验有增加")
+                if time.time() - invisible_time > 12:
+                    skill_controller.cast_invisible()
+                    invisible_time = time.time()
+                    skill_controller.cast_heal()
 
 # 使用地图寻路
 def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 = None, callback3 = None):
@@ -439,15 +458,14 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
     game_controller.close_map()
 
     while True:
-        time.sleep(1.0)
-        current_map_name = game_controller.read_map_name()
         current_pos1 = get_current_coordinate()
         print("current_pos1 {}".format(str(current_pos1)))
-        time.sleep(1.0)
+        current_map_name = game_controller.read_map_name()
         current_pos2 = get_current_coordinate()
         print("current_pos2 {}".format(str(current_pos2)))
         far_from_target = abs(current_pos1[0] - target_pos[0]) > 5 or abs(current_pos1[1] - target_pos[1]) > 5
         if current_map_name != None and len(current_map_name) >= 2 and map_name != current_map_name:
+            print("current_map_name != None and len(current_map_name) >= 2 and map_name != current_map_name")
             if callback3 != None:
                 callback3()
             if callback2 != None:
@@ -459,22 +477,28 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
             break
         elif far_from_target and current_pos1 == current_pos2:
             print("far_from_target and current_pos1 == current_pos2")
+            # if not "盟重" in map_name:
+            #     protect_routine()
             navigate_to_point(target_pos, callback)
             break
         elif not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos1:
             print("not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos1")
+            if not "盟重" in map_name:
+                protect_routine()
+                current_pos1 = get_current_coordinate()
             path = [current_pos1, target_pos]
             step_path = path_controller.to_each_step_path(path, False)
             move_by_path(step_path)
-            if callback3 != None:
-                callback3()
-            if callback2 != None:
-                callback2()
-            if callback1 != None:
-                callback1()
-            if callback != None:
-                callback()
-            break
+            # if callback3 != None:
+            #     callback3()
+            # if callback2 != None:
+            #     callback2()
+            # if callback1 != None:
+            #     callback1()
+            # if callback != None:
+            #     callback()
+            # break
+            continue
         elif target_pos == current_pos1:
             print("target_pos == current_pos2")
             game_controller.dismissSureDialog()
@@ -488,6 +512,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
             if callback != None:
                 callback()
             break
+
 
 def go_back_town_and_stay():
     skill_controller.cast_back_town()

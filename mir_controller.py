@@ -28,7 +28,15 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-trash_controller.batch_sell_item('bai_se_hu_chi_xiang_lian', force = False)
+t1 = time.time()
+# my_lose_HP = game_controller.get_my_lose_HP()
+# print("my_lose_HP = ", my_lose_HP)
+current_map_name = game_controller.read_map_name()
+print("current_map_name = ", current_map_name)
+print("time span = ", time.time() - t1)
+# character.name = "郭襄"
+# exp_controller.go_to_dark_area()
+# trash_controller.batch_sell_item('bai_se_hu_chi_xiang_lian', force = False)
 # character.name = "雷电将军"
 # character.level = 1
 # game_controller.restart_game()
@@ -174,7 +182,7 @@ trash_controller.batch_sell_item('bai_se_hu_chi_xiang_lian', force = False)
 
 # skill_controller.cast_shield()
 
-path_controller.generate_map_data([(115,133),(110,140)])
+# path_controller.generate_map_data([(115,133),(110,140)])
 # game_controller.close_map()
 # start_get_exp()
 # path_controller.show_map()
