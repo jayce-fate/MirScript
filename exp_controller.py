@@ -549,8 +549,10 @@ def start_get_exp():
             raise Exception("NeedGetMaster")
 
         do_self_protect()
-        if trash_controller.collect_ground_treasures() > 0:
-            continue
+        # 法师安全，先捡东西
+        if user_controller.get_character_occupation() == enums.Occupation.Magician:
+            if trash_controller.collect_ground_treasures() > 0:
+                continue
 
         do_self_protect()
         #判断是否可以领取经验
@@ -604,6 +606,11 @@ def start_get_exp():
                     last_move_time = time.time()
         else:
             print("经验没增加")
+            # 道士不安全，没怪再捡东西
+            if user_controller.get_character_occupation() == enums.Occupation.Taoist:
+                if trash_controller.collect_ground_treasures() > 0:
+                    continue
+
             #移动到下一个点
             move_controller.go_to_next_point(cave_path)
             # 移动结束接隐身
