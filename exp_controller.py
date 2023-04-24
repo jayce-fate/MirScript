@@ -523,7 +523,7 @@ def start_get_exp():
     last_move_time = 0
     last_go_back_time = 0
     while(True):
-        do_self_protect()
+        game_controller.do_self_protect()
         #检查血量
         my_lose_HP = game_controller.get_my_lose_HP()
         # 道士，移动完，先判断血量隐身
@@ -544,17 +544,17 @@ def start_get_exp():
             print("game_controller.connection_lose(), 断开")
             raise Exception("RESTART")
 
-        do_self_protect()
+        game_controller.do_self_protect()
         if not game_controller.check_level():
             raise Exception("NeedGetMaster")
 
-        do_self_protect()
+        game_controller.do_self_protect()
         # 法师安全，先捡东西
         if user_controller.get_character_occupation() == enums.Occupation.Magician:
             if trash_controller.collect_ground_treasures() > 0:
                 continue
 
-        do_self_protect()
+        game_controller.do_self_protect()
         #判断是否可以领取经验
         if user_controller.can_get_exp_subsidy():
             go_back_town_and_restart()
@@ -593,7 +593,7 @@ def start_get_exp():
             time.sleep(5.0)
             continue
 
-        do_self_protect(5)
+        game_controller.do_self_protect()
         if game_controller.check_exp_getting():
             print("经验有增加")
             if time.time() - last_move_time > settings.move_check_time:
@@ -623,10 +623,6 @@ def start_get_exp():
                 if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                     skill_controller.cast_invisible()
                 last_move_time = time.time()
-
-def do_self_protect(wait_time = 0):
-    if user_controller.get_character_occupation() == enums.Occupation.Taoist:
-        skill_controller.cast_invisible(wait_time)
 
 def restart_routine(restart_emulator_adb = False):
     try:

@@ -569,6 +569,10 @@ def check_monster_reachable():
     else:
         return False
 
+def do_self_protect(wait_time = 0):
+    if user_controller.get_character_occupation() == enums.Occupation.Taoist:
+        skill_controller.cast_invisible(wait_time)
+
 def check_exp_getting():
     check_times = 5;
     if user_controller.get_character_occupation() == enums.Occupation.Taoist:
@@ -579,6 +583,7 @@ def check_exp_getting():
             return True
         else:
             print("exp cheking")
+            do_self_protect()
 
     print("exp not adding")
     return False
