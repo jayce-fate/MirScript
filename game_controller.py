@@ -678,6 +678,13 @@ def read_pet_HP():
                 print("digit2 = ", digit2)
                 if digit1 <= digit2:
                     res = digit1 + "/" + digit2
+            elif len(res) == 9:
+                digit1 = res[0:4]
+                digit2 = res[5:9]
+                print("digit1 = ", digit1)
+                print("digit2 = ", digit2)
+                if digit1 <= digit2:
+                    res = digit1 + "/" + digit2
             elif len(res) == 6:
                 digit1 = res[0:3]
                 digit2 = res[3:6]
