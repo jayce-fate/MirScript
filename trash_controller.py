@@ -445,7 +445,10 @@ def batch_sell_item(item_name, force = False):
             if force:
                 btn_controller.click_yes()
             else:
-                btn_controller.click_no()
+                if game_controller.is_ji_pin():
+                    btn_controller.click_no()
+                else:
+                    btn_controller.click_yes()
 
     if(len(item_indexs) != 0):
         btn_controller.click_cancel_select()
