@@ -430,6 +430,22 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
     #消除系统确定消息框
     game_controller.dismissSureDialog()
 
+    current_pos = get_current_coordinate()
+    far_from_target = abs(current_pos[0] - target_pos[0]) > 5 or abs(current_pos[1] - target_pos[1]) > 5
+    if not far_from_target:
+        path = [current_pos, target_pos]
+        step_path = path_controller.to_each_step_path(path, False)
+        move_by_path(step_path)
+        if callback3 != None:
+            callback3()
+        if callback2 != None:
+            callback2()
+        if callback1 != None:
+            callback1()
+        if callback != None:
+            callback()
+        return
+
     map_name = game_controller.read_map_name()
     btn_controller.click_map()
     time.sleep(1.0)
@@ -463,7 +479,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
         current_map_name = game_controller.read_map_name()
         current_pos2 = get_current_coordinate()
         print("current_pos2 {}".format(str(current_pos2)))
-        far_from_target = abs(current_pos1[0] - target_pos[0]) > 5 or abs(current_pos1[1] - target_pos[1]) > 5
+        far_from_target = abs(current_pos2[0] - target_pos[0]) > 5 or abs(current_pos2[1] - target_pos[1]) > 5
         if current_map_name != None and len(current_map_name) >= 2 and map_name != current_map_name:
             print("current_map_name != None and len(current_map_name) >= 2 and map_name != current_map_name")
             if callback3 != None:
@@ -481,12 +497,12 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
             #     protect_routine()
             navigate_to_point(target_pos, callback)
             break
-        elif not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos1:
-            print("not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos1")
+        elif not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos2:
+            print("not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos2")
             if not "盟重" in map_name:
                 protect_routine()
-                current_pos1 = get_current_coordinate()
-            path = [current_pos1, target_pos]
+                current_pos2 = get_current_coordinate()
+            path = [current_pos2, target_pos]
             step_path = path_controller.to_each_step_path(path, False)
             move_by_path(step_path)
             # if callback3 != None:
@@ -499,7 +515,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
             #     callback()
             # break
             continue
-        elif target_pos == current_pos1:
+        elif target_pos == current_pos2:
             print("target_pos == current_pos2")
             game_controller.dismissSureDialog()
             adb_controller.screenshot(settings.screenshot_path)
