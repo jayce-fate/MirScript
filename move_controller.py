@@ -426,7 +426,7 @@ def protect_routine():
                     skill_controller.cast_heal()
 
 # 使用地图寻路
-def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 = None, callback3 = None):
+def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 = None, callback3 = None, input_coordinate = True):
     #消除系统确定消息框
     game_controller.dismissSureDialog()
 
@@ -449,15 +449,17 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
     map_name = game_controller.read_map_name()
     btn_controller.click_map()
     time.sleep(1.0)
-    adb_controller.screenshot(settings.screenshot_path)
-    btn_controller.click_map_aim()
-    btn_controller.click_map_input()
-    btn_controller.click_map_input()
-    btn_controller.click_map_clear()
-    point_str = "{},{}".format(target_pos[0], target_pos[1])
-    adb_controller.input_text(point_str)
-    btn_controller.click_map_edit_confirm()
-    btn_controller.click_map_input_confirm()
+
+    if input_coordinate:
+        adb_controller.screenshot(settings.screenshot_path)
+        btn_controller.click_map_aim()
+        btn_controller.click_map_input()
+        btn_controller.click_map_input()
+        btn_controller.click_map_clear()
+        point_str = "{},{}".format(target_pos[0], target_pos[1])
+        adb_controller.input_text(point_str)
+        btn_controller.click_map_edit_confirm()
+        btn_controller.click_map_input_confirm()
 
     #判断目标是否可达
     time.sleep(0.2)
@@ -495,7 +497,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
             print("far_from_target and current_pos1 == current_pos2")
             # if not "盟重" in map_name:
             #     protect_routine()
-            navigate_to_point(target_pos, callback)
+            navigate_to_point(target_pos, callback, callback1, callback2, callback3, False)
             break
         elif not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos2:
             print("not far_from_target and current_pos1 == current_pos2 and target_pos != current_pos2")
