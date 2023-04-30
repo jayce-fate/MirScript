@@ -108,10 +108,12 @@ def fly_to_exp_map():
             adb_controller.screenshot(settings.screenshot_path)
             game_controller.open_bag_and_drink("ji_neng_shu", batch=True)
 
-    btn_controller.click_npc_meng_zhong_lao_bing()
+    if not btn_controller.click_npc_meng_zhong_lao_bing():
+        raise Exception("RESTART")
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
-    btn_controller.click_yellow_menu("传送")
+    if not btn_controller.click_yellow_menu("传送"):
+        raise Exception("RESTART")
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
     if user_controller.get_character_level() < 17:
