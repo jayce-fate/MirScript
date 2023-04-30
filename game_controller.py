@@ -347,6 +347,12 @@ def is_zhen_xi():
             return True
     return False
 
+def is_bang_jin_item_list():
+    item_name = read_text((38,102,425,676))
+    if "绑金" in item_name:
+        return True
+    return False
+
 def get_map_path(map_name=None):
     adb_controller.screenshot(settings.screenshot_path)
     if map_name == None:

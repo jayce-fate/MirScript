@@ -28,12 +28,13 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-t1 = time.time()
+game_controller.is_bang_jin_item_list()
+# t1 = time.time()
 # my_lose_HP = game_controller.get_my_lose_HP()
 # print("my_lose_HP = ", my_lose_HP)
-current_map_name = game_controller.read_map_name()
-print("current_map_name = ", current_map_name)
-print("time span = ", time.time() - t1)
+# current_map_name = game_controller.read_map_name()
+# print("current_map_name = ", current_map_name)
+# print("time span = ", time.time() - t1)
 # character.name = "郭襄"
 # exp_controller.go_to_dark_area()
 # trash_controller.batch_sell_item('bai_se_hu_chi_xiang_lian', force = False)
