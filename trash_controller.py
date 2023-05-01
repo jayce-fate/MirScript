@@ -234,6 +234,15 @@ def buy_loop_every_page(item_list, all_page_item_list):
 
 
 def buy_items(item_list, neen_not_open_but_close_bag = True):
+    #检查是否需要购买
+    need_buy = False
+    for key, value in item_list.items():
+        if value > 0:
+            need_buy = True
+            break
+    if not need_buy:
+        return
+
     btn_controller.click_right_menu("商店")
     time.sleep(0.5)
     btn_controller.click_left_menu("绑金")
