@@ -895,7 +895,7 @@ def is_save_power_mode():
 def dismissSureDialog(directly=True):
     current_time = time.time()
     do_click = False
-    if directly or current_time - globals.last_check_sure_dialog_time > 60:
+    if directly or current_time - globals.last_check_sure_dialog_time > 180:
         globals.last_check_sure_dialog_time = current_time
         while btn_controller.click_sure_btn():
             print("消除确认提示框")

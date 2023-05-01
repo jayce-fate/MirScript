@@ -156,6 +156,7 @@ def get_exp_by_random_fly():
 
     no_more_random_fly = 0
     while True:
+        game_controller.dismissSureDialog(False)
         adb_controller.screenshot(settings.screenshot_path)
         if not game_controller.template_exist("btn_close_target"):
             skill_controller.cast_poison()
