@@ -240,20 +240,18 @@ def buy_items(item_list, neen_not_open_but_close_bag = True):
         if value > 0:
             need_buy = True
             break
-    if not need_buy:
-        return
+    if need_buy:
+        btn_controller.click_right_menu("商店")
+        time.sleep(0.5)
+        btn_controller.click_left_menu("绑金")
+        time.sleep(1.0)
+        adb_controller.screenshot(settings.screenshot_path)
+        # 检查是否是绑金列表
+        if not game_controller.is_bang_jin_item_list():
+            print("not game_controller.is_bang_jin_item_list()")
+            raise Exception("RESTART")
 
-    btn_controller.click_right_menu("商店")
-    time.sleep(0.5)
-    btn_controller.click_left_menu("绑金")
-    time.sleep(1.0)
-    adb_controller.screenshot(settings.screenshot_path)
-    # 检查是否是绑金列表
-    if not game_controller.is_bang_jin_item_list():
-        print("not game_controller.is_bang_jin_item_list()")
-        raise Exception("RESTART")
-
-    buy_loop_every_page(item_list, settings.bind_gold_item_list)
+        buy_loop_every_page(item_list, settings.bind_gold_item_list)
 
     if neen_not_open_but_close_bag:
         btn_controller.click_left_return()
