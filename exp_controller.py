@@ -306,9 +306,6 @@ def routine_lvl_fifteen():
     game_controller.dismissSureDialog()
 
     if user_controller.get_character_level() == 15 and game_controller.get_bag_remain_capacity() > 32:
-        #和平模式
-        adb_controller.click(utils.convert_point((52, 126), (1664, 936)))
-        adb_controller.click(utils.convert_point((178, 126), (1664, 936)))
         # 穿装备，学技能
         game_controller.open_bag()
         btn_controller.click_right_menu("整理")
@@ -443,6 +440,9 @@ def start_get_exp():
                 print("技能未设置随机和回城快捷键")
             print("not skill_controller.cast_random_fly(False)")
             raise Exception("RESTART")
+
+    #和平模式
+    game_controller.set_mode_peace()
 
     if user_controller.get_character_level() < 7:
         routine_lvl_one()

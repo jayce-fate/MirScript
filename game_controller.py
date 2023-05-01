@@ -956,3 +956,11 @@ def select_character(name, level):
         if right_level == str(level):
             adb_controller.click(right_point)
             return
+
+#和平模式
+def set_mode_peace():
+    character_name = user_controller.get_character_name()
+    if globals.peace_mode_character_name == None or globals.peace_mode_character_name != character_name:
+        adb_controller.click(utils.convert_point((52, 126), (1664, 936)))
+        adb_controller.click(utils.convert_point((178, 126), (1664, 936)))
+        globals.peace_mode_character_name = character_name

@@ -47,3 +47,6 @@ debug_times = 0
 
 #上次检查确认提示框时间
 last_check_sure_dialog_time = 0
+
+#最近一次设置和平模式的角色名，避免多次设置
+peace_mode_character_name = None
