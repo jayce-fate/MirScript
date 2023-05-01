@@ -256,6 +256,13 @@ def click_sell_all():
     match_scope = (456,516,1380,1540)
     return click_menu("出售", match_scope)
 
+def click_repair_all():
+    match_scope = (518,578,1380,1540)
+    return click_menu("特修", match_scope)
+
+def click_repair_wearing():
+    match_scope = (582,650,490,754)
+    return click_menu("装备", match_scope)
 
 def click_confirm():
     match_scope = (582,650,908,1166)

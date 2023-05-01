@@ -459,13 +459,8 @@ def batch_sell_item(item_name, force = False):
         return True
     return False
 
-#获取补给缺少数量清单
-def get_supply_shortage_list(buy_list, neen_open_but_not_close_bag = True):
-    if neen_open_but_not_close_bag:
-        game_controller.open_bag()
-        game_controller.wipe_up_bag()
-
-    #一键出售
+#一键出售
+def sell_all():
     btn_controller.click_right_menu("更多")
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_sell_all()
@@ -473,7 +468,28 @@ def get_supply_shortage_list(buy_list, neen_open_but_not_close_bag = True):
     btn_controller.click_confirm()
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_yes()
+
+#一键特修
+def repair_all():
+    btn_controller.click_right_menu("更多")
+    adb_controller.screenshot(settings.screenshot_path)
+    btn_controller.click_repair_all()
+    adb_controller.screenshot(settings.screenshot_path)
+    btn_controller.click_repair_wearing()
+    adb_controller.screenshot(settings.screenshot_path)
+    btn_controller.click_confirm()
+
+#获取补给缺少数量清单
+def get_supply_shortage_list(buy_list, neen_open_but_not_close_bag = True):
+    if neen_open_but_not_close_bag:
+        game_controller.open_bag()
+        game_controller.wipe_up_bag()
+
+    sell_all()
     btn_controller.click_right_menu("整理")
+
+    if user_controller.get_character_level() >= 35:
+        repair_all()
 
     #出售技能书（极品也卖）
     batch_sell_item('ji_neng_shu', force = True)
