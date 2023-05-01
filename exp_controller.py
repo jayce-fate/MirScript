@@ -155,7 +155,18 @@ def get_exp_by_random_fly():
     game_controller.open_bag_and_drink("zhong_se_li_zi")
 
     no_more_random_fly = 0
+    start_exp = game_controller.read_current_exp()
+    start_time = time.time()
     while True:
+        if time.time() - start_time > 180:
+            current_exp = game_controller.read_current_exp()
+            if current_exp != start_exp:
+                start_exp = game_controller.read_current_exp()
+                start_time = time.time()
+            else:
+                print("get_exp_by_random_fly,经过180秒经验没增加，重启")
+                raise Exception("RESTART")
+
         game_controller.dismissSureDialog(False)
         adb_controller.screenshot(settings.screenshot_path)
         if not game_controller.template_exist("btn_close_target"):
