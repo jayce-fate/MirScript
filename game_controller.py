@@ -146,6 +146,8 @@ def read_lv_text():
         digit_array = re.findall(r'\d+', result)
         if len(digit_array) > 0:
             current_lvl = int(digit_array[0])
+            if current_lvl >= 100:
+                current_lvl = int(current_lvl / 10)
             print("current_lvl: {}".format(str(current_lvl)))
             return current_lvl
 
@@ -295,6 +297,8 @@ def read_map_name():
         print("地图名称: {}".format(str(result)))
         if result == "地军一层东" or "县东" in result or result == "层东":
             result = "地牢一层东"
+        elif "带" in result:
+            result = "黑暗地带"
         return result
     return None
 
