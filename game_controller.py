@@ -299,6 +299,12 @@ def read_map_name():
             result = "地牢一层东"
         elif "带" in result:
             result = "黑暗地带"
+        if not utils.is_contains_chinese(result):
+            if globals.read_map_name_fail_remain > 0:
+                globals.read_map_name_fail_remain = globals.read_map_name_fail_remain - 1
+            else:
+                globals.read_map_name_fail_remain = settings.read_map_name_fail_limit
+                raise Exception("RESTART")
         return result
     return None
 
