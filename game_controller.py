@@ -304,6 +304,7 @@ def read_map_name():
                 globals.read_map_name_fail_remain = globals.read_map_name_fail_remain - 1
             else:
                 globals.read_map_name_fail_remain = settings.read_map_name_fail_limit
+                print("globals.read_map_name_fail_remain == 0")
                 raise Exception("RESTART")
         return result
     return None

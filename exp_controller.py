@@ -154,11 +154,18 @@ def get_exp_by_random_fly():
     #吃栗子
     game_controller.open_bag_and_drink("zhong_se_li_zi")
 
+    map_name = game_controller.read_map_name()
+
     no_more_random_fly = 0
     start_exp = game_controller.read_current_exp()
     start_time = time.time()
     while True:
-        if time.time() - start_time > 180:
+        if time.time() - start_time > 120:
+            current_map_name = game_controller.read_map_name()
+            if current_map_name != None and len(current_map_name) >= 2 and map_name != current_map_name:
+                print("current_map_name != None and len(current_map_name) >= 2 and map_name != current_map_name")
+                raise Exception("RESTART")
+
             current_exp = game_controller.read_current_exp()
             if current_exp != start_exp:
                 start_exp = game_controller.read_current_exp()
