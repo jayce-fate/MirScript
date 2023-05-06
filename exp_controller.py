@@ -262,10 +262,11 @@ def routine_lvl_one():
     lv_text = user_controller.get_character_level(refresh=True)
     while lv_text < 7:
         do_some_attack()
-        lv_text = user_controller.get_character_level(refresh=True)
+        # lv_text = user_controller.get_character_level(refresh=True)
+        lv_text = game_controller.read_lv_text()
         #以防断线游戏被关闭
-        if lv_text < 1:
-            print("lv_text < 1")
+        if lv_text == None or lv_text < 1 or lv_text > 52:
+            print("lv_text == None or lv_text < 1 or lv_text > 52")
             raise Exception("RESTART")
     print("等级7")
     time.sleep(3.0)
@@ -299,10 +300,11 @@ def routine_lvl_seven():
         elif user_controller.get_character_occupation() == enums.Occupation.Magician:
             skill_controller.cast_fire_ball()
             adb_controller.screenshot(settings.screenshot_path)
-        lv_text = user_controller.get_character_level(refresh=True)
+        # lv_text = user_controller.get_character_level(refresh=True)
+        lv_text = game_controller.read_lv_text()
         #以防断线游戏被关闭
-        if lv_text < 1:
-            print("lv_text < 1")
+        if lv_text == None or lv_text < 1 or lv_text > 52:
+            print(" lv_text == None or lv_text < 1 or lv_text > 52")
             raise Exception("RESTART")
     print("等级15")
     time.sleep(35)
