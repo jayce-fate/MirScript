@@ -70,7 +70,7 @@ def screenshot(path, back_up_prefix=None):
     os.system(command)
     if back_up_prefix != None:
         file_name = "temp_screenshot/{}.png".format(back_up_prefix)
-        shutil.copyfile(path, file_name)
+        shutil.copyfile(tmp_path, file_name)
     shutil.move(tmp_path, path)
     time.sleep(0.001)
 

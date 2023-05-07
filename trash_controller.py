@@ -86,7 +86,8 @@ def drop_trashes_loop(match_scope = (125,807,939,1525)):
     for index in range(0, list_len):
         trash_name = trash_list[index]
         print("trash_name: {}".format(str(trash_name)))
-        loop_drink_one_item(trash_name)
+        # loop_drink_one_item(trash_name)
+        batch_drink_item(trash_name, need_screenshot = False, match_scope = match_scope)
 
 def drop_trashes(neen_open_close_bag = True):
     if neen_open_close_bag:
@@ -396,26 +397,31 @@ def drink_item(item_name):
     return False
 
 
-def batch_drink_item(item_name):
+def batch_drink_item(item_name, need_screenshot = True, match_scope = (125,807,939,1525)):
     print("batch_drink_item:", item_name)
+
     #debug
-    if item_name == 'ji_neng_shu':
-        globals.debug_times = globals.debug_times + 1
-        prefix = "ji_neng_shu{}".format(str(globals.debug_times))
-        adb_controller.screenshot(settings.screenshot_path, prefix)
-    else:
+    # if item_name == 'ji_neng_shu':
+    #     globals.debug_times = globals.debug_times + 1
+    #     prefix = "ji_neng_shu{}".format(str(globals.debug_times))
+    #     adb_controller.screenshot(settings.screenshot_path, prefix)
+    # else:
+    #     adb_controller.screenshot(settings.screenshot_path)
+    if need_screenshot:
         adb_controller.screenshot(settings.screenshot_path)
+
     item_template = "template_images/items/{}.png".format(str(item_name))
     match_locs = image_processor.multiple_match_template(
-        settings.screenshot_path,item_template,0.05)
+        settings.screenshot_path,item_template,0.05,match_scope)
 
-    if item_name == 'ji_neng_shu':
-        file_name = "temp_screenshot/ji_neng_shu{}_log.txt".format(str(globals.debug_times))
-        file = open(file_name,'w')
-        file.write("match_locs:\n")
-        for item in match_locs:
-        	file.write(str(item)+"\n")
-        file.close()
+    #debug
+    # if item_name == 'ji_neng_shu':
+    #     file_name = "temp_screenshot/ji_neng_shu{}_log.txt".format(str(globals.debug_times))
+    #     file = open(file_name,'w')
+    #     file.write("match_locs:\n")
+    #     for item in match_locs:
+    #     	file.write(str(item)+"\n")
+    #     file.close()
 
     item_indexs = []
     for idx in range(0, len(match_locs)):
@@ -426,14 +432,16 @@ def batch_drink_item(item_name):
             print("match_loc:", str(match_loc))
             item_indexs.append(index)
             adb_controller.double_click(match_loc)
-            if item_name == 'ji_neng_shu':
-                file_name = "temp_screenshot/ji_neng_shu{}_log.txt".format(str(globals.debug_times))
-                file = open(file_name,'a')
-                file.write("index:\n")
-                file.write(str(index)+"\n")
-                file.write("double click match_loc:\n")
-                file.write(str(match_loc)+"\n")
-                file.close()
+
+            #debug
+            # if item_name == 'ji_neng_shu':
+            #     file_name = "temp_screenshot/ji_neng_shu{}_log.txt".format(str(globals.debug_times))
+            #     file = open(file_name,'a')
+            #     file.write("index:\n")
+            #     file.write(str(index)+"\n")
+            #     file.write("double click match_loc:\n")
+            #     file.write(str(match_loc)+"\n")
+            #     file.close()
 
     if(len(item_indexs) != 0):
         btn_controller.click_cancel_select()
