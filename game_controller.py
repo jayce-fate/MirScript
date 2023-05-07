@@ -832,8 +832,16 @@ def get_my_health():
 def get_my_lose_HP():
     my_HP = get_my_health()
     if my_HP != None and len(my_HP) == 2:
-        current_hp = int(my_HP[0])
-        max_hp = int(my_HP[1])
+        current_hp = 0
+        try:
+            current_hp = int(my_HP[0])
+        except Exception as e:
+            pass
+        max_hp = 0
+        try:
+            max_hp = int(my_HP[1])
+        except Exception as e:
+            pass
         return max_hp - current_hp
     return 0
 
