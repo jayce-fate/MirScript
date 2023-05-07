@@ -239,7 +239,8 @@ def read_current_exp():
         for index in range(0,len(digit_array)):
             current_exp = digit_array[index]
             print("当前经验: {}".format(str(current_exp)))
-            return float(current_exp)
+            float_value = float(current_exp)
+            return float_value
     return None
 
 
@@ -590,19 +591,48 @@ def do_self_protect(wait_time = 0):
         skill_controller.cast_invisible(wait_time)
 
 def check_exp_getting():
-    check_times = 5;
-    if user_controller.get_character_occupation() == enums.Occupation.Taoist:
-        check_times = 5
-    for index in range(0, check_times):
-        if got_exp_add_text():
-            print("exp adding")
-            return True
-        else:
-            print("exp cheking")
-            do_self_protect()
+    if user_controller.get_character_level() > 35:
+        check_times = 5;
+        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
+            check_times = 5
+        for index in range(0, check_times):
+            if got_exp_add_text():
+                print("exp adding")
+                return True
+            else:
+                print("exp cheking")
+                do_self_protect()
 
-    print("exp not adding")
-    return False
+        print("exp not adding")
+        return False
+    else:
+        current_exp = read_current_exp()
+        check_time = 8
+        time_after_last_exp = time.time() - globals.last_exp_time
+        print("time_after_last_exp:", time_after_last_exp)
+        if globals.last_exp == current_exp:
+            print("globals.last_exp == current_exp")
+            if time_after_last_exp >= check_time:
+                print("exp not adding")
+                return False
+            else:
+                print("exp cheking")
+                time.sleep(check_time - time_after_last_exp)
+                return check_exp_getting()
+        elif globals.last_exp != current_exp:
+            print("globals.last_exp != current_exp")
+            if time_after_last_exp <= check_time:
+                print("exp adding")
+                globals.last_exp = current_exp
+                globals.last_exp_time = time.time()
+                return True
+            else:
+                print("exp cheking")
+                globals.last_exp = current_exp
+                globals.last_exp_time = time.time()
+                time.sleep(check_time)
+                return check_exp_getting()
+
 
 # 21-29级可拜师
 def check_level():

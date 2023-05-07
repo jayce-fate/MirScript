@@ -53,3 +53,8 @@ last_check_sure_dialog_time = 0
 
 #最近一次设置和平模式的角色名，避免多次设置
 peace_mode_character_name = None
+
+#上次经验
+last_exp = 0
+#上次经验时间
+last_exp_time = 0
