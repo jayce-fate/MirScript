@@ -550,10 +550,9 @@ def wipe_up_bag():
     pos = utils.convert_point((956, 520), (1664, 936))
     adb_controller.swipe((pos[0], pos[1] - 50), (pos[0], pos[1] + 50), 400)
 
-def select_item(item_name):
+def select_item(item_name, match_scope = (125,807,939,1525)):
     item_template = "template_images/items/{}.png".format(str(item_name))
 
-    match_scope = (125,807,939,1525)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
     match_loc = image_processor.match_template(

@@ -18,15 +18,15 @@ import btn_controller
 import enums
 import user_controller
 
-def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
+def loop_drop_one_item(trash_name, is_green = False, force_drop = False, match_scope = (125,807,939,1525)):
     print("loop_drop_one_item:" + trash_name + ",isgreen:" + str(is_green) + ",force_drop:" + str(force_drop))
-    if game_controller.select_item(trash_name):
+    if game_controller.select_item(trash_name, match_scope):
         btn_controller.click_drop()
         if force_drop:
             btn_controller.click_confirm_drop()
             # print("click_confirm_drop")
             adb_controller.screenshot(settings.screenshot_path)
-            loop_drop_one_item(trash_name, is_green, force_drop)
+            loop_drop_one_item(trash_name, is_green, force_drop, match_scope)
         else:
             time.sleep(0.1)
             adb_controller.screenshot(settings.screenshot_path)
@@ -40,7 +40,7 @@ def loop_drop_one_item(trash_name, is_green = False, force_drop = False):
                 if is_green:
                     btn_controller.click_confirm_drop()
                     adb_controller.screenshot(settings.screenshot_path)
-                loop_drop_one_item(trash_name, is_green, force_drop)
+                loop_drop_one_item(trash_name, is_green, force_drop, match_scope)
 
 
 def loop_drink_one_item(trash_name):
@@ -49,7 +49,7 @@ def loop_drink_one_item(trash_name):
         loop_drink_one_item(trash_name)
 
 
-def drop_trashes_loop():
+def drop_trashes_loop(match_scope = (125,807,939,1525)):
     adb_controller.screenshot(settings.screenshot_path)
 
     trash_list = settings.trash_list_white
@@ -57,28 +57,28 @@ def drop_trashes_loop():
     for index in range(0, list_len):
         trash_name = trash_list[index]
         print("trash_name: {}".format(str(trash_name)))
-        loop_drop_one_item(trash_name)
+        loop_drop_one_item(trash_name, match_scope = match_scope)
 
     trash_list = settings.trash_list_green
     list_len = len(trash_list)
     for index in range(0, list_len):
         trash_name = trash_list[index]
         print("trash_name: {}".format(str(trash_name)))
-        loop_drop_one_item(trash_name, is_green = True)
+        loop_drop_one_item(trash_name, is_green = True, match_scope = match_scope)
 
     trash_list = settings.trash_list_force_drop
     list_len = len(trash_list)
     for index in range(0, list_len):
         trash_name = trash_list[index]
         print("trash_name: {}".format(str(trash_name)))
-        loop_drop_one_item(trash_name, force_drop = True)
+        loop_drop_one_item(trash_name, force_drop = True, match_scope = match_scope)
 
     trash_list = settings.trash_list_drink
     # 道士不扔强效魔法药
     if user_controller.get_character_occupation() == enums.Occupation.Taoist:
         if "qiang_xiao_mo_fa_yao" in trash_list:
             trash_list.remove("qiang_xiao_mo_fa_yao")
-    # 道士不扔强效金创药
+    # 法师不扔强效金创药
     elif user_controller.get_character_occupation() == enums.Occupation.Magician:
         if "qiang_xiao_jin_chuang_yao" in trash_list:
             trash_list.remove("qiang_xiao_jin_chuang_yao")
@@ -96,7 +96,9 @@ def drop_trashes(neen_open_close_bag = True):
     game_controller.wipe_up_bag()
     btn_controller.click_right_menu("整理")
     time.sleep(2.0)
-    drop_trashes_loop()
+    drop_trashes_loop(match_scope = (125,807,939,1525))
+    game_controller.wipe_down_bag()
+    drop_trashes_loop(match_scope = (706,807,939,1525))
 
     if neen_open_close_bag:
         btn_controller.click_left_return()
