@@ -610,6 +610,7 @@ def check_exp_getting():
         check_time = 8
         time_after_last_exp = time.time() - globals.last_exp_time
         print("time_after_last_exp:", time_after_last_exp)
+        do_self_protect()
         if globals.last_exp == current_exp:
             print("globals.last_exp == current_exp")
             if time_after_last_exp >= check_time:

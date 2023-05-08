@@ -113,6 +113,9 @@ def multiple_match_template(target_path,template_path,threshold = 0.05,scope = N
     match_locs = []
     for pt in zip(*loc[::-1]):
         center_loc = (pt[0] + twidth / 2, pt[1] + theight / 2)
+        if(scope != None):
+            # print("scope: " + str(scope))
+            center_loc = (center_loc[0] + scope[2], center_loc[1] + scope[0])
         match_locs.append(center_loc)
         cv2.rectangle(target, pt, (pt[0] + twidth, pt[1] + theight), (0,0,255), 2)
     # cv2.imshow('image', target)
