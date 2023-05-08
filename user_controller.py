@@ -24,7 +24,7 @@ import character
 import enums
 
 def get_character_name():
-    print('get_character_name')
+    # print('get_character_name')
     if character.name == None:
         character.name = game_controller.read_character_name()
         if character.name == None or len(character.name) <= 1:
@@ -52,7 +52,7 @@ def get_character_level(refresh=False):
     return character.level
 
 def get_character_has_master(refresh=False):
-    print('get_character_has_master')
+    # print('get_character_has_master')
     # 20级能拜师了么？
     if character.level < 20 or character.level >= 35:
         return False
@@ -101,17 +101,17 @@ def can_get_subsidy():
 def get_subsidy_time():
     now = datetime.now()
     hour = now.strftime("%H")
-    print("hour:", hour)
+    # print("hour:", hour)
     time_string = now.strftime("%Y-%m-%d")
-    print("time_string:", time_string)
+    # print("time_string:", time_string)
     if int(hour) < 6:
         yesterday = now - timedelta(days = 1)
         time_string = yesterday.strftime("%Y-%m-%d")
-    print("time_string:", time_string)
+    # print("time_string:", time_string)
     return time_string
 
 def set_subsidy_time():
-    print('set_subsidy_time')
+    # print('set_subsidy_time')
     time_string = get_subsidy_time()
     character.subsidy_time = time_string
     write_character_data()
@@ -137,10 +137,10 @@ def can_get_exp_subsidy():
     return False
 
 def get_exp_subsidy_time():
-    print('get_exp_subsidy_time')
+    # print('get_exp_subsidy_time')
     now = datetime.now()
     time_string = now.strftime("%Y-%m-%d")
-    print("time_string:", time_string)
+    # print("time_string:", time_string)
     return time_string
 
 def set_exp_subsidy_time():
@@ -169,16 +169,16 @@ def can_ya_biao():
     return False
 
 def get_ya_biao_time():
-    print('get_ya_biao_time')
+    # print('get_ya_biao_time')
     now = datetime.now()
     hour = now.strftime("%H")
-    print("hour:", hour)
+    # print("hour:", hour)
     time_string = now.strftime("%Y-%m-%d")
-    print("time_string:", time_string)
+    # print("time_string:", time_string)
     if int(hour) < 6:
         yesterday = now - timedelta(days = 1)
         time_string = yesterday.strftime("%Y-%m-%d")
-    print("time_string:", time_string)
+    # print("time_string:", time_string)
     return time_string
 
 def set_ya_biao_time():
@@ -187,16 +187,16 @@ def set_ya_biao_time():
     write_character_data()
 
 def get_character_file_path():
-    print('get_character_file_path')
+    # print('get_character_file_path')
 
     current_path = Path().resolve()
-    print("current_path:", current_path)
+    # print("current_path:", current_path)
     character_file = current_path.joinpath('caches').joinpath(get_character_name() + '.json')
-    print("character_file:", character_file)
+    # print("character_file:", character_file)
     return character_file
 
 def write_character_data():
-    print('write_character_data')
+    # print('write_character_data')
     character_file = get_character_file_path()
     # Data to be written
     dictionary = {
@@ -212,10 +212,10 @@ def write_character_data():
         json.dump(dictionary, outfile)
 
 def read_character_data():
-    print('read_character_data')
+    # print('read_character_data')
 
     character_file = get_character_file_path()
-    print("character_file:", character_file)
+    # print("character_file:", character_file)
     if not character_file.is_file():
         write_character_data()
 
@@ -224,7 +224,7 @@ def read_character_data():
         # Reading from json file
         json_object = json.load(openfile)
 
-    print(json_object)
+    # print(json_object)
     if "name" in json_object:
         character.name = json_object['name']
     if "level" in json_object:

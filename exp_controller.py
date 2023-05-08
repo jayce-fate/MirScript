@@ -586,6 +586,7 @@ def start_get_exp():
         if user_controller.can_ya_biao():
             go_back_town_and_restart()
 
+        game_controller.update_last_exp()
         #检查宝宝血量是否健康
         if not game_controller.is_pet_healthy():
             if game_controller.select_boss():

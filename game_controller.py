@@ -590,6 +590,14 @@ def do_self_protect(wait_time = 0):
     if user_controller.get_character_occupation() == enums.Occupation.Taoist:
         skill_controller.cast_invisible(wait_time)
 
+def update_last_exp():
+    print("update_last_exp")
+    current_exp = read_current_exp()
+    if globals.last_exp != current_exp:
+        print("globals.last_exp != current_exp")
+        globals.last_exp = current_exp
+        globals.last_exp_time = time.time()
+
 def check_exp_getting():
     if user_controller.get_character_level() > 35:
         check_times = 5;
