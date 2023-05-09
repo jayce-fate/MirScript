@@ -129,7 +129,7 @@ def fly_to_exp_map():
     map_name = game_controller.read_map_name()
     if user_controller.get_character_level() < 17:
         if map_name == "洞1层":
-            get_exp_by_random_fly()
+            get_exp_by_random_fly(map_name)
         else:
             start()
     elif user_controller.get_character_level() < 35:
@@ -148,13 +148,11 @@ def fly_to_exp_map():
             start()
 
 
-def get_exp_by_random_fly():
+def get_exp_by_random_fly(map_name):
     print("get_exp_by_random_fly")
 
     #吃栗子
     game_controller.open_bag_and_drink("zhong_se_li_zi")
-
-    map_name = game_controller.read_map_name()
 
     no_more_random_fly = 0
     start_exp = game_controller.read_current_exp()
@@ -164,6 +162,8 @@ def get_exp_by_random_fly():
             current_map_name = game_controller.read_map_name()
             if current_map_name != None and len(current_map_name) >= 2 and map_name != current_map_name:
                 print("current_map_name != None and len(current_map_name) >= 2 and map_name != current_map_name")
+                print("map_name = ", map_name)
+                print("current_map_name = ", current_map_name)
                 raise Exception("RESTART")
 
             current_exp = game_controller.read_current_exp()
@@ -475,7 +475,7 @@ def start_get_exp():
         if map_name == "盟重土城":
             routine_lvl_fifteen()
         elif map_name == "洞1层": #骷髅两个字不识别
-            get_exp_by_random_fly()
+            get_exp_by_random_fly(map_name)
         return
     if not game_controller.active_pet():
         print('当前没有宠物')
@@ -513,7 +513,7 @@ def start_get_exp():
                 go_back_town_and_fly()
         return
     elif map_name == "洞1层": #骷髅两个字不识别
-        get_exp_by_random_fly()
+        get_exp_by_random_fly(map_name)
         return
     elif map_name == "比奇矿区":
         go_to_east_waste_ore()
