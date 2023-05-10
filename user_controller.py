@@ -32,24 +32,26 @@ def get_character_name():
             raise Exception("RESTART")
     return character.name
 
-def get_character_level(refresh=False):
+def get_character_level(refresh = False):
     # print('get_character_level')
     if character.level == None:
         read_character_data()
 
     if refresh or character.level == None:
         level = game_controller.read_lv_text()
-        if level != None and level <= 52:
-            if character.level == None or character.level < level:
-                character.level = level
-                write_character_data()
-        else:
+        set_level(level)
+        if not refresh and (level == None or level > 52):
             # 非刷新，获取不到等级，重启
-            if not refresh:
-                print("level == None and not refresh")
-                raise Exception("RESTART")
+            print("level == None and not refresh")
+            raise Exception("RESTART")
 
     return character.level
+
+def set_level(level):
+    if level != None and level <= 52:
+        if character.level == None or character.level < level:
+            character.level = level
+            write_character_data()
 
 def get_character_has_master(refresh=False):
     # print('get_character_has_master')

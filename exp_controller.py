@@ -275,10 +275,8 @@ def routine_lvl_one():
         if level == None or level < 1 or level > 52:
             print("level == None or level < 1 or level > 52")
             raise Exception("RESTART")
-        elif level != None and level <= 52:
-            if character.level == None or character.level < level:
-                character.level = level
-                write_character_data()
+        else:
+            user_controller.set_level(level)
     print("等级7")
     time.sleep(3.0)
     game_controller.dismissSureDialog()
@@ -317,10 +315,8 @@ def routine_lvl_seven():
         if level == None or level < 1 or level > 52:
             print(" level == None or level < 1 or level > 52")
             raise Exception("RESTART")
-        elif level != None and level <= 52:
-            if character.level == None or character.level < level:
-                character.level = level
-                write_character_data()
+        else:
+            user_controller.set_level(level)
     print("等级15")
     time.sleep(35)
 
