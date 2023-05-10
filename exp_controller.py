@@ -286,7 +286,7 @@ def routine_lvl_one():
 
 def routine_lvl_seven():
     print("routine_lvl_seven")
-    if user_controller.get_character_level(refresh=True) == 7:
+    if user_controller.get_character_level() == 7:
         game_controller.open_bag()
         btn_controller.click_right_menu("整理")
         game_controller.wipe_up_bag()
@@ -330,7 +330,7 @@ def routine_lvl_fifteen():
 
     game_controller.dismissSureDialog()
 
-    if user_controller.get_character_level(refresh=True) == 15 and game_controller.get_bag_remain_capacity() > 32:
+    if user_controller.get_character_level() == 15 and game_controller.get_bag_remain_capacity() > 32:
         # 穿装备，学技能
         game_controller.open_bag()
         btn_controller.click_right_menu("整理")
