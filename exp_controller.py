@@ -266,15 +266,19 @@ def routine_lvl_one():
     trash_controller.drink_item("wu_mu_jian")
     btn_controller.click_left_return()
     btn_controller.click_right_return()
-    lv_text = user_controller.get_character_level(refresh=True)
-    while lv_text < 7:
+    level = user_controller.get_character_level(refresh=True)
+    while level < 7:
         do_some_attack()
-        # lv_text = user_controller.get_character_level(refresh=True)
-        lv_text = game_controller.read_lv_text()
+        # 这里需要获取到非法值，所以不用user_controller
+        level = game_controller.read_lv_text()
         #以防断线游戏被关闭
-        if lv_text == None or lv_text < 1 or lv_text > 52:
-            print("lv_text == None or lv_text < 1 or lv_text > 52")
+        if level == None or level < 1 or level > 52:
+            print("level == None or level < 1 or level > 52")
             raise Exception("RESTART")
+        elif level != None and level <= 52:
+            if character.level == None or character.level < level:
+                character.level = level
+                write_character_data()
     print("等级7")
     time.sleep(3.0)
     game_controller.dismissSureDialog()
@@ -284,7 +288,7 @@ def routine_lvl_one():
 
 def routine_lvl_seven():
     print("routine_lvl_seven")
-    if user_controller.get_character_level() == 7:
+    if user_controller.get_character_level(refresh=True) == 7:
         game_controller.open_bag()
         btn_controller.click_right_menu("整理")
         game_controller.wipe_up_bag()
@@ -300,19 +304,23 @@ def routine_lvl_seven():
 
     adb_controller.screenshot(settings.screenshot_path)
 
-    lv_text = user_controller.get_character_level(refresh=True)
-    while lv_text < 15:
+    level = user_controller.get_character_level()
+    while level < 15:
         if user_controller.get_character_occupation() == enums.Occupation.Taoist:
             do_some_attack()
         elif user_controller.get_character_occupation() == enums.Occupation.Magician:
             skill_controller.cast_fire_ball()
             adb_controller.screenshot(settings.screenshot_path)
-        # lv_text = user_controller.get_character_level(refresh=True)
-        lv_text = game_controller.read_lv_text()
+        # 这里需要获取到非法值，所以不用user_controller
+        level = game_controller.read_lv_text()
         #以防断线游戏被关闭
-        if lv_text == None or lv_text < 1 or lv_text > 52:
-            print(" lv_text == None or lv_text < 1 or lv_text > 52")
+        if level == None or level < 1 or level > 52:
+            print(" level == None or level < 1 or level > 52")
             raise Exception("RESTART")
+        elif level != None and level <= 52:
+            if character.level == None or character.level < level:
+                character.level = level
+                write_character_data()
     print("等级15")
     time.sleep(35)
 
@@ -326,7 +334,7 @@ def routine_lvl_fifteen():
 
     game_controller.dismissSureDialog()
 
-    if user_controller.get_character_level() == 15 and game_controller.get_bag_remain_capacity() > 32:
+    if user_controller.get_character_level(refresh=True) == 15 and game_controller.get_bag_remain_capacity() > 32:
         # 穿装备，学技能
         game_controller.open_bag()
         btn_controller.click_right_menu("整理")

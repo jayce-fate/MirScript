@@ -616,7 +616,7 @@ def check_exp_getting():
         return False
     else:
         current_exp = read_current_exp()
-        check_time = 8
+        check_time = 6
         time_after_last_exp = time.time() - globals.last_exp_time
         print("time_after_last_exp:", time_after_last_exp)
         do_self_protect()
