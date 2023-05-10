@@ -269,14 +269,14 @@ def routine_lvl_one():
     level = user_controller.get_character_level(refresh=True)
     while level < 7:
         do_some_attack()
-        # 这里需要获取到非法值，所以不用user_controller
-        level = game_controller.read_lv_text()
+        # 等级取原始值
+        level = user_controller.get_character_level(use_raw_level = True)
+        is_legal_level = utils.is_legal_level(level)
         #以防断线游戏被关闭
-        if level == None or level < 1 or level > 52:
-            print("level == None or level < 1 or level > 52")
+        if not is_legal_level:
+            print(" not is_legal_level")
             raise Exception("RESTART")
-        else:
-            user_controller.set_level(level)
+
     print("等级7")
     time.sleep(3.0)
     game_controller.dismissSureDialog()
@@ -309,14 +309,14 @@ def routine_lvl_seven():
         elif user_controller.get_character_occupation() == enums.Occupation.Magician:
             skill_controller.cast_fire_ball()
             adb_controller.screenshot(settings.screenshot_path)
-        # 这里需要获取到非法值，所以不用user_controller
-        level = game_controller.read_lv_text()
+        # 等级取原始值
+        level = user_controller.get_character_level(use_raw_level = True)
+        is_legal_level = utils.is_legal_level(level)
         #以防断线游戏被关闭
-        if level == None or level < 1 or level > 52:
-            print(" level == None or level < 1 or level > 52")
+        if not is_legal_level:
+            print(" not is_legal_level")
             raise Exception("RESTART")
-        else:
-            user_controller.set_level(level)
+
     print("等级15")
     time.sleep(35)
 

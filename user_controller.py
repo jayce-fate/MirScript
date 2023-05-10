@@ -32,7 +32,7 @@ def get_character_name():
             raise Exception("RESTART")
     return character.name
 
-def get_character_level(refresh = False):
+def get_character_level(refresh = False, use_raw_level = False):
     # print('get_character_level')
     if character.level == None:
         read_character_data()
@@ -40,10 +40,15 @@ def get_character_level(refresh = False):
     if refresh or character.level == None:
         level = game_controller.read_lv_text()
         set_level(level)
-        if not refresh and (level == None or level > 52):
+        is_legal_level = utils.is_legal_level(level)
+        # 非刷新，则必须获取有效等级才行
+        if not refresh and not is_legal_level:
             # 非刷新，获取不到等级，重启
-            print("level == None and not refresh")
+            print("not refresh and not is_legal_level")
             raise Exception("RESTART")
+
+        if use_raw_level:
+            return level
 
     return character.level
 

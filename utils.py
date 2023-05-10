@@ -116,3 +116,6 @@ def index_of_item_in_bag(item_pos):
                 return index
 
     return index
+
+def is_legal_level(level):
+    return level != None and 1 <= level and level <= 52
