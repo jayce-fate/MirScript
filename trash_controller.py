@@ -502,16 +502,20 @@ def get_supply_shortage_list(buy_list, neen_open_but_not_close_bag = True):
         game_controller.open_bag()
         game_controller.wipe_up_bag()
 
-    sell_all()
+    # 15级以下几乎没东西可卖
+    if user_controller.get_character_level() > 15:
+        sell_all()
+
     btn_controller.click_right_menu("整理")
 
     if user_controller.get_character_level() >= 35:
         repair_all()
 
-    #出售技能书（极品也卖）
-    batch_sell_item('ji_neng_shu', force = True)
-    #出售白色虎齿项链（极品不卖）
-    batch_sell_item('bai_se_hu_chi_xiang_lian', force = False)
+    if user_controller.get_character_level() >= 20:
+        #出售技能书（极品也卖）
+        batch_sell_item('ji_neng_shu', force = True)
+        #出售白色虎齿项链（极品不卖）
+        batch_sell_item('bai_se_hu_chi_xiang_lian', force = False)
 
     shortage_list = count_trashes(buy_list)
     return shortage_list
