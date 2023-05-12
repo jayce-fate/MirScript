@@ -218,7 +218,7 @@ def do_some_attack():
     for index in range(30):
         skill_controller.cast_attack()
 
-    game_controller.dismissSureDialog()
+    game_controller.dismissSureDialog(directly=False)
 
     end_exp = game_controller.read_current_exp()
     #防止呆住攻击不生效
@@ -270,7 +270,7 @@ def routine_lvl_one():
     while level < 7:
         do_some_attack()
         # 等级取原始值
-        level = user_controller.get_character_level(use_raw_level = True)
+        level = user_controller.get_character_level(refresh = True, use_raw_level = True)
         is_legal_level = utils.is_legal_level(level)
         #以防断线游戏被关闭
         if not is_legal_level:
@@ -310,7 +310,7 @@ def routine_lvl_seven():
             skill_controller.cast_fire_ball()
             adb_controller.screenshot(settings.screenshot_path)
         # 等级取原始值
-        level = user_controller.get_character_level(use_raw_level = True)
+        level = user_controller.get_character_level(refresh = True, use_raw_level = True)
         is_legal_level = utils.is_legal_level(level)
         #以防断线游戏被关闭
         if not is_legal_level:
