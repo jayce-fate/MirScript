@@ -135,7 +135,7 @@ def random_move_one_step():
         one_step_walk_up()
 
 # 单步路径移动
-def step_go_by_path(step_path):
+def step_go_by_path(step_path, check_exp = False):
     if len(step_path) == 0:
         print("len(step_path) == 0")
         return
@@ -144,6 +144,9 @@ def step_go_by_path(step_path):
     target_pos = step_path[len(step_path) - 1]
     # 刷新当前坐标
     get_current_coordinate()
+    start_exp = 0
+    if check_exp:
+        start_exp = game_controller.read_current_exp(need_screenshot = False)
     # 最大尝试次数
     move_try_limit = settings.move_try_limit
     last_step_path = []
@@ -182,7 +185,13 @@ def step_go_by_path(step_path):
 
             last_step_path = step_path
 
-            time.sleep(1.0)
+            if check_exp:
+                end_exp = game_controller.read_current_exp(need_screenshot = True)
+                if start_exp != end_exp:
+                    print("step_go_by_path过程中经验有增加，停止移动")
+                    break
+            else:
+                time.sleep(1.0)
             get_current_coordinate()
         else:
             #检测断开消息框
@@ -194,7 +203,7 @@ def step_go_by_path(step_path):
             return
 
 
-def go_to_next_point(cave_path):
+def go_to_next_point(cave_path, check_exp = False):
     # print("go_to_next_point")
     globals.current_pos = get_current_coordinate()
 
@@ -216,14 +225,14 @@ def go_to_next_point(cave_path):
     if len(path) == 0:
         path_not_find(target_pos)
 
-    step_go_by_path(path)
+    step_go_by_path(path, check_exp)
 
 def path_not_find(target_pos):
     print("未找到{}到{}的路径, 飞个随机+重启".format(str(globals.current_pos), str(target_pos)))
     skill_controller.cast_random_fly()
     raise Exception("RESTART")
 
-def go_to_previous_point(cave_path):
+def go_to_previous_point(cave_path, check_exp = False):
     # print("go_to_previous_point")
     if globals.current_pos == (0, 0):
         get_current_coordinate()
@@ -246,7 +255,7 @@ def go_to_previous_point(cave_path):
     if len(path) == 0:
         path_not_find(target_pos)
 
-    step_go_by_path(path)
+    step_go_by_path(path, check_exp)
 
 
 def get_nearest_pos(cave_path):

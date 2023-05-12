@@ -611,7 +611,7 @@ def start_get_exp():
                         skill_controller.cast_invisible()
                     elif user_controller.get_character_occupation() == enums.Occupation.Magician:
                         skill_controller.cast_shield()
-                    move_controller.go_to_previous_point(cave_path)
+                    move_controller.go_to_previous_point(cave_path, user_controller.get_character_level < 35)
                     # 移动结束接隐身
                     if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                         skill_controller.cast_invisible()
@@ -627,7 +627,7 @@ def start_get_exp():
             if time.time() - last_move_time > settings.move_check_time:
                 while not game_controller.is_monster_nearby():
                     print("距离上次移动已达{}s，检查当前屏幕无怪，去下一个点".format(str(settings.move_check_time)))
-                    move_controller.go_to_next_point(cave_path)
+                    move_controller.go_to_next_point(cave_path, user_controller.get_character_level < 35)
                     # 移动结束接隐身
                     if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                         skill_controller.cast_invisible()
@@ -640,13 +640,13 @@ def start_get_exp():
                     continue
 
             #移动到下一个点
-            move_controller.go_to_next_point(cave_path)
+            move_controller.go_to_next_point(cave_path, user_controller.get_character_level < 35)
             # 移动结束接隐身
             if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                 skill_controller.cast_invisible()
             last_move_time = time.time()
             while not game_controller.is_monster_nearby():
-                move_controller.go_to_next_point(cave_path)
+                move_controller.go_to_next_point(cave_path, user_controller.get_character_level < 35)
                 # 移动结束接隐身
                 if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                     skill_controller.cast_invisible()

@@ -588,7 +588,8 @@ def check_monster_reachable():
 
 def do_self_protect(wait_time = 0):
     if user_controller.get_character_occupation() == enums.Occupation.Taoist:
-        skill_controller.cast_invisible(wait_time)
+        if user_controller.get_character_level() >= 20:
+            skill_controller.cast_invisible(wait_time)
 
 def update_last_exp():
     print("update_last_exp")
