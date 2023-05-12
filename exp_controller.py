@@ -177,13 +177,13 @@ def get_exp_by_random_fly(map_name):
         game_controller.dismissSureDialog(False)
         adb_controller.screenshot(settings.screenshot_path)
         if not game_controller.template_exist("btn_close_target"):
-            skill_controller.cast_poison()
+            # skill_controller.cast_poison()
             skill_controller.cast_talisman()
             adb_controller.screenshot(settings.screenshot_path)
             if not game_controller.template_exist("btn_close_target"):
                 pos_before_fly = move_controller.get_current_coordinate()
                 skill_controller.cast_random_fly()
-                skill_controller.cast_poison()
+                # skill_controller.cast_poison()
                 skill_controller.cast_talisman()
                 pos_after_fly = move_controller.get_current_coordinate()
                 if pos_before_fly == pos_after_fly:
@@ -404,8 +404,8 @@ def buy_supplies():
           "随机传送卷包": 9,
           "地牢逃脱卷": 1,
           "棕色栗子": 1,
-          "黄色药粉(中)": 1,
-          "灰色药粉(中)": 1,
+          # "黄色药粉(中)": 1,
+          # "灰色药粉(中)": 1,
           "护身符(大)": 5,
           "技能书": 0,
           "技能书激活": 0,
@@ -596,7 +596,7 @@ def start_get_exp():
             if game_controller.select_boss():
                 # 攻击boss
                 if user_controller.get_character_occupation() == enums.Occupation.Taoist:
-                    skill_controller.cast_poison()
+                    # skill_controller.cast_poison()
                     skill_controller.cast_defence()
                     skill_controller.cast_heal()
                     skill_controller.cast_talisman()
