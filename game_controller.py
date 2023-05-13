@@ -590,7 +590,7 @@ def check_monster_reachable():
 def do_self_protect(wait_time = 0):
     if user_controller.get_character_occupation() == enums.Occupation.Taoist:
         if user_controller.get_character_level() >= 20:
-            skill_controller.cast_invisible(wait_time)
+        skill_controller.cast_invisible(wait_time)
 
 def update_last_exp():
     print("update_last_exp")
@@ -763,6 +763,9 @@ def get_pet_current_max_HP():
     if pet_HP != None:
         current_hp = int(pet_HP[0])
         max_hp = int(pet_HP[1])
+        #容错，比如480/0
+        if max_hp < current_hp:
+            max_hp = current_hp
         return max_hp
     return 0
 
