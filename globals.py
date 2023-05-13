@@ -43,7 +43,8 @@ skill_random_fly = None
 skill_skeleton_pos = None
 skill_dog_pos = None
 
-skill_invisible_time = 0
+#上次使用隐身术时间
+last_cast_skill_invisible_time = 0
 
 # debug次数序号
 debug_times = 0
@@ -61,3 +62,6 @@ last_exp_time = 0
 
 #已经学习了学隐身术
 skill_invisible_exist = True
+
+# 地图名称读取失败剩余次数
+read_pet_hp_fail_remain = settings.read_pet_hp_fail_limit
