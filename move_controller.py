@@ -230,7 +230,7 @@ def go_to_next_point(cave_path, check_exp = False):
 def path_not_find(target_pos):
     print("未找到{}到{}的路径, 飞个随机+重启".format(str(globals.current_pos), str(target_pos)))
     skill_controller.cast_random_fly()
-    raise Exception("RESTART")
+    raise Exception("RESTART_GET_EXP")
 
 def go_to_previous_point(cave_path, check_exp = False):
     # print("go_to_previous_point")

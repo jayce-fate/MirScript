@@ -685,6 +685,8 @@ def start():
         reason = e.args[0]
         if reason == "RESTART":
             restart_routine()
+        elif reason == "RESTART_GET_EXP":
+            start()
         elif reason == "NeedGetMaster":
             print("到达必须拜师等级，停止程序")
             # 回城站着
