@@ -223,8 +223,9 @@ def already_has_master():
     print("当前未拜师")
     return False
 
-def read_current_exp():
-    adb_controller.screenshot(settings.screenshot_path)
+def read_current_exp(need_screenshot = True):
+    if need_screenshot:
+        adb_controller.screenshot(settings.screenshot_path)
     # 经验颜色米色参数
     lower_color = [0,0,212]
     upper_color = [179,255,255]

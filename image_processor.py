@@ -120,9 +120,9 @@ def multiple_match_template(target_path,template_path,threshold = 0.05,scope = N
         cv2.rectangle(target, pt, (pt[0] + twidth, pt[1] + theight), (0,0,255), 2)
     # cv2.imshow('image', target)
     # cv2.waitKey()
-    if len(match_locs) == 0 and "ji_neng_shu" in template_path:
-        print("match failed，result: " + str(result))
-        print("loc: " + str(loc))
+    # if len(match_locs) == 0 and "ji_neng_shu" in template_path:
+    #     print("match failed，result: " + str(result))
+    #     print("loc: " + str(loc))
 
     return match_locs
 
