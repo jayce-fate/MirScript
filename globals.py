@@ -58,3 +58,6 @@ peace_mode_character_name = None
 last_exp = 0
 #上次经验时间
 last_exp_time = 0
+
+#已经学习了学隐身术
+skill_invisible_exist = True

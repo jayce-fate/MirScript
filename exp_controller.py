@@ -107,6 +107,7 @@ def fly_to_exp_map():
             trash_controller.buy_books(item_list)
             adb_controller.screenshot(settings.screenshot_path)
             game_controller.open_bag_and_drink("ji_neng_shu", batch=True)
+            globals.skill_invisible_exist = True
 
     if not btn_controller.click_npc_meng_zhong_lao_bing():
         raise Exception("RESTART")

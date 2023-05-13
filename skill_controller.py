@@ -12,6 +12,7 @@ import utils
 import game_controller
 import path_controller
 import move_controller
+import user_controller
 
 def get_skill_scope():
     match_scope = (200,936,1355,1662)
@@ -93,16 +94,19 @@ def cast_defence():
     time.sleep(1)
 
 def cast_invisible(wait_time = 0):
-    if time.time() - globals.skill_invisible_time >= 25 - wait_time:
-        if globals.skill_invisible_pos == None:
-            match_loc = image_processor.match_template(
-                settings.screenshot_path,r"template_images/skill_invisible.png",0.05,get_skill_scope())
-            if(match_loc != None):
-                globals.skill_invisible_pos = match_loc
-        if globals.skill_invisible_pos != None:
-            adb_controller.click(globals.skill_invisible_pos)
-            globals.skill_invisible_time = time.time()
-            return True
+    if user_controller.get_character_level() >= 20:
+        if time.time() - globals.skill_invisible_time >= 25 - wait_time:
+            if globals.skill_invisible_pos == None and globals.skill_invisible_exist:
+                match_loc = image_processor.match_template(
+                    settings.screenshot_path,r"template_images/skill_invisible.png",0.05,get_skill_scope())
+                if(match_loc != None):
+                    globals.skill_invisible_pos = match_loc
+                else:
+                    globals.skill_invisible_exist = False
+            if globals.skill_invisible_pos != None:
+                adb_controller.click(globals.skill_invisible_pos)
+                globals.skill_invisible_time = time.time()
+                return True
     return False
 
 def cast_poison():
