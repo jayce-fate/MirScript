@@ -306,7 +306,7 @@ def check_ground_items(need_screenshot = True):
     map_name = game_controller.read_map_name()
     if map_name == "盟重土城":
         print("check_ground_items, map_name == 盟重土城")
-        raise Exception("RESTART")
+        raise Exception("RESTART_GET_EXP")
 
     coords = []
     # 底色绿色文字物品
