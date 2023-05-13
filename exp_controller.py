@@ -443,9 +443,9 @@ def buy_supplies():
 def start_get_exp():
     print("开始练级")
     adb_controller.connect()
-    #消除省电模式
-    if game_controller.is_save_power_mode():
-        btn_controller.click_center_of_screen()
+    #消除省电模式（为什么这里要判断？）
+    # if game_controller.is_save_power_mode():
+    #     btn_controller.click_center_of_screen()
 
     adb_controller.screenshot(settings.screenshot_path)
     #地图名称
