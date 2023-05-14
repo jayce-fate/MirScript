@@ -761,13 +761,13 @@ def read_pet_HP():
                         max_hp = current_hp
                     splits[0] = str(current_hp)
                     splits[1] = str(max_hp)
-                    globals.read_pet_hp_fail_remain = settings.settings.read_pet_hp_fail_limit
+                    globals.read_pet_hp_fail_remain = settings.read_pet_hp_fail_limit
                     return splits
 
     # 读取宠物血量失败达到限定次数，重启
     globals.read_pet_hp_fail_remain = globals.read_pet_hp_fail_remain - 1
     if globals.read_pet_hp_fail_remain < 0:
-        globals.read_pet_hp_fail_remain = settings.settings.read_pet_hp_fail_limit
+        globals.read_pet_hp_fail_remain = settings.read_pet_hp_fail_limit
         print("globals.read_pet_hp_fail_remain < 0")
         raise Exception("RESTART")
     return None
