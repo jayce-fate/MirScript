@@ -216,7 +216,7 @@ def go_to_between_life_and_dead():
 
 def do_some_attack():
     start_exp = game_controller.read_current_exp()
-    for index in range(30):
+    for index in range(10):
         skill_controller.cast_attack()
 
     game_controller.dismissSureDialog(directly=False)
@@ -511,9 +511,7 @@ def start_get_exp():
             print("pet_max_HP: {}".format(str(pet_max_HP)))
             if current_pet_max_HP != pet_max_HP:
                 print("current_pet_max_HP != pet_max_HP")
-                sheep_yard_pos = (random.randint(186,228),random.randint(255,295))
-                print("sheep_yard_pos: {}".format(str(sheep_yard_pos)))
-                move_controller.navigate_to_point(sheep_yard_pos, wait_till_max_lvl_max)
+                go_to_sheep_yard()
             else:
                 go_back_town_and_fly()
         return
@@ -652,6 +650,12 @@ def start_get_exp():
                 if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                     skill_controller.cast_invisible()
                 last_move_time = time.time()
+
+def go_to_sheep_yard():
+    print("go_to_sheep_yard")
+    sheep_yard_pos = (random.randint(186,228),random.randint(255,295))
+    print("sheep_yard_pos: {}".format(str(sheep_yard_pos)))
+    move_controller.navigate_to_point(sheep_yard_pos, wait_till_max_lvl_max, unreachable_callback=go_to_sheep_yard)
 
 def restart_routine(restart_emulator_adb = False):
     try:

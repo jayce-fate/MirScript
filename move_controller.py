@@ -435,7 +435,7 @@ def protect_routine():
                     skill_controller.cast_heal()
 
 # 使用地图寻路
-def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 = None, callback3 = None, input_coordinate = True):
+def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 = None, callback3 = None, input_coordinate = True, unreachable_callback = None):
     #消除系统确定消息框
     game_controller.dismissSureDialog()
 
@@ -478,8 +478,12 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
     match_loc = image_processor.match_template(
         settings.screenshot_path,r"template_images/map_point_indicate_unreachable.png",0.2)
     if match_loc != None:
-        print("找到map_point_indicate_unreachable，位置不可达，重启")
-        raise Exception("RESTART")
+        print("找到map_point_indicate_unreachable，位置不可达")
+        if unreachable_callback != None:
+            unreachable_callback()
+        else:
+            print("重启")
+            raise Exception("RESTART")
 
     btn_controller.click_xun_lu()
     game_controller.close_map()

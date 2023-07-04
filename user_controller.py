@@ -130,7 +130,8 @@ def can_get_exp_subsidy():
 
     now = datetime.now()
     hour = int(now.strftime("%H"))
-    if hour >= 18:
+    min = int(now.strftime("%M"))
+    if (hour == 18 and min >= 30) or hour > 18:
         if character.exp_subsidy_time == None:
             print('can get exp subsidy')
             return True

@@ -516,6 +516,8 @@ def get_supply_shortage_list(buy_list, neen_open_but_not_close_bag = True):
         batch_sell_item('ji_neng_shu', force = True)
         #出售白色虎齿项链（极品不卖）
         batch_sell_item('bai_se_hu_chi_xiang_lian', force = False)
+        #出售技能书（极品也卖）
+        batch_sell_item('wan_nian_xue_shuang', force = True)
 
     shortage_list = count_trashes(buy_list)
     return shortage_list
