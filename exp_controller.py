@@ -228,6 +228,10 @@ def do_some_attack():
 
 def routine_lvl_one():
     print("routine_lvl_one")
+
+    #记录角色创建时间
+    user_controller.set_character_create_time()
+
     if btn_controller.click_msg_box("如何移动", True):
         time.sleep(15)
         adb_controller.screenshot(settings.screenshot_path)

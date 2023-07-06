@@ -105,7 +105,7 @@ def can_get_subsidy():
     print('can get subsidy')
     return True
 
-def get_subsidy_time():
+def get_game_date_string():
     now = datetime.now()
     hour = now.strftime("%H")
     # print("hour:", hour)
@@ -119,7 +119,7 @@ def get_subsidy_time():
 
 def set_subsidy_time():
     # print('set_subsidy_time')
-    time_string = get_subsidy_time()
+    time_string = get_game_date_string()
     character.subsidy_time = time_string
     write_character_data()
 
@@ -134,25 +134,25 @@ def can_get_exp_subsidy():
     if (hour == 18 and min >= 30) or hour > 18:
         if character.exp_subsidy_time == None:
             print('can get exp subsidy')
-            return True
+            return not is_character_created_today()
         else:
-            time_string = get_exp_subsidy_time()
+            time_string = get_date_string()
             if character.exp_subsidy_time != time_string:
                 print('can get exp subsidy')
-                return True
+                return not is_character_created_today()
 
     # print('can not get exp subsidy')
     return False
 
-def get_exp_subsidy_time():
-    # print('get_exp_subsidy_time')
+def get_date_string():
+    # print('get_date_string')
     now = datetime.now()
     time_string = now.strftime("%Y-%m-%d")
     # print("time_string:", time_string)
     return time_string
 
 def set_exp_subsidy_time():
-    time_string = get_exp_subsidy_time()
+    time_string = get_date_string()
     character.exp_subsidy_time = time_string
     write_character_data()
 
@@ -176,22 +176,29 @@ def can_ya_biao():
 
     return False
 
-def get_ya_biao_time():
-    # print('get_ya_biao_time')
-    now = datetime.now()
-    hour = now.strftime("%H")
-    # print("hour:", hour)
-    time_string = now.strftime("%Y-%m-%d")
-    # print("time_string:", time_string)
-    if int(hour) < 6:
-        yesterday = now - timedelta(days = 1)
-        time_string = yesterday.strftime("%Y-%m-%d")
-    # print("time_string:", time_string)
-    return time_string
-
 def set_ya_biao_time():
-    time_string = get_ya_biao_time()
+    time_string = get_game_date_string()
     character.ya_biao_time = time_string
+    write_character_data()
+
+# 是否是今天创建的角色
+def is_character_created_today():
+    # print('is_character_created_today')
+    if character.character_create_time == None:
+        read_character_data()
+
+    if character.character_create_time == None:
+        set_character_create_time()
+        return True
+
+    if character.character_create_time == get_game_date_string():
+        return True
+
+    return False
+
+def set_character_create_time():
+    time_string = get_game_date_string()
+    character.character_create_time = time_string
     write_character_data()
 
 def get_character_file_path():
@@ -215,6 +222,7 @@ def write_character_data():
         "subsidy_time": character.subsidy_time,
         "exp_subsidy_time": character.exp_subsidy_time,
         "ya_biao_time": character.ya_biao_time,
+        "character_create_time": character.character_create_time,
     }
     with open(character_file, "w") as outfile:
         json.dump(dictionary, outfile)
@@ -247,3 +255,5 @@ def read_character_data():
         character.exp_subsidy_time = json_object['exp_subsidy_time']
     if "ya_biao_time" in json_object:
         character.ya_biao_time = json_object['ya_biao_time']
+    if "character_create_time" in json_object:
+        character.character_create_time = json_object['character_create_time']

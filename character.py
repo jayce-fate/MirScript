@@ -12,3 +12,5 @@ subsidy_time = None
 exp_subsidy_time = None
 #押镖时间
 ya_biao_time = None
+#角色创建时间
+character_create_time = None
