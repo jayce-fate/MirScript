@@ -98,7 +98,7 @@ def can_get_subsidy():
         read_character_data()
 
     if character.subsidy_time != None:
-        time_string = get_subsidy_time()
+        time_string = get_game_date_string()
         if character.subsidy_time == time_string:
             print('already get subsidy')
             return False
