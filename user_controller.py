@@ -192,6 +192,7 @@ def is_character_created_today():
 
     if character.character_create_time == get_game_date_string():
         level = get_character_level()
+        # 26级以上没可能是今天创建的
         if level <= 26:
             return True
 
