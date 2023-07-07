@@ -189,10 +189,11 @@ def is_character_created_today():
 
     if character.character_create_time == None:
         set_character_create_time()
-        return True
 
     if character.character_create_time == get_game_date_string():
-        return True
+        level = get_character_level()
+        if level <= 26:
+            return True
 
     return False
 
