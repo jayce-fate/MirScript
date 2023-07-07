@@ -170,7 +170,7 @@ def can_ya_biao():
             if character.ya_biao_time == None:
                 return True
             else:
-                time_string = get_ya_biao_time()
+                time_string = get_game_date_string()
                 if character.ya_biao_time != time_string:
                     return True
 
