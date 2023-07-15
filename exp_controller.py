@@ -414,13 +414,13 @@ def buy_supplies(bind_gold):
     else:
         if bind_gold > 130000:
             buy_li_zi_amount = 1
-        elif if bind_gold > 160000:
+        elif bind_gold > 160000:
             buy_li_zi_amount = 2
-        elif if bind_gold > 190000:
+        elif bind_gold > 190000:
             buy_li_zi_amount = 3
-        elif if bind_gold > 220000:
+        elif bind_gold > 220000:
             buy_li_zi_amount = 4
-        elif if bind_gold > 250000:
+        elif bind_gold > 250000:
             buy_li_zi_amount = 5
 
     if character_level < 17:
