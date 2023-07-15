@@ -94,8 +94,9 @@ def fly_to_exp_map():
     if user_controller.can_get_exp_subsidy():
         get_exp_subsidy()
 
+    bind_gold = game_controller.get_bag_bind_gold()
     #补给
-    buy_supplies()
+    buy_supplies(bind_gold)
     adb_controller.screenshot(settings.screenshot_path)
 
     #道士检查是否学习隐身术，否者买一本
@@ -399,20 +400,36 @@ def get_exp_subsidy():
         user_controller.set_exp_subsidy_time()
     btn_controller.click_left_return()
 
-def buy_supplies():
+def buy_supplies(bind_gold):
     print("buy_supplies")
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.dismissSureDialog()
 
     item_list = {
     }
-    if user_controller.get_character_level() < 17:
+    buy_li_zi_amount = 1
+    character_level = user_controller.get_character_level()
+    if character_level >= 35:
+        buy_li_zi_amount = 0
+    else:
+        if bind_gold > 130000:
+            buy_li_zi_amount = 1
+        elif if bind_gold > 160000:
+            buy_li_zi_amount = 2
+        elif if bind_gold > 190000:
+            buy_li_zi_amount = 3
+        elif if bind_gold > 220000:
+            buy_li_zi_amount = 4
+        elif if bind_gold > 250000:
+            buy_li_zi_amount = 5
+
+    if character_level < 17:
         item_list = {
           "超级魔法药": 8,
           "超级金创药": 3,
           "随机传送卷包": 9,
           "地牢逃脱卷": 1,
-          "棕色栗子": 1,
+          "棕色栗子": buy_li_zi_amount,
           # "黄色药粉(中)": 1,
           # "灰色药粉(中)": 1,
           "护身符(大)": 5,
@@ -424,14 +441,14 @@ def buy_supplies():
           "金创药小量": 0,
           "军饷": 0,
         }
-    elif user_controller.get_character_level() < 22:
+    elif character_level < 22:
         item_list = {
             "护身符(大)": 12,
             "超级魔法药": 12,
             "超级金创药": 3,
             "地牢逃脱卷": 1,
             "随机传送卷": 3,
-            "棕色栗子": 1,
+            "棕色栗子": buy_li_zi_amount,
             "回城卷": 0,
         }
     else:
@@ -441,7 +458,7 @@ def buy_supplies():
             "超级金创药": 3,
             "地牢逃脱卷": 1,
             "随机传送卷": 3,
-            "棕色栗子": 1,
+            "棕色栗子": buy_li_zi_amount,
             "回城卷": 0,
         }
 

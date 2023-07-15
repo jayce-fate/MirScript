@@ -346,6 +346,26 @@ def read_bag_remain_capacity():
         return capacity
     return -1
 
+def read_bind_gold():
+    adb_controller.screenshot(settings.screenshot_path)
+    # 等级颜色米色参数
+    lower_color = [0,0,212]
+    upper_color = [179,255,255]
+
+    match_scope = (74,113,1062,1250)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    result = get_first_result(resultss)
+    if result != None:
+        print("绑金: {}".format(str(result)))
+        result = result.replace(',', '').replace('，', '')
+        digit_array = re.findall(r'\d+\.?\d*', result)
+        print("digit_array: {}".format(str(digit_array)))
+        amount = int(digit_array[0])
+        return amount
+    return -1
+
 def is_ji_pin():
     result = read_quality_text()
     if result != None:
@@ -703,6 +723,13 @@ def get_bag_remain_capacity():
     btn_controller.click_right_return()
     return result
 
+def get_bag_bind_gold():
+    open_bag()
+    time.sleep(0.5)
+    result = read_bind_gold()
+    btn_controller.click_left_return()
+    btn_controller.click_right_return()
+    return result
 
 def read_pet_HP():
     adb_controller.screenshot(settings.screenshot_path)
