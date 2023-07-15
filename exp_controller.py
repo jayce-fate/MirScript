@@ -148,12 +148,16 @@ def fly_to_exp_map():
         else:
             start()
 
+# 吃栗子
+def eat_li_zi():
+    if not game_controller.buff_li_zi():
+        game_controller.open_bag_and_drink("zhong_se_li_zi")
 
 def get_exp_by_random_fly(map_name):
     print("get_exp_by_random_fly")
 
     #吃栗子
-    game_controller.open_bag_and_drink("zhong_se_li_zi")
+    eat_li_zi()
 
     no_more_random_fly = 0
     start_exp = game_controller.read_current_exp()
@@ -552,6 +556,11 @@ def start_get_exp():
     globals.current_path_index = cave_path.index(nearest_pos)
     last_move_time = 0
     last_go_back_time = 0
+
+    # 吃栗子，保护一下
+    game_controller.do_self_protect()
+    eat_li_zi()
+
     while(True):
         game_controller.do_self_protect()
         #检查血量

@@ -1039,3 +1039,17 @@ def set_mode_peace():
         adb_controller.click(utils.convert_point((52, 126), (1664, 936)))
         adb_controller.click(utils.convert_point((178, 126), (1664, 936)))
         globals.peace_mode_character_name = character_name
+
+# 有没有栗子buff
+def buff_li_zi():
+    match_scope = (650,720,580,650)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
+
+    match_loc = image_processor.match_template(
+        settings.screenshot_path,r"template_images/buff_li_zi.png",0.05,match_scope)
+    if(match_loc != None):
+        print("有栗子buff....")
+        return True
+    else:
+        print("没有栗子buff....")
+        return False

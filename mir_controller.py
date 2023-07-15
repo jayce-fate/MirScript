@@ -28,7 +28,7 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-# game_controller.wipe_down_bag()
+game_controller.buff_li_zi()
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.is_bang_jin_item_list()
 # trash_controller.repair_all()
