@@ -510,6 +510,7 @@ def get_supply_shortage_list(buy_list, neen_open_but_not_close_bag = True):
         sell_all()
 
     btn_controller.click_right_menu("整理")
+    time.sleep(2.0)
 
     if user_controller.get_character_level() >= 35:
         repair_all()

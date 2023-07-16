@@ -28,7 +28,7 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-exp_controller.fly_to_exp_map()
+user_controller.set_li_zi_in_bag(True)
 # game_controller.close_target_panel()
 # print("bj = ", game_controller.read_bind_gold())
 # adb_controller.screenshot(settings.screenshot_path)
