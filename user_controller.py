@@ -203,6 +203,15 @@ def set_character_create_time():
     character.character_create_time = time_string
     write_character_data()
 
+def get_li_zi_in_bag():
+    if character.li_zi_in_bag == None:
+        read_character_data()
+    return character.li_zi_in_bag
+
+def set_li_zi_in_bag(in_bag):
+    character.li_zi_in_bag = in_bag
+    write_character_data()
+
 def get_character_file_path():
     # print('get_character_file_path')
 
@@ -225,6 +234,7 @@ def write_character_data():
         "exp_subsidy_time": character.exp_subsidy_time,
         "ya_biao_time": character.ya_biao_time,
         "character_create_time": character.character_create_time,
+        "li_zi_in_bag": character.li_zi_in_bag,
     }
     with open(character_file, "w") as outfile:
         json.dump(dictionary, outfile)
@@ -259,3 +269,5 @@ def read_character_data():
         character.ya_biao_time = json_object['ya_biao_time']
     if "character_create_time" in json_object:
         character.character_create_time = json_object['character_create_time']
+    if "li_zi_in_bag" in json_object:
+        character.li_zi_in_bag = json_object['li_zi_in_bag']

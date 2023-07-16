@@ -176,6 +176,9 @@ def handle_bag_full():
             print("背包已满，无法腾出空间，休息2秒")
             time.sleep(2)
 
+    #丢完垃圾吃栗子。。。
+    game_controller.eat_li_zi()
+
 def collect_ground_treasures():
     collect_count = 0
     # 先捡金币，防止捡绿色物品后有遮挡

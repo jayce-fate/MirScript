@@ -28,7 +28,9 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-print("bj = ", game_controller.read_bind_gold())
+exp_controller.fly_to_exp_map()
+# game_controller.close_target_panel()
+# print("bj = ", game_controller.read_bind_gold())
 # adb_controller.screenshot(settings.screenshot_path)
 # game_controller.is_bang_jin_item_list()
 # trash_controller.repair_all()

@@ -94,6 +94,8 @@ def fly_to_exp_map():
     if user_controller.can_get_exp_subsidy():
         get_exp_subsidy()
 
+    #老兵等目标血量面板会挡住绑金数字
+    game_controller.close_target_panel()
     bind_gold = game_controller.get_bag_bind_gold()
     #补给
     buy_supplies(bind_gold)
@@ -149,16 +151,12 @@ def fly_to_exp_map():
         else:
             start()
 
-# 吃栗子
-def eat_li_zi():
-    if not game_controller.buff_li_zi():
-        game_controller.open_bag_and_drink("zhong_se_li_zi")
 
 def get_exp_by_random_fly(map_name):
     print("get_exp_by_random_fly")
 
     #吃栗子
-    eat_li_zi()
+    game_controller.eat_li_zi()
 
     no_more_random_fly = 0
     start_exp = game_controller.read_current_exp()
@@ -401,7 +399,7 @@ def get_exp_subsidy():
     btn_controller.click_left_return()
 
 def buy_supplies(bind_gold):
-    print("buy_supplies")
+    print("buy_supplies bind_gold = ", bind_gold)
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.dismissSureDialog()
 
@@ -412,17 +410,16 @@ def buy_supplies(bind_gold):
     if character_level >= 35:
         buy_li_zi_amount = 0
     else:
-        if bind_gold > 130000:
-            buy_li_zi_amount = 1
-        elif bind_gold > 160000:
-            buy_li_zi_amount = 2
+        if bind_gold > 220000:
+            buy_li_zi_amount = 4
         elif bind_gold > 190000:
             buy_li_zi_amount = 3
-        elif bind_gold > 220000:
-            buy_li_zi_amount = 4
-        elif bind_gold > 250000:
-            buy_li_zi_amount = 5
+        elif bind_gold > 160000:
+            buy_li_zi_amount = 2
+        elif bind_gold > 130000:
+            buy_li_zi_amount = 1
 
+    print("buy_li_zi_amount = ", buy_li_zi_amount)
     if character_level < 17:
         item_list = {
           "超级魔法药": 8,
@@ -454,8 +451,8 @@ def buy_supplies(bind_gold):
     else:
         item_list = {
             "护身符(大)": 12,
-            "超级魔法药": 12,
-            "超级金创药": 3,
+            "超级魔法药": 9,
+            "超级金创药": 1,
             "地牢逃脱卷": 1,
             "随机传送卷": 3,
             "棕色栗子": buy_li_zi_amount,
@@ -464,6 +461,9 @@ def buy_supplies(bind_gold):
 
     shortage_list = trash_controller.get_supply_shortage_list(item_list)
     trash_controller.buy_items(shortage_list)
+
+    # 刚买完，设置背包里有栗子
+    user_controller.set_li_zi_in_bag(True)
 
 def start_get_exp():
     print("开始练级")
@@ -576,7 +576,7 @@ def start_get_exp():
 
     # 吃栗子，保护一下
     game_controller.do_self_protect()
-    eat_li_zi()
+    game_controller.eat_li_zi()
 
     while(True):
         game_controller.do_self_protect()

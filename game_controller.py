@@ -359,7 +359,7 @@ def read_bind_gold():
     result = get_first_result(resultss)
     if result != None:
         print("绑金: {}".format(str(result)))
-        result = result.replace(',', '').replace('，', '')
+        result = result.replace(',', '').replace('，', '').replace('.', '')
         digit_array = re.findall(r'\d+\.?\d*', result)
         print("digit_array: {}".format(str(digit_array)))
         amount = int(digit_array[0])
@@ -967,12 +967,14 @@ def open_bag_and_drink(item_name, batch=False):
     btn_controller.click_right_menu("整理")
     wipe_up_bag()
     time.sleep(0.5)
+    drink_success = False
     if batch:
-        trash_controller.batch_drink_item(item_name)
+        drink_success = trash_controller.batch_drink_item(item_name)
     else:
-        trash_controller.drink_item(item_name)
+        drink_success = trash_controller.drink_item(item_name)
     btn_controller.click_left_return()
     btn_controller.click_right_return()
+    return drink_success
 
 
 def is_save_power_mode():
@@ -1080,3 +1082,10 @@ def buff_li_zi():
     else:
         print("没有栗子buff....")
         return False
+
+# 吃栗子
+def eat_li_zi():
+    if not buff_li_zi() and user_controller.get_li_zi_in_bag():
+        drink_success = open_bag_and_drink("zhong_se_li_zi")
+        if not drink_success:
+            user_controller.set_li_zi_in_bag(False)

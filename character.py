@@ -14,3 +14,5 @@ exp_subsidy_time = None
 ya_biao_time = None
 #角色创建时间
 character_create_time = None
+#背包里是否有栗子
+li_zi_in_bag = False
