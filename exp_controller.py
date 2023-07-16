@@ -112,6 +112,11 @@ def fly_to_exp_map():
             game_controller.open_bag_and_drink("ji_neng_shu", batch=True)
             globals.skill_invisible_exist = True
 
+    #宝宝是否需要挂等级
+    if not is_pet_level_max():
+        go_to_sheep_yard()
+        return
+
     if not btn_controller.click_npc_meng_zhong_lao_bing():
         raise Exception("RESTART")
     time.sleep(1.0)
@@ -527,19 +532,8 @@ def start_get_exp():
             ya_biao_controller.start()
             return
 
-        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
-            # 当前等级最大血量
-            current_pet_max_HP = game_controller.get_pet_current_max_HP()
-            # 可以达到的最大血量
-            pet_max_HP = game_controller.get_pet_max_HP()
-            print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
-            print("pet_max_HP: {}".format(str(pet_max_HP)))
-            if current_pet_max_HP != pet_max_HP:
-                print("current_pet_max_HP != pet_max_HP")
-                go_to_sheep_yard()
-            else:
-                go_back_town_and_fly()
-        return
+        go_back_town_and_fly()
+
     elif map_name == "洞1层": #骷髅两个字不识别
         get_exp_by_random_fly(map_name)
         return
@@ -680,6 +674,21 @@ def start_get_exp():
                 if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                     skill_controller.cast_invisible()
                 last_move_time = time.time()
+
+def is_pet_level_max():
+    if user_controller.get_character_occupation() == enums.Occupation.Taoist:
+        # 当前等级最大血量
+        current_pet_max_HP = game_controller.get_pet_current_max_HP()
+        # 可以达到的最大血量
+        pet_max_HP = game_controller.get_pet_max_HP()
+        print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
+        print("pet_max_HP: {}".format(str(pet_max_HP)))
+        if current_pet_max_HP != pet_max_HP:
+            print("current_pet_max_HP != pet_max_HP")
+            return False
+        else:
+            return True
+    return True
 
 def go_to_sheep_yard():
     print("go_to_sheep_yard")
