@@ -692,7 +692,7 @@ def is_pet_level_max():
 
 def go_to_sheep_yard():
     print("go_to_sheep_yard")
-    sheep_yard_pos = (random.randint(186,228),random.randint(255,295))
+    sheep_yard_pos = (random.randint(186,228),random.randint(255,280))
     print("sheep_yard_pos: {}".format(str(sheep_yard_pos)))
     move_controller.navigate_to_point(sheep_yard_pos, wait_till_max_lvl_max, unreachable_callback=go_to_sheep_yard)
 
