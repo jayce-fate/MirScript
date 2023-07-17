@@ -210,7 +210,13 @@ def get_exp_by_random_fly(map_name):
 # 去废矿东部
 def go_to_east_waste_ore():
     print("go_to_east_waste_ore")
-    move_controller.navigate_to_point((179,110), start, skill_controller.cast_random_fly, skill_controller.cast_invisible)
+    # 拜师了，说明有传衣服，到了飞随机，否则有点脆，就不飞随机了
+    # 这里在那时只有道士用，所以使用隐身术没判断职业
+    if user_controller.get_character_has_master():
+        move_controller.navigate_to_point((179,110), start, skill_controller.cast_random_fly, skill_controller.cast_invisible)
+    else:
+        move_controller.navigate_to_point((179,110), start, skill_controller.cast_invisible)
+
 
 # 去黑暗地带
 def go_to_dark_area():
