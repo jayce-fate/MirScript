@@ -113,7 +113,7 @@ def fly_to_exp_map():
             globals.skill_invisible_exist = True
 
     #宝宝是否需要挂等级
-    if not is_pet_level_max():
+    if user_controller.get_character_level() >= 17 and not is_pet_level_max():
         go_to_sheep_yard()
         return
 
@@ -416,19 +416,25 @@ def buy_supplies(bind_gold):
 
     item_list = {
     }
-    buy_li_zi_amount = 1
+    buy_li_zi_amount = 0
+    if bind_gold > 240000:
+        buy_li_zi_amount = 5
+    elif bind_gold > 210000:
+        buy_li_zi_amount = 4
+    elif bind_gold > 180000:
+        buy_li_zi_amount = 3
+    elif bind_gold > 150000:
+        buy_li_zi_amount = 2
+    elif bind_gold > 120000:
+        buy_li_zi_amount = 1
+
     character_level = user_controller.get_character_level()
     if character_level >= 35:
         buy_li_zi_amount = 0
-    else:
-        if bind_gold > 220000:
-            buy_li_zi_amount = 4
-        elif bind_gold > 190000:
-            buy_li_zi_amount = 3
-        elif bind_gold > 160000:
-            buy_li_zi_amount = 2
-        elif bind_gold > 130000:
-            buy_li_zi_amount = 1
+    elif character_level < 17 and buy_li_zi_amount > 1:
+        buy_li_zi_amount = 1
+    elif character_level < 22 and buy_li_zi_amount > 2:
+        buy_li_zi_amount = 2
 
     print("buy_li_zi_amount = ", buy_li_zi_amount)
     if character_level < 17:
@@ -517,6 +523,9 @@ def start_get_exp():
             routine_lvl_fifteen()
         elif map_name == "洞1层": #骷髅两个字不识别
             get_exp_by_random_fly(map_name)
+        else:
+            print("unknown map_name:", map_name)
+            raise Exception("RESTART")
         return
     if not game_controller.active_pet():
         print('当前没有宠物')
