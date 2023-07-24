@@ -349,27 +349,31 @@ def routine_lvl_fifteen():
 
     game_controller.dismissSureDialog()
 
-    if user_controller.get_character_level() == 15 and game_controller.get_bag_remain_capacity() > 32:
-        # 穿装备，学技能
-        game_controller.open_bag()
-        btn_controller.click_right_menu("整理")
-        game_controller.wipe_up_bag()
-        time.sleep(0.5)
-        trash_controller.drink_item("jun_xiang")
-        time.sleep(4.0)
-        trash_controller.batch_drink_item("ji_neng_shu")
-        if user_controller.get_character_occupation() == enums.Occupation.Taoist:
-            trash_controller.drink_item("ban_yue_wan_dao")
-            trash_controller.drink_item("da_shou_zhuo")
-            trash_controller.drink_item("zhen_zhu_jie_zhi")
-        #穿衣服
-        trash_controller.drink_item("qing_xing_kui_jia_nv")
-        trash_controller.drink_item("qing_xing_kui_jia_nan")
-        #丢垃圾
-        trash_controller.drop_binding_trashes(False)
-        btn_controller.click_left_return()
-        btn_controller.click_right_return()
-        time.sleep(1.0)
+    if user_controller.get_character_level() == 15:
+        if game_controller.get_bag_remain_capacity(keep_open = True) > 32:
+            # 穿装备，学技能
+            # game_controller.open_bag()
+            btn_controller.click_right_menu("整理")
+            game_controller.wipe_up_bag()
+            time.sleep(0.5)
+            trash_controller.drink_item("jun_xiang")
+            time.sleep(4.0)
+            trash_controller.batch_drink_item("ji_neng_shu")
+            if user_controller.get_character_occupation() == enums.Occupation.Taoist:
+                trash_controller.drink_item("ban_yue_wan_dao")
+                trash_controller.drink_item("da_shou_zhuo")
+                trash_controller.drink_item("zhen_zhu_jie_zhi")
+            #穿衣服
+            trash_controller.drink_item("qing_xing_kui_jia_nv")
+            trash_controller.drink_item("qing_xing_kui_jia_nan")
+            #丢垃圾
+            trash_controller.drop_binding_trashes(False)
+            btn_controller.click_left_return()
+            btn_controller.click_right_return()
+            time.sleep(1.0)
+        else:
+            btn_controller.click_left_return()
+            btn_controller.click_right_return()
 
     go_back_town_and_fly()
 

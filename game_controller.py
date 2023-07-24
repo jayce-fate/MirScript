@@ -450,7 +450,7 @@ def restart_game():
     dismissSureDialog()
 
     match_scope = (694,788,724,940)
-    success = btn_controller.wait_to_match_and_click("登录",0.05,60,1,match_scope)
+    success = btn_controller.wait_to_match_and_click("登录",0.05,120,1,match_scope)
     if not success:
         restart_game()
         return
@@ -715,12 +715,13 @@ def is_monster_nearby():
         return True
 
 
-def get_bag_remain_capacity():
+def get_bag_remain_capacity(keep_open = False):
     open_bag()
     time.sleep(0.5)
     result = read_bag_remain_capacity()
-    btn_controller.click_left_return()
-    btn_controller.click_right_return()
+    if not keep_open:
+        btn_controller.click_left_return()
+        btn_controller.click_right_return()
     return result
 
 def get_bag_bind_gold():
