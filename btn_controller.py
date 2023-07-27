@@ -201,25 +201,17 @@ def click_menu(text, match_scope):
     return False
 
 
-def click_btn(btn_name):
+def click_btn(btn_name, match_scope = (0,936,0,1664), need_screenshot = False):
+    if need_screenshot:
+        adb_controller.screenshot(settings.screenshot_path)
+    match_scope = utils.convert_scope(match_scope, (1664, 936))
     path = "{}{}.png".format("template_images/", btn_name)
     match_loc = image_processor.match_template(
-        settings.screenshot_path, path, 0.05)
+        settings.screenshot_path, path, 0.05, match_scope)
     if(match_loc != None):
         adb_controller.click(match_loc)
         return True
     return False
-
-
-# 点击右侧菜单（商店、仓库、寄售、更多、出售、整理）
-def click_right_menu(text):
-    match_scope = (146,760,1542,1632)
-    return click_menu(text, match_scope)
-
-# 点击左侧菜单（药品、杂货、服装、武器、首饰、书籍、绑C、绑金）
-def click_left_menu(text):
-    match_scope = (38,660,22,138)
-    return click_menu(text, match_scope)
 
 # 点击商品菜单
 def click_item_menu(text):
@@ -333,18 +325,6 @@ def click_map_edit_confirm():
 def click_map_input_confirm():
     match_scope = utils.convert_scope((586,647,912,1166), (1664, 936))
     click_scope(match_scope)
-
-def click_map_npc_wen_biao_tou():
-    match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/npc_wen_biao_tou.png",0.05)
-    if(match_loc != None):
-        adb_controller.click(match_loc)
-
-def click_xun_lu():
-    match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/btn_xun_lu.png",0.05)
-    if(match_loc != None):
-        adb_controller.click(match_loc)
 
 def click_npc_wen_biao_tou():
     # 坐标颜色绿色参数

@@ -724,12 +724,13 @@ def get_bag_remain_capacity(keep_open = False):
         btn_controller.click_right_return()
     return result
 
-def get_bag_bind_gold():
+def get_bag_bind_gold(keep_open = False):
     open_bag()
     time.sleep(0.5)
     result = read_bind_gold()
-    btn_controller.click_left_return()
-    btn_controller.click_right_return()
+    if not keep_open:
+        btn_controller.click_left_return()
+        btn_controller.click_right_return()
     return result
 
 def read_pet_HP():
@@ -965,7 +966,7 @@ def template_exist(template_name):
 
 def open_bag_and_drink(item_name, batch=False):
     open_bag()
-    btn_controller.click_right_menu("整理")
+    btn_controller.click_btn("right_btn_arrange", (136,770,1532,1642), need_screenshot=True)
     wipe_up_bag()
     time.sleep(0.5)
     drink_success = False

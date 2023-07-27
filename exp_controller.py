@@ -96,7 +96,7 @@ def fly_to_exp_map():
 
     #老兵等目标血量面板会挡住绑金数字
     game_controller.close_target_panel()
-    bind_gold = game_controller.get_bag_bind_gold()
+    bind_gold = game_controller.get_bag_bind_gold(keep_open=True)
     #补给
     buy_supplies(bind_gold)
     adb_controller.screenshot(settings.screenshot_path)
@@ -307,7 +307,7 @@ def routine_lvl_seven():
     print("routine_lvl_seven")
     if user_controller.get_character_level() == 7:
         game_controller.open_bag()
-        btn_controller.click_right_menu("整理")
+        btn_controller.click_btn("right_btn_arrange", (136,770,1532,1642), need_screenshot=True)
         game_controller.wipe_up_bag()
         time.sleep(0.5)
         trash_controller.drink_item("jun_xiang")
@@ -353,7 +353,7 @@ def routine_lvl_fifteen():
         if game_controller.get_bag_remain_capacity(keep_open = True) > 32:
             # 穿装备，学技能
             # game_controller.open_bag()
-            btn_controller.click_right_menu("整理")
+            btn_controller.click_btn("right_btn_arrange", (136,770,1532,1642))
             game_controller.wipe_up_bag()
             time.sleep(0.5)
             trash_controller.drink_item("jun_xiang")
@@ -415,8 +415,8 @@ def get_exp_subsidy():
 
 def buy_supplies(bind_gold):
     print("buy_supplies bind_gold = ", bind_gold)
-    adb_controller.screenshot(settings.screenshot_path)
     game_controller.dismissSureDialog()
+    adb_controller.screenshot(settings.screenshot_path)
 
     item_list = {
     }
@@ -760,6 +760,6 @@ def start():
             restart_routine(True)
         elif reason == "TEST":
             print("TEST")
-            restart_routine()
+            # restart_routine()
         else:
             restart_routine()

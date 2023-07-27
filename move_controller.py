@@ -485,7 +485,7 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
             print("重启")
             raise Exception("RESTART")
 
-    btn_controller.click_xun_lu()
+    btn_controller.click_btn("btn_xun_lu")
     game_controller.close_map()
 
     while True:

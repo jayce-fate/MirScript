@@ -42,7 +42,7 @@ def go_to_wen_biao_tou():
     adb_controller.input_text(point_str)
     btn_controller.click_map_edit_confirm()
     btn_controller.click_map_input_confirm()
-    btn_controller.click_xun_lu()
+    btn_controller.click_btn("btn_xun_lu")
     game_controller.close_map()
 
     while True:
