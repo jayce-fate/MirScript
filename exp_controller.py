@@ -700,6 +700,8 @@ def is_pet_level_max():
         current_pet_max_HP = game_controller.get_pet_current_max_HP()
         # 可以达到的最大血量
         pet_max_HP = game_controller.get_pet_max_HP()
+        if current_pet_max_HP == 0:
+            raise Exception("TEST")
         print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
         print("pet_max_HP: {}".format(str(pet_max_HP)))
         if current_pet_max_HP != pet_max_HP:
@@ -756,5 +758,8 @@ def start():
         elif "NoneType" in reason:
             print("adb 可能断开")
             restart_routine(True)
+        elif reason == "TEST":
+            print("TEST")
+            restart_routine()
         else:
             restart_routine()

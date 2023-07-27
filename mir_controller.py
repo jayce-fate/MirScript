@@ -28,7 +28,9 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-user_controller.set_li_zi_in_bag(True)
+# user_controller.set_li_zi_in_bag(True)
+current_pet_max_HP = game_controller.get_pet_current_max_HP()
+print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
 # game_controller.close_target_panel()
 # print("bj = ", game_controller.read_bind_gold())
 # adb_controller.screenshot(settings.screenshot_path)

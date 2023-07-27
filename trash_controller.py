@@ -250,7 +250,7 @@ def buy_items(item_list, neen_not_open_but_close_bag = True):
         btn_controller.click_right_menu("商店")
         time.sleep(0.5)
         btn_controller.click_left_menu("绑金")
-        time.sleep(1.0)
+        time.sleep(2.0)
         adb_controller.screenshot(settings.screenshot_path)
         # 检查是否是绑金列表
         if not game_controller.is_bang_jin_item_list():
