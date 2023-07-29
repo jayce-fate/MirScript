@@ -37,28 +37,28 @@ def click_menu_batch_use():
     return False
 
 
-def click_confirm_batch_use():
-    adb_controller.screenshot(settings.screenshot_path)
-
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
-
-    match_scope = (584,646,915,1167)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
-    for idx in range(len(resultss)):
-        results = resultss[idx]
-        for result in results:
-            name_rate = result[1] #('43', 0.99934321641922)
-            name = name_rate[0] #'43'
-            if "批量使用" in name:
-                print("result: {}".format(str(result)))
-                corners = result[0]
-                center = utils.get_center_of_corners(corners)
-                adb_controller.click(center)
-                return True
-    return False
+# def click_confirm_batch_use():
+#     adb_controller.screenshot(settings.screenshot_path)
+#
+#     lower_color = [0,0,212]
+#     upper_color = [179,255,255]
+#
+#     match_scope = (584,646,915,1167)
+#     match_scope = utils.convert_scope(match_scope, (1664, 936))
+#
+#     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+#     for idx in range(len(resultss)):
+#         results = resultss[idx]
+#         for result in results:
+#             name_rate = result[1] #('43', 0.99934321641922)
+#             name = name_rate[0] #'43'
+#             if "批量使用" in name:
+#                 print("result: {}".format(str(result)))
+#                 corners = result[0]
+#                 center = utils.get_center_of_corners(corners)
+#                 adb_controller.click(center)
+#                 return True
+#     return False
 
 
 #点击屏幕，消除省电模式（不管有没有）
@@ -127,30 +127,47 @@ def click_yellow_menu(text):
 # 点击洞穴传送
 def click_transfer_cave(cave_name):
     print("click_transfer_cave: {}".format(str(cave_name)))
-    # 米色参数
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
-
-    match_scope = (284,608,966,1618)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
-    for idx in range(len(resultss)):
-        results = resultss[idx]
-        for result in results:
-            name_rate = result[1] #('43', 0.99934321641922)
-            name = name_rate[0] #'43'
-            print("cave name: {}".format(str(name)))
-            # 骷髅两个字识别不出来
-            if cave_name == "骷髅洞":
-                cave_name = "洞"
-            if cave_name == name:
-                # print("result: {}".format(str(result)))
-                corners = result[0]
-                center = utils.get_center_of_corners(corners)
-                adb_controller.click(center)
-                return True
-    return False
+    cave_name_dict = {
+        "骷髅洞": "ku_lou_dong",
+        "废矿入口": "feng_kuang_ru_kou",
+        "死亡山谷": "si_wang_shan_gu",
+        "沃玛寺庙": "wo_ma_si_miao",
+        "猪洞": "zhu_dong",
+        "祖玛寺庙": "zu_ma_si_miao",
+        "封魔": "feng_mo",
+        "赤月": "chi_yue",
+        "骨魔洞窟": "gu_mo_dong_ku",
+        "牛魔寺庙": "niu_mo_si_miao",
+        "未知暗殿": "wei_zhi_an_dian",
+        "同心小径": "tong_xin_xiao_jing",
+    }
+    cave_name = "{}{}".format("cave_btns/", cave_name_dict[cave_name])
+    print("click_transfer_cave2: {}".format(str(cave_name)))
+    return click_btn(cave_name)
+    # # 米色参数
+    # lower_color = [0,0,212]
+    # upper_color = [179,255,255]
+    #
+    # match_scope = (284,608,966,1618)
+    # match_scope = utils.convert_scope(match_scope, (1664, 936))
+    #
+    # resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    # for idx in range(len(resultss)):
+    #     results = resultss[idx]
+    #     for result in results:
+    #         name_rate = result[1] #('43', 0.99934321641922)
+    #         name = name_rate[0] #'43'
+    #         print("cave name: {}".format(str(name)))
+    #         # 骷髅两个字识别不出来
+    #         if cave_name == "骷髅洞":
+    #             cave_name = "洞"
+    #         if cave_name == name:
+    #             # print("result: {}".format(str(result)))
+    #             corners = result[0]
+    #             center = utils.get_center_of_corners(corners)
+    #             adb_controller.click(center)
+    #             return True
+    # return False
 
 
 # 消除如何移动提示

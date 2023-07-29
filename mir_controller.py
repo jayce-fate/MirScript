@@ -28,4 +28,4 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-item_name = game_controller.read_text((38,102,425,676))
+btn_controller.click_transfer_cave("骷髅洞")
