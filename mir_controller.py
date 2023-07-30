@@ -28,4 +28,4 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-btn_controller.click_transfer_cave("骷髅洞")
+btn_controller.click_btn_confirm_transform()

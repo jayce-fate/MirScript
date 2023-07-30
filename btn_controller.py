@@ -13,28 +13,28 @@ import game_controller
 import path_controller
 import move_controller
 
-def click_menu_batch_use():
-    adb_controller.screenshot(settings.screenshot_path)
-
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
-
-    match_scope = (876,924,754,910)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
-    for idx in range(len(resultss)):
-        results = resultss[idx]
-        for result in results:
-            name_rate = result[1] #('43', 0.99934321641922)
-            name = name_rate[0] #'43'
-            if "批量使用" in name:
-                print("result: {}".format(str(result)))
-                corners = result[0]
-                center = utils.get_center_of_corners(corners)
-                adb_controller.click(center)
-                return True
-    return False
+# def click_menu_batch_use():
+#     adb_controller.screenshot(settings.screenshot_path)
+#
+#     lower_color = [0,0,212]
+#     upper_color = [179,255,255]
+#
+#     match_scope = (876,924,754,910)
+#     match_scope = utils.convert_scope(match_scope, (1664, 936))
+#
+#     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+#     for idx in range(len(resultss)):
+#         results = resultss[idx]
+#         for result in results:
+#             name_rate = result[1] #('43', 0.99934321641922)
+#             name = name_rate[0] #'43'
+#             if "批量使用" in name:
+#                 print("result: {}".format(str(result)))
+#                 corners = result[0]
+#                 center = utils.get_center_of_corners(corners)
+#                 adb_controller.click(center)
+#                 return True
+#     return False
 
 
 # def click_confirm_batch_use():
@@ -129,7 +129,7 @@ def click_transfer_cave(cave_name):
     print("click_transfer_cave: {}".format(str(cave_name)))
     cave_name_dict = {
         "骷髅洞": "ku_lou_dong",
-        "废矿入口": "feng_kuang_ru_kou",
+        "废矿入口": "fei_kuang_ru_kou",
         "死亡山谷": "si_wang_shan_gu",
         "沃玛寺庙": "wo_ma_si_miao",
         "猪洞": "zhu_dong",
@@ -171,31 +171,42 @@ def click_transfer_cave(cave_name):
 
 
 # 消除如何移动提示
-def click_msg_box(text, is_green=False):
-    # 米色
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
-    # 绿色
-    if is_green:
-        lower_color = [35,43,46]
-        upper_color = [75,255,255]
-
-    match_scope = (583,651,673,985)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
-    for idx in range(len(resultss)):
-        results = resultss[idx]
-        for result in results:
-            name_rate = result[1] #('43', 0.99934321641922)
-            name = name_rate[0] #'43'
-            if text == name:
-                # print("result: {}".format(str(result)))
-                corners = result[0]
-                center = utils.get_center_of_corners(corners)
-                adb_controller.click(center)
-                return True
-    return False
+def click_msg_box(text):
+    btn_name_dict = {
+        "如何移动": "ru_he_yi_dong_g",
+        "开始": "kai_shi_g",
+        "知道了": "zhi_dao_le",
+        "确定(右)": "que_ding_r",
+        "否(左)": "fou_l",
+        "是(右)": "shi_r",
+        "依然传送": "yi_ran_chuan_song",
+    }
+    btn_name = "{}{}".format("msg_btn/", btn_name_dict[text])
+    return click_btn(btn_name)
+    # # 米色
+    # lower_color = [0,0,212]
+    # upper_color = [179,255,255]
+    # # 绿色
+    # if is_green:
+    #     lower_color = [35,43,46]
+    #     upper_color = [75,255,255]
+    #
+    # match_scope = (583,651,673,985)
+    # match_scope = utils.convert_scope(match_scope, (1664, 936))
+    #
+    # resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    # for idx in range(len(resultss)):
+    #     results = resultss[idx]
+    #     for result in results:
+    #         name_rate = result[1] #('43', 0.99934321641922)
+    #         name = name_rate[0] #'43'
+    #         if text == name:
+    #             # print("result: {}".format(str(result)))
+    #             corners = result[0]
+    #             center = utils.get_center_of_corners(corners)
+    #             adb_controller.click(center)
+    #             return True
+    # return False
 
 
 # 点击菜单
@@ -231,17 +242,24 @@ def click_btn(btn_name, match_scope = (0,936,0,1664), need_screenshot = False):
     return False
 
 # 点击商品菜单
-def click_item_menu(text):
-    match_scope = (36,688,180,428)
-    return click_menu(text, match_scope)
+# def click_item_menu(text):
+#     match_scope = (36,688,180,428)
+#     return click_menu(text, match_scope)
+
+def click_setting_menu(text):
+    btn_name_dict = {
+        "技能": "ji_neng",
+    }
+    btn_name = "{}{}".format("setting_menu/", btn_name_dict[text])
+    return click_btn(btn_name)
 
 def click_setting():
     match_scope = (888,936,80,174)
     return click_menu("设置", match_scope)
 
-def click_skill_setting():
-    match_scope = (404,474,1522,1638)
-    return click_menu("技能", match_scope)
+# def click_skill_setting():
+    # match_scope = (404,474,1522,1638)
+    # return click_menu("技能", match_scope)
 
 # 点击商品菜单
 def click_item_menu_at_index(index):
@@ -274,28 +292,32 @@ def click_repair_wearing():
     return click_menu("装备", match_scope)
 
 def click_confirm():
-    match_scope = (582,650,908,1166)
-    return click_menu("确定", match_scope)
+    return click_msg_box("确定(右)")
+    # match_scope = (582,650,908,1166)
+    # return click_menu("确定", match_scope)
 
 def click_no():
-    match_scope = (582,650,490,754)
-    return click_menu("否", match_scope)
+    return click_msg_box("否(左)")
+    # match_scope = (582,650,490,754)
+    # return click_menu("否", match_scope)
 
 def click_yes():
-    match_scope = (582,650,908,1166)
-    return click_menu("是", match_scope)
+    return click_msg_box("是(右)")
+    # match_scope = (582,650,908,1166)
+    # return click_menu("是", match_scope)
 
 
 # 点击“依然传送”
 def click_btn_confirm_transform():
-    match_scope = (582,650,908,1166)
-    return click_menu("依然传送", match_scope)
+    return click_msg_box("依然传送")
+    # match_scope = (582,650,908,1166)
+    # return click_menu("依然传送", match_scope)
 
 
 # 点击“登录”
-def click_btn_login():
-    match_scope = (694,788,724,940)
-    return click_menu("登录", match_scope)
+# def click_btn_login():
+#     match_scope = (694,788,724,940)
+#     return click_menu("登录", match_scope)
 
 
 # 如有弹出公告，则点击确定
@@ -306,7 +328,7 @@ def click_sure_btn():
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
     match_loc = image_processor.match_template(
-        settings.screenshot_path, r"template_images/btn_sure.png", 0.15, match_scope)
+        settings.screenshot_path, r"template_images/msg_btn/que_ding.png", 0.15, match_scope)
     if(match_loc != None):
         print("检测到弹框确定按钮，自动关闭...." + str(match_loc))
         adb_controller.click(match_loc)

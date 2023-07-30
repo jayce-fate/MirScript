@@ -466,6 +466,7 @@ def batch_sell_item(item_name, force = False):
             item_indexs.append(index)
             adb_controller.click(match_loc)
             btn_controller.click_btn("right_btn_sell", (136,770,1532,1642))
+            adb_controller.screenshot(settings.screenshot_path)
             if force:
                 btn_controller.click_yes()
             else:

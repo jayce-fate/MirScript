@@ -246,15 +246,15 @@ def routine_lvl_one():
     #记录角色创建时间
     user_controller.set_character_create_time()
 
-    if btn_controller.click_msg_box("如何移动", True):
+    if btn_controller.click_msg_box("如何移动"):
         time.sleep(15)
         adb_controller.screenshot(settings.screenshot_path)
-        btn_controller.click_msg_box("开始", True)
+        btn_controller.click_msg_box("开始")
 
     #设置随机，回城，药水快捷键
     if btn_controller.click_setting():
         time.sleep(1.0)
-        btn_controller.click_skill_setting()
+        btn_controller.click_setting_menu("技能")
         time.sleep(0.5)
         #
         adb_controller.click(utils.convert_point((1408, 256), (1664, 936)))
