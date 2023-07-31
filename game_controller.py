@@ -726,7 +726,7 @@ def get_bag_remain_capacity(keep_open = False):
 
 def get_bag_bind_gold(keep_open = False):
     open_bag()
-    time.sleep(0.5)
+    time.sleep(1.5)
     result = read_bind_gold()
     if not keep_open:
         btn_controller.click_left_return()
