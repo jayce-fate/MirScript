@@ -28,5 +28,5 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-bind_gold = game_controller.get_bag_bind_gold(keep_open=True)
-print("bind_gold: {}".format(str(bind_gold)))
+btn_controller.click_confirm()
+# print("bind_gold: {}".format(str(bind_gold)))

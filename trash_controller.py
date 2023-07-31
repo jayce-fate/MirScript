@@ -92,7 +92,7 @@ def drop_trashes_loop(match_scope = (125,807,939,1525)):
 def drop_trashes(neen_open_close_bag = True):
     if neen_open_close_bag:
         game_controller.open_bag()
-        time.sleep(0.5)
+        time.sleep(1.5)
 
     game_controller.wipe_up_bag()
     btn_controller.click_btn("right_btn_arrange", (136,770,1532,1642))
@@ -109,7 +109,7 @@ def drop_trashes(neen_open_close_bag = True):
 def drop_binding_trashes(neen_open_close_bag = True):
     if neen_open_close_bag:
         game_controller.open_bag()
-        time.sleep(0.5)
+        time.sleep(1.5)
 
     trash_list = settings.binding_trash_list
     list_len = len(trash_list)
@@ -126,7 +126,7 @@ def drop_binding_trashes(neen_open_close_bag = True):
 def try_get_bag_space(space_need):
     if space_need > 0:
         game_controller.open_bag()
-        time.sleep(0.5)
+        time.sleep(1.5)
         remain_capacity = game_controller.read_bag_remain_capacity()
         if space_need <= remain_capacity:
             btn_controller.click_left_return()
@@ -268,7 +268,7 @@ def buy_items(item_list, neen_not_open_but_close_bag = True):
 def buy_books(item_list, neen_open_close_bag = True):
     if neen_open_close_bag:
         game_controller.open_bag()
-        time.sleep(0.5)
+        time.sleep(1.5)
 
     btn_controller.click_btn("right_btn_shop", (136,770,1532,1642))
     time.sleep(1.0)
@@ -485,6 +485,7 @@ def sell_all():
     btn_controller.click_btn("right_btn_more", (136,770,1532,1642))
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_sell_all()
+    time.sleep(0.5)
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_confirm()
     adb_controller.screenshot(settings.screenshot_path)
@@ -497,6 +498,7 @@ def repair_all():
     btn_controller.click_repair_all()
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_repair_wearing()
+    time.sleep(0.5)
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_confirm()
 

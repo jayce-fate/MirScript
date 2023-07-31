@@ -717,7 +717,7 @@ def is_monster_nearby():
 
 def get_bag_remain_capacity(keep_open = False):
     open_bag()
-    time.sleep(0.5)
+    time.sleep(1.5)
     result = read_bag_remain_capacity()
     if not keep_open:
         btn_controller.click_left_return()
@@ -966,6 +966,7 @@ def template_exist(template_name):
 
 def open_bag_and_drink(item_name, batch=False):
     open_bag()
+    time.sleep(1.5)
     btn_controller.click_btn("right_btn_arrange", (136,770,1532,1642), need_screenshot=True)
     wipe_up_bag()
     time.sleep(0.5)
