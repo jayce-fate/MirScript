@@ -74,7 +74,7 @@ def wait_till_max_lvl_max():
 def go_back_town_and_fly():
     print("go_back_town_and_fly")
     # 回城
-    move_controller.navigate_to_point((338,338), fly_to_exp_map)
+    move_controller.navigate_to_point((339,338), fly_to_exp_map)
 
 def go_back_town_and_restart():
     print("go_back_town_and_restart")
