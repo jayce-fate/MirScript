@@ -119,7 +119,7 @@ def fly_to_exp_map():
 
     if not btn_controller.click_npc_meng_zhong_lao_bing():
         raise Exception("RESTART")
-    time.sleep(1.0)
+    time.sleep(2.0)
     adb_controller.screenshot(settings.screenshot_path)
     if not btn_controller.click_yellow_menu("传送"):
         raise Exception("RESTART")
@@ -392,7 +392,7 @@ def get_subsidy():
 
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_npc_meng_zhong_lao_bing()
-    time.sleep(1.0)
+    time.sleep(2.0)
     adb_controller.screenshot(settings.screenshot_path)
     game_controller.wipe_down_npc_dialog_menu()
     adb_controller.screenshot(settings.screenshot_path)
@@ -406,7 +406,7 @@ def get_exp_subsidy():
 
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_npc_meng_zhong_lao_bing()
-    time.sleep(1.0)
+    time.sleep(2.0)
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_yellow_menu("纯手动练级补助")
     time.sleep(1.0)

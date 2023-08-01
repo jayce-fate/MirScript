@@ -324,11 +324,8 @@ def click_btn_confirm_transform():
 def click_sure_btn():
     adb_controller.screenshot(settings.screenshot_path)
 
-    match_scope = (529,702,623,1039)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
     match_loc = image_processor.match_template(
-        settings.screenshot_path, r"template_images/msg_btn/que_ding.png", 0.15, match_scope)
+        settings.screenshot_path, r"template_images/msg_btn/que_ding_s.png", 0.15)
     if(match_loc != None):
         print("检测到弹框确定按钮，自动关闭...." + str(match_loc))
         adb_controller.click(match_loc)
