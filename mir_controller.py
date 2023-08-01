@@ -28,10 +28,5 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-item_list = {
-  "隐身术": 1,
-}
-trash_controller.buy_books(item_list)
-adb_controller.screenshot(settings.screenshot_path)
-game_controller.open_bag_and_drink("ji_neng_shu", batch=True)
+exp_controller.restart_routine()
 # print("bind_gold: {}".format(str(bind_gold)))

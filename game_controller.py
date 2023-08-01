@@ -449,16 +449,14 @@ def restart_game():
 
     dismissSureDialog()
 
-    match_scope = (694,788,724,940)
-    success = btn_controller.wait_to_match_and_click("登录",0.05,120,1,match_scope)
+    success = btn_controller.wait_to_match_and_click("btn_server_login",0.05,120,1)
     if not success:
         restart_game()
         return
     else:
         print("选服点击登录成功")
 
-    match_scope = (664,748,692,968)
-    success = btn_controller.wait_to_match_and_click("登录",0.05,120,1,match_scope)
+    success = btn_controller.wait_to_match_and_click("btn_account_login",0.05,120,1)
     if not success:
         restart_game()
         return

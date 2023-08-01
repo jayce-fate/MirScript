@@ -421,12 +421,12 @@ def click_finish_ya_biao():
     adb_controller.click(point)
 
 
-def wait_to_match_and_click(match_text,threshold,max_time,step_time,match_scope = None):
-    print("Start to wait till match text by "+str(match_text)+" for up to "+str(max_time)+" seconds  ....")
+def wait_to_match_and_click(btn_name,threshold,max_time,step_time):
+    print("Start to wait till match text by "+str(btn_name)+" for up to "+str(max_time)+" seconds  ....")
     time_start = time.time()
     click_success = False
     while(True):
-        if click_menu(match_text, match_scope):
+        if click_btn(btn_name, need_screenshot = True):
             click_success = True
             break
         if(time.time() - time_start > max_time):
