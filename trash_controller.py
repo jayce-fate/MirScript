@@ -92,10 +92,10 @@ def drop_trashes_loop(match_scope = (125,807,939,1525)):
 def drop_trashes(neen_open_close_bag = True):
     if neen_open_close_bag:
         game_controller.open_bag()
-        time.sleep(1.5)
+        time.sleep(1.0)
 
     game_controller.wipe_up_bag()
-    btn_controller.click_btn("right_btn_arrange", (136,770,1532,1642))
+    btn_controller.click_btn("right_btn_arrange", (136,770,1532,1642), need_screenshot=True)
     time.sleep(2.0)
     drop_trashes_loop(match_scope = (125,807,939,1525))
     game_controller.wipe_down_bag()
@@ -109,7 +109,8 @@ def drop_trashes(neen_open_close_bag = True):
 def drop_binding_trashes(neen_open_close_bag = True):
     if neen_open_close_bag:
         game_controller.open_bag()
-        time.sleep(1.5)
+        time.sleep(1.0)
+        adb_controller.screenshot(settings.screenshot_path)
 
     trash_list = settings.binding_trash_list
     list_len = len(trash_list)
@@ -126,7 +127,7 @@ def drop_binding_trashes(neen_open_close_bag = True):
 def try_get_bag_space(space_need):
     if space_need > 0:
         game_controller.open_bag()
-        time.sleep(1.5)
+        time.sleep(1.0)
         remain_capacity = game_controller.read_bag_remain_capacity()
         if space_need <= remain_capacity:
             btn_controller.click_left_return()
@@ -268,10 +269,12 @@ def buy_items(item_list, neen_not_open_but_close_bag = True):
 def buy_books(item_list, neen_open_close_bag = True):
     if neen_open_close_bag:
         game_controller.open_bag()
-        time.sleep(1.5)
+        time.sleep(1.0)
 
+    adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_btn("right_btn_shop", (136,770,1532,1642))
     time.sleep(1.0)
+    adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_btn("left_btn_book", (28,670,12,148), need_screenshot=True)
     time.sleep(1.0)
     adb_controller.screenshot(settings.screenshot_path)
@@ -482,7 +485,7 @@ def batch_sell_item(item_name, force = False):
 
 #一键出售
 def sell_all():
-    btn_controller.click_btn("right_btn_more", (136,770,1532,1642))
+    btn_controller.click_btn("right_btn_more", (136,770,1532,1642), need_screenshot=True)
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_sell_all()
     time.sleep(0.5)
@@ -493,7 +496,7 @@ def sell_all():
 
 #一键特修
 def repair_all():
-    btn_controller.click_btn("right_btn_more", (136,770,1532,1642))
+    btn_controller.click_btn("right_btn_more", (136,770,1532,1642), need_screenshot=True)
     adb_controller.screenshot(settings.screenshot_path)
     btn_controller.click_repair_all()
     adb_controller.screenshot(settings.screenshot_path)
@@ -511,7 +514,7 @@ def get_supply_shortage_list(buy_list):
     if user_controller.get_character_level() > 15:
         sell_all()
 
-    btn_controller.click_btn("right_btn_arrange", (136,770,1532,1642))
+    btn_controller.click_btn("right_btn_arrange", (136,770,1532,1642), need_screenshot=True)
     time.sleep(2.0)
 
     if user_controller.get_character_level() >= 35:
