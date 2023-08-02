@@ -28,5 +28,8 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-exp_controller.restart_routine()
+if game_controller.connection_lose():
+    print("game_controller.connection_lose(), 断开")
+else:
+    print("未断开")
 # print("bind_gold: {}".format(str(bind_gold)))

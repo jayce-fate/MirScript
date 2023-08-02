@@ -189,21 +189,28 @@ def read_character_name():
 
 
 def connection_lose():
+    template_name = "text_lost_connection"
+    path = "{}{}.png".format("template_images/", template_name)
+    match_loc = image_processor.match_template(
+        settings.screenshot_path, path, 0.05)
+    if(match_loc != None):
+        return True
+    return False
     # adb_controller.screenshot(settings.screenshot_path)
     # 等级颜色米色参数
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
-
-    match_scope = (390,462,620,1023)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
-    result = get_first_result(resultss)
-    if result != None:
-        print("当前提示文字: {}".format(str(result)))
-        if "断开" in result:
-            return True
-    return False
+    # lower_color = [0,0,212]
+    # upper_color = [179,255,255]
+    #
+    # match_scope = (390,462,620,1023)
+    # match_scope = utils.convert_scope(match_scope, (1664, 936))
+    #
+    # resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    # result = get_first_result(resultss)
+    # if result != None:
+    #     print("当前提示文字: {}".format(str(result)))
+    #     if "断开" in result:
+    #         return True
+    # return False
 
 def already_has_master():
     print("检查是否已拜师....")
