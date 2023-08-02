@@ -292,31 +292,68 @@ def got_MP_Insufficient_text():
 def get_already_ya_biao_text():
     return tip_text_contains("每天只能")
 
-def read_map_name():
-    # 等级颜色米色参数
-    lower_color = [0,0,130]
-    upper_color = [179,169,255]
+# def print_map_name_dict():
+#     for key, value in settings.map_name_dict.items():
+#         print("key: {} value: {}".format(str(key), str(value)))
 
-    match_scope = (4,41,1355,1662)
+def reset_map_name_dict(key, value):
+    # print_map_name_dict()
+    map_name_dict = {}
+    map_name_dict[key] = value
+    for key, value in settings.map_name_dict.items():
+        map_name_dict[key] = value
+    settings.map_name_dict = map_name_dict
+    # print("。。。。。。。。。。。。。。")
+    # print_map_name_dict()
+
+def read_map_name():
+    match_scope = (0,50,1340,1664)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
-    result = get_first_result(resultss)
-    if result != None:
-        print("地图名称: {}".format(str(result)))
-        if result == "地军一层东" or "县东" in result or result == "层东":
-            result = "地牢一层东"
-        elif "带" in result:
-            result = "黑暗地带"
-        if not utils.is_contains_chinese(result):
-            if globals.read_map_name_fail_remain > 0:
-                globals.read_map_name_fail_remain = globals.read_map_name_fail_remain - 1
-            else:
-                globals.read_map_name_fail_remain = settings.read_map_name_fail_limit
-                print("globals.read_map_name_fail_remain == 0")
-                raise Exception("RESTART")
-        return result
-    return None
+    result = "未知地图"
+
+    map_name_dict = settings.map_name_dict
+    for key, value in map_name_dict.items():
+        map_name = value
+        path = "{}{}.png".format("template_images/map_name/", key)
+        match_loc = image_processor.match_template(
+            settings.screenshot_path, path, 0.05, match_scope)
+        if(match_loc != None):
+            result = map_name
+            reset_map_name_dict(key, value)
+            break
+
+    if result == "未知地图":
+        print("未知地图")
+        raise Exception("RESTART")
+
+    return result
+
+# def read_map_name():
+#     # 等级颜色米色参数
+#     lower_color = [0,0,130]
+#     upper_color = [179,169,255]
+#
+#     match_scope = (4,41,1355,1662)
+#     match_scope = utils.convert_scope(match_scope, (1664, 936))
+#
+#     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+#     result = get_first_result(resultss)
+#     if result != None:
+#         print("地图名称: {}".format(str(result)))
+#         if result == "地军一层东" or "县东" in result or result == "层东":
+#             result = "地牢一层东"
+#         elif "带" in result:
+#             result = "黑暗地带"
+#         if not utils.is_contains_chinese(result):
+#             if globals.read_map_name_fail_remain > 0:
+#                 globals.read_map_name_fail_remain = globals.read_map_name_fail_remain - 1
+#             else:
+#                 globals.read_map_name_fail_remain = settings.read_map_name_fail_limit
+#                 print("globals.read_map_name_fail_remain == 0")
+#                 raise Exception("RESTART")
+#         return result
+#     return None
 
 def read_quality_text():
     adb_controller.screenshot(settings.screenshot_path)

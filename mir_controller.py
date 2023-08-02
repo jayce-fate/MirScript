@@ -28,8 +28,9 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-if game_controller.connection_lose():
-    print("game_controller.connection_lose(), 断开")
-else:
-    print("未断开")
-# print("bind_gold: {}".format(str(bind_gold)))
+time1 = time.time()
+for index in range(1):
+    map_name = game_controller.read_map_name()
+    print("map_name: {}".format(str(map_name)))
+time2 = time.time()
+print("total_time: {}".format(str(time2 - time1)))

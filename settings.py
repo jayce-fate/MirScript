@@ -248,3 +248,15 @@ book_item_list = [
         "订书棉线",
     ]
 ]
+
+map_name_dict = {
+    "meng_zhong_tu_cheng": "盟重土城",
+    "fei_kuang_dong_bu": "废矿东部",
+    "ku_lou_dong_1_ceng": "骷髅洞1层",
+    "bi_qi_kuang_qu": "比奇矿区",
+    "sheng_si_zhi_jian": "生死之间",
+    "di_lao_yi_ceng_dong": "地牢一层东",
+    "hei_an_di_dai": "黑暗地带",
+    "tong_xin_xiao_jing": "同心小径",
+    "ma_fa_qiu_chang": "玛法球场",
+}
