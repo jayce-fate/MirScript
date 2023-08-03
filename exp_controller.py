@@ -134,11 +134,11 @@ def fly_to_exp_map():
         btn_controller.click_transfer_cave("死亡山谷")
 
     btn_controller.click_btn_confirm_transform()
-    time.sleep(3.0)
+    time.sleep(5.0)
     adb_controller.screenshot(settings.screenshot_path)
     map_name = game_controller.read_map_name()
     if user_controller.get_character_level() < 17:
-        if map_name == "洞1层":
+        if map_name == "骷髅洞1层":
             get_exp_by_random_fly(map_name)
         else:
             start()
@@ -150,7 +150,8 @@ def fly_to_exp_map():
     else:
         if map_name == "比奇矿区":
             go_to_east_waste_ore()
-        elif "地" in map_name and "层东" in map_name:
+        # elif "地" in map_name and "层东" in map_name:
+        elif map_name == "地牢一层东":
             go_to_dark_area()
         elif map_name == "黑暗地带":
             go_to_between_life_and_dead()
@@ -529,7 +530,7 @@ def start_get_exp():
     elif user_controller.get_character_level() < 17:
         if map_name == "盟重土城":
             routine_lvl_fifteen()
-        elif map_name == "洞1层": #骷髅两个字不识别
+        elif map_name == "骷髅洞1层": #骷髅两个字不识别
             get_exp_by_random_fly(map_name)
         else:
             print("unknown map_name:", map_name)
@@ -557,13 +558,14 @@ def start_get_exp():
 
         go_back_town_and_fly()
 
-    elif map_name == "洞1层": #骷髅两个字不识别
+    elif map_name == "骷髅洞1层": #骷髅两个字不识别
         get_exp_by_random_fly(map_name)
         return
     elif map_name == "比奇矿区":
         go_to_east_waste_ore()
         return
-    elif "地" in map_name and "层东" in map_name:
+    # elif "地" in map_name and "层东" in map_name:
+    elif map_name == "地牢一层东":
         go_to_dark_area()
         return
     elif map_name == "黑暗地带":

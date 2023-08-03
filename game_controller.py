@@ -394,6 +394,7 @@ def read_bag_remain_capacity():
 
 def read_bind_gold():
     adb_controller.screenshot(settings.screenshot_path)
+    adb_controller.screenshot(settings.screenshot_path1)
     # 等级颜色米色参数
     lower_color = [0,0,212]
     upper_color = [179,255,255]
