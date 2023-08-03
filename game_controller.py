@@ -14,6 +14,7 @@ import globals
 import utils
 import user_controller
 import enums
+# import match_controller
 
 def get_first_result(resultss):
     for idx in range(len(resultss)):
@@ -188,14 +189,15 @@ def read_character_name():
     return None
 
 
-def connection_lose():
-    template_name = "text_lost_connection"
-    path = "{}{}.png".format("template_images/", template_name)
-    match_loc = image_processor.match_template(
-        settings.screenshot_path, path, 0.05)
-    if(match_loc != None):
-        return True
-    return False
+# def connection_lose():
+#     template_name = "text_lost_connection"
+#     path = "{}{}.png".format("template_images/", template_name)
+#     match_loc = image_processor.match_template(
+#         settings.screenshot_path, path, 0.05)
+#     if(match_loc != None):
+#         return True
+#     return False
+
     # adb_controller.screenshot(settings.screenshot_path)
     # 等级颜色米色参数
     # lower_color = [0,0,212]
@@ -355,21 +357,21 @@ def read_map_name():
 #         return result
 #     return None
 
-def read_quality_text():
-    adb_controller.screenshot(settings.screenshot_path)
-    # 等级颜色米色参数
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
-
-    match_scope = (370,412,865,973)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
-    result = get_first_result(resultss)
-    if result != None:
-        print("当前极品文字: {}".format(str(result)))
-        return result
-    return None
+# def read_quality_text():
+#     adb_controller.screenshot(settings.screenshot_path)
+#     # 等级颜色米色参数
+#     lower_color = [0,0,212]
+#     upper_color = [179,255,255]
+#
+#     match_scope = (370,412,865,973)
+#     match_scope = utils.convert_scope(match_scope, (1664, 936))
+#
+#     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+#     result = get_first_result(resultss)
+#     if result != None:
+#         print("当前极品文字: {}".format(str(result)))
+#         return result
+#     return None
 
 def read_bag_remain_capacity():
     adb_controller.screenshot(settings.screenshot_path)
@@ -410,19 +412,19 @@ def read_bind_gold():
         return amount
     return -1
 
-def is_ji_pin():
-    result = read_quality_text()
-    if result != None:
-        if "极" in result:
-            return True
-    return False
-
-def is_zhen_xi():
-    result = read_quality_text()
-    if result != None:
-        if "稀" in result:
-            return True
-    return False
+# def is_ji_pin():
+#     result = read_quality_text()
+#     if result != None:
+#         if "极" in result:
+#             return True
+#     return False
+#
+# def is_zhen_xi():
+#     result = read_quality_text()
+#     if result != None:
+#         if "稀" in result:
+#             return True
+#     return False
 
 def is_bang_jin_item_list():
     item_name = read_text((38,102,425,676))

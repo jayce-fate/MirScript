@@ -20,6 +20,7 @@ import btn_controller
 import user_controller
 import enums
 import ya_biao_controller
+import match_controller
 
 def summon_pet():
     print('道士重新召唤宝宝')
@@ -254,6 +255,7 @@ def routine_lvl_one():
     #设置随机，回城，药水快捷键
     if btn_controller.click_setting():
         time.sleep(1.0)
+        adb_controller.screenshot(settings.screenshot_path)
         btn_controller.click_setting_menu("技能")
         time.sleep(0.5)
         #
@@ -611,8 +613,8 @@ def start_get_exp():
 
         game_controller.dismissSureDialog(False)
         #检测断开消息框
-        if game_controller.connection_lose():
-            print("game_controller.connection_lose(), 断开")
+        if match_controller.match_template("text_lost_connection"):
+            print("lost_connection, 断开")
             raise Exception("RESTART")
 
         game_controller.do_self_protect()

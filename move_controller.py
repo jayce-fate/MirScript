@@ -18,6 +18,7 @@ import path_controller
 import skill_controller
 import btn_controller
 import user_controller
+import match_controller
 
 walk_swip_time = 200
 run_swip_time = 550
@@ -195,8 +196,8 @@ def step_go_by_path(step_path, check_exp = False):
             get_current_coordinate()
         else:
             #检测断开消息框
-            if game_controller.connection_lose():
-                print("game_controller.connection_lose(), 断开")
+            if match_controller.match_template("text_lost_connection"):
+                print("lost_connection, 断开")
                 raise Exception("RESTART")
 
             # 达到最大尝试次数，放弃，返回
