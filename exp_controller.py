@@ -134,8 +134,6 @@ def fly_to_exp_map():
         btn_controller.click_transfer_cave("死亡山谷")
 
     btn_controller.click_btn_confirm_transform()
-    time.sleep(5.0)
-    adb_controller.screenshot(settings.screenshot_path)
     map_name = game_controller.read_map_name()
     if user_controller.get_character_level() < 17:
         if map_name == "骷髅洞1层":
@@ -496,7 +494,6 @@ def start_get_exp():
     # if game_controller.is_save_power_mode():
     #     btn_controller.click_center_of_screen()
 
-    adb_controller.screenshot(settings.screenshot_path)
     #地图名称
     map_name = game_controller.read_map_name()
 

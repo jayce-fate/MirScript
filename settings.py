@@ -38,6 +38,7 @@ screenshot_path1 = r"temp_screenshot/screenshot1.png"
 screenshot_path2 = r"temp_screenshot/screenshot2.png"
 screenshot_path3 = r"temp_screenshot/screenshot3.png"
 screenshot_path4 = r"temp_screenshot/screenshot4.png"
+screenshot_debug = r"temp_screenshot/screenshot_debug.png"
 
 # 检查屏幕是否有怪间隔时间（距离上次移动），单位秒
 move_check_time = 40
@@ -59,7 +60,7 @@ one_time_move_distance = 5
 check_has_master_fail_limit = 3
 
 # 读取地图名称失败最大尝试次数（容错）
-read_map_name_fail_limit = 10
+# read_map_name_fail_limit = 10
 
 # 读取宠物血量失败最大尝试次数（容错）
 read_pet_hp_fail_limit = 10

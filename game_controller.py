@@ -309,21 +309,37 @@ def reset_map_name_dict(key, value):
     # print_map_name_dict()
 
 def read_map_name():
+    result = "未知地图"
+
+    time_start = time.time()
+    max_time = 30
+    step_time = 1
+
     match_scope = (0,50,1340,1664)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
-    result = "未知地图"
-
     map_name_dict = settings.map_name_dict
-    for key, value in map_name_dict.items():
-        map_name = value
-        path = "{}{}.png".format("template_images/map_name/", key)
-        match_loc = image_processor.match_template(
-            settings.screenshot_path, path, 0.05, match_scope)
-        if(match_loc != None):
-            result = map_name
-            reset_map_name_dict(key, value)
+
+    while(True):
+        adb_controller.screenshot(settings.screenshot_path)
+        for key, value in map_name_dict.items():
+            map_name = value
+            path = "{}{}.png".format("template_images/map_name/", key)
+            match_loc = image_processor.match_template(
+                settings.screenshot_path, path, 0.05, match_scope)
+            if(match_loc != None):
+                result = map_name
+                reset_map_name_dict(key, value)
+                break
+
+        if(result != "未知地图"):
             break
+
+        if(time.time() - time_start > max_time):
+            print("Reach max_time but failed to match")
+            break
+
+        time.sleep(step_time)
 
     if result == "未知地图":
         print("未知地图")
@@ -433,7 +449,6 @@ def is_bang_jin_item_list():
     return False
 
 def get_map_path(map_name=None):
-    adb_controller.screenshot(settings.screenshot_path)
     if map_name == None:
         map_name = read_map_name()
     cave_path = []
@@ -781,10 +796,13 @@ def read_pet_HP():
 
     collapse_pet_list()
 
+    lower_color = [20,67,119]
+    upper_color = [21,72,255]
+
     # 获取宝宝血量
     match_scope = (132,160,400,580)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope)
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
     for idx in range(len(resultss)):
         results = resultss[idx]
         for result in results:

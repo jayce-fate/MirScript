@@ -14,20 +14,17 @@ import btn_controller
 current_map_data = []
 
 def get_map_img_path():
-    adb_controller.screenshot(settings.screenshot_path)
     map_name = game_controller.read_map_name()
     map_img_path = "maps/{}.png".format(str(map_name))
     return map_img_path
 
 def get_map_data_path(map_name = None):
-    adb_controller.screenshot(settings.screenshot_path)
     if not map_name:
         map_name = game_controller.read_map_name()
     map_data_path = "maps/{}.txt".format(str(map_name))
     return map_data_path
 
 def get_map_data_cache_path():
-    adb_controller.screenshot(settings.screenshot_path)
     map_name = game_controller.read_map_name()
     map_data_path = "maps/{}_cache.txt".format(str(map_name))
     return map_data_path
@@ -52,7 +49,6 @@ def read_map_data(map_data_path):
     return data_list
 
 def get_map_scale():
-    adb_controller.screenshot(settings.screenshot_path)
     map_name = game_controller.read_map_name()
     # x scale, y scale, x offset, y offset
     scale = (1.0, 1.0, 0, 0)
@@ -97,7 +93,6 @@ def show_map():
     cv2.waitKey()
 
 def get_map_size(map_name = None):
-    adb_controller.screenshot(settings.screenshot_path)
     if not map_name:
         map_name = game_controller.read_map_name()
     size = (100, 100)
