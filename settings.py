@@ -36,6 +36,7 @@ package_UserId = "0"
 screenshot_path = r"temp_screenshot/screenshot.png"
 screenshot_path1 = r"temp_screenshot/screenshot1.png"
 screenshot_path2 = r"temp_screenshot/screenshot2.png"
+screenshot_path3 = r"temp_screenshot/screenshot3.png"
 
 # 检查屏幕是否有怪间隔时间（距离上次移动），单位秒
 move_check_time = 40

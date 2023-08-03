@@ -393,8 +393,7 @@ def read_bag_remain_capacity():
     return -1
 
 def read_bind_gold():
-    adb_controller.screenshot(settings.screenshot_path)
-    adb_controller.screenshot(settings.screenshot_path1)
+    adb_controller.screenshot(settings.screenshot_path3)
     # 等级颜色米色参数
     lower_color = [0,0,212]
     upper_color = [179,255,255]
@@ -402,7 +401,7 @@ def read_bind_gold():
     match_scope = (74,113,1062,1250)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    resultss = image_processor.paddleocr_read(settings.screenshot_path3, match_scope, lower_color, upper_color)
     result = get_first_result(resultss)
     if result != None:
         print("绑金: {}".format(str(result)))
