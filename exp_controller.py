@@ -281,7 +281,6 @@ def routine_lvl_one():
 
     #穿装备
     game_controller.open_bag()
-    time.sleep(1.0)
     game_controller.wipe_up_bag()
     time.sleep(0.5)
     trash_controller.drink_item("bu_yi_nan")
@@ -311,7 +310,6 @@ def routine_lvl_seven():
     print("routine_lvl_seven")
     if user_controller.get_character_level() == 7:
         game_controller.open_bag()
-        time.sleep(1.0)
         btn_controller.click_btn("right_btn_arrange", (136,770,1532,1642), need_screenshot=True)
         game_controller.wipe_up_bag()
         time.sleep(0.5)

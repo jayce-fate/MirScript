@@ -607,6 +607,7 @@ def open_bag():
     print("open_bag")
     point = utils.convert_point((560, 860), (1664, 936))
     adb_controller.click(point)
+    time.sleep(3.0)
 
 def wipe_down_bag():
     pos = utils.convert_point((956, 520), (1664, 936))
@@ -761,7 +762,6 @@ def is_monster_nearby():
 
 def get_bag_remain_capacity(keep_open = False):
     open_bag()
-    time.sleep(1.0)
     result = read_bag_remain_capacity()
     if not keep_open:
         btn_controller.click_left_return()
@@ -770,7 +770,6 @@ def get_bag_remain_capacity(keep_open = False):
 
 def get_bag_bind_gold(keep_open = False):
     open_bag()
-    time.sleep(1.0)
     result = read_bind_gold()
     if not keep_open:
         btn_controller.click_left_return()
@@ -1010,7 +1009,6 @@ def template_exist(template_name):
 
 def open_bag_and_drink(item_name, batch=False):
     open_bag()
-    time.sleep(1.0)
     btn_controller.click_btn("right_btn_arrange", (136,770,1532,1642), need_screenshot=True)
     wipe_up_bag()
     time.sleep(0.5)
