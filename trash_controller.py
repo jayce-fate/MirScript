@@ -249,9 +249,8 @@ def buy_items(item_list, neen_not_open_but_close_bag = True):
         btn_controller.click_btn("right_btn_shop", (136,770,1532,1642))
         time.sleep(1.0)
         btn_controller.click_btn("left_btn_bind_gold", (28,670,12,148), need_screenshot=True)
-        time.sleep(1.0)
+        time.sleep(3.0)
         adb_controller.screenshot(settings.screenshot_path)
-        adb_controller.screenshot(settings.screenshot_path4)
         # 检查是否是绑金列表
         if not game_controller.is_bang_jin_item_list():
             print("not game_controller.is_bang_jin_item_list()")
