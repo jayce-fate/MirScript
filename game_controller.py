@@ -489,19 +489,19 @@ def get_text_match_point(text, match_scope):
                 return center
     return None
 
-def wait_till_match(match_text,max_time,step_time,match_scope = None):
-    print("Start to wait till match text: "+str(match_text)+", for up to "+str(max_time)+" seconds  ....")
-    time_start = time.time()
-    match_loc = None
-    while(True):
-        match_loc = get_text_match_point(match_text, match_scope)
-        if match_loc != None:
-            break
-        if(time.time() - time_start > max_time):
-            print("Reach max_time but failed to match")
-            break
-        time.sleep(step_time)
-    return match_loc
+# def wait_till_match(match_text,max_time,step_time,match_scope = None):
+#     print("Start to wait till match text: "+str(match_text)+", for up to "+str(max_time)+" seconds  ....")
+#     time_start = time.time()
+#     match_loc = None
+#     while(True):
+#         match_loc = get_text_match_point(match_text, match_scope)
+#         if match_loc != None:
+#             break
+#         if(time.time() - time_start > max_time):
+#             print("Reach max_time but failed to match")
+#             break
+#         time.sleep(step_time)
+#     return match_loc
 
 def restart_game():
     print("restart_game")
@@ -524,8 +524,8 @@ def restart_game():
     else:
         print("账号点击登录成功")
 
-    match_scope = utils.convert_scope((854,936,696,968), (1664, 936))
-    match_loc = wait_till_match("开始游戏",60,1,match_scope)
+    match_scope = utils.convert_scope((800,936,650,1020), (1664, 936))
+    match_loc = match_controller.wait_till_match_template("kai_shi_you_xi",60,1,match_scope)
     if match_loc == None:
         restart_game()
         return
@@ -534,10 +534,10 @@ def restart_game():
         adb_controller.click(match_loc)
 
         # 频繁登录此处会被阻止登录，需要继续点击"开始游戏"
-        match_loc = wait_till_match("开始游戏",2,1,match_scope)
+        match_loc = match_controller.wait_till_match_template("kai_shi_you_xi",2,1,match_scope)
         while match_loc != None:
             adb_controller.click(match_loc)
-            match_loc = wait_till_match("开始游戏",2,1,match_scope)
+            match_loc = match_controller.wait_till_match_template("kai_shi_you_xi",2,1,match_scope)
 
         print("重启成功")
 

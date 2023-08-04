@@ -196,7 +196,7 @@ def step_go_by_path(step_path, check_exp = False):
             get_current_coordinate()
         else:
             #检测断开消息框
-            if match_controller.match_template("text_lost_connection"):
+            if match_controller.match_template("text_lost_connection") != None:
                 print("lost_connection, 断开")
                 raise Exception("RESTART")
 

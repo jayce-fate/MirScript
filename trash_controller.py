@@ -31,10 +31,10 @@ def loop_drop_one_item(trash_name, is_green = False, force_drop = False, match_s
         else:
             time.sleep(0.1)
             adb_controller.screenshot(settings.screenshot_path)
-            if match_controller.match_template("text_ji_pin"):
+            if match_controller.match_template("text_ji_pin") != None:
                 btn_controller.click_cancel_drop()
                 adb_controller.screenshot(settings.screenshot_path)
-            elif trash_name == "ji_neng_shu" and match_controller.match_template("text_zhen_xi"):
+            elif trash_name == "ji_neng_shu" and match_controller.match_template("text_zhen_xi") != None:
                 btn_controller.click_cancel_drop()
                 adb_controller.screenshot(settings.screenshot_path)
             else:
@@ -467,7 +467,7 @@ def batch_sell_item(item_name, force = False):
             if force:
                 btn_controller.click_yes()
             else:
-                if match_controller.match_template("text_ji_pin"):
+                if match_controller.match_template("text_ji_pin") != None:
                     btn_controller.click_no()
                 else:
                     btn_controller.click_yes()
