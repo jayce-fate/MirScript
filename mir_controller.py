@@ -28,8 +28,11 @@ import character
 # ******************************************
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
-# bind_gold = game_controller.get_bag_bind_gold(keep_open=True)
-# print("bind_gold: {}".format(str(bind_gold)))
+
+result = user_controller.get_character_name()
+print("result: {}".format(str(result)))
+
+# image_processor.show_hsv_tool(settings.screenshot_path)
 
 # current_pet_max_HP = game_controller.get_pet_current_max_HP()
 # print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))

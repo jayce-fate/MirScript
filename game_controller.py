@@ -14,7 +14,7 @@ import globals
 import utils
 import user_controller
 import enums
-# import match_controller
+import match_controller
 
 def get_first_result(resultss):
     for idx in range(len(resultss)):
@@ -173,8 +173,8 @@ def read_lv_area_text():
 
 def read_character_name():
     # 颜色米色
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
+    lower_color = [0,70,200]
+    upper_color = [26,89,255]
 
     match_scope = (0,56,0,300)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
