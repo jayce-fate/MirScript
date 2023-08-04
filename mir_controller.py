@@ -29,8 +29,11 @@ import character
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
 
-result = user_controller.get_character_name()
+result = game_controller.read_bind_gold()
 print("result: {}".format(str(result)))
+
+# result = game_controller.read_current_exp()
+# print("result: {}".format(str(result)))
 
 # image_processor.show_hsv_tool(settings.screenshot_path)
 

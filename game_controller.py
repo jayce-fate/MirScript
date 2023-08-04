@@ -133,8 +133,8 @@ def read_coordinate_text(need_screenshot = True):
 
 def read_lv_text():
     # 等级颜色米色参数
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
+    lower_color = [22,70,220]
+    upper_color = [23,75,255]
 
     match_scope = (56,100,58,104)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
@@ -157,8 +157,8 @@ def read_lv_text():
 # Lv.xx
 def read_lv_area_text():
     # 等级颜色米色参数
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
+    lower_color = [22,70,220]
+    upper_color = [23,75,255]
 
     match_scope = (56,100,0,104)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
@@ -173,8 +173,8 @@ def read_lv_area_text():
 
 def read_character_name():
     # 颜色米色
-    lower_color = [0,70,200]
-    upper_color = [26,89,255]
+    lower_color = [22,70,220]
+    upper_color = [23,75,255]
 
     match_scope = (0,56,0,300)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
@@ -236,8 +236,8 @@ def read_current_exp(need_screenshot = True):
     if need_screenshot:
         adb_controller.screenshot(settings.screenshot_path)
     # 经验颜色米色参数
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
+    lower_color = [22,70,220]
+    upper_color = [23,75,255]
 
     match_scope = (56,100,181,316)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
@@ -392,8 +392,8 @@ def read_map_name():
 def read_bag_remain_capacity():
     adb_controller.screenshot(settings.screenshot_path)
     # 等级颜色米色参数
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
+    lower_color = [22,70,220]
+    upper_color = [23,75,255]
 
     match_scope = (881,915,1011,1192)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
@@ -411,8 +411,8 @@ def read_bag_remain_capacity():
 def read_bind_gold():
     adb_controller.screenshot(settings.screenshot_path3)
     # 等级颜色米色参数
-    lower_color = [0,0,212]
-    upper_color = [179,255,255]
+    lower_color = [22,70,220]
+    upper_color = [23,75,255]
 
     match_scope = (74,113,1062,1250)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
