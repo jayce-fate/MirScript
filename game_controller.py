@@ -510,14 +510,14 @@ def restart_game():
 
     dismissSureDialog()
 
-    success = btn_controller.wait_to_match_and_click("btn_server_login",0.05,120,1)
+    success = match_controller.wait_to_match_and_click("btn_server_login",0.05,120,1)
     if not success:
         restart_game()
         return
     else:
         print("选服点击登录成功")
 
-    success = btn_controller.wait_to_match_and_click("btn_account_login",0.05,120,1)
+    success = match_controller.wait_to_match_and_click("btn_account_login",0.05,120,1)
     if not success:
         restart_game()
         return

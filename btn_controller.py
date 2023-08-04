@@ -12,6 +12,7 @@ import utils
 import game_controller
 import path_controller
 import move_controller
+import match_controller
 
 # def click_menu_batch_use():
 #     adb_controller.screenshot(settings.screenshot_path)
@@ -232,10 +233,10 @@ def click_menu(text, match_scope):
 def click_btn(btn_name, match_scope = (0,936,0,1664), need_screenshot = False):
     if need_screenshot:
         adb_controller.screenshot(settings.screenshot_path)
+        
     match_scope = utils.convert_scope(match_scope, (1664, 936))
-    path = "{}{}.png".format("template_images/", btn_name)
-    match_loc = image_processor.match_template(
-        settings.screenshot_path, path, 0.05, match_scope)
+
+    match_loc = match_controller.match_template(btn_name, match_scope)
     if(match_loc != None):
         adb_controller.click(match_loc)
         return True
@@ -421,19 +422,19 @@ def click_finish_ya_biao():
     adb_controller.click(point)
 
 
-def wait_to_match_and_click(btn_name,threshold,max_time,step_time):
-    print("Start to wait till match text by "+str(btn_name)+" for up to "+str(max_time)+" seconds  ....")
-    time_start = time.time()
-    click_success = False
-    while(True):
-        if click_btn(btn_name, need_screenshot = True):
-            click_success = True
-            break
-        if(time.time() - time_start > max_time):
-            print("Reach max_time but failed to match")
-            break
-        time.sleep(step_time)
-    return click_success
+# def wait_to_match_and_click(btn_name,threshold,max_time,step_time):
+#     print("Start to wait till match text by "+str(btn_name)+" for up to "+str(max_time)+" seconds  ....")
+#     time_start = time.time()
+#     click_success = False
+#     while(True):
+#         if click_btn(btn_name, need_screenshot = True):
+#             click_success = True
+#             break
+#         if(time.time() - time_start > max_time):
+#             print("Reach max_time but failed to match")
+#             break
+#         time.sleep(step_time)
+#     return click_success
 
 #丢弃
 def click_drop():
