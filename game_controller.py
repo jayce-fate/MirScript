@@ -839,6 +839,24 @@ def read_pet_HP():
                 print("digit2 = ", digit2)
                 if digit1 == digit2:
                     res = digit1 + "/" + digit2
+            elif not "/" in res:
+                res_length = len(res)
+                each_length = int(res_length / 2)
+                if len(res) % 2 == 0:
+                    digit1 = res[0:each_length]
+                    digit2 = res[each_length:res_length]
+                    print("digit1 = ", digit1)
+                    print("digit2 = ", digit2)
+                    if digit1 == digit2:
+                        res = digit1 + "/" + digit2
+                else:
+                    digit1 = res[0:each_length]
+                    digit2 = res[each_length+1:res_length]
+                    print("digit1 = ", digit1)
+                    print("digit2 = ", digit2)
+                    if digit1 == digit2:
+                        res = digit1 + "/" + digit2
+
             print("宝宝血量修正后: {}".format(str(res)))
             if "/" in res:
                 splits = res.split('/')

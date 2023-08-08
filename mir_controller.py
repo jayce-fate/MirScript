@@ -29,16 +29,16 @@ import character
 adb_controller.connect()
 adb_controller.screenshot(settings.screenshot_path)
 
-result = game_controller.read_bind_gold()
-print("result: {}".format(str(result)))
+# result = game_controller.read_bind_gold()
+# print("result: {}".format(str(result)))
 
 # result = game_controller.read_current_exp()
 # print("result: {}".format(str(result)))
 
 # image_processor.show_hsv_tool(settings.screenshot_path)
 
-# current_pet_max_HP = game_controller.get_pet_current_max_HP()
-# print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
+current_pet_max_HP = game_controller.get_pet_current_max_HP()
+print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
 
 # match_scope = (132,160,400,580)
 # match_scope = utils.convert_scope(match_scope, (1664, 936))
