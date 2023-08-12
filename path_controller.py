@@ -4,6 +4,7 @@ import re
 import cv2
 
 import globals
+import map_controller
 import settings
 import utils
 import game_controller
@@ -289,8 +290,7 @@ def generate_map_data(amend_points = None):
     if amend_points != None:
         cave_path = amend_points
 
-    btn_controller.click_map()
-    time.sleep(1.0)
+    map_controller.open_map()
 
     start_scope = 0
     generate_scope = (10, 10)
@@ -304,14 +304,8 @@ def generate_map_data(amend_points = None):
                     if y_idx < base_point[1] - start_scope or base_point[1] + start_scope < y_idx:
                         point = (x_idx, y_idx)
                         if not point in current_data_list and not point in checked_point_list:
-                            btn_controller.click_map_aim()
-                            btn_controller.click_map_input()
-                            btn_controller.click_map_input()
-                            btn_controller.click_map_clear()
                             point_str = "{},{}".format(point[0], point[1])
-                            adb_controller.input_text(point_str)
-                            btn_controller.click_map_edit_confirm()
-                            btn_controller.click_map_input_confirm()
+                            map_controller.input_text(point_str)
                             time.sleep(0.2)
                             adb_controller.screenshot(settings.screenshot_path)
                             match_loc = image_processor.match_template(

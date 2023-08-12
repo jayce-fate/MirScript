@@ -63,7 +63,13 @@ check_has_master_fail_limit = 3
 # read_map_name_fail_limit = 10
 
 # 读取宠物血量失败最大尝试次数（容错）
-read_pet_hp_fail_limit = 10
+read_pet_hp_fail_limit = 10.
+
+# 游戏响应时间(比如清空输入按钮，后面输入执行太快，导致输入无效)
+act_time = 0.1
+
+# 游戏响应超时时间
+act_time_limit = 5
 
 ########### 练级路径 ###########
 # 僵尸洞二层路径

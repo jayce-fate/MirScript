@@ -7,6 +7,7 @@ import numpy
 from datetime import datetime
 
 import globals
+import map_controller
 import settings
 import utils
 import image_processor
@@ -31,17 +32,9 @@ def go_to_wen_biao_tou():
     game_controller.dismissSureDialog()
 
     target_pos = (441, 206)
-    btn_controller.click_map()
-    time.sleep(1.0)
-    adb_controller.screenshot(settings.screenshot_path)
-    btn_controller.click_map_aim()
-    btn_controller.click_map_input()
-    btn_controller.click_map_input()
-    btn_controller.click_map_clear()
+    map_controller.open_map()
     point_str = "{},{}".format(target_pos[0], target_pos[1])
-    adb_controller.input_text(point_str)
-    btn_controller.click_map_edit_confirm()
-    btn_controller.click_map_input_confirm()
+    map_controller.input_text(point_str)
     btn_controller.click_btn("btn_xun_lu")
     game_controller.close_map()
 

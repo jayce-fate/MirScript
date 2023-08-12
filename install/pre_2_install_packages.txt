@@ -1,29 +1,16 @@
-1.安装python3.8
+1.安装python3.8.10
 python3
 python -m pip install --upgrade pip
 
 2.paddle
-python -m pip install paddlepaddle==2.4.1 -i https://pypi.tuna.tsinghua.edu.cn/simple
-python import paddle 查看是否安装成功
+python -m pip install paddlepaddle==2.5.0 -i https://mirror.baidu.com/pypi/simple
+
+查看是否安装成功:
+python 
+import paddle 
+paddle.utils.run_check()
 
 python -m pip install paddleocr
 
-3.opencv
-python -m pip install opencv-python
-
-4.安装adb
-https://developer.android.com/studio/releases/platform-tools?hl=zh-cn
+3.添加环境变量:
 运行 control sysdm.cpl
-添加环境变量
-
-5.numpy
-python -m pip install numpy==1.23.1
-
-6.多开
-https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2038
-"C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_1" --natpf1 "myadb,tcp,,8555,,5555
-"C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_2" --natpf1 "myadb,tcp,,8556,,5555
-"C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_3" --natpf1 "myadb,tcp,,8557,,5555
-"C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_4" --natpf1 "myadb,tcp,,8558,,5555
-"C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_2_1" --natpf1 "myadb,tcp,,8559,,5555
-"C:\Program Files\NemuVbox\Hypervisor\NemuManage.exe" modifyvm "nemu-vm-base_3" --natpf1 "myadb,tcp,,7666,,5555

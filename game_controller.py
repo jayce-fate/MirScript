@@ -1170,3 +1170,4 @@ def eat_li_zi():
         drink_success = open_bag_and_drink("zhong_se_li_zi")
         if not drink_success:
             user_controller.set_li_zi_in_bag(False)
+

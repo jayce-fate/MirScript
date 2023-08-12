@@ -354,14 +354,15 @@ def click_map_input():
 def click_map_clear():
     match_scope = utils.convert_scope((37,101,1398,1528), (1664, 936))
     click_scope(match_scope)
+    time.sleep(settings.act_time)
 
-def click_map_edit_confirm():
-    match_scope = utils.convert_scope((229,289,1405,1520), (1664, 936))
-    click_scope(match_scope)
+# def click_map_edit_confirm():
+#     match_scope = utils.convert_scope((229,289,1405,1520), (1664, 936))
+#     click_scope(match_scope)
 
-def click_map_input_confirm():
-    match_scope = utils.convert_scope((586,647,912,1166), (1664, 936))
-    click_scope(match_scope)
+# def click_map_input_confirm():
+#     match_scope = utils.convert_scope((586,647,912,1166), (1664, 936))
+#     click_scope(match_scope)
 
 def click_npc_wen_biao_tou():
     # 坐标颜色绿色参数
