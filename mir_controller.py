@@ -34,13 +34,13 @@ adb_controller.screenshot(settings.screenshot_path)
 # btn_controller.click_map_clear()
 # adb_controller.input_text(point_str)
 
-map_controller.open_map()
-
-point_str = "{},{}".format(789, 456)
-map_controller.input_text(point_str)
-
-btn_controller.click_btn("btn_xun_lu")
-game_controller.close_map()
+# map_controller.open_map()
+#
+# point_str = "{},{}".format(789, 456)
+# map_controller.input_text(point_str)
+#
+# btn_controller.click_btn("btn_xun_lu")
+# game_controller.close_map()
 
 
 
@@ -53,8 +53,8 @@ game_controller.close_map()
 
 # image_processor.show_hsv_tool(settings.screenshot_path)
 
-# current_pet_max_HP = game_controller.get_pet_current_max_HP()
-# print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
+current_pet_max_HP = game_controller.get_pet_current_max_HP()
+print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
 
 # match_scope = (132,160,400,580)
 # match_scope = utils.convert_scope(match_scope, (1664, 936))

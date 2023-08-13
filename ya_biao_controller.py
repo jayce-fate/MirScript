@@ -125,12 +125,13 @@ def go_to_lu_lao_ban():
                 return
         else:
             move_controller.step_go_by_path(path)
+            time.sleep(settings.act_time * 20)
 
         if current_path_index == cave_path_length - 1:
             print("current_path_index == cave_path_length - 1")
             break
 
-        current_path_index = current_path_index + int(cave_path_length / 8)
+        current_path_index = current_path_index + int(cave_path_length / 30)
         if current_path_index >= cave_path_length:
             print("current_path_index >= cave_path_length")
             current_path_index = cave_path_length - 1

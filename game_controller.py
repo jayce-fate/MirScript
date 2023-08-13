@@ -796,13 +796,13 @@ def read_pet_HP():
 
     collapse_pet_list()
 
-    lower_color = [20,67,119]
-    upper_color = [21,72,255]
+    # lower_color = [20,67,119]
+    # upper_color = [21,72,255]
 
     # 获取宝宝血量
     match_scope = (132,160,400,580)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
-    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
+    resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope)
     for idx in range(len(resultss)):
         results = resultss[idx]
         for result in results:
