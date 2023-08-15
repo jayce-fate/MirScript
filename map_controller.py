@@ -29,6 +29,7 @@ def close_cords_edit():
         raise Exception("RESTART")
 
 def input_text(text):
+    print("MapController input_text: {}".format(str(text)))
     open_cords_input()
     open_cords_edit()
     btn_controller.click_map_clear()

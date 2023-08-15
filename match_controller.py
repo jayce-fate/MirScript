@@ -16,7 +16,7 @@ def match_template(template_name, match_scope = None):
     return match_loc
 
 def wait_till_match_template(template_name,max_time,step_time,match_scope = None):
-    print("Start to wait till match text: "+str(template_name)+", for up to "+str(max_time)+" seconds  ....")
+    print("Start to wait till match template: "+str(template_name)+", for up to "+str(max_time)+" seconds  ....")
     time_start = time.time()
     match_loc = None
     while(True):
@@ -31,7 +31,7 @@ def wait_till_match_template(template_name,max_time,step_time,match_scope = None
     return match_loc
 
 def wait_till_not_match_template(template_name,max_time,step_time,match_scope = None):
-    print("Start to wait till match text: "+str(template_name)+", for up to "+str(max_time)+" seconds  ....")
+    print("Start to wait till not match template: "+str(template_name)+", for up to "+str(max_time)+" seconds  ....")
     time_start = time.time()
     match_loc = None
     while(True):

@@ -275,6 +275,9 @@ def routine_lvl_one():
         #
         adb_controller.click(utils.convert_point((1610, 364), (1664, 936)))
         adb_controller.click(utils.convert_point((192, 602), (1664, 936)))
+
+        adb_controller.screenshot(settings.screenshot_path)
+
     btn_controller.click_left_return()
 
     #穿装备
@@ -734,12 +737,14 @@ def restart_routine(restart_emulator_adb = False):
         print('exception:', e)
         reason = e.args[0]
         if reason == "RESTART":
-            restart_routine()
+            print("restart_routine")
+            # restart_routine()
         elif "NoneType" in reason:
             print("adb 可能断开")
-            restart_routine(True)
+            # restart_routine(True)
         else:
-            restart_routine()
+            print("reason:", reason)
+            # restart_routine()
 
 
 def start():
@@ -749,8 +754,10 @@ def start():
         print('exception:', e)
         reason = e.args[0]
         if reason == "RESTART":
-            restart_routine()
+            print("restart_routine")
+            # restart_routine()
         elif reason == "RESTART_GET_EXP":
+            print("RESTART_GET_EXP")
             start()
         elif reason == "NeedGetMaster":
             print("到达必须拜师等级，停止程序")
@@ -758,9 +765,13 @@ def start():
             move_controller.go_back_town_and_stay()
         elif "NoneType" in reason:
             print("adb 可能断开")
-            restart_routine(True)
+            # restart_routine(True)
         elif reason == "TEST":
             print("TEST")
-            restart_routine()
+            # restart_routine()
+        elif reason == "MAP_CHANGE":
+            print("MAP_CHANGE")
+            start()
         else:
-            restart_routine()
+            print("reason:", reason)
+            # restart_routine()

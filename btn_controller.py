@@ -463,10 +463,12 @@ def click_cancel_select():
 
 def click_left_return():
     print("click_left_return")
-    point = utils.convert_point((59, 872), (1664, 936))
-    adb_controller.click(point)
+    # point = utils.convert_point((59, 872), (1664, 936))
+    # adb_controller.click(point)
+    click_btn("btn_left_return")
 
 def click_right_return():
     print("click_right_return")
-    point = utils.convert_point((1604, 872), (1664, 936))
-    adb_controller.click(point)
+    # point = utils.convert_point((1604, 872), (1664, 936))
+    # adb_controller.click(point)
+    click_btn("btn_right_return")

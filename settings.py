@@ -66,7 +66,7 @@ check_has_master_fail_limit = 3
 read_pet_hp_fail_limit = 10.
 
 # 游戏响应时间(比如清空输入按钮，后面输入执行太快，导致输入无效)
-act_time = 0.1
+act_time = 0.2
 
 # 游戏响应超时时间
 act_time_limit = 5

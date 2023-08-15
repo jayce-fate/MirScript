@@ -28,7 +28,20 @@ import character
 # test
 # ******************************************
 adb_controller.connect()
-adb_controller.screenshot(settings.screenshot_path)
+# adb_controller.screenshot(settings.screenshot_path)
+
+level = game_controller.read_lv_text()
+print("level: {}".format(str(level)))
+
+# my_level = user_controller.get_character_level(refresh=True)
+# print("my_level: {}".format(str(my_level)))
+
+# game_controller.reactive_pet()
+
+# btn_controller.click_left_return()
+# btn_controller.click_left_return()
+# btn_controller.click_right_return()
+
 
 # point_str = "{},{}".format(123, 456)
 # btn_controller.click_map_clear()
@@ -53,8 +66,8 @@ adb_controller.screenshot(settings.screenshot_path)
 
 # image_processor.show_hsv_tool(settings.screenshot_path)
 
-current_pet_max_HP = game_controller.get_pet_current_max_HP()
-print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
+# current_pet_max_HP = game_controller.get_pet_current_max_HP()
+# print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
 
 # match_scope = (132,160,400,580)
 # match_scope = utils.convert_scope(match_scope, (1664, 936))

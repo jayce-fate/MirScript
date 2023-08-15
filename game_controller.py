@@ -62,7 +62,7 @@ def get_monster_list():
     if len(monster_list) == 0:
         print("怪物列表为空")
     #关闭目标列表
-    close_target_list()
+    btn_controller.click_right_return()
     return monster_list
 
 
@@ -92,15 +92,15 @@ def open_monster_list():
     if(match_loc != None):
         adb_controller.click(match_loc)
 
-def close_target_list():
-    # print("close_target_list....")
-    match_scope = (850,892,1576,1628)
-    match_scope = utils.convert_scope(match_scope, (1664, 936))
-
-    match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/btn_return.png",0.05,match_scope)
-    if(match_loc != None):
-        adb_controller.click(match_loc)
+# def close_target_list():
+#     # print("close_target_list....")
+#     match_scope = (850,892,1576,1628)
+#     match_scope = utils.convert_scope(match_scope, (1664, 936))
+#
+#     match_loc = image_processor.match_template(
+#         settings.screenshot_path,r"template_images/btn_right_return.png",0.05,match_scope)
+#     if(match_loc != None):
+#         adb_controller.click(match_loc)
 
 def open_or_close_map():
     # print("open_or_close_map....")
@@ -136,7 +136,7 @@ def read_lv_text():
     lower_color = [22,70,220]
     upper_color = [23,75,255]
 
-    match_scope = (56,100,58,104)
+    match_scope = (56,100,58,154)
     match_scope = utils.convert_scope(match_scope, (1664, 936))
 
     resultss = image_processor.paddleocr_read(settings.screenshot_path, match_scope, lower_color, upper_color)
@@ -955,7 +955,7 @@ def select_boss():
                 break
 
     #关闭目标列表
-    close_target_list()
+    btn_controller.click_right_return()
     return boss_selected
 
 def get_occupation():

@@ -8,6 +8,7 @@ from datetime import datetime
 
 import globals
 import settings
+import shop_controller
 import utils
 import image_processor
 import adb_controller
@@ -259,7 +260,7 @@ def buy_items(item_list, neen_not_open_but_close_bag = True):
         buy_loop_every_page(item_list, settings.bind_gold_item_list)
 
     if neen_not_open_but_close_bag:
-        btn_controller.click_left_return()
+        shop_controller.close_shop()
         btn_controller.click_left_return()
         btn_controller.click_right_return()
 
@@ -279,7 +280,7 @@ def buy_books(item_list, neen_open_close_bag = True):
     buy_loop_every_page(item_list, settings.book_item_list)
 
     if neen_open_close_bag:
-        btn_controller.click_left_return()
+        shop_controller.close_shop()
         btn_controller.click_left_return()
         btn_controller.click_right_return()
 
