@@ -265,6 +265,7 @@ def routine_lvl_one():
         adb_controller.click(utils.convert_point((1610, 364), (1664, 936)))
         adb_controller.click(utils.convert_point((192, 602), (1664, 936)))
 
+
         adb_controller.screenshot(settings.screenshot_path)
 
     btn_controller.click_left_return()
