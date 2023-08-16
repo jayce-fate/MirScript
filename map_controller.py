@@ -16,6 +16,12 @@ def open_cords_input():
     if match_loc == None:
         raise Exception("RESTART")
 
+def close_cords_input():
+    btn_controller.click_btn("msg_btn/que_ding_r")
+    match_loc = match_controller.wait_till_not_match_template("msg_btn/que_ding_r", settings.act_time_limit, settings.act_time)
+    if match_loc != None:
+        raise Exception("RESTART")
+
 def open_cords_edit():
     btn_controller.click_map_input()
     match_loc = match_controller.wait_till_match_template("que_ding_input", settings.act_time_limit, settings.act_time)
@@ -35,4 +41,4 @@ def input_text(text):
     btn_controller.click_map_clear()
     adb_controller.input_text(text)
     close_cords_edit()
-    btn_controller.click_btn("msg_btn/que_ding_r")
+    close_cords_input()

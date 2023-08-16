@@ -459,18 +459,19 @@ def navigate_to_point(target_pos, callback = None, callback1 = None, callback2 =
 
     map_name = game_controller.read_map_name()
     map_controller.open_map()
+    # TODO:如果是盟重土城，则先关闭左下角npc列表
 
     if input_coordinate:
         point_str = "{},{}".format(target_pos[0], target_pos[1])
         map_controller.input_text(point_str)
 
     #判断目标是否可达
-    time.sleep(0.2)
-    adb_controller.screenshot(settings.screenshot_path)
+    # time.sleep(0.2)
+    # adb_controller.screenshot(settings.screenshot_path)
 
     #不可达检测
     match_loc = image_processor.match_template(
-        settings.screenshot_path,r"template_images/map_point_indicate_unreachable.png",0.2)
+        settings.screenshot_path,r"template_images/map_point_indicate_unreachable.png",0.05)
     if match_loc != None:
         print("找到map_point_indicate_unreachable，位置不可达")
         if unreachable_callback != None:
