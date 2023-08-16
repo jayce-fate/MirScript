@@ -7,6 +7,7 @@ import numpy
 from datetime import datetime
 
 import globals
+import pet_controller
 import settings
 import utils
 import image_processor
@@ -22,38 +23,26 @@ import enums
 import ya_biao_controller
 import match_controller
 
-def summon_pet():
-    print('道士重新召唤宝宝')
-    if user_controller.get_character_level() >= 35:
-        if not skill_controller.cast_dog():
-            skill_controller.cast_skeleton()
-            skill_controller.cast_skeleton()
-    else:
-        if not skill_controller.cast_skeleton():
-            print("学习召唤骷髅")
-            game_controller.open_bag_and_drink("ji_neng_shu", batch=True)
-            skill_controller.cast_skeleton()
-
 def wait_till_max_lvl_max():
     print("wait_till_max_lvl_max")
-    game_controller.reactive_pet()
+    pet_controller.reactive_pet()
     # 当前等级最大血量
-    current_pet_max_HP = game_controller.get_pet_current_max_HP()
+    current_pet_max_HP = pet_controller.get_pet_current_max_HP()
     # 可以达到的最大血量
-    pet_max_HP = game_controller.get_pet_max_HP()
+    pet_max_HP = pet_controller.get_pet_max_HP()
     print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
     print("pet_max_HP: {}".format(str(pet_max_HP)))
     if current_pet_max_HP == 0:
         print("current_pet_max_HP == 0")
         if user_controller.get_character_occupation() == enums.Occupation.Taoist:
-            summon_pet()
+            pet_controller.summon_pet()
 
     read_pet_current_max_HP_retry_times = 60
     while current_pet_max_HP != pet_max_HP:
         time.sleep(10)
         game_controller.dismissSureDialog(False)
-        current_pet_max_HP = game_controller.get_pet_current_max_HP()
-        pet_max_HP = game_controller.get_pet_max_HP()
+        current_pet_max_HP = pet_controller.get_pet_current_max_HP()
+        pet_max_HP = pet_controller.get_pet_max_HP()
         print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
         print("pet_max_HP: {}".format(str(pet_max_HP)))
         if current_pet_max_HP == 0:
@@ -534,17 +523,17 @@ def start_get_exp():
             print("unknown map_name:", map_name)
             raise Exception("RESTART")
         return
-    if not game_controller.active_pet():
+    if not pet_controller.try_active_pet():
         print('当前没有宠物')
         if user_controller.get_character_occupation() == enums.Occupation.Taoist:
-            summon_pet()
+            pet_controller.summon_pet()
         elif user_controller.get_character_occupation() == enums.Occupation.Magician:
             print("法师直接下线换道士")
             return
     else:
         if user_controller.get_character_occupation() == enums.Occupation.Taoist:
             print('虽然有宝宝了，再用一下召唤宝宝，为了初始化globals.skill_xxx_pos')
-            summon_pet()
+            pet_controller.summon_pet()
 
     if "盟重" in map_name:
         print("当前位置，盟重土城")
@@ -638,7 +627,7 @@ def start_get_exp():
 
         game_controller.update_last_exp()
         #检查宝宝血量是否健康
-        if not game_controller.is_pet_healthy():
+        if not pet_controller.is_pet_healthy():
             if game_controller.select_boss():
                 # 攻击boss
                 if user_controller.get_character_occupation() == enums.Occupation.Taoist:
@@ -652,7 +641,7 @@ def start_get_exp():
             else:
                 if time.time() - last_go_back_time > settings.go_back_check_time:
                     # 往回跑，试图召回宠物
-                    game_controller.reactive_pet()
+                    pet_controller.reactive_pet()
                     if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                         skill_controller.cast_invisible()
                     elif user_controller.get_character_occupation() == enums.Occupation.Magician:
@@ -661,7 +650,7 @@ def start_get_exp():
                     # 移动结束接隐身
                     if user_controller.get_character_occupation() == enums.Occupation.Taoist:
                         skill_controller.cast_invisible()
-                    game_controller.reactive_pet()
+                    pet_controller.reactive_pet()
                     last_go_back_time = time.time()
 
             time.sleep(5.0)
@@ -701,9 +690,9 @@ def start_get_exp():
 def is_pet_level_max():
     if user_controller.get_character_occupation() == enums.Occupation.Taoist:
         # 当前等级最大血量
-        current_pet_max_HP = game_controller.get_pet_current_max_HP()
+        current_pet_max_HP = pet_controller.get_pet_current_max_HP()
         # 可以达到的最大血量
-        pet_max_HP = game_controller.get_pet_max_HP()
+        pet_max_HP = pet_controller.get_pet_max_HP()
         print("current_pet_max_HP: {}".format(str(current_pet_max_HP)))
         if current_pet_max_HP == 0:
             raise Exception("TEST")

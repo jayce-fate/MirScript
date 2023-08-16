@@ -9,6 +9,7 @@ import enums
 from datetime import datetime
 
 import map_controller
+import pet_controller
 import utils
 import globals
 import settings
@@ -428,7 +429,7 @@ def protect_routine():
             skill_controller.cast_invisible()
             invisible_time = time.time()
             skill_controller.cast_heal()
-            game_controller.reactive_pet()
+            pet_controller.reactive_pet()
             while game_controller.check_exp_getting():
                 print("经验有增加")
                 if time.time() - invisible_time > 12:
